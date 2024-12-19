@@ -3,6 +3,7 @@
   "compilerOptions": {
     "strict": true,
     "jsxImportSource": "react",
+    "verbatimModuleSyntax": true,
     "paths": {
       "@/*": [
         "./*"
