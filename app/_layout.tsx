@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 import { DatabaseProvider } from '@/db';
+import { UiKittenProvider } from '@/uiKitten';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -16,8 +17,10 @@ export default function RootLayout() {
 
   return (
     <DatabaseProvider onReady={() => setDatabaseReady(true)}>
-      <Stack />
-      <StatusBar style="auto" />
+      <UiKittenProvider>
+        <Stack />
+        <StatusBar style="auto" />
+      </UiKittenProvider>
     </DatabaseProvider>
   );
 }

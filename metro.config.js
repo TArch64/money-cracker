@@ -5,4 +5,10 @@ const config = getDefaultConfig(__dirname);
 
 config.resolver.sourceExts.push('sql');
 
-module.exports = config;
+const MetroConfig = require('@ui-kitten/metro-config');
+
+const evaConfig = {
+  evaPackage: '@eva-design/eva'
+};
+
+module.exports = MetroConfig.create(evaConfig, config);

@@ -1,10 +1,14 @@
 import type { ReactNode } from 'react';
-import { Text } from 'react-native';
+import { Text, Button } from '@ui-kitten/components'
 
 export default function Index(): ReactNode {
     return (
-        <Text>
+      <>
+        <Button>
+          <Text>
             hello world
-        </Text>
+          </Text>
+        </Button>
+      </>
     )
 }
