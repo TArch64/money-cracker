@@ -10,7 +10,8 @@ const recordTypeEnum = Object.values(RecordType) as [RecordType, ...RecordType[]
 
 export const categories = sqliteTable('categories', {
   id: integer().primaryKey(),
-  type: text({ enum: recordTypeEnum }),
+  type: text({ enum: recordTypeEnum }).notNull(),
+  name: text().notNull(),
 }, (t) => ({
   type: index('categories_type_idx').on(t.type)
 }));
@@ -24,10 +25,10 @@ export type CategoryInsert = InferInsertModel<typeof categories>;
 
 export const records = sqliteTable('records', {
   id: integer().primaryKey(),
-  type: text({ enum: recordTypeEnum }),
-  categoryId: integer().references(() => categories.id, { onDelete: 'restrict' })
+  type: text({ enum: recordTypeEnum }).notNull(),
+  categoryId: integer().references(() => categories.id, { onDelete: 'restrict' }).notNull()
 }, (t) => ({
-  type: index('records_type_idx').on(t.type)
+  type: index('records_type_idx').on(t.type),
 }));
 
 export const recordsRelations = relations(records, ({ one }) => ({

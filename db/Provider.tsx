@@ -1,5 +1,5 @@
-import { createContext, type ReactNode, useContext, useEffect, useMemo, useState } from 'react';
-import { openDatabaseAsync, openDatabaseSync, SQLiteDatabase } from 'expo-sqlite';
+import { createContext, type ReactNode, useContext, useEffect, useMemo } from 'react';
+import { openDatabaseSync, SQLiteDatabase } from 'expo-sqlite';
 import { drizzle, ExpoSQLiteDatabase } from 'drizzle-orm/expo-sqlite';
 import * as schema from './schema';
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
@@ -43,7 +43,7 @@ export interface IDatabaseProviderProps extends IPropsWithChildrenFn {
 
 export function DatabaseProvider(props: IDatabaseProviderProps): ReactNode {
   const database = useMemo(() => openDatabaseSync('app.db', { enableChangeListener: true }), []);
-  const client = useMemo(() => drizzle(database, { schema }), []);
+  const client = useMemo(() => drizzle(database, { schema, logger: __DEV__ }), []);
 
   useEffect(() => () => database.closeSync(), []);
 
