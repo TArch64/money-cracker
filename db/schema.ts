@@ -1,9 +1,41 @@
-import { integer, sqliteTable } from 'drizzle-orm/sqlite-core';
-import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
+import { index, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import { type InferInsertModel, type InferSelectModel, relations } from 'drizzle-orm';
 
-export const expenseCategories = sqliteTable('expense_categories', {
-  id: integer('id').primaryKey()
-});
+export enum RecordType {
+  INCOME = 'income',
+  EXPENSE = 'expense',
+}
 
-export type ExpenseCategory = InferSelectModel<typeof expenseCategories>;
-export type ExpenseCategoryInsert = InferInsertModel<typeof expenseCategories>;
+const recordTypeEnum = Object.values(RecordType) as [RecordType, ...RecordType[]];
+
+export const categories = sqliteTable('categories', {
+  id: integer().primaryKey(),
+  type: text({ enum: recordTypeEnum }),
+}, (t) => ({
+  type: index('categories_type_idx').on(t.type)
+}));
+
+export const categoriesRelations = relations(categories, ({ many }) => ({
+  records: many(records),
+}));
+
+export type Category = InferSelectModel<typeof categories>;
+export type CategoryInsert = InferInsertModel<typeof categories>;
+
+export const records = sqliteTable('records', {
+  id: integer().primaryKey(),
+  type: text({ enum: recordTypeEnum }),
+  categoryId: integer().references(() => categories.id, { onDelete: 'restrict' })
+}, (t) => ({
+  type: index('records_type_idx').on(t.type)
+}));
+
+export const recordsRelations = relations(records, ({ one }) => ({
+  category: one(categories, {
+    fields: [records.categoryId],
+    references: [categories.id],
+  })
+}));
+
+export type Record = InferSelectModel<typeof records>;
+export type RecordInsert = InferInsertModel<typeof records>;

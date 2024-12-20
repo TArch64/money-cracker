@@ -8,6 +8,13 @@
       "when": 1734636732964,
       "tag": "0000_broad_chat",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1734715435230,
+      "tag": "0001_easy_snowbird",
+      "breakpoints": true
     }
   ]
 }

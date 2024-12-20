@@ -1,14 +1,9 @@
 import type { ReactNode } from 'react';
-import { Text, Button } from '@ui-kitten/components'
+import { Redirect } from 'expo-router';
+import { useRecordsExistsQuery } from '@/queries';
 
 export default function Index(): ReactNode {
-    return (
-      <>
-        <Button>
-          <Text>
-            hello world
-          </Text>
-        </Button>
-      </>
-    )
+  const recordsExistsQuery = useRecordsExistsQuery()
+  const path = recordsExistsQuery.data ? '/records/list' : '/records/intro';
+  return <Redirect href={path} />;
 }

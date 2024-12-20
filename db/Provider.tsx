@@ -1,9 +1,10 @@
-import { createContext, type PropsWithChildren, type ReactNode, useContext, useEffect, useState } from 'react';
-import { openDatabaseAsync, SQLiteDatabase } from 'expo-sqlite';
+import { createContext, type ReactNode, useContext, useEffect, useMemo, useState } from 'react';
+import { openDatabaseAsync, openDatabaseSync, SQLiteDatabase } from 'expo-sqlite';
 import { drizzle, ExpoSQLiteDatabase } from 'drizzle-orm/expo-sqlite';
 import * as schema from './schema';
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
 import migrations from './migrations/migrations';
+import type { IPropsWithChildrenFn } from '@/types';
 
 type AppDatabase = ExpoSQLiteDatabase<typeof schema> & { $client: SQLiteDatabase };
 
@@ -11,7 +12,7 @@ const Context = createContext<AppDatabase>(null!);
 
 export const useDatabase = () => useContext(Context);
 
-interface IDatabaseMigrationsProps extends PropsWithChildren {
+interface IDatabaseMigrationsProps extends IPropsWithChildrenFn {
   onReady(): void;
   client: AppDatabase;
 }
@@ -24,44 +25,33 @@ function DatabaseMigrations(props: IDatabaseMigrationsProps): ReactNode {
       throw error;
     }
 
-    props.onReady();
+    if (success) {
+      props.onReady();
+    }
   }, [success, error]);
 
-  if (!success) {
+  if (!success && !error) {
     return null;
   }
 
-  return props.children;
+  return props.children();
 }
 
-export interface IDatabaseProviderProps extends PropsWithChildren {
+export interface IDatabaseProviderProps extends IPropsWithChildrenFn {
   onReady(): void;
 }
 
 export function DatabaseProvider(props: IDatabaseProviderProps): ReactNode {
-  const [client, setClient] = useState<AppDatabase>();
+  const database = useMemo(() => openDatabaseSync('app.db', { enableChangeListener: true }), []);
+  const client = useMemo(() => drizzle(database, { schema }), []);
 
-  useEffect(() => {
-    let database: SQLiteDatabase;
-
-    openDatabaseAsync('app.db', { enableChangeListener: true }).then((database_) => {
-      database = database_
-      const client = drizzle(database, { schema });
-      setClient(client);
-    });
-
-    return () => database.closeSync()
-  }, []);
-
-  if (!client) {
-    return null;
-  }
+  useEffect(() => () => database.closeSync(), []);
 
   return (
-    <DatabaseMigrations onReady={props.onReady} client={client}>
-      <Context.Provider value={client}>
+    <Context.Provider value={client}>
+      <DatabaseMigrations onReady={props.onReady} client={client}>
         {props.children}
-      </Context.Provider>
-    </DatabaseMigrations>
+      </DatabaseMigrations>
+    </Context.Provider>
   );
 }
