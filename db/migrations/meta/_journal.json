@@ -22,6 +22,13 @@
       "when": 1734717272795,
       "tag": "0002_tough_ultimates",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1734820186286,
+      "tag": "0003_pretty_spirit",
+      "breakpoints": true
     }
   ]
 }

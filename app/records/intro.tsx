@@ -1,28 +1,36 @@
 import { type ReactNode } from 'react';
-import { useRouter } from 'expo-router';
+import { Link } from 'expo-router';
 import { Button, Text } from '@ui-kitten/components';
 import { FullScreenLayout } from '@/layout';
 import { StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
-import { categories, RecordType, useDatabase } from '@/db';
-import { useCategoriesScaffoldMutation } from '@/queries';
+import { RecordType } from '@/db';
+
+interface IntroLinkProps {
+  type: RecordType;
+}
+
+function IntroLink(props: IntroLinkProps): ReactNode {
+  return (
+    <Link
+      href={{
+        pathname: '/records/new',
+        params: { type: props.type },
+      }}
+      asChild
+      replace
+    >
+      <Button appearance="ghost" size="small">
+        {(textProps) => (
+          <Text {...textProps} style={[textProps?.style, styles.rowText]}>
+            {props.type === RecordType.INCOME ? 'Income' : 'Expense'}
+          </Text>
+        )}
+      </Button>
+    </Link>
+  );
+}
 
 export default function Intro(): ReactNode {
-  const db = useDatabase();
-  const router = useRouter();
-  const scaffoldCategoriesMutation = useCategoriesScaffoldMutation();
-
-  async function isCategoriesExists(): Promise<boolean> {
-    return !!(await db.select().from(categories).limit(1)).length;
-  }
-
-  async function openScreen(type: RecordType): Promise<void> {
-    if (!await isCategoriesExists()) {
-      await scaffoldCategoriesMutation.mutateAsync();
-    }
-
-    router.replace(`/records/new?type=${type}`);
-  }
-
   return (
     <FullScreenLayout name="records/intro">
       <View style={styles.column}>
@@ -31,25 +39,13 @@ export default function Intro(): ReactNode {
         </Text>
 
         <View style={styles.row}>
-          <Button appearance="ghost" size="small" onPress={() => openScreen(RecordType.INCOME)}>
-            {(props) => (
-              <Text {...props} style={[props?.style, styles.rowText]}>
-                Income
-              </Text>
-            )}
-          </Button>
+          <IntroLink type={RecordType.INCOME} />
 
           <Text category="p1" style={styles.rowText}>
             or
           </Text>
 
-          <Button appearance="ghost" size="small" onPress={() => openScreen(RecordType.EXPENSE)}>
-            {(props) => (
-              <Text {...props} style={[props?.style, styles.rowText]}>
-                Expense
-              </Text>
-            )}
-          </Button>
+          <IntroLink type={RecordType.EXPENSE} />
         </View>
       </View>
     </FullScreenLayout>

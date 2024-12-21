@@ -9,7 +9,11 @@ export function useCategoriesCreateMutation(type: RecordType) {
   return useMutation({
     async mutationFn(data: Omit<CategoryInsert, 'id' | 'type'>[]) {
       const inserts = data.map(item => ({ ...item, type }));
-      await db.insert(categories).values(inserts)
+
+      await db
+        .insert(categories)
+        .values(inserts)
+        .onConflictDoNothing({ target: categories.name });
     },
     async onSuccess() {
       await client.invalidateQueries({

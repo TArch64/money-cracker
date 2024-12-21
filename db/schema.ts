@@ -11,10 +11,8 @@ const recordTypeEnum = Object.values(RecordType) as [RecordType, ...RecordType[]
 export const categories = sqliteTable('categories', {
   id: integer().primaryKey(),
   type: text({ enum: recordTypeEnum }).notNull(),
-  name: text().notNull(),
-}, (t) => ({
-  type: index('categories_type_idx').on(t.type)
-}));
+  name: text().notNull().unique(),
+});
 
 export const categoriesRelations = relations(categories, ({ many }) => ({
   records: many(records),

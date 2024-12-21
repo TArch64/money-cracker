@@ -27,6 +27,7 @@ export default function New(): ReactNode {
   const { type } = useLocalSearchParams<{ type: RecordType }>();
   const isIncome = type === RecordType.INCOME;
   const screenTitle = isIncome ? 'Income' : 'Expense';
+  const valueLabel = isIncome ? 'Money received' : 'Money spent';
   const router = useRouter();
 
   const categoriesQuery = useCategoriesListQuery(type);
@@ -36,8 +37,6 @@ export default function New(): ReactNode {
     value: category.id,
     title: category.name,
   }));
-
-  const valueLabel = isIncome ? 'Money received' : 'Money spent';
 
   const onSubmit: FormSubmitHandler<Schema> = async (event) => {
     await createRecordMutation.mutateAsync({ ...event.value, type });
