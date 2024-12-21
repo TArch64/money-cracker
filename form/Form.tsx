@@ -12,16 +12,26 @@ export interface IFormContext<S extends FormSchema> {
   f: (path: FormKey<S>) => FormKey<S>;
 }
 
+export interface FormSubmitEvent<S extends FormSchema> {
+  value: InferOutput<S>,
+  formApi: FormApi<S>
+}
+
+export type FormSubmitHandler<S extends FormSchema> = (event: FormSubmitEvent<S>) => void | Promise<void>
+
 export interface IFormProps<S extends FormSchema> extends IPropsWithChildrenFn<[formCtx: IFormContext<S>]> {
   schema: S;
   initialValues: InferOutput<S>;
+  onSubmit?: FormSubmitHandler<S>;
 }
 
 export function Form<S extends FormSchema>(props: IFormProps<S>): ReactNode {
+  // @ts-expect-error
   const form = useForm({
     defaultValues: props.initialValues,
     validatorAdapter: standardSchemaValidator(),
     validators: { onSubmit: props.schema },
+    onSubmit: props.onSubmit,
   });
 
   return (

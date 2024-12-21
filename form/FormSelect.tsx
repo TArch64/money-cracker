@@ -46,6 +46,8 @@ export function FormSelect(props: IFormSelectProps): ReactNode {
     field.handleChange(items[row].value);
   }
 
+  const error = field.state.meta.errors?.join(', ');
+
   return (
     <Select
       {...selectProps}
@@ -58,6 +60,8 @@ export function FormSelect(props: IFormSelectProps): ReactNode {
       )}
       selectedIndex={selectedPath}
       onSelect={selectItem}
+      status={error ? 'danger' : 'basic'}
+      caption={error}
     >
       {items.map((item) => (
         <SelectItem key={item.value} title={item.title} />

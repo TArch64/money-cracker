@@ -1,22 +1,36 @@
 import type { ReactNode } from 'react';
 import { FullScreenLayout } from '@/layout';
-import { Text } from '@ui-kitten/components';
-import { useLocalSearchParams } from 'expo-router';
+import { Button, Text } from '@ui-kitten/components';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { RecordType } from '@/db';
-import { Form, FormNumericInput, FormSelect, type IFormSelectItem } from '@/form';
-import { minValue, number, object, pipe, string } from 'valibot';
+import {
+  Form,
+  formLoadingIndicator,
+  FormNumericInput,
+  FormSelect,
+  FormSubmit,
+  type FormSubmitHandler,
+  type IFormSelectItem,
+} from '@/form';
+import { minValue, number, object, pipe } from 'valibot';
 import { StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
-import { useCategoriesListQuery } from '@/queries';
+import { useCategoriesListQuery, useRecordCreateMutation } from '@/queries';
 
 const schema = object({
-  category: string(),
-  value: pipe(number(), minValue(1)),
+  categoryId: pipe(number(), minValue(1, 'This field is required')),
+  value: pipe(number(), minValue(1, 'This field is required')),
 });
+
+type Schema = typeof schema;
 
 export default function New(): ReactNode {
   const { type } = useLocalSearchParams<{ type: RecordType }>();
   const isIncome = type === RecordType.INCOME;
+  const screenTitle = isIncome ? 'Income' : 'Expense';
+  const router = useRouter();
+
   const categoriesQuery = useCategoriesListQuery(type);
+  const createRecordMutation = useRecordCreateMutation();
 
   const categorySelectItems = categoriesQuery.data.map((category): IFormSelectItem => ({
     value: category.id,
@@ -25,23 +39,29 @@ export default function New(): ReactNode {
 
   const valueLabel = isIncome ? 'Money received' : 'Money spent';
 
+  const onSubmit: FormSubmitHandler<Schema> = async (event) => {
+    await createRecordMutation.mutateAsync({ ...event.value, type });
+    router.replace('/records/list');
+  };
+
   return (
     <FullScreenLayout name="records/new" style={styles.root}>
       <Text category="h1" style={styles.heading}>
-        New {isIncome ? 'Income' : 'Expense'}
+        New {screenTitle}
       </Text>
 
       <Form
         schema={schema}
         initialValues={{
-          category: '',
+          categoryId: -1,
           value: 0,
         }}
+        onSubmit={onSubmit}
       >
         {({ f }) => (
           <View style={styles.formColumn}>
             <FormSelect
-              name={f('category')}
+              name={f('categoryId')}
               label="Category"
               placeholder="Category"
               items={categorySelectItems}
@@ -52,6 +72,18 @@ export default function New(): ReactNode {
               label={valueLabel}
               placeholder={valueLabel}
             />
+
+            <FormSubmit>
+              {({ submit, isSubmitting, disabled }) => (
+                <Button
+                  accessoryLeft={formLoadingIndicator(isSubmitting)}
+                  disabled={disabled}
+                  onPress={submit}
+                >
+                  {textProps => <Text {...textProps}>Add {screenTitle}</Text>}
+                </Button>
+              )}
+            </FormSubmit>
           </View>
         )}
       </Form>
