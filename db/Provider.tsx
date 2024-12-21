@@ -45,7 +45,12 @@ export function DatabaseProvider(props: IDatabaseProviderProps): ReactNode {
   const database = useMemo(() => openDatabaseSync('app.db', { enableChangeListener: true }), []);
   const client = useMemo(() => drizzle(database, { schema, logger: __DEV__ }), []);
 
-  useEffect(() => () => database.closeSync(), []);
+  useEffect(() => () => {
+    try {
+      database.closeSync();
+    } catch {
+    }
+  }, []);
 
   return (
     <Context.Provider value={client}>

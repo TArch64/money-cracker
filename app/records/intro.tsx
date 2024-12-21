@@ -17,7 +17,6 @@ function IntroLink(props: IntroLinkProps): ReactNode {
         params: { type: props.type },
       }}
       asChild
-      replace
     >
       <Button appearance="ghost" size="small">
         {(textProps) => (

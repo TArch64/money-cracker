@@ -40,15 +40,16 @@ export default function New(): ReactNode {
 
   const onSubmit: FormSubmitHandler<Schema> = async (event) => {
     await createRecordMutation.mutateAsync({ ...event.value, type });
+    router.dismissAll();
     router.replace('/records/list');
   };
 
   return (
-    <FullScreenLayout name="records/new" style={styles.root}>
-      <Text category="h1" style={styles.heading}>
-        New {screenTitle}
-      </Text>
-
+    <FullScreenLayout
+      name="records/new"
+      title={`New ${screenTitle}`}
+      style={styles.root}
+    >
       <Form
         schema={schema}
         initialValues={{
@@ -77,6 +78,7 @@ export default function New(): ReactNode {
                 <Button
                   accessoryLeft={formLoadingIndicator(isSubmitting)}
                   disabled={disabled}
+                  style={styles.formSubmit}
                   onPress={submit}
                 >
                   {textProps => <Text {...textProps}>Add {screenTitle}</Text>}
@@ -100,8 +102,14 @@ const styles = StyleSheet.create({
   } satisfies TextStyle,
 
   formColumn: {
+    height: '100%',
     display: 'flex',
     flexDirection: 'column',
     gap: 16,
+  } satisfies ViewStyle,
+
+  formSubmit: {
+    marginTop: 'auto',
+    marginBottom: 80,
   } satisfies ViewStyle,
 });
