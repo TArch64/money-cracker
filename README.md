@@ -8,6 +8,7 @@ Goals:
 
 Stack:
 
+- Bun runtime
 - React Native & Expo & Bridgeless Mode & React Compiler
 - TypeScript
 - TanStack Query, Form
