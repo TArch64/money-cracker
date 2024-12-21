@@ -9,8 +9,10 @@ import { QueryProvider } from '@/queries';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { documentDirectory } from 'expo-file-system';
 
-console.log('SQLite database path:')
-console.log(`${documentDirectory}/SQLite/app.db`.replace('file://', ''));
+if (__DEV__) {
+  console.log('SQLite database path:');
+  console.log(`${documentDirectory}SQLite/app.db`.replace('file://', ''));
+}
 
 SplashScreen.preventAutoHideAsync();
 
@@ -22,9 +24,8 @@ export default function RootLayout() {
   }, [isDatabaseReady]);
 
   return (
-    <DatabaseProvider
-      onReady={() => setDatabaseReady(true)}
-      children={() => (
+    <DatabaseProvider onReady={() => setDatabaseReady(true)}>
+      {() => (
         <UiKittenProvider>
           <StatusBar style="auto" />
           <QueryProvider>
@@ -34,6 +35,6 @@ export default function RootLayout() {
           </QueryProvider>
         </UiKittenProvider>
       )}
-    />
+    </DatabaseProvider>
   );
 }
