@@ -1,10 +1,10 @@
-import { useCategoriesCreate } from './create';
+import { useCategoriesCreateMutation } from './create';
 import { RecordType } from '@/db';
 import { useMutation } from '@tanstack/react-query';
 
 export function useCategoriesScaffoldMutation() {
-  const income = useCategoriesCreate(RecordType.INCOME);
-  const expense = useCategoriesCreate(RecordType.EXPENSE);
+  const income = useCategoriesCreateMutation(RecordType.INCOME);
+  const expense = useCategoriesCreateMutation(RecordType.EXPENSE);
 
   return useMutation({
     async mutationFn() {

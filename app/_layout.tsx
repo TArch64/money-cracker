@@ -1,13 +1,15 @@
+import 'react-native-reanimated';
+
 import { useEffect, useState } from 'react';
-import { Stack } from 'expo-router';
+import { Stack, usePathname } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
 import { DatabaseProvider } from '@/db';
 import { UiKittenProvider } from '@/uiKitten';
 import { QueryProvider } from '@/queries';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { documentDirectory } from 'expo-file-system';
+import { registerFullScreenStacks } from '@/layout';
 
 if (__DEV__) {
   console.log('SQLite database path:');
@@ -16,11 +18,14 @@ if (__DEV__) {
 
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
+export default function Layout() {
+  const route = usePathname();
   const [isDatabaseReady, setDatabaseReady] = useState(false);
 
   useEffect(() => {
-    SplashScreen.hideAsync();
+    if (route !== '/') {
+      SplashScreen.hideAsync();
+    }
   }, [isDatabaseReady]);
 
   return (
@@ -30,7 +35,9 @@ export default function RootLayout() {
           <StatusBar style="auto" />
           <QueryProvider>
             <SafeAreaProvider>
-              <Stack />
+              <Stack>
+                {registerFullScreenStacks('records/intro', 'records/new')}
+              </Stack>
             </SafeAreaProvider>
           </QueryProvider>
         </UiKittenProvider>

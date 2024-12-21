@@ -1,13 +1,14 @@
-import type { ReactNode } from 'react';
+import { type ReactNode } from 'react';
+import { useRouter } from 'expo-router';
 import { Button, Text } from '@ui-kitten/components';
 import { FullScreenLayout } from '@/layout';
 import { StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
 import { categories, RecordType, useDatabase } from '@/db';
 import { useCategoriesScaffoldMutation } from '@/queries';
-import { router } from 'expo-router';
 
 export default function Intro(): ReactNode {
   const db = useDatabase();
+  const router = useRouter();
   const scaffoldCategoriesMutation = useCategoriesScaffoldMutation();
 
   async function isCategoriesExists(): Promise<boolean> {
@@ -23,7 +24,7 @@ export default function Intro(): ReactNode {
   }
 
   return (
-    <FullScreenLayout>
+    <FullScreenLayout name="records/intro">
       <View style={styles.column}>
         <Text category="h1" style={styles.heading}>
           Add your first

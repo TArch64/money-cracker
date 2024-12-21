@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { categories, type CategoryInsert, RecordType, useDatabase } from '@/db';
 import { CATEGORIES_LIST_QUERY } from '@/queries/categories/list';
 
-export function useCategoriesCreate(type: RecordType) {
+export function useCategoriesCreateMutation(type: RecordType) {
   const db = useDatabase();
   const client = useQueryClient();
 

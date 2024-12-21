@@ -1,11 +1,6 @@
 import { type ReactNode, useState } from 'react';
-import {
-  type FormFieldApi,
-  FormInput,
-  type IFormInputProps,
-  type IFormInputValueController,
-  useFormInputField,
-} from './FormInput';
+import { FormInput, type IFormInputProps, type IFormInputValueController } from './FormInput';
+import { type FormFieldApi, useFormField } from './useFormField';
 
 export interface IFormNumericInputProps extends Omit<IFormInputProps, 'valueController' | 'keyboardType' | 'autoCapitalize' | 'autoComplete' | 'autoCorrect'> {
 }
@@ -36,7 +31,7 @@ function useValueController(field: FormFieldApi): IFormInputValueController {
 }
 
 export function FormNumericInput(props: IFormNumericInputProps): ReactNode {
-  const field = useFormInputField(props.name);
+  const field = useFormField(props.name);
   const valueController = useValueController(field);
 
   return (

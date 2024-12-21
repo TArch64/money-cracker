@@ -1,8 +1,11 @@
 import type { ReactNode } from 'react';
 import { Text } from '@ui-kitten/components';
+import { FullScreenLayout } from '@/layout';
 
 export default function List(): ReactNode {
   return (
-    <Text>List</Text>
+    <FullScreenLayout name="records/list">
+      <Text>List</Text>
+    </FullScreenLayout>
   )
 }

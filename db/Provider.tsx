@@ -13,8 +13,8 @@ const Context = createContext<AppDatabase>(null!);
 export const useDatabase = () => useContext(Context);
 
 interface IDatabaseMigrationsProps extends IPropsWithChildrenFn {
-  onReady(): void;
   client: AppDatabase;
+  onReady: () => void;
 }
 
 function DatabaseMigrations(props: IDatabaseMigrationsProps): ReactNode {
@@ -38,7 +38,7 @@ function DatabaseMigrations(props: IDatabaseMigrationsProps): ReactNode {
 }
 
 export interface IDatabaseProviderProps extends IPropsWithChildrenFn {
-  onReady(): void;
+  onReady: () => void;
 }
 
 export function DatabaseProvider(props: IDatabaseProviderProps): ReactNode {

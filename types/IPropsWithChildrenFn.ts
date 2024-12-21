@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
 
-export interface IPropsWithChildrenFn {
-  children(): ReactNode;
+export interface IPropsWithChildrenFn<A extends any[] = []> {
+  children: (...args: A) => ReactNode;
 }
