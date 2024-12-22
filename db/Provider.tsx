@@ -42,7 +42,7 @@ export interface IDatabaseProviderProps extends IPropsWithChildrenFn {
 }
 
 export function DatabaseProvider(props: IDatabaseProviderProps): ReactNode {
-  const database = useMemo(() => openDatabaseSync('app.db', { enableChangeListener: true }), []);
+  const database = useMemo(() => openDatabaseSync('app.db'), []);
   const client = useMemo(() => drizzle(database, { schema, logger: __DEV__ }), []);
 
   useEffect(() => () => {

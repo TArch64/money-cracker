@@ -5,6 +5,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { RecordType } from '@/db';
 import {
   Form,
+  FormDatepicker,
   formLoadingIndicator,
   FormNumericInput,
   FormSelect,
@@ -12,13 +13,14 @@ import {
   type FormSubmitHandler,
   type IFormSelectItem,
 } from '@/form';
-import { minValue, number, object, pipe } from 'valibot';
+import { date, minValue, number, object, pipe } from 'valibot';
 import { StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
 import { useCategoriesListQuery, useRecordCreateMutation } from '@/queries';
 
 const schema = object({
   categoryId: pipe(number(), minValue(1, 'This field is required')),
   value: pipe(number(), minValue(1, 'This field is required')),
+  date: date(),
 });
 
 type Schema = typeof schema;
@@ -55,6 +57,7 @@ export default function New(): ReactNode {
         initialValues={{
           categoryId: -1,
           value: 0,
+          date: new Date(),
         }}
         onSubmit={onSubmit}
       >
@@ -71,6 +74,12 @@ export default function New(): ReactNode {
               name={f('value')}
               label={valueLabel}
               placeholder={valueLabel}
+            />
+
+            <FormDatepicker
+              name={f('date')}
+              label="Date"
+              placeholder="Date"
             />
 
             <FormSubmit>
