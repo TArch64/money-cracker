@@ -12,11 +12,11 @@ interface IntroLinkProps {
 function IntroLink(props: IntroLinkProps): ReactNode {
   return (
     <Link
+      asChild
       href={{
         pathname: '/records/new',
         params: { type: props.type },
       }}
-      asChild
     >
       <Button appearance="ghost" size="small">
         {(textProps) => (

@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { records, useDatabase } from '@/db';
 
-export const RECORDS_EXISTS_QUERY = ['records', 'exists'];
+export const RECORDS_EXISTS_QUERY = ['records', 'exists'] as const;
 
 export function useRecordsExistsQuery() {
   const db = useDatabase();

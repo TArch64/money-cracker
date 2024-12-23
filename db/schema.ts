@@ -1,5 +1,5 @@
 import { index, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
-import { type InferInsertModel, type InferSelectModel, relations } from 'drizzle-orm';
+import { type InferInsertModel, type InferSelectModel, relations, sql } from 'drizzle-orm';
 import { recordTypeEnum } from './enums';
 import { date } from './customTypes';
 
@@ -20,10 +20,11 @@ export const records = sqliteTable('records', {
   id: integer().primaryKey(),
   type: text({ enum: recordTypeEnum }).notNull(),
   date: date().notNull(),
+  dateUnix: integer().notNull().generatedAlwaysAs(sql`UNIXEPOCH(date)`, { mode: 'stored' }),
   categoryId: integer().references(() => categories.id, { onDelete: 'restrict' }).notNull()
-}, (t) => ({
-  type: index('records_type_idx').on(t.type),
-}));
+}, (t) => [
+  index('records_type_idx').on(t.type),
+]);
 
 export const recordsRelations = relations(records, ({ one }) => ({
   category: one(categories, {

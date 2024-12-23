@@ -6,7 +6,7 @@ import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
 import migrations from './migrations/migrations';
 import type { IPropsWithChildrenFn } from '@/types';
 
-type AppDatabase = ExpoSQLiteDatabase<typeof schema> & { $client: SQLiteDatabase };
+export type AppDatabase = ExpoSQLiteDatabase<typeof schema> & { $client: SQLiteDatabase };
 
 const Context = createContext<AppDatabase>(null!);
 

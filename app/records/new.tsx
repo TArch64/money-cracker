@@ -41,7 +41,11 @@ export default function New(): ReactNode {
   }));
 
   const onSubmit: FormSubmitHandler<Schema> = async (event) => {
-    await createRecordMutation.mutateAsync({ ...event.value, type });
+    await createRecordMutation.mutateAsync({
+      ...event.value,
+      type,
+    });
+
     router.dismissAll();
     router.replace('/records/list');
   };

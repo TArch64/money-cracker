@@ -5,36 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1734636732964,
-      "tag": "0000_broad_chat",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1734715435230,
-      "tag": "0001_easy_snowbird",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1734717272795,
-      "tag": "0002_tough_ultimates",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "6",
-      "when": 1734820186286,
-      "tag": "0003_pretty_spirit",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "6",
-      "when": 1734886155582,
-      "tag": "0004_last_sebastian_shaw",
+      "when": 1734985398128,
+      "tag": "0000_strange_thunderbolt",
       "breakpoints": true
     }
   ]

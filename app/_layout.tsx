@@ -9,7 +9,7 @@ import { UiKittenProvider } from '@/uiKitten';
 import { QueryProvider } from '@/queries';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { documentDirectory } from 'expo-file-system';
-import { registerFullScreenStacks } from '@/layout';
+import { registerFullScreenStack, registerMainScreenStack } from '@/layout';
 
 if (__DEV__) {
   console.log('SQLite database path:');
@@ -36,7 +36,9 @@ export default function Layout() {
           <QueryProvider>
             <SafeAreaProvider>
               <Stack>
-                {registerFullScreenStacks('records/intro', 'records/new')}
+                {registerFullScreenStack('records/intro')}
+                {registerFullScreenStack('records/new')}
+                {registerMainScreenStack('records/list')}
               </Stack>
             </SafeAreaProvider>
           </QueryProvider>

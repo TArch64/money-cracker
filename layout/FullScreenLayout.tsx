@@ -2,20 +2,11 @@ import type { PropsWithChildren, ReactNode } from 'react';
 import { Stack, useRouter } from 'expo-router';
 import { SafeAreaView, StyleSheet, View, type ViewStyle } from 'react-native';
 import type { IPropsWithStyle } from '@/types';
-import { Icon, type IconElement, type IconProps, TopNavigation, TopNavigationAction } from '@ui-kitten/components';
+import { TopNavigation, TopNavigationAction } from '@ui-kitten/components';
+import { BackIcon } from './BackIcon';
 
-export function registerFullScreenStacks(...names: string[]): ReactNode {
-  return names.map((name) => (
-    <Stack.Screen
-      key={name}
-      name={name}
-      options={{ headerShown: false }}
-    />
-  ));
-}
-
-export function waitInitialStackEnter(onEnter: () => void): void {
-  setTimeout(onEnter, 500);
+export function registerFullScreenStack(name: string): ReactNode {
+  return <Stack.Screen name={name} options={{ headerShown: false }} />;
 }
 
 export interface IFullScreenLayoutProps extends PropsWithChildren,
@@ -23,10 +14,6 @@ export interface IFullScreenLayoutProps extends PropsWithChildren,
   name: string;
   title?: string;
 }
-
-const BackIcon = (props: IconProps): IconElement => (
-  <Icon {...props} name="arrow-back" />
-);
 
 export function FullScreenLayout(props: IFullScreenLayoutProps): ReactNode {
   const router = useRouter();
