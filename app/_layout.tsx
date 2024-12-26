@@ -9,11 +9,10 @@ import { UiKittenProvider } from '@/uiKitten';
 import { QueryProvider } from '@/queries';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { documentDirectory } from 'expo-file-system';
-import { registerFullScreenStack, registerMainScreenStack } from '@/layout';
 
 if (__DEV__) {
   console.log('SQLite database path:');
-  console.log(`${documentDirectory}SQLite/app.db`.replace('file://', ''));
+  console.log(`${documentDirectory}SQLite/app.db`);
 }
 
 SplashScreen.preventAutoHideAsync();
@@ -35,11 +34,7 @@ export default function Layout() {
           <StatusBar style="auto" />
           <QueryProvider>
             <SafeAreaProvider>
-              <Stack>
-                {registerFullScreenStack('records/intro')}
-                {registerFullScreenStack('records/new')}
-                {registerMainScreenStack('records/list')}
-              </Stack>
+              <Stack screenOptions={{ headerShown: false }} />
             </SafeAreaProvider>
           </QueryProvider>
         </UiKittenProvider>

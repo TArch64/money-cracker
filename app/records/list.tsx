@@ -1,6 +1,87 @@
 import { type ReactNode, useMemo, useState } from 'react';
+import { useRouter } from 'expo-router';
 import { MainScreenLayout } from '@/layout';
 import { MonthIndex, MonthRecords, MonthSlider } from '@/recordsList';
+import {
+  Button,
+  Icon,
+  type IconElement,
+  type IconProps,
+  MenuItem,
+  OverflowMenu,
+  useTheme,
+} from '@ui-kitten/components';
+import { RecordType } from '@/db';
+import { StyleSheet, type ViewStyle } from 'react-native';
+
+const PlusIcon = (iconProps: IconProps): IconElement => (
+  <Icon {...iconProps} name="plus" />
+);
+
+function ArrowUpIcon(iconProps: IconProps): IconElement {
+  const theme = useTheme();
+
+  return (
+    <Icon
+      {...iconProps}
+      fill={theme['color-success-600']}
+      name="arrow-upward-outline"
+    />
+  );
+}
+
+function ArrowDownIcon(iconProps: IconProps): IconElement {
+  const theme = useTheme();
+
+  return (
+    <Icon
+      {...iconProps}
+      fill={theme['color-danger-600']}
+      name="arrow-downward-outline"
+    />
+  );
+}
+
+function ScreenRight(): ReactNode {
+  const router = useRouter();
+  const [isMenuOpened, setMenuOpened] = useState(false);
+
+  function openLink(type: RecordType): void {
+    router.push({
+      pathname: '/records/new',
+      params: { type },
+    });
+  }
+
+  return (
+    <OverflowMenu
+      visible={isMenuOpened}
+      onSelect={() => setMenuOpened(false)}
+      onBackdropPress={() => setMenuOpened(false)}
+      contentContainerStyle={styles.dropdownMenu}
+
+      anchor={() => (
+        <Button
+          appearance="ghost"
+          accessoryLeft={PlusIcon}
+          onPress={() => setMenuOpened(true)}
+        />
+      )}
+    >
+      <MenuItem
+        title="Add Income"
+        accessoryLeft={ArrowUpIcon}
+        onPress={() => openLink(RecordType.INCOME)}
+      />
+
+      <MenuItem
+        title="Add Expense"
+        accessoryLeft={ArrowDownIcon}
+        onPress={() => openLink(RecordType.EXPENSE)}
+      />
+    </OverflowMenu>
+  );
+}
 
 export default function List(): ReactNode {
   const [selectedIdx, setSelectedIdx] = useState<MonthIndex>(() => MonthIndex.current());
@@ -10,6 +91,7 @@ export default function List(): ReactNode {
     <MainScreenLayout
       name="records/list"
       title={title}
+      headerRight={() => <ScreenRight />}
     >
       <MonthSlider
         active={selectedIdx}
@@ -20,3 +102,9 @@ export default function List(): ReactNode {
     </MainScreenLayout>
   )
 }
+
+const styles = StyleSheet.create({
+  dropdownMenu: {
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+  } satisfies ViewStyle,
+});
