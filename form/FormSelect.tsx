@@ -1,5 +1,5 @@
 import { type ReactNode } from 'react';
-import { IndexPath, Select, SelectItem, type SelectProps, Text, type TextProps } from '@ui-kitten/components';
+import { IndexPath, Select, SelectItem, type SelectProps, Text, type TextProps, useTheme } from '@ui-kitten/components';
 import { useFormField } from './useFormField';
 import { StyleSheet, type TextStyle } from 'react-native';
 
@@ -10,12 +10,13 @@ interface ISelectValueProps extends Omit<TextProps, 'children'> {
 
 function SelectValue(props: ISelectValueProps): ReactNode {
   const { value, placeholder, ...textProps } = props;
+  const theme = useTheme();
 
   return (
     <Text {...textProps} style={[
       textProps.style,
       styles.selectValue,
-      !props.value && styles.selectValuePlaceholder,
+      !props.value && { color: theme['color-basic-800'] },
     ]}
     >
       {props.value ?? props.placeholder}
@@ -73,9 +74,5 @@ export function FormSelect(props: IFormSelectProps): ReactNode {
 const styles = StyleSheet.create({
   selectValue: {
     fontWeight: 400,
-  } satisfies TextStyle,
-
-  selectValuePlaceholder: {
-    color: '#222b45',
-  } satisfies TextStyle,
+  } satisfies TextStyle
 });
