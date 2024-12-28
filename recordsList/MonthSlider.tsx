@@ -1,5 +1,5 @@
 import type { IPropsWithChildrenFn, IPropsWithStyle } from '@/types';
-import { type ReactElement, type ReactNode, useMemo } from 'react';
+import { type ReactElement, type ReactNode, Suspense, useMemo } from 'react';
 import { MonthIdx } from './MonthIdx';
 import { useRecordsBoundariesQuery } from '@/queries';
 import { useWindowDimensions, View, type ViewStyle, VirtualizedList } from 'react-native';
@@ -50,9 +50,10 @@ export function MonthSlider(props: IMonthSliderProps): ReactNode {
         offset: width * idx,
       })}
 
-      CellRendererComponent={({ style, children, onLayout }) => (
+      CellRendererComponent={({ style, children, onLayout, index }) => (
         <View style={[style, { width }]} onLayout={onLayout}>
-          {children}
+          {/* use global suspense for initial slide but it by other screens */}
+          {index === initialScrollIndex ? children : <Suspense>{children}</Suspense>}
         </View>
       )}
 

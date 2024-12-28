@@ -11,11 +11,11 @@ export const RECORDS_MONTH_LIST_QUERY = (year: number, month: number) => [
   'list',
 ] as const;
 
-export function useRecordsMonthList(date: Date) {
+export function useRecordsMonthQuery(year: number, month: number) {
   const db = useDatabase();
 
   return useSuspenseQuery({
-    queryKey: RECORDS_MONTH_LIST_QUERY(date.getFullYear(), date.getMonth()),
+    queryKey: RECORDS_MONTH_LIST_QUERY(year, month),
 
     async queryFn(args): Promise<Record[]> {
       const [, , year, , month] = args.queryKey;

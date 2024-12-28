@@ -38,17 +38,14 @@ export interface IEqDateMatcher {
 }
 
 export function eqDate<C extends AnyColumn<OperatorConfig>>(column: C, matcher: IEqDateMatcher) {
-  const operator = matcher.year && matcher.month && matcher.day ? '=' : 'LIKE';
+  const isFullEq = matcher.year && matcher.month && matcher.day;
 
   const year = matcher.year ? matcher.year.toString() : '%';
   const month = matcher.month ? (matcher.month + 1).toString().padStart(2, '0') : '%';
   const day = matcher.day ? matcher.day.toString().padStart(2, '0') : '%';
+  const expression = `${year}-${month}-${day}`;
 
-  return sql`${column}
-  ${operator}
-  ${year}
-  -
-  ${month}
-  -
-  ${day}`;
+  return isFullEq ? sql`${column} =
+  ${expression}` : sql`${column} LIKE
+  ${expression}`;
 }
