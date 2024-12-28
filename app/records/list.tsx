@@ -2,7 +2,7 @@ import { type ReactNode, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { MainScreenLayout } from '@/layout';
 import { MonthIdx, MonthRecords, MonthSlider } from '@/recordsList';
-import { Button, Divider, Text, useTheme } from '@ui-kitten/components';
+import { Button, Text } from '@ui-kitten/components';
 import { RecordType } from '@/db';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
 import Animated, { FadeInLeft, FadeInRight, FadeOutLeft, FadeOutRight } from 'react-native-reanimated';
@@ -37,7 +37,6 @@ function AddRecordButton(props: IAddRecordButton): ReactNode {
 const AnimatedText = Animated.createAnimatedComponent(Text);
 
 export default function List(): ReactNode {
-  const theme = useTheme();
   const previousIdx = useRef<MonthIdx>();
   const [selectedIdx, setSelectedIdx] = useState<MonthIdx>(() => MonthIdx.current());
   const title = useMemo(() => selectedIdx.title, [selectedIdx.id]);
@@ -66,12 +65,10 @@ export default function List(): ReactNode {
       )}
     >
       <View style={styles.column}>
-        <View style={[styles.addRow, { backgroundColor: theme['background-basic-color-1'] }]}>
+        <View style={[styles.addRow]}>
           <AddRecordButton monthIdx={selectedIdx} type={RecordType.INCOME} />
           <AddRecordButton monthIdx={selectedIdx} type={RecordType.EXPENSE} />
         </View>
-
-        <Divider />
 
         <MonthSlider
           style={styles.slider}

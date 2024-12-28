@@ -1,9 +1,10 @@
-import type { ReactNode } from 'react';
+import { Fragment, type ReactNode } from 'react';
 import type { MonthIdx } from './MonthIdx';
-import { StyleSheet, type ViewStyle } from 'react-native';
-import { Text } from '@ui-kitten/components';
+import { ScrollView, StyleSheet, type ViewStyle } from 'react-native';
+import { Divider, useTheme } from '@ui-kitten/components';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRecordsMonthQuery } from '@/queries';
+import { MonthRecord } from '@/recordsList/MonthRecord';
 
 export interface IMonthRecordsProps {
   idx: MonthIdx;
@@ -11,21 +12,31 @@ export interface IMonthRecordsProps {
 
 export function MonthRecords(props: IMonthRecordsProps): ReactNode {
   const recordsQuery = useRecordsMonthQuery(props.idx.year, props.idx.month);
+  const theme = useTheme();
+
+  const dividerStyles: ViewStyle = {
+    backgroundColor: theme['color-basic-400'],
+  };
 
   return (
     <SafeAreaView
       edges={['bottom']}
-      style={styles.slide}
+      style={styles.wrapper}
     >
-      <Text>
-        {JSON.stringify(recordsQuery.data, null, 2)}
-      </Text>
+      <ScrollView style={styles.wrapper}>
+        {recordsQuery.data.map((record, index) => (
+          <Fragment key={record.id}>
+            {index > 0 && <Divider style={dividerStyles} />}
+            <MonthRecord record={record} />
+          </Fragment>
+        ))}
+      </ScrollView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  slide: {
+  wrapper: {
     height: '100%',
     width: '100%',
   } satisfies ViewStyle,

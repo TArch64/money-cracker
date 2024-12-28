@@ -34,4 +34,5 @@ export const recordsRelations = relations(records, ({ one }) => ({
 }));
 
 export type Record = InferSelectModel<typeof records>;
+export type RecordWithCategory = Record & { category: Category };
 export type RecordInsert = InferInsertModel<typeof records>;
