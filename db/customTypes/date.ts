@@ -45,7 +45,6 @@ export function eqDate<C extends AnyColumn<OperatorConfig>>(column: C, matcher: 
   const day = matcher.day ? matcher.day.toString().padStart(2, '0') : '%';
   const expression = `${year}-${month}-${day}`;
 
-  return isFullEq ? sql`${column} =
-  ${expression}` : sql`${column} LIKE
-  ${expression}`;
+  // language=SQL format=false
+  return isFullEq ? sql`${column} = ${expression}` : sql`${column} LIKE ${expression}`;
 }
