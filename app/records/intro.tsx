@@ -31,7 +31,7 @@ function IntroLink(props: IntroLinkProps): ReactNode {
 
 export default function Intro(): ReactNode {
   return (
-    <FullScreenLayout name="records/intro">
+    <FullScreenLayout>
       <View style={styles.column}>
         <Text category="h1" style={styles.heading}>
           Add your first

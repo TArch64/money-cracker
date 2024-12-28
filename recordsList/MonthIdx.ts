@@ -15,7 +15,7 @@ export class MonthIdx {
   }
 
   get title(): string {
-    return new Date(this.year, this.month).toLocaleString('default', { month: 'long' });
+    return new Date(this.year, this.month).toLocaleString('default', { month: 'long', year: 'numeric' });
   }
 
   get previous(): MonthIdx {

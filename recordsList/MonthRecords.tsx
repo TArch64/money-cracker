@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react';
-import { Text } from '@ui-kitten/components';
 import type { MonthIdx } from './MonthIdx';
-import { View, type ViewStyle } from 'react-native';
+import { StyleSheet, type ViewStyle } from 'react-native';
+import { Text } from '@ui-kitten/components';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export interface IMonthRecordsProps {
   idx: MonthIdx;
@@ -9,7 +10,8 @@ export interface IMonthRecordsProps {
 
 export function MonthRecords(props: IMonthRecordsProps): ReactNode {
   return (
-    <View
+    <SafeAreaView
+      edges={['bottom']}
       style={{
         height: '100%',
         width: '100%',
@@ -21,6 +23,13 @@ export function MonthRecords(props: IMonthRecordsProps): ReactNode {
       <Text>
         {props.idx.year}-{props.idx.month}
       </Text>
-    </View>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  slide: {
+    height: '100%',
+    width: '100%',
+  } satisfies ViewStyle,
+});

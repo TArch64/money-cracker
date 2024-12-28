@@ -1,10 +1,11 @@
-import type { IPropsWithChildrenFn } from '@/types';
+import type { IPropsWithChildrenFn, IPropsWithStyle } from '@/types';
 import { type ReactElement, type ReactNode, useMemo } from 'react';
 import { MonthIdx } from './MonthIdx';
 import { useRecordsBoundariesQuery } from '@/queries';
-import { StyleSheet, useWindowDimensions, View, type ViewStyle, VirtualizedList } from 'react-native';
+import { useWindowDimensions, View, type ViewStyle, VirtualizedList } from 'react-native';
 
-export interface IMonthSliderProps extends IPropsWithChildrenFn<[idx: MonthIdx], ReactElement> {
+export interface IMonthSliderProps extends IPropsWithChildrenFn<[idx: MonthIdx], ReactElement>,
+  IPropsWithStyle<ViewStyle> {
   active: MonthIdx;
   onChange: (idx: MonthIdx) => void;
 }
@@ -27,7 +28,7 @@ export function MonthSlider(props: IMonthSliderProps): ReactNode {
     <VirtualizedList<MonthIdx>
       horizontal
       pagingEnabled
-      style={styles.list}
+      style={props.style}
       initialNumToRender={3}
       initialScrollIndex={initialScrollIndex}
       maxToRenderPerBatch={2}
@@ -50,7 +51,7 @@ export function MonthSlider(props: IMonthSliderProps): ReactNode {
       })}
 
       CellRendererComponent={({ style, children, onLayout }) => (
-        <View style={[style, styles.cell, { width }]} onLayout={onLayout}>
+        <View style={[style, { width }]} onLayout={onLayout}>
           {children}
         </View>
       )}
@@ -65,16 +66,3 @@ export function MonthSlider(props: IMonthSliderProps): ReactNode {
     />
   );
 }
-
-const styles = StyleSheet.create({
-  list: {
-    height: '100%',
-  } satisfies ViewStyle,
-
-  cell: {
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
-    borderColor: 'rgb(255, 0, 0)',
-    borderStyle: 'solid',
-    borderWidth: StyleSheet.hairlineWidth * 4,
-  } satisfies ViewStyle,
-});

@@ -1,21 +1,27 @@
 import { type PropsWithChildren, type ReactNode } from 'react';
 import { useRouter } from 'expo-router';
-import { SafeAreaView, StyleSheet, View, type ViewStyle } from 'react-native';
+import { StyleSheet, View, type ViewStyle } from 'react-native';
 import type { IPropsWithStyle } from '@/types';
-import { TopNavigation, TopNavigationAction } from '@ui-kitten/components';
+import { TopNavigation, TopNavigationAction, useTheme } from '@ui-kitten/components';
 import { BackIcon } from './BackIcon';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export interface IFullScreenLayoutProps extends PropsWithChildren,
   IPropsWithStyle<ViewStyle> {
-  name: string;
   title?: string;
 }
 
 export function FullScreenLayout(props: IFullScreenLayoutProps): ReactNode {
   const router = useRouter();
+  const theme = useTheme();
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView
+      style={[
+        styles.wrapper,
+        { backgroundColor: theme['background-basic-color-1'] },
+      ]}
+    >
       {props.title && (
         <TopNavigation
           accessoryLeft={router.canGoBack() ? (() => (
@@ -36,11 +42,6 @@ export function FullScreenLayout(props: IFullScreenLayoutProps): ReactNode {
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    height: '100%',
-    backgroundColor: 'white'
-  },
-
   wrapper: {
     height: '100%',
   }

@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { type ReactNode, useMemo } from 'react';
 import { FullScreenLayout } from '@/layout';
 import { Button, Text } from '@ui-kitten/components';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -25,8 +25,21 @@ const schema = object({
 
 type Schema = typeof schema;
 
+type SearchParams = {
+  type: RecordType;
+  initialYear?: string;
+  initialMonth?: string;
+}
+
 export default function New(): ReactNode {
-  const { type } = useLocalSearchParams<{ type: RecordType }>();
+  const { type, initialMonth, initialYear } = useLocalSearchParams<SearchParams>();
+
+  const initialDate = useMemo(() => {
+    return initialYear !== undefined && initialMonth !== undefined
+      ? new Date(+initialYear, +initialMonth, 1)
+      : new Date();
+  }, []);
+
   const isIncome = type === RecordType.INCOME;
   const screenTitle = isIncome ? 'Income' : 'Expense';
   const valueLabel = isIncome ? 'Money received' : 'Money spent';
@@ -51,17 +64,13 @@ export default function New(): ReactNode {
   };
 
   return (
-    <FullScreenLayout
-      name="records/new"
-      title={`New ${screenTitle}`}
-      style={styles.root}
-    >
+    <FullScreenLayout title={`New ${screenTitle}`} style={styles.root}>
       <Form
         schema={schema}
         initialValues={{
           categoryId: -1,
           value: 0,
-          date: new Date(),
+          date: initialDate,
         }}
         onSubmit={onSubmit}
       >
