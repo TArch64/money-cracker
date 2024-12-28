@@ -18,27 +18,7 @@ export class MonthIdx {
     return new Date(this.year, this.month).toLocaleString('default', { month: 'long', year: 'numeric' });
   }
 
-  get previous(): MonthIdx {
-    if (this.month === 0) {
-      return new MonthIdx(this.year - 1, 11);
-    }
-
-    return new MonthIdx(this.year, this.month - 1);
-  }
-
-  get next(): MonthIdx {
-    if (this.month === 11) {
-      return new MonthIdx(this.year + 1, 0);
-    }
-
-    return new MonthIdx(this.year, this.month + 1);
-  }
-
-  isBeforeDate(date: Date): boolean {
-    return this.year < date.getFullYear() || (this.year === date.getFullYear() && this.month < date.getMonth());
-  }
-
-  isAfterDate(date: Date): boolean {
-    return this.year > date.getFullYear() || (this.year === date.getFullYear() && this.month > date.getMonth());
+  get position(): number {
+    return +new Date(this.year, this.month);
   }
 }

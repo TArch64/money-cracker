@@ -8,6 +8,9 @@ export function QueryProvider(props: PropsWithChildren): ReactNode {
         mutations: {
           onError: console.error,
         },
+        queries: {
+          networkMode: 'always',
+        },
       },
     });
   }, []);

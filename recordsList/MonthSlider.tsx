@@ -12,8 +12,7 @@ export interface IMonthSliderProps extends IPropsWithChildrenFn<[idx: MonthIdx],
 
 export function MonthSlider(props: IMonthSliderProps): ReactNode {
   const { width } = useWindowDimensions();
-  const boundariesQuery = useRecordsBoundariesQuery();
-  const { min: minDate, max: maxDate } = boundariesQuery.data;
+  const { min: minDate, max: maxDate } = useRecordsBoundariesQuery().data;
 
   const count = useMemo(() => {
     const fullMonthCount = (maxDate.getFullYear() - minDate.getFullYear()) * 12;
@@ -28,14 +27,14 @@ export function MonthSlider(props: IMonthSliderProps): ReactNode {
     <VirtualizedList<MonthIdx>
       horizontal
       pagingEnabled
+      removeClippedSubviews
       style={props.style}
-      initialNumToRender={3}
       initialScrollIndex={initialScrollIndex}
+      initialNumToRender={3}
       maxToRenderPerBatch={2}
       getItemCount={() => count}
       keyExtractor={(idx) => idx.id}
       showsHorizontalScrollIndicator={false}
-      removeClippedSubviews
       renderItem={({ item }) => props.children(item)}
 
       getItem={(_, idx) => {
@@ -50,14 +49,13 @@ export function MonthSlider(props: IMonthSliderProps): ReactNode {
         offset: width * idx,
       })}
 
-      CellRendererComponent={({ style, children, onLayout, index }) => (
+      CellRendererComponent={({ style, children, onLayout }) => (
         <View style={[style, { width }]} onLayout={onLayout}>
-          {/* use global suspense for initial slide but it by other screens */}
-          {index === initialScrollIndex ? children : <Suspense>{children}</Suspense>}
+          <Suspense>{children}</Suspense>
         </View>
       )}
 
-      onViewableItemsChanged={({ viewableItems }) => {
+      onViewableItemsChanged={({ viewableItems, changed }) => {
         if (viewableItems.length > 1) {
           return;
         }

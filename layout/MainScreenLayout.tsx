@@ -2,13 +2,14 @@ import type { PropsWithChildren, ReactElement, ReactNode } from 'react';
 import { useRouter } from 'expo-router';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
 import type { IPropsWithStyle } from '@/types';
-import { Divider, TopNavigation, TopNavigationAction, useTheme } from '@ui-kitten/components';
+import { Divider, type TextProps, TopNavigation, TopNavigationAction, useTheme } from '@ui-kitten/components';
 import { BackIcon } from './BackIcon';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import type { RenderProp } from '@ui-kitten/components/devsupport';
 
 export interface IMainScreenLayoutProps extends PropsWithChildren,
   IPropsWithStyle<ViewStyle> {
-  title: string;
+  title: string | RenderProp<TextProps>;
   headerRight?: () => ReactElement;
 }
 

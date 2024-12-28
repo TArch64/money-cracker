@@ -1,10 +1,11 @@
-import { type ReactNode, useMemo, useState } from 'react';
+import { type ReactNode, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { MainScreenLayout } from '@/layout';
 import { MonthIdx, MonthRecords, MonthSlider } from '@/recordsList';
 import { Button, Divider, Text, useTheme } from '@ui-kitten/components';
 import { RecordType } from '@/db';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
+import Animated, { FadeInLeft, FadeInRight, FadeOutLeft, FadeOutRight } from 'react-native-reanimated';
 
 interface IAddRecordButton {
   type: RecordType;
@@ -33,13 +34,37 @@ function AddRecordButton(props: IAddRecordButton): ReactNode {
   );
 }
 
+const AnimatedText = Animated.createAnimatedComponent(Text);
+
 export default function List(): ReactNode {
   const theme = useTheme();
+  const previousIdx = useRef<MonthIdx>();
   const [selectedIdx, setSelectedIdx] = useState<MonthIdx>(() => MonthIdx.current());
   const title = useMemo(() => selectedIdx.title, [selectedIdx.id]);
 
+  const isSwipedToLeft = useMemo(() => {
+    if (!previousIdx.current) return false;
+    return previousIdx.current.position > selectedIdx.position;
+  }, [selectedIdx.id]);
+
+  function changeIdx(idx: MonthIdx) {
+    previousIdx.current = selectedIdx;
+    setSelectedIdx(idx);
+  }
+
   return (
-    <MainScreenLayout title={title}>
+    <MainScreenLayout
+      title={(txtProps) => (
+        <AnimatedText
+          {...txtProps}
+          key={title}
+          entering={(isSwipedToLeft ? FadeInRight : FadeInLeft).duration(200).delay(100)}
+          exiting={(isSwipedToLeft ? FadeOutLeft : FadeOutRight).duration(200)}
+        >
+          {title}
+        </AnimatedText>
+      )}
+    >
       <View style={styles.column}>
         <View style={[styles.addRow, { backgroundColor: theme['background-basic-color-1'] }]}>
           <AddRecordButton monthIdx={selectedIdx} type={RecordType.INCOME} />
@@ -51,7 +76,7 @@ export default function List(): ReactNode {
         <MonthSlider
           style={styles.slider}
           active={selectedIdx}
-          onChange={setSelectedIdx}
+          onChange={changeIdx}
         >
           {(idx) => <MonthRecords idx={idx} />}
         </MonthSlider>

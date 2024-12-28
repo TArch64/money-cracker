@@ -37,12 +37,14 @@ export interface IEqDateMatcher {
   day?: number;
 }
 
+const isPresent = (value: number | undefined) => value !== undefined;
+
 export function eqDate<C extends AnyColumn<OperatorConfig>>(column: C, matcher: IEqDateMatcher) {
   const isFullEq = matcher.year && matcher.month && matcher.day;
 
-  const year = matcher.year ? matcher.year.toString() : '%';
-  const month = matcher.month ? (matcher.month + 1).toString().padStart(2, '0') : '%';
-  const day = matcher.day ? matcher.day.toString().padStart(2, '0') : '%';
+  const year = isPresent(matcher.year) ? matcher.year.toString() : '%';
+  const month = isPresent(matcher.month) ? (matcher.month + 1).toString().padStart(2, '0') : '%';
+  const day = isPresent(matcher.day) ? matcher.day.toString().padStart(2, '0') : '%';
   const expression = `${year}-${month}-${day}`;
 
   // language=SQL format=false

@@ -15,13 +15,7 @@ export function MonthRecords(props: IMonthRecordsProps): ReactNode {
   return (
     <SafeAreaView
       edges={['bottom']}
-      style={{
-        height: '100%',
-        width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      } satisfies ViewStyle}
+      style={styles.slide}
     >
       <Text>
         {JSON.stringify(recordsQuery.data, null, 2)}
