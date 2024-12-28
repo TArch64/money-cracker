@@ -1,3 +1,3 @@
 export * from './MonthSlider';
 export * from './MonthRecords';
-export * from './MonthIndex';
+export * from './MonthIdx';

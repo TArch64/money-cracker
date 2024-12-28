@@ -1,7 +1,7 @@
 import { type ReactNode, useMemo, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { MainScreenLayout } from '@/layout';
-import { MonthIndex, MonthRecords, MonthSlider } from '@/recordsList';
+import { MonthIdx, MonthRecords, MonthSlider } from '@/recordsList';
 import {
   Button,
   Icon,
@@ -84,8 +84,8 @@ function ScreenRight(): ReactNode {
 }
 
 export default function List(): ReactNode {
-  const [selectedIdx, setSelectedIdx] = useState<MonthIndex>(() => MonthIndex.current());
-  const title = useMemo(() => selectedIdx.title, selectedIdx.reactDeps);
+  const [selectedIdx, setSelectedIdx] = useState<MonthIdx>(() => MonthIdx.current());
+  const title = useMemo(() => selectedIdx.title, [selectedIdx.id]);
 
   return (
     <MainScreenLayout

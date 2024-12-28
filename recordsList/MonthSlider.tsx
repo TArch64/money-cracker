@@ -1,68 +1,80 @@
 import type { IPropsWithChildrenFn } from '@/types';
-import { type PropsWithChildren, type ReactNode, useMemo } from 'react';
-import type { MonthIndex } from './MonthIndex';
+import { type ReactElement, type ReactNode, useMemo } from 'react';
+import { MonthIdx } from './MonthIdx';
 import { useRecordsBoundariesQuery } from '@/queries';
-import { StyleSheet, View, type ViewStyle } from 'react-native';
+import { StyleSheet, useWindowDimensions, View, type ViewStyle, VirtualizedList } from 'react-native';
 
-function MonthSliderItem(props: PropsWithChildren): ReactNode {
-  return (
-    <View style={styles.slide}>
-      {props.children}
-    </View>
-  );
-}
-
-export interface IMonthSliderProps extends IPropsWithChildrenFn<[idx: MonthIndex]> {
-  active: MonthIndex;
-  onChange: (idx: MonthIndex) => void;
+export interface IMonthSliderProps extends IPropsWithChildrenFn<[idx: MonthIdx], ReactElement> {
+  active: MonthIdx;
+  onChange: (idx: MonthIdx) => void;
 }
 
 export function MonthSlider(props: IMonthSliderProps): ReactNode {
+  const { width } = useWindowDimensions();
   const boundariesQuery = useRecordsBoundariesQuery();
+  const { min: minDate, max: maxDate } = boundariesQuery.data;
 
-  const previousIdx = useMemo(() => {
-    const idx = props.active.previous;
-    return idx;
-    // return idx.isBeforeDate(boundariesQuery.data!.min) ? null : idx;
-  }, props.active.reactDeps);
+  const count = useMemo(() => {
+    const fullMonthCount = (maxDate.getFullYear() - minDate.getFullYear()) * 12;
+    return fullMonthCount + maxDate.getMonth() - minDate.getMonth() + 1;
+  }, [+minDate, +maxDate]);
 
-  const nextIdx = useMemo(() => {
-    const idx = props.active.next;
-    return idx;
-    // return idx.isAfterDate(boundariesQuery.data!.max) ? null : idx;
-  }, props.active.reactDeps);
+  const initialScrollIndex = useMemo(() => {
+    return (props.active.year - minDate.getFullYear()) * 12 + props.active.month - minDate.getMonth();
+  }, [props.active, +minDate]);
 
   return (
-    <View style={styles.row}>
-      {previousIdx && (
-        <MonthSliderItem>
-          {props.children(previousIdx)}
-        </MonthSliderItem>
+    <VirtualizedList<MonthIdx>
+      horizontal
+      pagingEnabled
+      style={styles.list}
+      initialNumToRender={3}
+      initialScrollIndex={initialScrollIndex}
+      maxToRenderPerBatch={2}
+      getItemCount={() => count}
+      keyExtractor={(idx) => idx.id}
+      showsHorizontalScrollIndicator={false}
+      removeClippedSubviews
+      renderItem={({ item }) => props.children(item)}
+
+      getItem={(_, idx) => {
+        const year = minDate.getFullYear() + Math.floor((minDate.getMonth() + idx) / 12);
+        const month = (minDate.getMonth() + idx) % 12;
+        return new MonthIdx(year, month);
+      }}
+
+      getItemLayout={(_, idx) => ({
+        index: idx,
+        length: width,
+        offset: width * idx,
+      })}
+
+      CellRendererComponent={({ style, children, onLayout }) => (
+        <View style={[style, styles.cell, { width }]} onLayout={onLayout}>
+          {children}
+        </View>
       )}
 
-      <MonthSliderItem>
-        {props.children(props.active)}
-      </MonthSliderItem>
+      onViewableItemsChanged={({ viewableItems }) => {
+        if (viewableItems.length > 1) {
+          return;
+        }
 
-      {nextIdx && (
-        <MonthSliderItem>
-          {props.children(nextIdx)}
-        </MonthSliderItem>
-      )}
-    </View>
+        props.onChange(viewableItems[0].item);
+      }}
+    />
   );
 }
 
 const styles = StyleSheet.create({
-  row: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    overflowX: 'hidden',
+  list: {
     height: '100%',
   } satisfies ViewStyle,
 
-  slide: {
-    width: '100%',
+  cell: {
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    borderColor: 'rgb(255, 0, 0)',
+    borderStyle: 'solid',
+    borderWidth: StyleSheet.hairlineWidth * 4,
   } satisfies ViewStyle,
 });
