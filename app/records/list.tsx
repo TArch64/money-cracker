@@ -18,28 +18,14 @@ const PlusIcon = (iconProps: IconProps): IconElement => (
   <Icon {...iconProps} name="plus" />
 );
 
-function ArrowUpIcon(iconProps: IconProps): IconElement {
+function IncomeIcon(iconProps: IconProps): IconElement {
   const theme = useTheme();
-
-  return (
-    <Icon
-      {...iconProps}
-      fill={theme['color-success-600']}
-      name="arrow-upward-outline"
-    />
-  );
+  return <Icon {...iconProps} fill={theme['color-success-600']} name="plus" />;
 }
 
-function ArrowDownIcon(iconProps: IconProps): IconElement {
+function ExpenseIcon(iconProps: IconProps): IconElement {
   const theme = useTheme();
-
-  return (
-    <Icon
-      {...iconProps}
-      fill={theme['color-danger-600']}
-      name="arrow-downward-outline"
-    />
-  );
+  return <Icon {...iconProps} fill={theme['color-danger-600']} name="minus" />;
 }
 
 function ScreenRight(): ReactNode {
@@ -70,13 +56,13 @@ function ScreenRight(): ReactNode {
     >
       <MenuItem
         title="Add Income"
-        accessoryLeft={ArrowUpIcon}
+        accessoryLeft={IncomeIcon}
         onPress={() => openLink(RecordType.INCOME)}
       />
 
       <MenuItem
         title="Add Expense"
-        accessoryLeft={ArrowDownIcon}
+        accessoryLeft={ExpenseIcon}
         onPress={() => openLink(RecordType.EXPENSE)}
       />
     </OverflowMenu>
