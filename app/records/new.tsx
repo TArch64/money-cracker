@@ -14,7 +14,7 @@ import {
   type IFormSelectItem,
 } from '@/form';
 import { date, minValue, number, object, pipe } from 'valibot';
-import { StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet, type TextStyle, type ViewStyle } from 'react-native';
 import { useCategoriesListQuery, useRecordCreateMutation } from '@/queries';
 
 const schema = object({
@@ -75,7 +75,11 @@ export default function New(): ReactNode {
         onSubmit={onSubmit}
       >
         {({ f }) => (
-          <View style={styles.formColumn}>
+          <KeyboardAvoidingView
+            style={styles.formColumn}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 50 : 20}
+          >
             <FormSelect
               name={f('categoryId')}
               label="Category"
@@ -107,7 +111,7 @@ export default function New(): ReactNode {
                 </Button>
               )}
             </FormSubmit>
-          </View>
+          </KeyboardAvoidingView>
         )}
       </Form>
     </FullScreenLayout>
@@ -124,10 +128,10 @@ const styles = StyleSheet.create({
   } satisfies TextStyle,
 
   formColumn: {
-    height: '100%',
     display: 'flex',
     flexDirection: 'column',
     gap: 16,
+    flex: 1,
   } satisfies ViewStyle,
 
   formSubmit: {

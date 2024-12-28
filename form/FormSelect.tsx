@@ -62,7 +62,14 @@ export function FormSelect(props: IFormSelectProps): ReactNode {
       selectedIndex={selectedPath}
       onSelect={selectItem}
       status={error ? 'danger' : 'basic'}
-      caption={error}
+      caption={error ? ((txtProps) => (
+        <Text
+          {...txtProps}
+          style={[txtProps?.style, { marginTop: 4 }]}
+        >
+          {error}
+        </Text>
+      )) : undefined}
     >
       {items.map((item) => (
         <SelectItem key={item.value} title={item.title} />

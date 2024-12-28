@@ -1,4 +1,4 @@
-import { Input, type InputProps } from '@ui-kitten/components';
+import { Input, type InputProps, Text } from '@ui-kitten/components';
 import type { ReactNode } from 'react';
 import { useFormField } from './useFormField';
 
@@ -29,7 +29,14 @@ export function FormInput(props: IFormInputProps): ReactNode {
       value={valueController.value}
       onChangeText={valueController.setValue}
       status={error ? 'danger' : 'basic'}
-      caption={error}
+      caption={error ? ((txtProps) => (
+        <Text
+          {...txtProps}
+          style={[txtProps?.style, { marginTop: 4 }]}
+        >
+          {error}
+        </Text>
+      )) : undefined}
     />
   );
 }

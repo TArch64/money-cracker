@@ -3,7 +3,7 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
-    "start": "expo start --ios",
+    "start": "expo start --ios --offline",
     "db:new-migration": "drizzle-kit generate",
     "postinstall": "patch-package"
   },
