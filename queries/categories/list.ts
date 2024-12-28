@@ -4,7 +4,10 @@ import { eq } from 'drizzle-orm';
 
 export const CATEGORIES_LIST_QUERY = (type: RecordType) => ['categories', type, 'list'] as const;
 
-export function useCategoriesListQuery(type: RecordType) {
+export function useCategoriesListQuery<D = Category>(
+  type: RecordType,
+  select?: (data: Category[]) => D[],
+) {
   const db = useDatabase();
 
   return useSuspenseQuery({
@@ -18,5 +21,7 @@ export function useCategoriesListQuery(type: RecordType) {
         .from(categories)
         .where(eq(categories.type, type));
     },
+
+    select,
   });
 }

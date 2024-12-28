@@ -5,20 +5,19 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { RecordType } from '@/db';
 import {
   Form,
+  FormAutocomplete,
   FormDatepicker,
   formLoadingIndicator,
   FormNumericInput,
-  FormSelect,
   FormSubmit,
   type FormSubmitHandler,
-  type IFormSelectItem,
 } from '@/form';
-import { date, minValue, number, object, pipe } from 'valibot';
-import { KeyboardAvoidingView, Platform, StyleSheet, type TextStyle, type ViewStyle } from 'react-native';
+import { date, minLength, minValue, number, object, pipe, string } from 'valibot';
+import { KeyboardAvoidingView, StyleSheet, type TextStyle, type ViewStyle } from 'react-native';
 import { useCategoriesListQuery, useRecordCreateMutation } from '@/queries';
 
 const schema = object({
-  categoryId: pipe(number(), minValue(1, 'This field is required')),
+  category: pipe(string(), minLength(1, 'This field is required')),
   value: pipe(number(), minValue(1, 'This field is required')),
   date: date(),
 });
@@ -45,13 +44,12 @@ export default function New(): ReactNode {
   const valueLabel = isIncome ? 'Money received' : 'Money spent';
   const router = useRouter();
 
-  const categoriesQuery = useCategoriesListQuery(type);
+  const categoriesQuery = useCategoriesListQuery(type, (categories) => {
+    return categories.map((category) => category.name);
+  });
+
   const createRecordMutation = useRecordCreateMutation();
 
-  const categorySelectItems = categoriesQuery.data.map((category): IFormSelectItem => ({
-    value: category.id,
-    title: category.name,
-  }));
 
   const onSubmit: FormSubmitHandler<Schema> = async (event) => {
     await createRecordMutation.mutateAsync({
@@ -68,7 +66,7 @@ export default function New(): ReactNode {
       <Form
         schema={schema}
         initialValues={{
-          categoryId: -1,
+          category: '',
           value: 0,
           date: initialDate,
         }}
@@ -77,14 +75,14 @@ export default function New(): ReactNode {
         {({ f }) => (
           <KeyboardAvoidingView
             style={styles.formColumn}
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            keyboardVerticalOffset={Platform.OS === 'ios' ? 50 : 20}
+            behavior="padding"
+            keyboardVerticalOffset={50}
           >
-            <FormSelect
-              name={f('categoryId')}
+            <FormAutocomplete
+              name={f('category')}
               label="Category"
               placeholder="Category"
-              items={categorySelectItems}
+              suggestions={categoriesQuery.data}
             />
 
             <FormNumericInput

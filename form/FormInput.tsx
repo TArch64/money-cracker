@@ -1,6 +1,7 @@
-import { Input, type InputProps, Text } from '@ui-kitten/components';
+import { Input, type InputProps } from '@ui-kitten/components';
 import type { ReactNode } from 'react';
 import { useFormField } from './useFormField';
+import { renderFormError } from './FormError';
 
 export interface IFormInputValueController {
   value: string;
@@ -9,7 +10,7 @@ export interface IFormInputValueController {
 
 export interface IFormInputProps extends Omit<InputProps, 'value' | 'onChangeText'> {
   name: string;
-  valueController: IFormInputValueController;
+  valueController?: IFormInputValueController;
 }
 
 export function FormInput(props: IFormInputProps): ReactNode {
@@ -29,14 +30,7 @@ export function FormInput(props: IFormInputProps): ReactNode {
       value={valueController.value}
       onChangeText={valueController.setValue}
       status={error ? 'danger' : 'basic'}
-      caption={error ? ((txtProps) => (
-        <Text
-          {...txtProps}
-          style={[txtProps?.style, { marginTop: 4 }]}
-        >
-          {error}
-        </Text>
-      )) : undefined}
+      caption={renderFormError(error)}
     />
   );
 }

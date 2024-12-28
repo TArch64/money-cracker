@@ -9,6 +9,7 @@ import { UiKittenProvider } from '@/uiKitten';
 import { QueryProvider } from '@/queries';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { documentDirectory } from 'expo-file-system';
+import { ClickOutsideProvider } from 'react-native-click-outside';
 
 if (__DEV__) {
   console.log('SQLite database path:');
@@ -31,12 +32,14 @@ export default function Layout() {
     <DatabaseProvider onReady={() => setDatabaseReady(true)}>
       {() => (
         <UiKittenProvider>
-          <StatusBar style="auto" />
-          <QueryProvider>
-            <SafeAreaProvider>
-              <Stack screenOptions={{ headerShown: false }} />
-            </SafeAreaProvider>
-          </QueryProvider>
+          <ClickOutsideProvider>
+            <StatusBar style="auto" />
+            <QueryProvider>
+              <SafeAreaProvider>
+                <Stack screenOptions={{ headerShown: false }} />
+              </SafeAreaProvider>
+            </QueryProvider>
+          </ClickOutsideProvider>
         </UiKittenProvider>
       )}
     </DatabaseProvider>
