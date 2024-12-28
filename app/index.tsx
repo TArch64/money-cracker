@@ -1,13 +1,12 @@
 import { type ReactNode } from 'react';
 import { useFocusEffect, useRouter } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useCategoriesScaffoldMutation, usePrefetchRecordsBoundariesQuery, useRecordsExistsQuery } from '@/queries';
+import { usePrefetchRecordsBoundariesQuery, useRecordsExistsQuery } from '@/queries';
 import { waitStackAnimation } from '@/layout';
 
 export default function Index(): ReactNode {
   const router = useRouter();
   const recordsExistsQuery = useRecordsExistsQuery()
-  const scaffoldCategoriesMutation = useCategoriesScaffoldMutation();
   const prefetchRecordsBoundariesQuery = usePrefetchRecordsBoundariesQuery();
 
   function openIntro(): void {
@@ -20,11 +19,11 @@ export default function Index(): ReactNode {
   }
 
   useFocusEffect(() => {
-    scaffoldCategoriesMutation.mutateAsync().then(async () => {
+    (async () => {
       recordsExistsQuery.data ? await openList() : openIntro();
       await waitStackAnimation();
       await SplashScreen.hideAsync();
-    });
+    })();
   });
 
   return null;
