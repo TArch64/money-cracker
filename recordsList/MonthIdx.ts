@@ -14,8 +14,8 @@ export class MonthIdx {
     return `${this.year}-${this.month}`;
   }
 
-  get title(): string {
-    return new Date(this.year, this.month).toLocaleString('default', { month: 'long', year: 'numeric' });
+  get date(): Date {
+    return new Date(this.year, this.month);
   }
 
   get position(): number {

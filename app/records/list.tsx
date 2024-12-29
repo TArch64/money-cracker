@@ -6,6 +6,7 @@ import { Button, Text } from '@ui-kitten/components';
 import { RecordType } from '@/db';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
 import Animated, { FadeInLeft, FadeInRight, FadeOutLeft, FadeOutRight } from 'react-native-reanimated';
+import { useDateFormatter } from '@/formatters';
 
 interface IAddRecordButton {
   type: RecordType;
@@ -39,7 +40,8 @@ const AnimatedText = Animated.createAnimatedComponent(Text);
 export default function List(): ReactNode {
   const previousIdx = useRef<MonthIdx>();
   const [selectedIdx, setSelectedIdx] = useState<MonthIdx>(() => MonthIdx.current());
-  const title = useMemo(() => selectedIdx.title, [selectedIdx.id]);
+  const dateFormatter = useDateFormatter({ year: 'numeric', month: 'long' });
+  const title = dateFormatter.format(selectedIdx.date);
 
   const isSwipedToLeft = useMemo(() => {
     if (!previousIdx.current) return false;
@@ -57,7 +59,11 @@ export default function List(): ReactNode {
         <AnimatedText
           {...txtProps}
           key={title}
-          entering={(isSwipedToLeft ? FadeInRight : FadeInLeft).duration(200).delay(100)}
+          entering={
+            previousIdx.current
+              ? (isSwipedToLeft ? FadeInRight : FadeInLeft).duration(200).delay(100)
+              : undefined
+          }
           exiting={(isSwipedToLeft ? FadeOutLeft : FadeOutRight).duration(200)}
         >
           {title}

@@ -36,7 +36,14 @@ export default function Layout() {
             <StatusBar style="auto" />
             <QueryProvider>
               <SafeAreaProvider>
-                <Stack screenOptions={{ headerShown: false }} />
+                <Stack screenOptions={{ headerShown: false }}>
+                  <Stack.Screen
+                    name="records/list"
+                    options={{
+                      animation: 'none',
+                    }}
+                  />
+                </Stack>
               </SafeAreaProvider>
             </QueryProvider>
           </ClickOutsideProvider>

@@ -62,6 +62,11 @@ export function MonthSlider(props: IMonthSliderProps): ReactNode {
 
         props.onChange(viewableItems[0].item);
       }}
+
+      viewabilityConfig={{
+        waitForInteraction: true,
+        itemVisiblePercentThreshold: 50,
+      }}
     />
   );
 }
