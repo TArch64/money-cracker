@@ -35,7 +35,12 @@ export function useRecordCreateMutation() {
 
       await db
         .insert(records)
-        .values({ type: input.type, date: input.date, categoryId });
+        .values({
+          type: input.type,
+          value: input.value,
+          date: input.date,
+          categoryId,
+        });
     },
 
     async onSuccess() {

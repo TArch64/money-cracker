@@ -93,7 +93,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    padding: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
     gap: 8,
   } satisfies ViewStyle,
 

@@ -19,6 +19,7 @@ export type CategoryInsert = InferInsertModel<typeof categories>;
 export const records = sqliteTable('records', {
   id: integer().primaryKey(),
   type: text({ enum: recordTypeEnum }).notNull(),
+  value: integer().notNull(),
   date: date().notNull(),
   dateUnix: integer().notNull().generatedAlwaysAs(sql`UNIXEPOCH(date)`, { mode: 'stored' }),
   categoryId: integer().references(() => categories.id, { onDelete: 'restrict' }).notNull()

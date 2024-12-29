@@ -1,7 +1,8 @@
 import { type ReactNode, useMemo } from 'react';
-import type { RecordWithCategory } from '@/db';
+import { RecordType, type RecordWithCategory } from '@/db';
 import { StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
 import { Icon, Text, useTheme } from '@ui-kitten/components';
+import { useLocales } from 'expo-localization';
 
 export interface IMonthRecordProps {
   record: RecordWithCategory;
@@ -9,10 +10,32 @@ export interface IMonthRecordProps {
 
 export function MonthRecord(props: IMonthRecordProps): ReactNode {
   const theme = useTheme();
+  const [locale] = useLocales();
+  const isExpense = props.record.type === RecordType.EXPENSE;
+
+  const dateFormatter = useMemo(() => {
+    return new Intl.DateTimeFormat(locale.languageTag!, {
+      month: 'long',
+      day: 'numeric',
+    });
+  }, [locale.languageTag]);
 
   const date = useMemo(() => {
-    return props.record.date.toLocaleDateString('default', { month: 'long', day: 'numeric' });
+    return dateFormatter.format(props.record.date);
   }, [props.record.dateUnix]);
+
+  const moneyFormatter = useMemo(() => {
+    return new Intl.NumberFormat(locale.languageTag!, {
+      style: 'currency',
+      currency: locale.currencyCode!,
+    });
+  }, [locale.currencyCode, locale.languageTag]);
+
+  const value = useMemo(() => {
+    return moneyFormatter.format(isExpense ? -props.record.value : props.record.value);
+  }, [props.record.type, props.record.value]);
+
+  const status = isExpense ? 'danger' : 'success';
 
   return (
     <View style={styles.row}>
@@ -38,14 +61,26 @@ export function MonthRecord(props: IMonthRecordProps): ReactNode {
           </Text>
         </View>
       </View>
+
+      <Text
+        style={[
+          styles.value,
+          { color: theme[`color-${status}-500`] },
+        ]}
+      >
+        {value}
+      </Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   row: {
-    paddingHorizontal: 8,
+    paddingHorizontal: 12,
     paddingVertical: 12,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
   } satisfies ViewStyle,
 
   categoryName: {
@@ -67,5 +102,10 @@ const styles = StyleSheet.create({
   date: {
     fontSize: 14,
     marginLeft: 4,
+  } satisfies TextStyle,
+
+  value: {
+    marginLeft: 'auto',
+    alignSelf: 'center',
   } satisfies TextStyle,
 });
