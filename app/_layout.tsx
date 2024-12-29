@@ -39,9 +39,12 @@ export default function Layout() {
                 <Stack screenOptions={{ headerShown: false }}>
                   <Stack.Screen
                     name="records/list"
-                    options={{
-                      animation: 'none',
-                    }}
+                    options={{ animation: 'fade', animationDuration: 200 }}
+                  />
+
+                  <Stack.Screen
+                    name="records/intro"
+                    options={{ animation: 'fade', animationDuration: 200 }}
                   />
                 </Stack>
               </SafeAreaProvider>
