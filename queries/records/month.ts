@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { categories, records, type RecordWithCategory, useDatabase } from '@/db';
 import { eqDate } from '@/db/customTypes';
-import { eq } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 
 export const RECORDS_MONTH_LIST_QUERY = (year: number, month: number) => [
   'records',
@@ -25,7 +25,8 @@ export function useRecordsMonthQuery(year: number, month: number) {
         .select()
         .from(records)
         .where(eqDate(records.date, { year, month }))
-        .innerJoin(categories, eq(categories.id, records.categoryId));
+        .innerJoin(categories, eq(categories.id, records.categoryId))
+        .orderBy(desc(records.date));
 
       return list.map(({ records, categories }) => ({
         ...records,
