@@ -9,7 +9,8 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "ua.tarch64.money-cracker"
     },
     "android": {
       "adaptiveIcon": {
@@ -33,6 +34,14 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "d698ebe1-ea2a-49ed-90da-9dd4e16b3e0b"
+      }
     }
   }
 }

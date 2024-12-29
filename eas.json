@@ -2,6 +2,9 @@
   "build": {
     "development": {
       "bun": "1.1.38"
+    },
+    "production": {
+      "bun": "1.1.38"
     }
   }
 }
