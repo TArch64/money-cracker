@@ -39,6 +39,13 @@ export function MonthRecord(props: IMonthRecordProps): ReactNode {
 
   return (
     <View style={styles.row}>
+      <View
+        style={[
+          styles.label,
+          { backgroundColor: theme[`color-${status}-500`] },
+        ]}
+      />
+
       <View>
         <Text style={styles.categoryName}>
           {props.record.category.name}
@@ -76,11 +83,22 @@ export function MonthRecord(props: IMonthRecordProps): ReactNode {
 
 const styles = StyleSheet.create({
   row: {
-    paddingHorizontal: 12,
-    paddingVertical: 12,
+    paddingLeft: 8,
+    paddingRight: 12,
+    paddingVertical: 8,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+  } satisfies ViewStyle,
+
+  label: {
+    width: 6,
+    height: '100%',
+    borderTopLeftRadius: 4,
+    borderBottomLeftRadius: 4,
+    marginRight: 6,
+    position: 'relative',
+    top: 2,
   } satisfies ViewStyle,
 
   categoryName: {

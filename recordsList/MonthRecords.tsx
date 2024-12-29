@@ -26,7 +26,7 @@ export function MonthRecords(props: IMonthRecordsProps): ReactNode {
       <ScrollView style={styles.wrapper}>
         {recordsQuery.data.map((record, index) => (
           <Fragment key={record.id}>
-            {index > 0 && <Divider style={dividerStyles} />}
+            {index > 0 && <Divider style={[styles.divider, dividerStyles]} />}
             <MonthRecord record={record} />
           </Fragment>
         ))}
@@ -39,5 +39,10 @@ const styles = StyleSheet.create({
   wrapper: {
     height: '100%',
     width: '100%',
+  } satisfies ViewStyle,
+
+  divider: {
+    marginLeft: 8,
+    marginRight: 12,
   } satisfies ViewStyle,
 });
