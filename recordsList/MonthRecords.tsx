@@ -3,7 +3,7 @@ import type { MonthIdx } from './MonthIdx';
 import { ScrollView, StyleSheet, type ViewStyle } from 'react-native';
 import { Divider, useTheme } from '@ui-kitten/components';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRecordsMonthQuery } from '@/queries';
+import { useRecordsMonthSuspenseQuery } from '@/queries';
 import { MonthRecord } from '@/recordsList/MonthRecord';
 
 export interface IMonthRecordsProps {
@@ -11,7 +11,7 @@ export interface IMonthRecordsProps {
 }
 
 export function MonthRecords(props: IMonthRecordsProps): ReactNode {
-  const recordsQuery = useRecordsMonthQuery(props.idx.year, props.idx.month);
+  const recordsQuery = useRecordsMonthSuspenseQuery(props.idx.year, props.idx.month);
   const theme = useTheme();
 
   const dividerStyles: ViewStyle = {

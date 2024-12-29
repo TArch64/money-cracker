@@ -1,12 +1,12 @@
 import { type ReactNode } from 'react';
 import { useFocusEffect, useRouter } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { usePrefetchRecordsBoundariesQuery, useRecordsExistsQuery } from '@/queries';
+import { usePrefetchRecordsBoundariesSuspenseQuery, useRecordsExistsSuspenseQuery } from '@/queries';
 
 export default function Index(): ReactNode {
   const router = useRouter();
-  const recordsExistsQuery = useRecordsExistsQuery()
-  const prefetchRecordsBoundariesQuery = usePrefetchRecordsBoundariesQuery();
+  const recordsExistsQuery = useRecordsExistsSuspenseQuery();
+  const prefetchRecordsBoundariesQuery = usePrefetchRecordsBoundariesSuspenseQuery();
 
   function openIntro(): void {
     router.replace('/records/intro');

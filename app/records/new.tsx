@@ -1,4 +1,4 @@
-import { type ReactNode, useMemo } from 'react';
+import { type ReactNode, useMemo, useState } from 'react';
 import { FullScreenLayout } from '@/layout';
 import { Button, Text } from '@ui-kitten/components';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -6,17 +6,20 @@ import { RecordType } from '@/db';
 import {
   Form,
   FormAutocomplete,
+  FormButtonSelect,
   FormDatepicker,
   formLoadingIndicator,
   FormNumericInput,
   FormSubmit,
   type FormSubmitHandler,
+  type IButtonSelectOption,
 } from '@/form';
-import { date, minLength, minValue, number, object, pipe, string } from 'valibot';
-import { KeyboardAvoidingView, StyleSheet, type TextStyle, type ViewStyle } from 'react-native';
+import { date, enum_, minLength, minValue, number, object, pipe, string } from 'valibot';
+import { KeyboardAvoidingView, StyleSheet, type ViewStyle } from 'react-native';
 import { useCategoriesListQuery, useRecordCreateMutation } from '@/queries';
 
 const schema = object({
+  type: enum_(RecordType),
   category: pipe(string(), minLength(1, 'This field is required')),
   value: pipe(number(), minValue(1, 'This field is required')),
   date: date(),
@@ -30,8 +33,25 @@ type SearchParams = {
   initialMonth?: string;
 }
 
+const recordTypeOptions: IButtonSelectOption<RecordType>[] = [
+  {
+    value: RecordType.EXPENSE,
+    label: 'Expense',
+  },
+  {
+    value: RecordType.INCOME,
+    label: 'Income',
+  },
+];
+
 export default function New(): ReactNode {
-  const { type, initialMonth, initialYear } = useLocalSearchParams<SearchParams>();
+  const { type: initialType, initialMonth, initialYear } = useLocalSearchParams<SearchParams>();
+  const router = useRouter();
+
+  const [type, setType] = useState(initialType);
+  const isIncome = type === RecordType.INCOME;
+  const screenTitle = isIncome ? 'Income' : 'Expense';
+  const valueLabel = isIncome ? 'Money received' : 'Money spent';
 
   const initialDate = useMemo(() => {
     return initialYear !== undefined && initialMonth !== undefined
@@ -39,24 +59,14 @@ export default function New(): ReactNode {
       : new Date();
   }, []);
 
-  const isIncome = type === RecordType.INCOME;
-  const screenTitle = isIncome ? 'Income' : 'Expense';
-  const valueLabel = isIncome ? 'Money received' : 'Money spent';
-  const router = useRouter();
-
   const categoriesQuery = useCategoriesListQuery(type, (categories) => {
     return categories.map((category) => category.name);
   });
 
   const createRecordMutation = useRecordCreateMutation();
 
-
   const onSubmit: FormSubmitHandler<Schema> = async (event) => {
-    await createRecordMutation.mutateAsync({
-      ...event.value,
-      type,
-    });
-
+    await createRecordMutation.mutateAsync(event.value);
     router.dismissAll();
     router.replace('/records/list');
   };
@@ -66,6 +76,7 @@ export default function New(): ReactNode {
       <Form
         schema={schema}
         initialValues={{
+          type: initialType,
           category: '',
           value: 0,
           date: initialDate,
@@ -78,6 +89,12 @@ export default function New(): ReactNode {
             behavior="padding"
             keyboardVerticalOffset={50}
           >
+            <FormButtonSelect
+              name={f('type')}
+              options={recordTypeOptions}
+              onChange={setType}
+            />
+
             <FormAutocomplete
               name={f('category')}
               label="Category"
@@ -118,12 +135,9 @@ export default function New(): ReactNode {
 
 const styles = StyleSheet.create({
   root: {
-    padding: 24,
+    paddingHorizontal: 24,
+    paddingBottom: 104,
   } satisfies ViewStyle,
-
-  heading: {
-    marginBottom: 20,
-  } satisfies TextStyle,
 
   formColumn: {
     display: 'flex',
@@ -134,6 +148,5 @@ const styles = StyleSheet.create({
 
   formSubmit: {
     marginTop: 'auto',
-    marginBottom: 80,
   } satisfies ViewStyle,
 });

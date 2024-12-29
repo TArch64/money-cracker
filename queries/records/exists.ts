@@ -3,7 +3,7 @@ import { records, useDatabase } from '@/db';
 
 export const RECORDS_EXISTS_QUERY = ['records', 'exists'] as const;
 
-export function useRecordsExistsQuery() {
+export function useRecordsExistsSuspenseQuery() {
   const db = useDatabase();
 
   return useSuspenseQuery({

@@ -1,5 +1,5 @@
 import { categories, type Category, RecordType, useDatabase } from '@/db';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { eq } from 'drizzle-orm';
 
 export const CATEGORIES_LIST_QUERY = (type: RecordType) => ['categories', type, 'list'] as const;
@@ -10,7 +10,7 @@ export function useCategoriesListQuery<D = Category>(
 ) {
   const db = useDatabase();
 
-  return useSuspenseQuery({
+  return useQuery({
     queryKey: CATEGORIES_LIST_QUERY(type),
 
     async queryFn(args): Promise<Category[]> {
@@ -23,5 +23,6 @@ export function useCategoriesListQuery<D = Category>(
     },
 
     select,
+    initialData: [],
   });
 }

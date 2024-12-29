@@ -12,7 +12,7 @@ export const RECORDS_MONTH_LIST_QUERY = (year: number, month: number) => [
   'list',
 ] as const;
 
-export function useRecordsMonthQuery(year: number, month: number) {
+export function useRecordsMonthSuspenseQuery(year: number, month: number) {
   const db = useDatabase();
 
   return useSuspenseQuery({

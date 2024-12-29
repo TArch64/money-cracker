@@ -1,56 +1,36 @@
-import { type ReactNode, useMemo, useRef, useState } from 'react';
+import { type ReactNode, useRef, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { MainScreenLayout } from '@/layout';
 import { MonthIdx, MonthRecords, MonthSlider } from '@/recordsList';
-import { Button, Text } from '@ui-kitten/components';
+import { Icon, Text, TopNavigationAction } from '@ui-kitten/components';
 import { RecordType } from '@/db';
-import { StyleSheet, View, type ViewStyle } from 'react-native';
-import Animated, { FadeInLeft, FadeInRight, FadeOutLeft, FadeOutRight } from 'react-native-reanimated';
+import { StyleSheet, type ViewStyle } from 'react-native';
+import Animated, { FadeInLeft, FadeOutRight } from 'react-native-reanimated';
 import { useDateFormatter } from '@/formatters';
-
-interface IAddRecordButton {
-  type: RecordType;
-  monthIdx: MonthIdx;
-}
-
-function AddRecordButton(props: IAddRecordButton): ReactNode {
-  const router = useRouter();
-  const status = props.type === RecordType.INCOME ? 'success' : 'danger';
-
-  function openLink(): void {
-    router.push({
-      pathname: '/records/new',
-      params: {
-        type: props.type,
-        initialYear: props.monthIdx.year,
-        initialMonth: props.monthIdx.month,
-      },
-    });
-  }
-
-  return (
-    <Button status={status} size="small" onPress={openLink}>
-      {txtProps => <Text {...txtProps}>Add {props.type}</Text>}
-    </Button>
-  );
-}
 
 const AnimatedText = Animated.createAnimatedComponent(Text);
 
 export default function List(): ReactNode {
-  const previousIdx = useRef<MonthIdx>();
+  const router = useRouter();
+  const isInitialIdx = useRef(true);
   const [selectedIdx, setSelectedIdx] = useState<MonthIdx>(() => MonthIdx.current());
   const dateFormatter = useDateFormatter({ year: 'numeric', month: 'long' });
   const title = dateFormatter.format(selectedIdx.date);
 
-  const isSwipedToLeft = useMemo(() => {
-    if (!previousIdx.current) return false;
-    return previousIdx.current.position > selectedIdx.position;
-  }, [selectedIdx.id]);
-
   function changeIdx(idx: MonthIdx) {
-    previousIdx.current = selectedIdx;
+    isInitialIdx.current = false;
     setSelectedIdx(idx);
+  }
+
+  function openNewRecord(): void {
+    router.push({
+      pathname: '/records/new',
+      params: {
+        type: RecordType.EXPENSE,
+        initialYear: selectedIdx.year,
+        initialMonth: selectedIdx.month,
+      },
+    });
   }
 
   return (
@@ -59,52 +39,38 @@ export default function List(): ReactNode {
         <AnimatedText
           {...txtProps}
           key={title}
-          entering={
-            previousIdx.current
-              ? (isSwipedToLeft ? FadeInRight : FadeInLeft).duration(200).delay(100)
-              : undefined
-          }
-          exiting={(isSwipedToLeft ? FadeOutLeft : FadeOutRight).duration(200)}
+          entering={isInitialIdx.current ? undefined : FadeInLeft.duration(200).delay(100)}
+          exiting={FadeOutRight.duration(200)}
         >
           {title}
         </AnimatedText>
       )}
-    >
-      <View style={styles.column}>
-        <View style={[styles.addRow]}>
-          <AddRecordButton monthIdx={selectedIdx} type={RecordType.INCOME} />
-          <AddRecordButton monthIdx={selectedIdx} type={RecordType.EXPENSE} />
-        </View>
 
-        <MonthSlider
-          style={styles.slider}
-          active={selectedIdx}
-          onChange={changeIdx}
-        >
-          {(idx) => <MonthRecords idx={idx} />}
-        </MonthSlider>
-      </View>
+      headerRight={() => (
+        <TopNavigationAction
+          onPress={openNewRecord}
+          icon={(iconProps) => (
+            <Icon
+              {...iconProps}
+              name="plus"
+            />
+          )}
+        />
+      )}
+    >
+      <MonthSlider
+        style={styles.slider}
+        active={selectedIdx}
+        onChange={changeIdx}
+      >
+        {(idx) => <MonthRecords idx={idx} />}
+      </MonthSlider>
     </MainScreenLayout>
   )
 }
 
 const styles = StyleSheet.create({
-  column: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-  } satisfies ViewStyle,
-
-  addRow: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    gap: 8,
-  } satisfies ViewStyle,
-
   slider: {
-    flexGrow: 1,
+    height: '100%',
   } satisfies ViewStyle,
 });

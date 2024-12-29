@@ -20,7 +20,7 @@ export async function getRecordsBoundaries(db: AppDatabase): Promise<IRecordsBou
   return { min: min[0].date, max: max[0].date };
 }
 
-export function usePrefetchRecordsBoundariesQuery(): () => Promise<void> {
+export function usePrefetchRecordsBoundariesSuspenseQuery(): () => Promise<void> {
   const db = useDatabase();
   const queryClient = useQueryClient();
 
