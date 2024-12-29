@@ -5,6 +5,10 @@
     },
     "production": {
       "bun": "1.1.38"
+    },
+    "preview": {
+      "distribution": "internal",
+      "bun": "1.1.38"
     }
   }
 }
