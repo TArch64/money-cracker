@@ -1,4 +1,4 @@
-import React, { type PropsWithChildren, type ReactNode, useMemo } from 'react';
+import { type PropsWithChildren, type ReactNode, useMemo } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 export function QueryProvider(props: PropsWithChildren): ReactNode {

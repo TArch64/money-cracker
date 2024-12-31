@@ -87,7 +87,7 @@ export default function New(): ReactNode {
           <KeyboardAvoidingView
             style={styles.formColumn}
             behavior="padding"
-            keyboardVerticalOffset={50}
+            keyboardVerticalOffset={140}
           >
             <FormButtonSelect
               name={f('type')}
