@@ -1,7 +1,7 @@
 import type { IPropsWithChildrenFn, IPropsWithStyle } from '@/types';
 import { type ReactElement, type ReactNode, Suspense, useMemo } from 'react';
 import { MonthIdx } from './MonthIdx';
-import { useRecordsBoundariesQuery } from '@/queries';
+import { useRecordsBoundariesQuery } from '@/hooks/queries';
 import { useWindowDimensions, View, type ViewStyle, VirtualizedList } from 'react-native';
 
 export interface IMonthSliderProps extends IPropsWithChildrenFn<[idx: MonthIdx], ReactElement>,

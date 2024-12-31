@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react';
 import { Link } from 'expo-router';
 import { Button, Text } from '@ui-kitten/components';
-import { FullScreenLayout } from '@/layout';
+import { FullScreenLayout } from '@/components/layout';
 import { StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
 import { RecordType } from '@/db';
 

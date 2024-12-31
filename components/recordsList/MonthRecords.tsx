@@ -3,8 +3,8 @@ import type { MonthIdx } from './MonthIdx';
 import { ScrollView, StyleSheet, type ViewStyle } from 'react-native';
 import { Divider, useTheme } from '@ui-kitten/components';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRecordsMonthSuspenseQuery } from '@/queries';
-import { MonthRecord } from '@/recordsList/MonthRecord';
+import { useRecordsMonthSuspenseQuery } from '@/hooks/queries';
+import { MonthRecord } from './MonthRecord';
 
 export interface IMonthRecordsProps {
   idx: MonthIdx;

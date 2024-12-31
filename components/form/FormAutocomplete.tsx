@@ -3,10 +3,10 @@ import { FormInput, type IFormInputProps, type IFormInputValueController } from 
 import { forwardRef, useEffect, useRef, useState } from 'react';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
 import { Menu, MenuItem, useTheme } from '@ui-kitten/components';
-import { useFormField } from '@/form/useFormField';
+import { useFormField } from './useFormField';
 import type { IPropsWithStyle } from '@/types';
 import { useClickOutside } from 'react-native-click-outside';
-import { HighlightText } from '@/uiKitten';
+import { HighlightText } from '../uiKitten';
 
 interface IAutocompleteMenuProps extends IPropsWithStyle<ViewStyle> {
   value: string;

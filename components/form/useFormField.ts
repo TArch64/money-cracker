@@ -1,5 +1,5 @@
 import { FieldApi, useField } from '@tanstack/react-form';
-import { useFormContext } from '@/form/FormProvider';
+import { useFormContext } from './FormProvider';
 
 export type FormFieldApi = FieldApi<any, any>;
 

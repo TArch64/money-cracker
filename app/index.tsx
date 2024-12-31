@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react';
 import { useFocusEffect, useRouter } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { usePrefetchRecordsBoundariesSuspenseQuery, useRecordsExistsSuspenseQuery } from '@/queries';
+import { usePrefetchRecordsBoundariesSuspenseQuery, useRecordsExistsSuspenseQuery } from '@/hooks/queries';
 
 export default function Index(): ReactNode {
   const router = useRouter();

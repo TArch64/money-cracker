@@ -1,5 +1,5 @@
 import { type ReactNode, useMemo, useState } from 'react';
-import { FullScreenLayout } from '@/layout';
+import { FullScreenLayout } from '@/components/layout';
 import { Button, Text } from '@ui-kitten/components';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { RecordType } from '@/db';
@@ -13,10 +13,10 @@ import {
   FormSubmit,
   type FormSubmitHandler,
   type IButtonSelectOption,
-} from '@/form';
+} from '@/components/form';
 import { date, enum_, minLength, minValue, number, object, pipe, string } from 'valibot';
 import { KeyboardAvoidingView, StyleSheet, type ViewStyle } from 'react-native';
-import { useCategoriesListQuery, useRecordCreateMutation } from '@/queries';
+import { useCategoriesListQuery, useRecordCreateMutation } from '@/hooks/queries';
 
 const schema = object({
   type: enum_(RecordType),

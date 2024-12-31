@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { RecordType, type RecordWithCategory } from '@/db';
 import { StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
 import { Icon, Text, useTheme } from '@ui-kitten/components';
-import { useDateFormatter, useMoneyFormatter } from '@/formatters';
+import { useDateFormatter, useMoneyFormatter } from '@/hooks/formatters';
 
 export interface IMonthRecordProps {
   record: RecordWithCategory;
