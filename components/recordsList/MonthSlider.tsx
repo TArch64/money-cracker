@@ -20,6 +20,10 @@ export function MonthSlider(props: IMonthSliderProps): ReactNode {
   }, [+minDate, +maxDate]);
 
   const initialScrollIndex = useMemo(() => {
+    if (+minDate === +maxDate) {
+      return 0;
+    }
+
     return (props.active.year - minDate.getFullYear()) * 12 + props.active.month - minDate.getMonth();
   }, [props.active, +minDate]);
 
