@@ -82,6 +82,7 @@ export function FormAutocomplete(props: IFormAutocompleteProps) {
     }
 
     if (props.suggestions.includes(valueController.value)) {
+      setOpened(false);
       return;
     }
 
@@ -100,7 +101,7 @@ export function FormAutocomplete(props: IFormAutocompleteProps) {
   const isRendered = !!floatingStyles.top || !!floatingStyles.left;
 
   return (
-    <>
+    <View>
       <View collapsable={false} ref={clickOutsideRef}>
         <View
           collapsable={false}
@@ -131,13 +132,15 @@ export function FormAutocomplete(props: IFormAutocompleteProps) {
           />
         </>
       )}
-    </>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   dropdownMenu: {
-    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
     zIndex: 1000,
+    borderRadius: 4,
+    overflow: 'hidden',
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
   } satisfies ViewStyle,
 });
