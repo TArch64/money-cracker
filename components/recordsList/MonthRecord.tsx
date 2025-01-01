@@ -4,9 +4,43 @@ import { Pressable, StyleSheet, type TextStyle, View, type ViewStyle } from 'rea
 import { Button, Icon, Text, useTheme } from '@ui-kitten/components';
 import { useDateFormatter, useMoneyFormatter } from '@/hooks/formatters';
 import { ActionsSheetModal } from '@/components/bottomSheet';
+import { confirm } from '@/helpers/confirm';
+import { useRecordDeleteMutation } from '@/hooks/queries';
 
 export interface IMonthRecordProps {
   record: RecordWithCategory;
+}
+
+function DeleteAction(props: IMonthRecordProps): ReactNode {
+  const deleteMutation = useRecordDeleteMutation(props.record);
+
+  const isExpense = props.record.type === RecordType.EXPENSE;
+  const title = isExpense ? 'Expense' : 'Income';
+
+  function isDeleteConfirmed(): Promise<boolean> {
+    return confirm({
+      title: `Delete ${title}`,
+      message: `Are you sure you want to delete this ${title.toLowerCase()}?`,
+      danger: true,
+      accept: 'Delete',
+    });
+  }
+
+  async function deleteRecord(): Promise<void> {
+    if (await isDeleteConfirmed()) {
+      deleteMutation.mutate();
+    }
+  }
+
+  return (
+    <Button
+      appearance="ghost"
+      status="danger"
+      onPress={deleteRecord}
+    >
+      {txtProps => <Text {...txtProps}>Delete {title}</Text>}
+    </Button>
+  );
 }
 
 export function MonthRecord(props: IMonthRecordProps): ReactNode {
@@ -73,9 +107,7 @@ export function MonthRecord(props: IMonthRecordProps): ReactNode {
             {txtProps => <Text {...txtProps}>Edit {title}</Text>}
           </Button>
 
-          <Button appearance="ghost" status="danger">
-            {txtProps => <Text {...txtProps}>Delete {title}</Text>}
-          </Button>
+          <DeleteAction record={props.record} />
         </View>
       )}
     </ActionsSheetModal>

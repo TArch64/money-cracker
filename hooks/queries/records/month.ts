@@ -1,16 +1,24 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { categories, records, type RecordWithCategory, useDatabase } from '@/db';
-import { eqDate } from '@/db/customTypes';
+import { categories, records, type RecordWithCategory, useDatabase, eqDate } from '@/db';
 import { desc, eq } from 'drizzle-orm';
 
-export const RECORDS_MONTH_LIST_QUERY = (year: number, month: number) => [
-  'records',
-  'year',
-  year,
-  'month',
-  month,
-  'list',
-] as const;
+type QueryKey = [string, string, year: number, string, month: number, string];
+
+export function RECORDS_MONTH_LIST_QUERY(date: Date): QueryKey;
+export function RECORDS_MONTH_LIST_QUERY(year: number, month: number): QueryKey;
+
+export function RECORDS_MONTH_LIST_QUERY(yearOrDate: number | Date, month?: number): QueryKey {
+  const date = yearOrDate instanceof Date ? yearOrDate : undefined;
+
+  return [
+    'records',
+    'year',
+    date?.getFullYear() ?? yearOrDate as number,
+    'month',
+    date?.getMonth() ?? month!,
+    'list',
+  ] as const;
+}
 
 export function useRecordsMonthSuspenseQuery(year: number, month: number) {
   const db = useDatabase();

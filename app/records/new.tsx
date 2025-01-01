@@ -8,7 +8,6 @@ import {
   FormAutocomplete,
   FormButtonSelect,
   FormDatepicker,
-  formLoadingIndicator,
   FormNumericInput,
   FormSubmit,
   type FormSubmitHandler,
@@ -115,9 +114,8 @@ export default function New(): ReactNode {
             />
 
             <FormSubmit>
-              {({ submit, isSubmitting, disabled }) => (
+              {({ submit, disabled }) => (
                 <Button
-                  accessoryLeft={formLoadingIndicator(isSubmitting)}
                   disabled={disabled}
                   style={styles.formSubmit}
                   onPress={submit}
