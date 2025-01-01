@@ -10,6 +10,8 @@ import { QueryProvider } from '@/hooks/queries';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { documentDirectory } from 'expo-file-system';
 import { ClickOutsideProvider } from 'react-native-click-outside';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 if (__DEV__) {
   console.log('SQLite database path:');
@@ -33,20 +35,25 @@ export default function Layout() {
       {() => (
         <UiKittenProvider>
           <ClickOutsideProvider>
-            <StatusBar style="auto" />
             <QueryProvider>
               <SafeAreaProvider>
-                <Stack screenOptions={{ headerShown: false }}>
-                  <Stack.Screen
-                    name="records/list"
-                    options={{ animation: 'fade', animationDuration: 200 }}
-                  />
+                <GestureHandlerRootView>
+                  <BottomSheetModalProvider>
+                    <StatusBar style="auto" />
 
-                  <Stack.Screen
-                    name="records/intro"
-                    options={{ animation: 'fade', animationDuration: 200 }}
-                  />
-                </Stack>
+                    <Stack screenOptions={{ headerShown: false }}>
+                      <Stack.Screen
+                        name="records/list"
+                        options={{ animation: 'fade', animationDuration: 200 }}
+                      />
+
+                      <Stack.Screen
+                        name="records/intro"
+                        options={{ animation: 'fade', animationDuration: 200 }}
+                      />
+                    </Stack>
+                  </BottomSheetModalProvider>
+                </GestureHandlerRootView>
               </SafeAreaProvider>
             </QueryProvider>
           </ClickOutsideProvider>
