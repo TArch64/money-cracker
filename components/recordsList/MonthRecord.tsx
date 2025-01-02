@@ -58,8 +58,9 @@ export function MonthRecord(props: IMonthRecordProps): ReactNode {
 
   return (
     <ActionsSheetModal
-      activator={({ openModal }) => (
-        <Pressable style={styles.row} onPress={openModal}>
+      activator={({ openModal, ref }) => (
+        // @ts-expect-error
+        <Pressable ref={ref} style={styles.row} onPress={openModal}>
           <View
             style={[
               styles.label,
@@ -157,7 +158,7 @@ const styles = StyleSheet.create({
 
   value: {
     marginLeft: 'auto',
-    alignSelf: 'center',
+    alignSelf: 'center'
   } satisfies TextStyle,
 
   actionsColumn: {
