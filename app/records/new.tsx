@@ -1,5 +1,5 @@
 import { type ReactNode, useMemo, useState } from 'react';
-import { FullScreenLayout } from '@/components/layout';
+import { FormScreenLayout } from '@/components/layout';
 import { Button, Text } from '@ui-kitten/components';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { getRecordTypeTitle, isIncomeRecord, RecordType } from '@/enums';
@@ -9,12 +9,10 @@ import {
   FormButtonSelect,
   FormDatepicker,
   FormNumericInput,
-  FormSubmit,
   type FormSubmitHandler,
   type IButtonSelectOption,
 } from '@/components/form';
 import { date, enum_, minLength, minValue, number, object, pipe, string } from 'valibot';
-import { KeyboardAvoidingView, StyleSheet, type ViewStyle } from 'react-native';
 import { useCategoriesListQuery, useRecordCreateMutation } from '@/hooks/queries';
 
 const schema = object({
@@ -71,80 +69,53 @@ export default function New(): ReactNode {
   };
 
   return (
-    <FullScreenLayout title={`New ${screenTitle}`} style={styles.root}>
-      <Form
-        schema={schema}
-        initialValues={{
-          type: initialType,
-          category: '',
-          value: 0,
-          date: initialDate,
-        }}
-        onSubmit={onSubmit}
-      >
-        {({ f }) => (
-          <KeyboardAvoidingView
-            style={styles.formColumn}
-            behavior="padding"
-            keyboardVerticalOffset={140}
-          >
-            <FormButtonSelect
-              name={f('type')}
-              options={recordTypeOptions}
-              onChange={setType}
-            />
+    <FormScreenLayout
+      fullScreen
+      title={`New ${screenTitle}`}
+      schema={schema}
+      onSubmit={onSubmit}
 
-            <FormAutocomplete
-              name={f('category')}
-              label="Category"
-              placeholder="Category"
-              suggestions={categoriesQuery.data}
-            />
+      initialValues={{
+        type: initialType,
+        category: '',
+        value: 0,
+        date: initialDate,
+      }}
 
-            <FormNumericInput
-              name={f('value')}
-              label={valueLabel}
-              placeholder={valueLabel}
-            />
+      submit={({ submit, disabled }) => (
+        <Button disabled={disabled} onPress={submit}>
+          {textProps => <Text {...textProps}>Add {screenTitle}</Text>}
+        </Button>
+      )}
+    >
+      {({ f }) => (
+        <>
+          <FormButtonSelect
+            name={f('type')}
+            options={recordTypeOptions}
+            onChange={setType}
+          />
 
-            <FormDatepicker
-              name={f('date')}
-              label="Date"
-              placeholder="Date"
-            />
+          <FormAutocomplete
+            name={f('category')}
+            label="Category"
+            placeholder="Category"
+            suggestions={categoriesQuery.data}
+          />
 
-            <FormSubmit>
-              {({ submit, disabled }) => (
-                <Button
-                  disabled={disabled}
-                  style={styles.formSubmit}
-                  onPress={submit}
-                >
-                  {textProps => <Text {...textProps}>Add {screenTitle}</Text>}
-                </Button>
-              )}
-            </FormSubmit>
-          </KeyboardAvoidingView>
-        )}
-      </Form>
-    </FullScreenLayout>
-  )
+          <FormNumericInput
+            name={f('value')}
+            label={valueLabel}
+            placeholder={valueLabel}
+          />
+
+          <FormDatepicker
+            name={f('date')}
+            label="Date"
+            placeholder="Date"
+          />
+        </>
+      )}
+    </FormScreenLayout>
+  );
 }
-
-const styles = StyleSheet.create({
-  root: {
-    paddingHorizontal: 24,
-    paddingBottom: 104,
-  } satisfies ViewStyle,
-
-  formColumn: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 16,
-    flex: 1,
-  } satisfies ViewStyle,
-
-  formSubmit: {
-    marginTop: 'auto',
-  } satisfies ViewStyle,
-});
