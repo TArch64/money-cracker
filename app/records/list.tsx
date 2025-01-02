@@ -3,7 +3,7 @@ import { useRouter } from 'expo-router';
 import { MainScreenLayout } from '@/components/layout';
 import { MonthIdx, MonthRecords, MonthSlider } from '@/components/recordsList';
 import { Icon, Text, TopNavigationAction } from '@ui-kitten/components';
-import { RecordType } from '@/db';
+import { RecordType } from '@/enums';
 import { StyleSheet, type ViewStyle } from 'react-native';
 import Animated, { FadeInLeft, FadeOutRight } from 'react-native-reanimated';
 import { useDateFormatter } from '@/hooks/formatters';

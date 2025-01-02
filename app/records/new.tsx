@@ -2,7 +2,7 @@ import { type ReactNode, useMemo, useState } from 'react';
 import { FullScreenLayout } from '@/components/layout';
 import { Button, Text } from '@ui-kitten/components';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { RecordType } from '@/db';
+import { getRecordTypeTitle, isIncomeRecord, RecordType } from '@/enums';
 import {
   Form,
   FormAutocomplete,
@@ -48,8 +48,8 @@ export default function New(): ReactNode {
   const router = useRouter();
 
   const [type, setType] = useState(initialType);
-  const isIncome = type === RecordType.INCOME;
-  const screenTitle = isIncome ? 'Income' : 'Expense';
+  const isIncome = isIncomeRecord(type);
+  const screenTitle = getRecordTypeTitle(type);
   const valueLabel = isIncome ? 'Money received' : 'Money spent';
 
   const initialDate = useMemo(() => {

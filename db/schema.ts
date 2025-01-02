@@ -1,7 +1,9 @@
 import { index, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { type InferInsertModel, type InferSelectModel, relations, sql } from 'drizzle-orm';
-import { recordTypeEnum } from './enums';
+import { RecordType } from '@/enums';
 import { date } from './customTypes';
+
+const recordTypeEnum = Object.values(RecordType) as [RecordType, ...RecordType[]];
 
 export const categories = sqliteTable('categories', {
   id: integer().primaryKey(),

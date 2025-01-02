@@ -90,7 +90,11 @@ export interface IBottomSheetActivatorProps {
   openModal: () => void;
 }
 
-export interface IBottomSheetModalProps extends IPropsWithChildrenFn {
+export interface IBottomSheetContentProps {
+  withClose: (action: () => void) => () => void;
+}
+
+export interface IBottomSheetModalProps extends IPropsWithChildrenFn<[props: IBottomSheetContentProps]> {
   activator: (props: IBottomSheetActivatorProps) => ReactNode
 }
 
@@ -103,6 +107,13 @@ export function ActionsSheetModal(props: IBottomSheetModalProps): ReactNode {
   function open() {
     setOpened(true);
     modalRef.current?.present();
+  }
+
+  function withClose(action: () => void): () => void {
+    return () => {
+      modalRef.current?.dismiss();
+      action();
+    }
   }
 
   return (
@@ -130,7 +141,7 @@ export function ActionsSheetModal(props: IBottomSheetModalProps): ReactNode {
       >
           {isOpened && (
             <BottomSheetView>
-              {props.children()}
+              {props.children({ withClose })}
             </BottomSheetView>
           )}
       </BottomSheetModal>

@@ -1,11 +1,13 @@
 import type { ReactNode } from 'react';
-import { RecordType, type RecordWithCategory } from '@/db';
+import type { RecordWithCategory } from '@/db';
 import { Pressable, StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
 import { Button, Icon, Text, useTheme } from '@ui-kitten/components';
 import { useDateFormatter, useMoneyFormatter } from '@/hooks/formatters';
 import { ActionsSheetModal } from '@/components/bottomSheet';
 import { confirm } from '@/helpers/confirm';
 import { useRecordDeleteMutation } from '@/hooks/queries';
+import { useRouter } from 'expo-router';
+import { getRecordTypeTitle, isExpenseRecord, RecordType } from '@/enums';
 
 export interface IMonthRecordProps {
   record: RecordWithCategory;
@@ -13,9 +15,7 @@ export interface IMonthRecordProps {
 
 function DeleteAction(props: IMonthRecordProps): ReactNode {
   const deleteMutation = useRecordDeleteMutation(props.record);
-
-  const isExpense = props.record.type === RecordType.EXPENSE;
-  const title = isExpense ? 'Expense' : 'Income';
+  const title = getRecordTypeTitle(props.record.type);
 
   function isDeleteConfirmed(): Promise<boolean> {
     return confirm({
@@ -45,16 +45,24 @@ function DeleteAction(props: IMonthRecordProps): ReactNode {
 
 export function MonthRecord(props: IMonthRecordProps): ReactNode {
   const theme = useTheme();
+  const router = useRouter();
   const dateFormatter = useDateFormatter({ month: 'long', day: 'numeric' });
   const moneyFormatter = useMoneyFormatter();
 
-  const isExpense = props.record.type === RecordType.EXPENSE;
+  const isExpense = isExpenseRecord(props.record.type);
 
   const date = dateFormatter.format(props.record.date);
   const value = moneyFormatter.format(isExpense ? -props.record.value : props.record.value);
 
-  const title = isExpense ? 'Expense' : 'Income';
+  const title = getRecordTypeTitle(props.record.type);
   const status = isExpense ? 'danger' : 'success';
+
+  function openEditRecord(): void {
+    router.push({
+      pathname: '/records/[recordId]/edit',
+      params: { recordId: props.record.id },
+    })
+  }
 
   return (
     <ActionsSheetModal
@@ -102,9 +110,9 @@ export function MonthRecord(props: IMonthRecordProps): ReactNode {
         </Pressable>
       )}
     >
-      {() => (
+      {({ withClose }) => (
         <View style={styles.actionsColumn}>
-          <Button appearance="ghost">
+          <Button appearance="ghost" onPress={withClose(openEditRecord)}>
             {txtProps => <Text {...txtProps}>Edit {title}</Text>}
           </Button>
 

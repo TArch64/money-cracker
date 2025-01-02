@@ -1,20 +1,22 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { type AppDatabase, categories, type RecordInsert, records, useDatabase } from '@/db';
-import { getRecordsBoundaries, RECORDS_BOUNDARIES_QUERY } from './boundaries';
+import { getRecordsBoundaries } from './boundaries';
 import { eq } from 'drizzle-orm';
+import { RECORDS_BOUNDARIES_QUERY, RECORDS_EXISTS_QUERY } from './keys';
+import { CATEGORIES_LIST_QUERY } from '@/hooks/queries/categories/keys';
 
 export interface IRecordCreateInput extends Omit<RecordInsert, 'categoryId'> {
   category: string;
 }
 
-async function upsertCategory(db: AppDatabase, input: IRecordCreateInput): Promise<number> {
+async function upsertCategory(db: AppDatabase, input: IRecordCreateInput): Promise<[id: number, isNew: boolean]> {
   const [category] = await db
     .select({ id: categories.id })
     .from(categories)
     .where(eq(categories.name, input.category));
 
   if (category) {
-    return category.id;
+    return [category.id, false];
   }
 
   const created = await db
@@ -22,7 +24,7 @@ async function upsertCategory(db: AppDatabase, input: IRecordCreateInput): Promi
     .values({ type: input.type, name: input.category })
     .returning({ id: categories.id });
 
-  return created[0].id;
+  return [created[0].id, true];
 }
 
 export function useRecordCreateMutation() {
@@ -31,7 +33,7 @@ export function useRecordCreateMutation() {
 
   return useMutation({
     async mutationFn(input: IRecordCreateInput) {
-      const categoryId = await upsertCategory(db, input);
+      const [categoryId, isNewCategory] = await upsertCategory(db, input);
 
       await db
         .insert(records)
@@ -41,10 +43,26 @@ export function useRecordCreateMutation() {
           date: input.date,
           categoryId,
         });
+
+      return { isNewCategory, type: input.type };
     },
 
-    async onSuccess() {
-      queryClient.setQueryData(RECORDS_BOUNDARIES_QUERY, await getRecordsBoundaries(db));
+    async onSuccess(data) {
+      queryClient.setQueryData(RECORDS_EXISTS_QUERY, true);
+
+      const promises = [
+        getRecordsBoundaries(db).then((boundaries) => {
+          queryClient.setQueryData(RECORDS_BOUNDARIES_QUERY, boundaries)
+        })
+      ];
+
+      if (data.isNewCategory) {
+        promises.push(queryClient.invalidateQueries({
+          queryKey: CATEGORIES_LIST_QUERY(data.type)
+        }))
+      }
+
+      return Promise.all(promises);
     },
   });
 }

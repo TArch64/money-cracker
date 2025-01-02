@@ -1,8 +1,8 @@
-import { categories, type Category, RecordType, useDatabase } from '@/db';
+import { categories, type Category, useDatabase } from '@/db';
 import { useQuery } from '@tanstack/react-query';
 import { eq } from 'drizzle-orm';
-
-export const CATEGORIES_LIST_QUERY = (type: RecordType) => ['categories', type, 'list'] as const;
+import { CATEGORIES_LIST_QUERY } from './keys';
+import { RecordType } from '@/enums';
 
 export function useCategoriesListQuery<D = Category>(
   type: RecordType,

@@ -1,8 +1,7 @@
 import { asc, desc } from 'drizzle-orm';
 import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import { type AppDatabase, records, useDatabase } from '@/db';
-
-export const RECORDS_BOUNDARIES_QUERY = ['records', 'boundaries'] as const;
+import { RECORDS_BOUNDARIES_QUERY } from './keys';
 
 export interface IRecordsBoundaries {
   min: Date;
