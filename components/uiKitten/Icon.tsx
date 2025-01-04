@@ -9,6 +9,7 @@ export const enum IconName {
   LIST = 'list',
   BRIEFCASE_OUTLINE = 'briefcase-outline',
   CALENDAR_OUTLINE = 'calendar-outline',
+  PIE_CHART_OUTLINE = 'pie-chart-outline',
 }
 
 export function Icon(props: Omit<IconProps, 'name'> & { name: IconName }): ReactNode {

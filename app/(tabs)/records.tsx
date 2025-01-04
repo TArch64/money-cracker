@@ -34,6 +34,16 @@ export default function Records(): ReactNode {
     });
   }
 
+  function openRecordStatistics(): void {
+    router.push({
+      pathname: '/records/statistics',
+      params: {
+        year: selectedIdx.year,
+        month: selectedIdx.month,
+      },
+    });
+  }
+
   return (
     <MainScreenLayout
       title={(txtProps) => (
@@ -49,14 +59,15 @@ export default function Records(): ReactNode {
 
       headerLeft={() => (
         <TopNavigationAction
-
+          icon={iconRenderer(IconName.PIE_CHART_OUTLINE)}
+          onPress={openRecordStatistics}
         />
       )}
 
       headerRight={() => (
         <TopNavigationAction
-          onPress={openNewRecord}
           icon={iconRenderer(IconName.PLUS)}
+          onPress={openNewRecord}
         />
       )}
     >

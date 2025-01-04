@@ -4,7 +4,6 @@ import { Button, Text } from '@ui-kitten/components';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { getRecordTypeTitle, isIncomeRecord, RecordType } from '@/enums';
 import {
-  Form,
   FormAutocomplete,
   FormButtonSelect,
   FormDatepicker,
@@ -65,7 +64,7 @@ export default function New(): ReactNode {
   const onSubmit: FormSubmitHandler<Schema> = async (event) => {
     await createRecordMutation.mutateAsync(event.value);
     router.dismissAll();
-    router.replace('/records/list');
+    router.replace('/records');
   };
 
   return (
