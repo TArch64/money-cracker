@@ -6,7 +6,10 @@ export interface IFormNumericInputProps extends Omit<IFormInputProps, 'valueCont
 }
 
 function useValueController(field: FormFieldApi): IFormInputValueController {
-  const [actualValue, setActualValue] = useState(field.state.value.toString());
+  const [actualValue, setActualValue] = useState(() => {
+    if (!field.state.value) return '';
+    return field.state.value.toString();
+  });
 
   return {
     value: actualValue,
