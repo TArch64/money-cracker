@@ -11,6 +11,7 @@ export function useMoneyFormatter(options: MoneyFormatOptions = {}): Intl.Number
       ...options,
       style: 'currency',
       currency: locale.currencyCode!,
+      minimumFractionDigits: 0,
     });
   }, [locale.currencyCode, locale.languageTag]);
 }

@@ -7,7 +7,7 @@ import { ActionsSheetModal } from '@/components/bottomSheet';
 import { confirm } from '@/helpers/confirm';
 import { useRecordDeleteMutation } from '@/hooks/queries';
 import { useRouter } from 'expo-router';
-import { getRecordTypeTitle, isExpenseRecord, RecordType } from '@/enums';
+import { getRecordTypeTitle, isExpenseRecord } from '@/enums';
 
 export interface IMonthRecordProps {
   record: RecordWithCategory;
@@ -21,8 +21,11 @@ function DeleteAction(props: IMonthRecordProps): ReactNode {
     return confirm({
       title: `Delete ${title}`,
       message: `Are you sure you want to delete this ${title.toLowerCase()}?`,
-      danger: true,
-      accept: 'Delete',
+
+      accept: {
+        text: 'Delete',
+        style: 'destructive',
+      },
     });
   }
 

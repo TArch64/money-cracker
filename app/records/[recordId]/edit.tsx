@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 import { FormScreenLayout } from '@/components/layout';
 import { Button, Text } from '@ui-kitten/components';
-import { useLocalSearchParams } from 'expo-router';
-import { useCategoriesListQuery, useRecordDetailsSuspenseQuery } from '@/hooks/queries';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useCategoriesListQuery, useRecordDetailsSuspenseQuery, useRecordUpdateMutation } from '@/hooks/queries';
 import { getRecordTypeTitle, isIncomeRecord } from '@/enums';
 import { date, minLength, minValue, number, object, pipe, string } from 'valibot';
 import { FormAutocomplete, FormDatepicker, FormNumericInput, type FormSubmitHandler } from '@/components/form';
@@ -16,9 +16,11 @@ const schema = object({
 type Schema = typeof schema;
 
 export default function Edit(): ReactNode {
+  const router = useRouter();
   const { recordId: recordId_ } = useLocalSearchParams<{ recordId: string }>();
   const recordId = +recordId_;
   const recordQuery = useRecordDetailsSuspenseQuery(recordId);
+  const updateMutation = useRecordUpdateMutation(recordQuery.data);
 
   const categoriesQuery = useCategoriesListQuery(recordQuery.data.type, (categories) => {
     return categories.map((category) => category.name);
@@ -28,7 +30,8 @@ export default function Edit(): ReactNode {
   const valueLabel = isIncome ? 'Money received' : 'Money spent';
 
   const onSubmit: FormSubmitHandler<Schema> = async (event) => {
-
+    updateMutation.mutate(event.value);
+    router.back();
   }
 
   return (

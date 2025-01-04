@@ -8,7 +8,7 @@ export interface IRecordsBoundaries {
   max: Date;
 }
 
-export async function getRecordsBoundaries(db: AppDatabase): Promise<IRecordsBoundaries> {
+async function getRecordsBoundaries(db: AppDatabase): Promise<IRecordsBoundaries> {
   const commonQuery = () => db.select({ date: records.date }).from(records).limit(1);
 
   const [min, max] = await Promise.all([
