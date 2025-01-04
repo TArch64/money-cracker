@@ -9,12 +9,12 @@ export default function Index(): ReactNode {
   const prefetchRecordsBoundariesQuery = usePrefetchRecordsBoundariesSuspenseQuery();
 
   function openIntro(): void {
-    router.replace('/records/intro');
+    router.replace('/intro');
   }
 
   async function openList(): Promise<void> {
     await prefetchRecordsBoundariesQuery();
-    router.replace('/records/list');
+    router.replace('/records');
   }
 
   useFocusEffect(() => {

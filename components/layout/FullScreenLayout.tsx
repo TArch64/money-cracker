@@ -10,11 +10,13 @@ import type { RenderProp } from '@ui-kitten/components/devsupport';
 export interface IFullScreenLayoutProps extends PropsWithChildren,
   IPropsWithStyle<ViewStyle> {
   title?: string | RenderProp<TextProps>;
+  canGoBack?: boolean;
 }
 
 export function FullScreenLayout(props: IFullScreenLayoutProps): ReactNode {
   const router = useRouter();
   const theme = useTheme();
+  const canGoBack = props.canGoBack ?? router.canGoBack();
 
   return (
     <SafeAreaView
@@ -25,7 +27,7 @@ export function FullScreenLayout(props: IFullScreenLayoutProps): ReactNode {
     >
       {props.title && (
         <TopNavigation
-          accessoryLeft={router.canGoBack() ? (() => (
+          accessoryLeft={canGoBack ? (() => (
             <TopNavigationAction
               icon={BackIcon}
               onPress={router.back}

@@ -10,7 +10,7 @@ import { useDateFormatter } from '@/hooks/formatters';
 
 const AnimatedText = Animated.createAnimatedComponent(Text);
 
-export default function List(): ReactNode {
+export default function Records(): ReactNode {
   const router = useRouter();
   const isInitialIdx = useRef(true);
   const [selectedIdx, setSelectedIdx] = useState<MonthIdx>(() => MonthIdx.current());

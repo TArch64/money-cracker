@@ -1,7 +1,7 @@
 import 'react-native-reanimated';
 
 import { useEffect, useState } from 'react';
-import { usePathname } from 'expo-router';
+import { Stack, usePathname } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { DatabaseProvider } from '@/db';
@@ -12,7 +12,7 @@ import { documentDirectory } from 'expo-file-system';
 import { ClickOutsideProvider } from 'react-native-click-outside';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-import { RouterStack } from '@/components/RouterStack';
+import { useInitialScreen } from '@/hooks/useInitialScreen';
 
 if (__DEV__) {
   console.log('SQLite database path:');
@@ -23,6 +23,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function Layout() {
   const route = usePathname();
+  const isInitialScreen = useInitialScreen();
   const [isDatabaseReady, setDatabaseReady] = useState(false);
 
   useEffect(() => {
@@ -41,7 +42,14 @@ export default function Layout() {
                 <GestureHandlerRootView>
                   <BottomSheetModalProvider>
                     <StatusBar style="auto" />
-                    <RouterStack />
+
+                    <Stack
+                      screenOptions={() => ({
+                        headerShown: false,
+                        animation: isInitialScreen.current ? 'fade' : 'default',
+                        animationDuration: 200,
+                      })}
+                    />
                   </BottomSheetModalProvider>
                 </GestureHandlerRootView>
               </SafeAreaProvider>
