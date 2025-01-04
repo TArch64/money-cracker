@@ -17,6 +17,7 @@ export default function Layout(): ReactNode {
       screenOptions={{
         tabBarActiveTintColor: theme['color-primary-500'],
         headerShown: false,
+        animation: 'shift',
       }}
     >
       <Tabs.Screen
