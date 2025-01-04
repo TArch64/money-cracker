@@ -1,8 +1,7 @@
 import { Fragment, type ReactNode } from 'react';
 import type { MonthIdx } from './MonthIdx';
-import { ScrollView, StyleSheet, type ViewStyle } from 'react-native';
+import { ScrollView, StyleSheet, View, type ViewStyle } from 'react-native';
 import { Divider, Text, useTheme } from '@ui-kitten/components';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRecordsMonthSuspenseQuery } from '@/hooks/queries';
 import { MonthRecord } from './MonthRecord';
 
@@ -20,19 +19,16 @@ export function MonthRecords(props: IMonthRecordsProps): ReactNode {
 
   if (!recordsQuery.data.length) {
     return (
-      <SafeAreaView style={[styles.wrapper, styles.empty]} edges={['bottom']}>
+      <View style={[styles.wrapper, styles.empty]}>
         <Text>
           No records for this month
         </Text>
-      </SafeAreaView>
+      </View>
     );
   }
 
   return (
-    <SafeAreaView
-      edges={['bottom']}
-      style={styles.wrapper}
-    >
+    <View style={styles.wrapper}>
       <ScrollView style={styles.wrapper}>
         {recordsQuery.data.map((record, index) => (
           <Fragment key={record.id}>
@@ -41,7 +37,7 @@ export function MonthRecords(props: IMonthRecordsProps): ReactNode {
           </Fragment>
         ))}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
