@@ -1,13 +1,14 @@
 import type { ReactNode } from 'react';
 import type { RecordWithCategory } from '@/db';
 import { Pressable, StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
-import { Button, Icon, Text, useTheme } from '@ui-kitten/components';
+import { Button, Text, useTheme } from '@ui-kitten/components';
 import { useDateFormatter, useMoneyFormatter } from '@/hooks/formatters';
 import { ActionsSheetModal } from '@/components/bottomSheet';
 import { confirm } from '@/helpers/confirm';
 import { useRecordDeleteMutation } from '@/hooks/queries';
 import { useRouter } from 'expo-router';
 import { getRecordTypeTitle, isExpenseRecord } from '@/enums';
+import { Icon, IconName } from '@/components/uiKitten/Icon';
 
 export interface IMonthRecordProps {
   record: RecordWithCategory;
@@ -86,7 +87,7 @@ export function MonthRecord(props: IMonthRecordProps): ReactNode {
 
             <View style={styles.dateRow}>
               <Icon
-                name="calendar-outline"
+                name={IconName.CALENDAR_OUTLINE}
                 style={styles.dateIcon}
                 fill={theme['color-basic-600']}
               />

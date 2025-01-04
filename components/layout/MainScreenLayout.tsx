@@ -3,19 +3,27 @@ import { useRouter } from 'expo-router';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
 import type { IPropsWithStyle } from '@/types';
 import { Divider, type TextProps, TopNavigation, TopNavigationAction, useTheme } from '@ui-kitten/components';
-import { BackIcon } from './BackIcon';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { RenderProp } from '@ui-kitten/components/devsupport';
+import { IconName, iconRenderer } from '@/components/uiKitten/Icon';
 
 export interface IMainScreenLayoutProps extends PropsWithChildren,
   IPropsWithStyle<ViewStyle> {
   title: string | RenderProp<TextProps>;
+  headerLeft?: () => ReactElement;
   headerRight?: () => ReactElement;
 }
 
 export function MainScreenLayout(props: IMainScreenLayoutProps): ReactNode {
   const router = useRouter();
   const theme = useTheme();
+
+  const headerLeft = props.headerLeft ?? (router.canGoBack() ? (() => (
+    <TopNavigationAction
+      icon={iconRenderer(IconName.ARROW_BACK)}
+      onPress={router.back}
+    />
+  )) : undefined);
 
   return (
     <SafeAreaView
@@ -27,14 +35,7 @@ export function MainScreenLayout(props: IMainScreenLayoutProps): ReactNode {
       <TopNavigation
         title={props.title}
         alignment="center"
-
-        accessoryLeft={router.canGoBack() ? (() => (
-          <TopNavigationAction
-            icon={BackIcon}
-            onPress={router.back}
-          />
-        )) : undefined}
-
+        accessoryLeft={headerLeft}
         accessoryRight={props.headerRight}
       />
 

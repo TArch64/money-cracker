@@ -1,11 +1,16 @@
 import type { ReactNode } from 'react';
 import { Tabs } from 'expo-router';
-import { Icon, useTheme } from '@ui-kitten/components';
+import { useTheme } from '@ui-kitten/components';
 import type { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
+import { Icon, IconName } from '@/components/uiKitten/Icon';
 
-function renderIcon(name: string): BottomTabNavigationOptions['tabBarIcon'] {
+function renderIcon(name: IconName): BottomTabNavigationOptions['tabBarIcon'] {
   return ({ size, color }) => (
-    <Icon name={name} fill={color} style={{ width: size, height: size }} />
+    <Icon
+      name={name}
+      fill={color}
+      style={{ width: size, height: size }}
+    />
   );
 }
 
@@ -24,7 +29,7 @@ export default function Layout(): ReactNode {
         name="records"
         options={{
           title: 'Records',
-          tabBarIcon: renderIcon('list'),
+          tabBarIcon: renderIcon(IconName.LIST),
         }}
       />
 
@@ -32,7 +37,7 @@ export default function Layout(): ReactNode {
         name="budget"
         options={{
           title: 'Budget',
-          tabBarIcon: renderIcon('briefcase-outline'),
+          tabBarIcon: renderIcon(IconName.BRIEFCASE_OUTLINE),
         }}
       />
     </Tabs>

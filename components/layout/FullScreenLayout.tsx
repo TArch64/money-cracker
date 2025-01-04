@@ -3,9 +3,9 @@ import { useRouter } from 'expo-router';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
 import type { IPropsWithStyle } from '@/types';
 import { type TextProps, TopNavigation, TopNavigationAction, useTheme } from '@ui-kitten/components';
-import { BackIcon } from './BackIcon';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { RenderProp } from '@ui-kitten/components/devsupport';
+import { IconName, iconRenderer } from '@/components/uiKitten/Icon';
 
 export interface IFullScreenLayoutProps extends PropsWithChildren,
   IPropsWithStyle<ViewStyle> {
@@ -29,7 +29,7 @@ export function FullScreenLayout(props: IFullScreenLayoutProps): ReactNode {
         <TopNavigation
           accessoryLeft={canGoBack ? (() => (
             <TopNavigationAction
-              icon={BackIcon}
+              icon={iconRenderer(IconName.ARROW_BACK)}
               onPress={router.back}
             />
           )) : undefined}

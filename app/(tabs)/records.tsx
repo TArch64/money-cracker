@@ -2,11 +2,12 @@ import { type ReactNode, useRef, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { MainScreenLayout } from '@/components/layout';
 import { MonthIdx, MonthRecords, MonthSlider } from '@/components/recordsList';
-import { Icon, Text, TopNavigationAction } from '@ui-kitten/components';
+import { Text, TopNavigationAction } from '@ui-kitten/components';
 import { RecordType } from '@/enums';
 import { StyleSheet, type ViewStyle } from 'react-native';
 import Animated, { FadeInLeft, FadeOutRight } from 'react-native-reanimated';
 import { useDateFormatter } from '@/hooks/formatters';
+import { IconName, iconRenderer } from '@/components/uiKitten/Icon';
 
 const AnimatedText = Animated.createAnimatedComponent(Text);
 
@@ -46,15 +47,16 @@ export default function Records(): ReactNode {
         </AnimatedText>
       )}
 
+      headerLeft={() => (
+        <TopNavigationAction
+
+        />
+      )}
+
       headerRight={() => (
         <TopNavigationAction
           onPress={openNewRecord}
-          icon={(iconProps) => (
-            <Icon
-              {...iconProps}
-              name="plus"
-            />
-          )}
+          icon={iconRenderer(IconName.PLUS)}
         />
       )}
     >

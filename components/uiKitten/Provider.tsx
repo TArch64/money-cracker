@@ -14,6 +14,7 @@ export function UiKittenProvider(props: PropsWithChildren): ReactNode {
     return (
       <>
         <IconRegistry icons={EvaIconsPack} />
+
         <ApplicationProvider {...eva} theme={theme}>
           {props.children}
         </ApplicationProvider>
