@@ -1,7 +1,7 @@
 import { Fragment, type ReactNode } from 'react';
 import type { MonthIdx } from './MonthIdx';
 import { ScrollView, StyleSheet, type ViewStyle } from 'react-native';
-import { Divider, useTheme } from '@ui-kitten/components';
+import { Divider, Text, useTheme } from '@ui-kitten/components';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRecordsMonthSuspenseQuery } from '@/hooks/queries';
 import { MonthRecord } from './MonthRecord';
@@ -17,6 +17,16 @@ export function MonthRecords(props: IMonthRecordsProps): ReactNode {
   const dividerStyles: ViewStyle = {
     backgroundColor: theme['color-basic-400'],
   };
+
+  if (!recordsQuery.data.length) {
+    return (
+      <SafeAreaView style={[styles.wrapper, styles.empty]} edges={['bottom']}>
+        <Text>
+          No records for this month
+        </Text>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView
@@ -39,6 +49,13 @@ const styles = StyleSheet.create({
   wrapper: {
     height: '100%',
     width: '100%',
+  } satisfies ViewStyle,
+
+  empty: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   } satisfies ViewStyle,
 
   divider: {
