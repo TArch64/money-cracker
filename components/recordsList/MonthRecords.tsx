@@ -10,7 +10,11 @@ export interface IMonthRecordsProps {
 }
 
 export function MonthRecords(props: IMonthRecordsProps): ReactNode {
-  const recordsQuery = useRecordsMonthSuspenseQuery(props.idx.year, props.idx.month);
+  const recordsQuery = useRecordsMonthSuspenseQuery({
+    year: props.idx.year,
+    month: props.idx.month,
+  });
+
   const theme = useTheme();
 
   const dividerStyles: ViewStyle = {

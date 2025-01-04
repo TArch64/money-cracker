@@ -50,9 +50,17 @@ export default function New(): ReactNode {
   const valueLabel = isIncome ? 'Money received' : 'Money spent';
 
   const initialDate = useMemo(() => {
-    return initialYear !== undefined && initialMonth !== undefined
-      ? new Date(+initialYear, +initialMonth, 1)
-      : new Date();
+    const now = new Date();
+
+    if (initialYear === undefined || initialMonth === undefined) {
+      return now;
+    }
+
+    if (+initialYear === now.getFullYear() && +initialMonth === now.getMonth()) {
+      return now;
+    }
+
+    return new Date(+initialYear, +initialMonth, 1);
   }, []);
 
   const categoriesQuery = useCategoriesListQuery(type, (categories) => {
