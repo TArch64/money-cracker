@@ -4,9 +4,9 @@ import { eq } from 'drizzle-orm';
 import { CATEGORIES_LIST_QUERY } from './keys';
 import { RecordType } from '@/enums';
 
-export function useCategoriesListQuery<D = Category>(
+export function useCategoriesListQuery<D = Category[]>(
   type: RecordType,
-  select?: (data: Category[]) => D[],
+  select?: (data: Category[]) => D,
 ) {
   const db = useDatabase();
 

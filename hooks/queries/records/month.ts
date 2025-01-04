@@ -1,9 +1,13 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { categories, records, type RecordWithCategory, useDatabase, eqDate } from '@/db';
+import { categories, eqDate, records, type RecordWithCategory, useDatabase } from '@/db';
 import { desc, eq, getTableColumns } from 'drizzle-orm';
 import { RECORDS_MONTH_LIST_QUERY } from './keys';
 
-export function useRecordsMonthSuspenseQuery(year: number, month: number) {
+export function useRecordsMonthSuspenseQuery<D = RecordWithCategory[]>(
+  year: number,
+  month: number,
+  select?: (data: RecordWithCategory[]) => D,
+) {
   const db = useDatabase();
 
   return useSuspenseQuery({
@@ -19,5 +23,7 @@ export function useRecordsMonthSuspenseQuery(year: number, month: number) {
         .innerJoin(categories, eq(categories.id, records.categoryId))
         .orderBy(desc(records.date));
     },
+
+    select,
   });
 }
