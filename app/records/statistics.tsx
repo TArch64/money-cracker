@@ -31,6 +31,29 @@ function Wrapper(props: IWrapperProps): ReactNode {
   );
 }
 
+interface IDataRowProps {
+  label: string;
+  labelCategory?: 's1' | 'p1';
+  value: number;
+}
+
+function DataRow(props: IDataRowProps): ReactNode {
+  const moneyFormatter = useMoneyFormatter();
+  const value = moneyFormatter.format(props.value);
+
+  return (
+    <View style={styles.dataRow}>
+      <Text category={props.labelCategory ?? 'p1'}>
+        {props.label}
+      </Text>
+
+      <Text status="danger">
+        - {value}
+      </Text>
+    </View>
+  );
+}
+
 function sumRecords(records: Record[]): number {
   return records.reduce((acc, record) => acc + record.value, 0);
 }
@@ -48,20 +71,15 @@ export default function Statistics(): ReactNode {
       type: RecordType.EXPENSE,
     },
 
-    select(records) {
-      return {
-        categoriesPie: Object.entries(groupBy(records, 'category.name')).map(([name, records]) => ({
-          x: name,
-          y: sumRecords(records),
-        })),
+    select: (records) => ({
+      total: sumRecords(records),
 
-        total: sumRecords(records),
-      };
-    },
+      categories: Object
+        .entries(groupBy(records, 'category.name'))
+        .map(([name, records]) => ({ name, value: sumRecords(records) }))
+        .sort((c1, c2) => c2.value - c1.value),
+    }),
   });
-
-  const moneyFormatter = useMoneyFormatter();
-  const total = moneyFormatter.format(recordsQuery.data.total);
 
   if (!recordsQuery.data.total) {
     return (
@@ -78,15 +96,19 @@ export default function Statistics(): ReactNode {
   return (
     <Wrapper monthIdx={monthIdx}>
       <View style={styles.column}>
-        <View style={styles.totalsRow}>
-          <Text category="s1">
-            Total Expenses
-          </Text>
+        <DataRow
+          label="Total Expenses"
+          labelCategory="s1"
+          value={recordsQuery.data.total}
+        />
 
-          <Text status="danger">
-            - {total}
-          </Text>
-        </View>
+        {recordsQuery.data.categories.map((category) => (
+          <DataRow
+            key={category.name}
+            label={category.name}
+            value={category.value}
+          />
+        ))}
       </View>
     </Wrapper>
   );
@@ -107,7 +129,7 @@ const styles = StyleSheet.create({
     height: '100%',
   } satisfies ViewStyle,
 
-  totalsRow: {
+  dataRow: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
