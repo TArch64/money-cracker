@@ -4,7 +4,7 @@ import { useDateFormatter, useMoneyFormatter } from '@/hooks/formatters';
 import { MonthIdx } from '@/components/recordsList';
 import { useLocalSearchParams } from 'expo-router';
 import { useRecordsMonthSuspenseQuery } from '@/hooks/queries';
-import { StyleSheet, View, type ViewStyle } from 'react-native';
+import { ScrollView, StyleSheet, View, type ViewStyle } from 'react-native';
 import { RecordType } from '@/enums';
 import { groupBy } from 'lodash-es';
 import { Text } from '@ui-kitten/components';
@@ -95,7 +95,7 @@ export default function Statistics(): ReactNode {
 
   return (
     <Wrapper monthIdx={monthIdx}>
-      <View style={styles.column}>
+      <ScrollView contentContainerStyle={styles.column}>
         <DataRow
           label="Total Expenses"
           labelCategory="s1"
@@ -109,7 +109,7 @@ export default function Statistics(): ReactNode {
             value={category.value}
           />
         ))}
-      </View>
+      </ScrollView>
     </Wrapper>
   );
 }
