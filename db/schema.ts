@@ -1,4 +1,4 @@
-import { index, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import { index, integer, primaryKey, sqliteTable, text, unique } from 'drizzle-orm/sqlite-core';
 import { type InferInsertModel, type InferSelectModel, relations, sql } from 'drizzle-orm';
 import { RecordType } from '@/enums';
 import { date } from './customTypes';
@@ -39,3 +39,41 @@ export const recordsRelations = relations(records, ({ one }) => ({
 export type Record = InferSelectModel<typeof records>;
 export type RecordWithCategory = Record & { category: Category };
 export type RecordInsert = InferInsertModel<typeof records>;
+
+export const budgets = sqliteTable('budgets', {
+  id: integer().primaryKey(),
+  year: integer().notNull(),
+  month: integer().notNull(),
+}, (t) => [
+  unique('budgets_year_month_uniq').on(t.year, t.month),
+]);
+
+export const budgetsRelations = relations(budgets, ({ many }) => ({
+  categories: many(budgetCategories),
+}));
+
+export type Budget = InferSelectModel<typeof budgets>;
+export type BudgetInsert = InferInsertModel<typeof budgets>;
+
+export const budgetCategories = sqliteTable('budget_categories', {
+  budgetId: integer().references(() => budgets.id, { onDelete: 'cascade' }).notNull(),
+  categoryId: integer().references(() => categories.id, { onDelete: 'cascade' }).notNull(),
+  goal: integer().notNull(),
+}, (t) => [
+  primaryKey({ columns: [t.budgetId, t.categoryId] }),
+]);
+
+export const budgetCategoriesRelations = relations(budgetCategories, ({ one }) => ({
+  budget: one(budgets, {
+    fields: [budgetCategories.budgetId],
+    references: [budgets.id],
+  }),
+
+  category: one(categories, {
+    fields: [budgetCategories.categoryId],
+    references: [categories.id],
+  }),
+}));
+
+export type BudgetCategory = InferSelectModel<typeof budgetCategories>;
+export type BudgetCategoryInsert = InferInsertModel<typeof budgetCategories>;

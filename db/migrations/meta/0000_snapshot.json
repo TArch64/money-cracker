@@ -1,9 +1,115 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "dd41316e-0b1d-4bce-b486-d3ff640b71b0",
+  "id": "ef99785b-2cc7-47d8-83a0-846c8f1a0e20",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
+    "budget_categories": {
+      "name": "budget_categories",
+      "columns": {
+        "budgetId": {
+          "name": "budgetId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "categoryId": {
+          "name": "categoryId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "goal": {
+          "name": "goal",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "budget_categories_budgetId_budgets_id_fk": {
+          "name": "budget_categories_budgetId_budgets_id_fk",
+          "tableFrom": "budget_categories",
+          "tableTo": "budgets",
+          "columnsFrom": [
+            "budgetId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "budget_categories_categoryId_categories_id_fk": {
+          "name": "budget_categories_categoryId_categories_id_fk",
+          "tableFrom": "budget_categories",
+          "tableTo": "categories",
+          "columnsFrom": [
+            "categoryId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "budget_categories_budgetId_categoryId_pk": {
+          "columns": [
+            "budgetId",
+            "categoryId"
+          ],
+          "name": "budget_categories_budgetId_categoryId_pk"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "budgets": {
+      "name": "budgets",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "year": {
+          "name": "year",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "month": {
+          "name": "month",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "budgets_year_month_uniq": {
+          "name": "budgets_year_month_uniq",
+          "columns": [
+            "year",
+            "month"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
     "categories": {
       "name": "categories",
       "columns": {
@@ -56,6 +162,13 @@
         "type": {
           "name": "type",
           "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "value": {
+          "name": "value",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
