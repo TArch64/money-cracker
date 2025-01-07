@@ -3,6 +3,8 @@ import { Tabs } from 'expo-router';
 import { useTheme } from '@ui-kitten/components';
 import type { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import { Icon, IconName } from '@/components/uiKitten/Icon';
+import { type ViewStyle } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 function iconRenderer(name: IconName): BottomTabNavigationOptions['tabBarIcon'] {
   return ({ size, color }) => (
@@ -16,6 +18,7 @@ function iconRenderer(name: IconName): BottomTabNavigationOptions['tabBarIcon'] 
 
 export default function Layout(): ReactNode {
   const theme = useTheme();
+  const safeArea = useSafeAreaInsets();
 
   return (
     <Tabs
@@ -23,6 +26,14 @@ export default function Layout(): ReactNode {
         tabBarActiveTintColor: theme['color-primary-500'],
         headerShown: false,
         animation: 'shift',
+
+        tabBarStyle: {
+          height: safeArea.bottom + 56,
+        } satisfies ViewStyle,
+
+        tabBarItemStyle: {
+          paddingTop: 10,
+        } satisfies ViewStyle,
       }}
     >
       <Tabs.Screen
