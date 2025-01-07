@@ -1,6 +1,6 @@
 import { type ReactElement, type ReactNode, useRef } from 'react';
 import { type IMainScreenLayoutProps, MainScreenLayout } from './MainScreenLayout';
-import { MonthSlider } from '@/components/recordsList';
+import { TabMonthSlider } from './TabMonthSlider';
 import { Text } from '@ui-kitten/components';
 import { StyleSheet, type ViewStyle } from 'react-native';
 import Animated, { FadeInLeft, FadeOutRight } from 'react-native-reanimated';
@@ -40,9 +40,9 @@ export function TabScreenLayout(props: ITabScreenLayoutProps): ReactNode {
         </AnimatedText>
       )}
     >
-      <MonthSlider style={styles.slider} onChange={onActiveMonthChange}>
+      <TabMonthSlider style={styles.slider} onChange={onActiveMonthChange}>
         {props.children}
-      </MonthSlider>
+      </TabMonthSlider>
     </MainScreenLayout>
   );
 }

@@ -4,12 +4,12 @@ import { MonthIdx, useMonthStore } from '@/stores';
 import { useRecordsBoundariesQuery } from '@/hooks/queries';
 import { useWindowDimensions, View, type ViewStyle, VirtualizedList } from 'react-native';
 
-export interface IMonthSliderProps extends IPropsWithChildrenFn<[idx: MonthIdx], ReactElement>,
+export interface ITabMonthSliderProps extends IPropsWithChildrenFn<[idx: MonthIdx], ReactElement>,
   IPropsWithStyle<ViewStyle> {
   onChange: () => void;
 }
 
-export function MonthSlider(props: IMonthSliderProps): ReactNode {
+export function TabMonthSlider(props: ITabMonthSliderProps): ReactNode {
   const { width } = useWindowDimensions();
   const { min: minDate, max: maxDate } = useRecordsBoundariesQuery().data;
   const activeIdx = useMonthStore((state) => state.activeIdx);
