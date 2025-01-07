@@ -18,7 +18,19 @@ export class MonthIdx {
     return new Date(this.year, this.month);
   }
 
-  get position(): number {
-    return +new Date(this.year, this.month);
+  get previous(): MonthIdx {
+    if (this.month === 0) {
+      return new MonthIdx(this.year - 1, 11);
+    }
+
+    return new MonthIdx(this.year, this.month - 1);
+  }
+
+  get next(): MonthIdx {
+    if (this.month === 11) {
+      return new MonthIdx(this.year + 1, 0);
+    }
+
+    return new MonthIdx(this.year, this.month + 1);
   }
 }

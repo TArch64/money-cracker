@@ -1,4 +1,4 @@
-import { createContext, type ReactNode, useContext, useEffect, useMemo } from 'react';
+import { createContext, type ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 import { openDatabaseSync, SQLiteDatabase } from 'expo-sqlite';
 import { drizzle, ExpoSQLiteDatabase } from 'drizzle-orm/expo-sqlite';
 import * as schema from './schema';
@@ -12,29 +12,30 @@ const Context = createContext<AppDatabase>(null!);
 
 export const useDatabase = () => useContext(Context);
 
-interface IDatabaseMigrationsProps extends IPropsWithChildrenFn {
+interface IDatabaseInnerProviderProps extends IPropsWithChildrenFn {
   client: AppDatabase;
   onReady: () => void;
 }
 
-function DatabaseMigrations(props: IDatabaseMigrationsProps): ReactNode {
-  const { success, error } = useMigrations(props.client, migrations);
+function DatabaseSeeds(props: IDatabaseInnerProviderProps): ReactNode {
+  const [ready, setReady] = useState(!__DEV__);
 
   useEffect(() => {
-    if (error) {
-      throw error;
+    if (__DEV__) {
+      import('./seeds').then(async ({ runSeeds }) => {
+        await runSeeds(props.client);
+        setReady(true);
+        props.onReady();
+      });
     }
+  }, []);
 
-    if (success) {
-      props.onReady();
-    }
-  }, [success, error]);
+  return ready ? props.children() : null;
+}
 
-  if (!success && !error) {
-    return null;
-  }
-
-  return props.children();
+function DatabaseMigrations(props: IDatabaseInnerProviderProps): ReactNode {
+  const { success, error } = useMigrations(props.client, migrations);
+  return !success && !error ? null : <DatabaseSeeds {...props} />;
 }
 
 export interface IDatabaseProviderProps extends IPropsWithChildrenFn {
