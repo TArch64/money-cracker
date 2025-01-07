@@ -10,6 +10,7 @@ import { IconName, iconRenderer } from '@/components/uiKitten/Icon';
 export interface IMainScreenLayoutProps extends PropsWithChildren,
   IPropsWithStyle<ViewStyle> {
   title: string | RenderProp<TextProps>;
+  canGoBack?: boolean;
   headerLeft?: () => ReactElement;
   headerRight?: () => ReactElement;
 }
@@ -17,8 +18,9 @@ export interface IMainScreenLayoutProps extends PropsWithChildren,
 export function MainScreenLayout(props: IMainScreenLayoutProps): ReactNode {
   const router = useRouter();
   const theme = useTheme();
+  const canGoBack = props.canGoBack ?? router.canGoBack();
 
-  const headerLeft = props.headerLeft ?? (router.canGoBack() ? (() => (
+  const headerLeft = props.headerLeft ?? (canGoBack ? (() => (
     <TopNavigationAction
       icon={iconRenderer(IconName.ARROW_BACK)}
       onPress={router.back}

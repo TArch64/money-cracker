@@ -36,7 +36,7 @@ export function MonthSlider(props: IMonthSliderProps): ReactNode {
       style={props.style}
       initialScrollIndex={initialScrollIndex}
       initialNumToRender={3}
-      maxToRenderPerBatch={2}
+      maxToRenderPerBatch={1}
       getItemCount={() => count}
       keyExtractor={(idx) => idx.id}
       showsHorizontalScrollIndicator={false}

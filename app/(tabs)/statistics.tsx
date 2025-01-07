@@ -1,7 +1,7 @@
-import { type PropsWithChildren, type ReactNode } from 'react';
-import { FullScreenLayout } from '@/components/layout';
-import { useDateFormatter, useMoneyFormatter } from '@/hooks/formatters';
-import { MonthIdx, useMonthStore } from '@/stores';
+import type { ReactNode } from 'react';
+import { TabScreenLayout } from '@/components/layout';
+import { useMoneyFormatter } from '@/hooks/formatters';
+import { MonthIdx } from '@/stores';
 import { useRecordsMonthSuspenseQuery } from '@/hooks/queries';
 import { ScrollView, StyleSheet, View, type ViewStyle } from 'react-native';
 import { RecordType } from '@/enums';
@@ -9,21 +9,6 @@ import { groupBy } from 'lodash-es';
 import { Text } from '@ui-kitten/components';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { Record } from '@/db';
-
-interface IWrapperProps extends PropsWithChildren {
-  monthIdx: MonthIdx;
-}
-
-function Wrapper(props: IWrapperProps): ReactNode {
-  const dateFormatter = useDateFormatter({ year: 'numeric', month: 'long' });
-  const dateTitle = dateFormatter.format(props.monthIdx.date);
-
-  return (
-    <FullScreenLayout canGoBack={false} title={`${dateTitle} Statistics`}>
-      {props.children}
-    </FullScreenLayout>
-  );
-}
 
 interface IDataRowProps {
   label: string;
@@ -52,12 +37,14 @@ function sumRecords(records: Record[]): number {
   return records.reduce((acc, record) => acc + record.value, 0);
 }
 
-export default function Statistics(): ReactNode {
-  const monthIdx = useMonthStore((state) => state.activeIdx);
+interface IMonthStatisticsProps {
+  monthIdx: MonthIdx;
+}
 
+function MonthStatistics(props: IMonthStatisticsProps): ReactNode {
   const recordsQuery = useRecordsMonthSuspenseQuery({
-    year: monthIdx.year,
-    month: monthIdx.month,
+    year: props.monthIdx.year,
+    month: props.monthIdx.month,
     subkey: ['statistics'],
 
     filter: {
@@ -76,34 +63,38 @@ export default function Statistics(): ReactNode {
 
   if (!recordsQuery.data.total) {
     return (
-      <Wrapper monthIdx={monthIdx}>
-        <SafeAreaView style={[styles.column, styles.emptyColumn]} edges={['bottom']}>
-          <Text>
-            No expenses recorded yet
-          </Text>
-        </SafeAreaView>
-      </Wrapper>
+      <SafeAreaView style={[styles.column, styles.emptyColumn]} edges={['bottom']}>
+        <Text>
+          No expenses recorded yet
+        </Text>
+      </SafeAreaView>
     );
   }
 
   return (
-    <Wrapper monthIdx={monthIdx}>
-      <ScrollView contentContainerStyle={styles.column}>
-        <DataRow
-          label="Total Expenses"
-          labelCategory="s1"
-          value={recordsQuery.data.total}
-        />
+    <ScrollView contentContainerStyle={styles.column}>
+      <DataRow
+        label="Total Expenses"
+        labelCategory="s1"
+        value={recordsQuery.data.total}
+      />
 
-        {recordsQuery.data.categories.map((category) => (
-          <DataRow
-            key={category.name}
-            label={category.name}
-            value={category.value}
-          />
-        ))}
-      </ScrollView>
-    </Wrapper>
+      {recordsQuery.data.categories.map((category) => (
+        <DataRow
+          key={category.name}
+          label={category.name}
+          value={category.value}
+        />
+      ))}
+    </ScrollView>
+  )
+}
+
+export default function Statistics(): ReactNode {
+  return (
+    <TabScreenLayout>
+      {(monthIdx) => <MonthStatistics monthIdx={monthIdx} />}
+    </TabScreenLayout>
   );
 }
 
