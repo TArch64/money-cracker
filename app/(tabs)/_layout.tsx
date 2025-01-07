@@ -26,6 +26,7 @@ export default function Layout(): ReactNode {
         tabBarActiveTintColor: theme['color-primary-500'],
         headerShown: false,
         animation: 'shift',
+        freezeOnBlur: true,
 
         tabBarStyle: {
           height: safeArea.bottom + 56,

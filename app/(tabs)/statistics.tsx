@@ -2,9 +2,8 @@ import type { ReactNode } from 'react';
 import { TabScreenLayout } from '@/components/layout';
 import { useMoneyFormatter } from '@/hooks/formatters';
 import { MonthIdx } from '@/stores';
-import { useRecordsMonthSuspenseQuery } from '@/hooks/queries';
+import { useExpensesMonthSuspenseQuery } from '@/hooks/queries';
 import { ScrollView, StyleSheet, View, type ViewStyle } from 'react-native';
-import { RecordType } from '@/enums';
 import { groupBy } from 'lodash-es';
 import { Text } from '@ui-kitten/components';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -42,14 +41,10 @@ interface IMonthStatisticsProps {
 }
 
 function MonthStatistics(props: IMonthStatisticsProps): ReactNode {
-  const recordsQuery = useRecordsMonthSuspenseQuery({
+  const expensesQuery = useExpensesMonthSuspenseQuery({
     year: props.monthIdx.year,
     month: props.monthIdx.month,
     subkey: ['statistics'],
-
-    filter: {
-      type: RecordType.EXPENSE,
-    },
 
     select: (records) => ({
       total: sumRecords(records),
@@ -61,7 +56,7 @@ function MonthStatistics(props: IMonthStatisticsProps): ReactNode {
     }),
   });
 
-  if (!recordsQuery.data.total) {
+  if (!expensesQuery.data.total) {
     return (
       <SafeAreaView style={[styles.column, styles.emptyColumn]} edges={['bottom']}>
         <Text>
@@ -76,10 +71,10 @@ function MonthStatistics(props: IMonthStatisticsProps): ReactNode {
       <DataRow
         label="Total Expenses"
         labelCategory="s1"
-        value={recordsQuery.data.total}
+        value={expensesQuery.data.total}
       />
 
-      {recordsQuery.data.categories.map((category) => (
+      {expensesQuery.data.categories.map((category) => (
         <DataRow
           key={category.name}
           label={category.name}
