@@ -1,18 +1,19 @@
 import type { IPropsWithChildrenFn, IPropsWithStyle } from '@/types';
 import { type ReactElement, type ReactNode, Suspense, useMemo } from 'react';
-import { MonthIdx } from './MonthIdx';
+import { MonthIdx, useMonthStore } from '@/stores';
 import { useRecordsBoundariesQuery } from '@/hooks/queries';
 import { useWindowDimensions, View, type ViewStyle, VirtualizedList } from 'react-native';
 
 export interface IMonthSliderProps extends IPropsWithChildrenFn<[idx: MonthIdx], ReactElement>,
   IPropsWithStyle<ViewStyle> {
-  active: MonthIdx;
-  onChange: (idx: MonthIdx) => void;
+  onChange: () => void;
 }
 
 export function MonthSlider(props: IMonthSliderProps): ReactNode {
   const { width } = useWindowDimensions();
   const { min: minDate, max: maxDate } = useRecordsBoundariesQuery().data;
+  const activeIdx = useMonthStore((state) => state.activeIdx);
+  const activateIdx = useMonthStore((state) => state.activateIdx);
 
   const count = useMemo(() => {
     const fullMonthCount = (maxDate.getFullYear() - minDate.getFullYear()) * 12;
@@ -24,8 +25,8 @@ export function MonthSlider(props: IMonthSliderProps): ReactNode {
       return 0;
     }
 
-    return (props.active.year - minDate.getFullYear()) * 12 + props.active.month - minDate.getMonth();
-  }, [props.active, +minDate]);
+    return (activeIdx.year - minDate.getFullYear()) * 12 + activeIdx.month - minDate.getMonth();
+  }, [activeIdx.id, +minDate]);
 
   return (
     <VirtualizedList<MonthIdx>
@@ -59,12 +60,13 @@ export function MonthSlider(props: IMonthSliderProps): ReactNode {
         </View>
       )}
 
-      onViewableItemsChanged={({ viewableItems, changed }) => {
+      onViewableItemsChanged={({ viewableItems }) => {
         if (viewableItems.length > 1) {
           return;
         }
 
-        props.onChange(viewableItems[0].item);
+        activateIdx(viewableItems[0].item);
+        props.onChange();
       }}
 
       viewabilityConfig={{

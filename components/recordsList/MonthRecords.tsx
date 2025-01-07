@@ -1,9 +1,9 @@
 import { Fragment, type ReactNode } from 'react';
-import type { MonthIdx } from './MonthIdx';
 import { ScrollView, StyleSheet, View, type ViewStyle } from 'react-native';
 import { Divider, Text, useTheme } from '@ui-kitten/components';
 import { useRecordsMonthSuspenseQuery } from '@/hooks/queries';
 import { MonthRecord } from './MonthRecord';
+import { MonthIdx } from '@/stores';
 
 export interface IMonthRecordsProps {
   idx: MonthIdx;

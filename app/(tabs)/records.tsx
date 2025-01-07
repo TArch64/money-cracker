@@ -1,47 +1,37 @@
-import { type ReactNode, useRef, useState } from 'react';
+import { type ReactNode, useRef } from 'react';
 import { useRouter } from 'expo-router';
 import { MainScreenLayout } from '@/components/layout';
-import { MonthIdx, MonthRecords, MonthSlider } from '@/components/recordsList';
+import { MonthRecords, MonthSlider } from '@/components/recordsList';
 import { Text, TopNavigationAction } from '@ui-kitten/components';
 import { RecordType } from '@/enums';
 import { StyleSheet, type ViewStyle } from 'react-native';
 import Animated, { FadeInLeft, FadeOutRight } from 'react-native-reanimated';
 import { useDateFormatter } from '@/hooks/formatters';
 import { IconName, iconRenderer } from '@/components/uiKitten/Icon';
+import { useMonthStore } from '@/stores';
 
 const AnimatedText = Animated.createAnimatedComponent(Text);
 
 export default function Records(): ReactNode {
   const router = useRouter();
   const isInitialIdx = useRef(true);
-  const [selectedIdx, setSelectedIdx] = useState<MonthIdx>(() => MonthIdx.current());
+  const activeIdx = useMonthStore((state) => state.activeIdx);
   const dateFormatter = useDateFormatter({ year: 'numeric', month: 'long' });
-  const title = dateFormatter.format(selectedIdx.date);
+  const title = dateFormatter.format(activeIdx.date);
 
-  function changeIdx(idx: MonthIdx) {
+  function onActiveMonthChange() {
     isInitialIdx.current = false;
-    setSelectedIdx(idx);
   }
 
   function openNewRecord(): void {
     router.push({
       pathname: '/records/new',
-      params: {
-        type: RecordType.EXPENSE,
-        initialYear: selectedIdx.year,
-        initialMonth: selectedIdx.month,
-      },
+      params: { type: RecordType.EXPENSE },
     });
   }
 
   function openRecordStatistics(): void {
-    router.push({
-      pathname: '/records/statistics',
-      params: {
-        year: selectedIdx.year,
-        month: selectedIdx.month,
-      },
-    });
+    router.push('/records/statistics');
   }
 
   return (
@@ -71,11 +61,7 @@ export default function Records(): ReactNode {
         />
       )}
     >
-      <MonthSlider
-        style={styles.slider}
-        active={selectedIdx}
-        onChange={changeIdx}
-      >
+      <MonthSlider style={styles.slider} onChange={onActiveMonthChange}>
         {(idx) => <MonthRecords idx={idx} />}
       </MonthSlider>
     </MainScreenLayout>

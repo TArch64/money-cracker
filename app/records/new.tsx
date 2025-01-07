@@ -13,6 +13,7 @@ import {
 } from '@/components/form';
 import { date, enum_, minLength, minValue, number, object, pipe, string } from 'valibot';
 import { useCategoriesListQuery, useRecordCreateMutation } from '@/hooks/queries';
+import { useMonthStore } from '@/stores';
 
 const schema = object({
   type: enum_(RecordType),
@@ -22,12 +23,6 @@ const schema = object({
 });
 
 type Schema = typeof schema;
-
-type SearchParams = {
-  type: RecordType;
-  initialYear?: string;
-  initialMonth?: string;
-}
 
 const recordTypeOptions: IButtonSelectOption<RecordType>[] = [
   {
@@ -41,7 +36,8 @@ const recordTypeOptions: IButtonSelectOption<RecordType>[] = [
 ];
 
 export default function New(): ReactNode {
-  const { type: initialType, initialMonth, initialYear } = useLocalSearchParams<SearchParams>();
+  const { type: initialType } = useLocalSearchParams<{ type: RecordType }>();
+  const activeMonthIdx = useMonthStore((state) => state.activeIdx);
   const router = useRouter();
 
   const [type, setType] = useState(initialType);
@@ -52,15 +48,11 @@ export default function New(): ReactNode {
   const initialDate = useMemo(() => {
     const now = new Date();
 
-    if (initialYear === undefined || initialMonth === undefined) {
+    if (activeMonthIdx.year === now.getFullYear() && activeMonthIdx.month === now.getMonth()) {
       return now;
     }
 
-    if (+initialYear === now.getFullYear() && +initialMonth === now.getMonth()) {
-      return now;
-    }
-
-    return new Date(+initialYear, +initialMonth, 1);
+    return new Date(activeMonthIdx.year, activeMonthIdx.month, 1);
   }, []);
 
   const categoriesQuery = useCategoriesListQuery(type, (categories) => {

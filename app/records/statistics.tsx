@@ -1,8 +1,7 @@
-import { type PropsWithChildren, type ReactNode, useMemo } from 'react';
+import { type PropsWithChildren, type ReactNode } from 'react';
 import { FullScreenLayout } from '@/components/layout';
 import { useDateFormatter, useMoneyFormatter } from '@/hooks/formatters';
-import { MonthIdx } from '@/components/recordsList';
-import { useLocalSearchParams } from 'expo-router';
+import { MonthIdx, useMonthStore } from '@/stores';
 import { useRecordsMonthSuspenseQuery } from '@/hooks/queries';
 import { ScrollView, StyleSheet, View, type ViewStyle } from 'react-native';
 import { RecordType } from '@/enums';
@@ -10,11 +9,6 @@ import { groupBy } from 'lodash-es';
 import { Text } from '@ui-kitten/components';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { Record } from '@/db';
-
-type SearchParams = {
-  year: string;
-  month: string;
-};
 
 interface IWrapperProps extends PropsWithChildren {
   monthIdx: MonthIdx;
@@ -59,8 +53,7 @@ function sumRecords(records: Record[]): number {
 }
 
 export default function Statistics(): ReactNode {
-  const { year, month } = useLocalSearchParams<SearchParams>();
-  const monthIdx = useMemo(() => new MonthIdx(+year, +month), [year, month]);
+  const monthIdx = useMonthStore((state) => state.activeIdx);
 
   const recordsQuery = useRecordsMonthSuspenseQuery({
     year: monthIdx.year,
