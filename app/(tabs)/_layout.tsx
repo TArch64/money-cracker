@@ -4,7 +4,7 @@ import { useTheme } from '@ui-kitten/components';
 import type { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import { Icon, IconName } from '@/components/uiKitten/Icon';
 
-function renderIcon(name: IconName): BottomTabNavigationOptions['tabBarIcon'] {
+function iconRenderer(name: IconName): BottomTabNavigationOptions['tabBarIcon'] {
   return ({ size, color }) => (
     <Icon
       name={name}
@@ -29,7 +29,15 @@ export default function Layout(): ReactNode {
         name="records"
         options={{
           title: 'Records',
-          tabBarIcon: renderIcon(IconName.LIST),
+          tabBarIcon: iconRenderer(IconName.LIST),
+        }}
+      />
+
+      <Tabs.Screen
+        name="statistics"
+        options={{
+          title: 'Statistics',
+          tabBarIcon: iconRenderer(IconName.PIE_CHART_OUTLINE),
         }}
       />
 
@@ -37,7 +45,7 @@ export default function Layout(): ReactNode {
         name="budget"
         options={{
           title: 'Budget',
-          tabBarIcon: renderIcon(IconName.BRIEFCASE_OUTLINE),
+          tabBarIcon: iconRenderer(IconName.BRIEFCASE_OUTLINE),
         }}
       />
     </Tabs>

@@ -30,10 +30,6 @@ export default function Records(): ReactNode {
     });
   }
 
-  function openRecordStatistics(): void {
-    router.push('/records/statistics');
-  }
-
   return (
     <MainScreenLayout
       title={(txtProps) => (
@@ -45,13 +41,6 @@ export default function Records(): ReactNode {
         >
           {title}
         </AnimatedText>
-      )}
-
-      headerLeft={() => (
-        <TopNavigationAction
-          icon={iconRenderer(IconName.PIE_CHART_OUTLINE)}
-          onPress={openRecordStatistics}
-        />
       )}
 
       headerRight={() => (

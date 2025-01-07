@@ -19,7 +19,7 @@ function Wrapper(props: IWrapperProps): ReactNode {
   const dateTitle = dateFormatter.format(props.monthIdx.date);
 
   return (
-    <FullScreenLayout title={`${dateTitle} Statistics`}>
+    <FullScreenLayout canGoBack={false} title={`${dateTitle} Statistics`}>
       {props.children}
     </FullScreenLayout>
   );
