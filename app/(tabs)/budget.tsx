@@ -4,7 +4,7 @@ import { Text } from '@ui-kitten/components';
 
 export default function Budget(): ReactNode {
   return (
-    <TabScreenLayout>
+    <TabScreenLayout title="Budget">
       {(monthIdx) => (
         <Text>
           BUdget for {monthIdx.id}

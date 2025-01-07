@@ -18,6 +18,8 @@ export default function Records(): ReactNode {
 
   return (
     <TabScreenLayout
+      title="Records"
+
       headerRight={() => (
         <TopNavigationAction
           icon={iconRenderer(IconName.PLUS)}

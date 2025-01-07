@@ -92,7 +92,7 @@ function MonthStatistics(props: IMonthStatisticsProps): ReactNode {
 
 export default function Statistics(): ReactNode {
   return (
-    <TabScreenLayout>
+    <TabScreenLayout title="Statistics">
       {(monthIdx) => <MonthStatistics monthIdx={monthIdx} />}
     </TabScreenLayout>
   );

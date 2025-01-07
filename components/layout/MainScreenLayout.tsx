@@ -10,6 +10,7 @@ import { IconName, iconRenderer } from '@/components/uiKitten/Icon';
 export interface IMainScreenLayoutProps extends PropsWithChildren,
   IPropsWithStyle<ViewStyle> {
   title: string | RenderProp<TextProps>;
+  subtitle?: string | RenderProp<TextProps>;
   canGoBack?: boolean;
   headerLeft?: () => ReactElement;
   headerRight?: () => ReactElement;
@@ -36,6 +37,7 @@ export function MainScreenLayout(props: IMainScreenLayoutProps): ReactNode {
     >
       <TopNavigation
         title={props.title}
+        subtitle={props.subtitle}
         alignment="center"
         accessoryLeft={headerLeft}
         accessoryRight={props.headerRight}
