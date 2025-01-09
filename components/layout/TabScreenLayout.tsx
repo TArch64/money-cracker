@@ -1,8 +1,8 @@
-import { type ReactElement, type ReactNode, useRef } from 'react';
+import { type MutableRefObject, type ReactElement, type ReactNode, useRef } from 'react';
 import { type IMainScreenLayoutProps, MainScreenLayout } from './MainScreenLayout';
-import { TabMonthSlider } from './TabMonthSlider';
+import { type ITabMonthSliderRef, TabMonthSlider } from './TabMonthSlider';
 import { Text, type TextProps } from '@ui-kitten/components';
-import { StyleSheet, type ViewStyle } from 'react-native';
+import { Pressable, StyleSheet, type ViewStyle } from 'react-native';
 import Animated, { FadeInLeft, FadeOutRight } from 'react-native-reanimated';
 import { useDateFormatter } from '@/hooks/formatters';
 import { MonthIdx, useMonthStore } from '@/stores';
@@ -12,17 +12,33 @@ const AnimatedText = Animated.createAnimatedComponent(Text);
 
 interface IAnimatedTitleProps extends Omit<TextProps, 'children'> {
   children: string;
-  initial: boolean;
+  initial: MutableRefObject<boolean>;
 }
 
 const AnimatedTitle = ({ initial, ...props }: IAnimatedTitleProps): ReactNode => (
   <AnimatedText
     {...props}
     key={props.children}
-    entering={initial ? undefined : FadeInLeft.duration(200).delay(100)}
+    entering={initial.current ? undefined : FadeInLeft.duration(200).delay(100)}
     exiting={FadeOutRight.duration(200)}
   />
 );
+
+interface IHeaderSubtitleProps extends TextProps {
+  isInitialIdx: MutableRefObject<boolean>;
+}
+
+function HeaderSubtitle(props: IHeaderSubtitleProps): ReactNode {
+  const activeIdx = useMonthStore((state) => state.activeIdx);
+  const dateFormatter = useDateFormatter({ year: 'numeric', month: 'long' });
+  const monthTitle = dateFormatter.format(activeIdx.date);
+
+  return (
+    <AnimatedTitle{...props} initial={props.isInitialIdx}>
+      {monthTitle}
+    </AnimatedTitle>
+  );
+}
 
 export interface ITabScreenLayoutProps extends IPropsWithChildrenFn<[idx: MonthIdx], ReactElement> {
   title: string;
@@ -30,14 +46,15 @@ export interface ITabScreenLayoutProps extends IPropsWithChildrenFn<[idx: MonthI
 }
 
 export function TabScreenLayout(props: ITabScreenLayoutProps): ReactNode {
+  const activateIdx = useMonthStore((state) => state.activateIdx);
   const isInitialIdx = useRef(true);
-  const activeIdx = useMonthStore((state) => state.activeIdx);
-  const dateFormatter = useDateFormatter({ year: 'numeric', month: 'long' });
-  const monthTitle = dateFormatter.format(activeIdx.date);
 
   function onActiveMonthChange() {
     isInitialIdx.current = false;
   }
+
+  const sliderRef = useRef<ITabMonthSliderRef>(null);
+  const scrollToToday = () => sliderRef.current?.scrollToIdx(MonthIdx.current());
 
   return (
     <MainScreenLayout
@@ -45,18 +62,27 @@ export function TabScreenLayout(props: ITabScreenLayoutProps): ReactNode {
       headerRight={props.headerRight}
 
       title={(txtProps) => (
-        <AnimatedTitle {...txtProps} initial={isInitialIdx.current}>
-          {props.title}
-        </AnimatedTitle>
+        <Pressable onPress={scrollToToday}>
+          <AnimatedTitle {...txtProps} initial={isInitialIdx}>
+            {props.title}
+          </AnimatedTitle>
+        </Pressable>
       )}
 
       subtitle={(txtProps) => (
-        <AnimatedTitle{...txtProps} initial={isInitialIdx.current}>
-          {monthTitle}
-        </AnimatedTitle>
+        <Pressable onPress={scrollToToday}>
+          <HeaderSubtitle
+            {...txtProps}
+            isInitialIdx={isInitialIdx}
+          />
+        </Pressable>
       )}
     >
-      <TabMonthSlider style={styles.slider} onChange={onActiveMonthChange}>
+      <TabMonthSlider
+        ref={sliderRef}
+        style={styles.slider}
+        onChange={onActiveMonthChange}
+      >
         {props.children}
       </TabMonthSlider>
     </MainScreenLayout>

@@ -1,18 +1,22 @@
 import type { IPropsWithChildrenFn, IPropsWithStyle } from '@/types';
-import { type ReactElement, type ReactNode, Suspense, useMemo } from 'react';
+import { forwardRef, type ReactElement, Suspense, useImperativeHandle, useMemo, useRef } from 'react';
 import { MonthIdx, useMonthStore } from '@/stores';
 import { useRecordsBoundariesQuery } from '@/hooks/queries';
 import { useWindowDimensions, View, type ViewStyle, VirtualizedList } from 'react-native';
+import { useDebounced } from '@/hooks/useDebounced';
 
 export interface ITabMonthSliderProps extends IPropsWithChildrenFn<[idx: MonthIdx], ReactElement>,
   IPropsWithStyle<ViewStyle> {
   onChange: () => void;
 }
 
-export function TabMonthSlider(props: ITabMonthSliderProps): ReactNode {
+export interface ITabMonthSliderRef {
+  scrollToIdx: (idx: MonthIdx) => void;
+}
+
+export const TabMonthSlider = forwardRef<ITabMonthSliderRef, ITabMonthSliderProps>((props, ref) => {
   const { width } = useWindowDimensions();
   const { min: minDate, max: maxDate } = useRecordsBoundariesQuery().data;
-  const activeIdx = useMonthStore((state) => state.activeIdx);
   const activateIdx = useMonthStore((state) => state.activateIdx);
 
   const count = useMemo(() => {
@@ -20,19 +24,42 @@ export function TabMonthSlider(props: ITabMonthSliderProps): ReactNode {
     return fullMonthCount + maxDate.getMonth() - minDate.getMonth() + 1;
   }, [+minDate, +maxDate]);
 
+  function dateToIndex(date: Date): number {
+    const fullMonthCount = (date.getFullYear() - minDate.getFullYear()) * 12;
+    return fullMonthCount + date.getMonth() - minDate.getMonth();
+  }
+
   const initialScrollIndex = useMemo(() => {
     if (+minDate === +maxDate) {
       return 0;
     }
 
-    return (activeIdx.year - minDate.getFullYear()) * 12 + activeIdx.month - minDate.getMonth();
-  }, [activeIdx.id, +minDate]);
+    return dateToIndex(new Date());
+  }, []);
+
+  const listRef = useRef<VirtualizedList<MonthIdx>>(null);
+
+  useImperativeHandle(ref, () => ({
+    scrollToIdx: (idx) => {
+      listRef.current?.scrollToIndex({ index: dateToIndex(idx.date) });
+    },
+  }));
+
+  const onViewableItemsChanged = useDebounced(({ viewableItems }) => {
+    if (viewableItems.length > 1) {
+      return;
+    }
+
+    activateIdx(viewableItems[0].item);
+    props.onChange();
+  }, 50, []);
 
   return (
     <VirtualizedList<MonthIdx>
       horizontal
       pagingEnabled
       removeClippedSubviews
+      ref={listRef}
       style={props.style}
       initialScrollIndex={initialScrollIndex}
       initialNumToRender={3}
@@ -60,14 +87,7 @@ export function TabMonthSlider(props: ITabMonthSliderProps): ReactNode {
         </View>
       )}
 
-      onViewableItemsChanged={({ viewableItems }) => {
-        if (viewableItems.length > 1) {
-          return;
-        }
-
-        activateIdx(viewableItems[0].item);
-        props.onChange();
-      }}
+      onViewableItemsChanged={onViewableItemsChanged}
 
       viewabilityConfig={{
         waitForInteraction: true,
@@ -75,4 +95,4 @@ export function TabMonthSlider(props: ITabMonthSliderProps): ReactNode {
       }}
     />
   );
-}
+});
