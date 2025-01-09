@@ -50,8 +50,6 @@ export const TabMonthSlider = forwardRef<ITabMonthSliderRef, ITabMonthSliderProp
       return;
     }
 
-    console.log(viewableItems);
-
     activateIdx(viewableItems[0].item);
     props.onChange();
   }, { time: 200, leading: true }, []);
