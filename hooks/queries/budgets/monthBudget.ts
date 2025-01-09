@@ -64,7 +64,7 @@ export function useBudgetMonthSuspenseQuery(year: number, month: number) {
     });
   });
 
-  const initialCategoriesDataLoader = useDataLoader(CATEGORIES_INITIAL_DATA_LOADER, async (keys: readonly null[]): Promise<Category[][]> => {
+  const initialCategoriesDataLoader = useDataLoader(CATEGORIES_INITIAL_DATA_LOADER, async (keys: readonly 0[]): Promise<Category[][]> => {
     const expenseCategories = await db
       .select()
       .from(categories)
@@ -74,7 +74,7 @@ export function useBudgetMonthSuspenseQuery(year: number, month: number) {
   });
 
   const createBudget = useCallback(async (year: number, month: number): Promise<BudgetWithCategories> => {
-    const expenseCategories = await initialCategoriesDataLoader.load(null);
+    const expenseCategories = await initialCategoriesDataLoader.load(0);
 
     return db.transaction(async (tx) => {
       const [budget] = await tx
