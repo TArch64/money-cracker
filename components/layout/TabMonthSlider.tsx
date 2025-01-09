@@ -3,7 +3,7 @@ import { forwardRef, type ReactElement, Suspense, useImperativeHandle, useMemo, 
 import { MonthIdx, useMonthStore } from '@/stores';
 import { useRecordsBoundariesQuery } from '@/hooks/queries';
 import { useWindowDimensions, View, type ViewStyle, VirtualizedList } from 'react-native';
-import { useDebounced } from '@/hooks/useDebounced';
+import { useThrottled } from '@/hooks/useThrottled';
 
 export interface ITabMonthSliderProps extends IPropsWithChildrenFn<[idx: MonthIdx], ReactElement>,
   IPropsWithStyle<ViewStyle> {
@@ -45,14 +45,16 @@ export const TabMonthSlider = forwardRef<ITabMonthSliderRef, ITabMonthSliderProp
     },
   }));
 
-  const onViewableItemsChanged = useDebounced(({ viewableItems }) => {
+  const onViewableItemsChanged = useThrottled(({ viewableItems }) => {
     if (viewableItems.length > 1) {
       return;
     }
 
+    console.log(viewableItems);
+
     activateIdx(viewableItems[0].item);
     props.onChange();
-  }, 50, []);
+  }, { time: 200, leading: true }, []);
 
   return (
     <VirtualizedList<MonthIdx>
