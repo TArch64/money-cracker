@@ -3,7 +3,6 @@ import { forwardRef, type ReactElement, Suspense, useImperativeHandle, useMemo, 
 import { MonthIdx, useMonthStore } from '@/stores';
 import { useRecordsBoundariesQuery } from '@/hooks/queries';
 import { useWindowDimensions, View, type ViewStyle, VirtualizedList } from 'react-native';
-import { useThrottled } from '@/hooks/useThrottled';
 
 export interface ITabMonthSliderProps extends IPropsWithChildrenFn<[idx: MonthIdx], ReactElement>,
   IPropsWithStyle<ViewStyle> {
@@ -45,15 +44,6 @@ export const TabMonthSlider = forwardRef<ITabMonthSliderRef, ITabMonthSliderProp
     },
   }));
 
-  const onViewableItemsChanged = useThrottled(({ viewableItems }) => {
-    if (viewableItems.length > 1) {
-      return;
-    }
-
-    activateIdx(viewableItems[0].item);
-    props.onChange();
-  }, { time: 200, leading: true }, []);
-
   return (
     <VirtualizedList<MonthIdx>
       horizontal
@@ -86,7 +76,14 @@ export const TabMonthSlider = forwardRef<ITabMonthSliderRef, ITabMonthSliderProp
         </View>
       )}
 
-      onViewableItemsChanged={onViewableItemsChanged}
+      onViewableItemsChanged={({ viewableItems }) => {
+        if (viewableItems.length > 1) {
+          return;
+        }
+
+        activateIdx(viewableItems[0].item);
+        props.onChange();
+      }}
 
       viewabilityConfig={{
         waitForInteraction: true,

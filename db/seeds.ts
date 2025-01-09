@@ -7,7 +7,7 @@ function getDateRange(): MonthIdx[] {
   const currentIdx = MonthIdx.current();
   const range = [currentIdx];
 
-  for (let index = 0; index < 5; index++) {
+  for (let index = 0; index < 10; index++) {
     range.unshift(range[0].previous);
   }
 
