@@ -6,7 +6,6 @@ import { useWindowDimensions, View, type ViewStyle, VirtualizedList } from 'reac
 
 export interface ITabMonthSliderProps extends IPropsWithChildrenFn<[idx: MonthIdx], ReactElement>,
   IPropsWithStyle<ViewStyle> {
-  onChange: () => void;
 }
 
 export interface ITabMonthSliderRef {
@@ -77,12 +76,9 @@ export const TabMonthSlider = forwardRef<ITabMonthSliderRef, ITabMonthSliderProp
       )}
 
       onViewableItemsChanged={({ viewableItems }) => {
-        if (viewableItems.length > 1) {
-          return;
+        if (viewableItems.length === 1) {
+          activateIdx(viewableItems[0].item);
         }
-
-        activateIdx(viewableItems[0].item);
-        props.onChange();
       }}
 
       viewabilityConfig={{

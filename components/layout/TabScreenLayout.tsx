@@ -42,12 +42,6 @@ export interface ITabScreenLayoutProps extends IPropsWithChildrenFn<[idx: MonthI
 }
 
 export function TabScreenLayout(props: ITabScreenLayoutProps): ReactNode {
-  const isInitialIdx = useRef(true);
-
-  function onActiveMonthChange() {
-    isInitialIdx.current = false;
-  }
-
   const sliderRef = useRef<ITabMonthSliderRef>(null);
   const scrollToToday = () => sliderRef.current?.scrollToIdx(MonthIdx.current());
 
@@ -70,11 +64,7 @@ export function TabScreenLayout(props: ITabScreenLayoutProps): ReactNode {
         </Pressable>
       )}
     >
-      <TabMonthSlider
-        ref={sliderRef}
-        style={styles.slider}
-        onChange={onActiveMonthChange}
-      >
+      <TabMonthSlider ref={sliderRef} style={styles.slider}>
         {props.children}
       </TabMonthSlider>
     </MainScreenLayout>
