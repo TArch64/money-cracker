@@ -63,7 +63,6 @@ export const TabMonthSlider = forwardRef<ITabMonthSliderRef, ITabMonthSliderProp
       style={props.style}
       initialScrollIndex={initialScrollIndex}
       initialNumToRender={3}
-      maxToRenderPerBatch={1}
       getItemCount={() => count}
       keyExtractor={(idx) => idx.id}
       showsHorizontalScrollIndicator={false}
