@@ -18,7 +18,7 @@ const AnimatedTitle = (props: IAnimatedTitleProps): ReactNode => (
   <AnimatedText
     {...props}
     key={props.children}
-    style={[props.style, { width: '100%' }]}
+    style={[props.style, styles.title]}
     entering={FadeIn.duration(300)}
     exiting={FadeOut.duration(300)}
   />
@@ -59,7 +59,7 @@ export function TabScreenLayout(props: ITabScreenLayoutProps): ReactNode {
       )}
 
       subtitle={(txtProps) => (
-        <Pressable style={{ width: '100%' }} onPress={scrollToToday}>
+        <Pressable style={styles.title} onPress={scrollToToday}>
           <HeaderSubtitle {...txtProps} />
         </Pressable>
       )}
@@ -75,4 +75,8 @@ const styles = StyleSheet.create({
   slider: {
     height: '100%',
   } satisfies ViewStyle,
+
+  title: {
+    width: '100%',
+  },
 });
