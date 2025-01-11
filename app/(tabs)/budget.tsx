@@ -11,7 +11,7 @@ export default function Budget(): ReactNode {
   return (
     <TabScreenLayout title="Budget">
       <Text>
-        1231
+        {JSON.stringify(budget.data, null, 2)}
       </Text>
     </TabScreenLayout>
   );

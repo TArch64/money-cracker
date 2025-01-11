@@ -7,6 +7,7 @@ export function useRecordsExistsSuspenseQuery() {
 
   return useSuspenseQuery({
     queryKey: RECORDS_EXISTS_QUERY,
+
     async queryFn(): Promise<boolean> {
       return !!(await db.select().from(records).limit(1)).length;
     }

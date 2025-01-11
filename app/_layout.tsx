@@ -13,7 +13,6 @@ import { ClickOutsideProvider } from 'react-native-click-outside';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useInitialScreen } from '@/hooks/useInitialScreen';
-import { DataLoaderProvider } from '@/hooks/useDataLoader';
 
 if (__DEV__) {
   console.log('SQLite database path:');
@@ -31,33 +30,31 @@ export default function Layout() {
   }, [isDatabaseReady]);
 
   return (
-    <DataLoaderProvider>
-      <DatabaseProvider onReady={() => setDatabaseReady(true)}>
-        {() => (
-          <UiKittenProvider>
-            <ClickOutsideProvider>
-              <QueryProvider>
-                <SafeAreaProvider>
-                  <GestureHandlerRootView>
-                    <BottomSheetModalProvider>
-                      <StatusBar style="auto" />
+    <DatabaseProvider onReady={() => setDatabaseReady(true)}>
+      {() => (
+        <UiKittenProvider>
+          <ClickOutsideProvider>
+            <QueryProvider>
+              <SafeAreaProvider>
+                <GestureHandlerRootView>
+                  <BottomSheetModalProvider>
+                    <StatusBar style="auto" />
 
-                      <Stack
-                        screenOptions={() => ({
-                          headerShown: false,
-                          animation: isInitialScreen.current ? 'fade' : 'default',
-                          animationDuration: 200,
-                          freezeOnBlur: true,
-                        })}
-                      />
-                    </BottomSheetModalProvider>
-                  </GestureHandlerRootView>
-                </SafeAreaProvider>
-              </QueryProvider>
-            </ClickOutsideProvider>
-          </UiKittenProvider>
-        )}
-      </DatabaseProvider>
-    </DataLoaderProvider>
+                    <Stack
+                      screenOptions={() => ({
+                        headerShown: false,
+                        animation: isInitialScreen.current ? 'fade' : 'default',
+                        animationDuration: 200,
+                        freezeOnBlur: true,
+                      })}
+                    />
+                  </BottomSheetModalProvider>
+                </GestureHandlerRootView>
+              </SafeAreaProvider>
+            </QueryProvider>
+          </ClickOutsideProvider>
+        </UiKittenProvider>
+      )}
+    </DatabaseProvider>
   );
 }
