@@ -46,18 +46,18 @@ export default function Layout(): ReactNode {
       />
 
       <Tabs.Screen
-        name="statistics"
-        options={{
-          title: 'Statistics',
-          tabBarIcon: iconRenderer(IconName.PIE_CHART_OUTLINE),
-        }}
-      />
-
-      <Tabs.Screen
         name="budget"
         options={{
           title: 'Budget',
           tabBarIcon: iconRenderer(IconName.BRIEFCASE_OUTLINE),
+        }}
+      />
+
+      <Tabs.Screen
+        name="statistics"
+        options={{
+          title: 'Statistics',
+          tabBarIcon: iconRenderer(IconName.PIE_CHART_OUTLINE),
         }}
       />
     </Tabs>

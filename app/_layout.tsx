@@ -1,7 +1,7 @@
 import 'react-native-reanimated';
 
 import { useEffect, useState } from 'react';
-import { Stack, usePathname } from 'expo-router';
+import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { DatabaseProvider } from '@/db';
@@ -23,14 +23,11 @@ if (__DEV__) {
 SplashScreen.preventAutoHideAsync();
 
 export default function Layout() {
-  const route = usePathname();
   const isInitialScreen = useInitialScreen();
   const [isDatabaseReady, setDatabaseReady] = useState(false);
 
   useEffect(() => {
-    if (route !== '/') {
-      SplashScreen.hideAsync();
-    }
+    SplashScreen.hideAsync();
   }, [isDatabaseReady]);
 
   return (

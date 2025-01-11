@@ -1,14 +1,12 @@
 import type { PropsWithChildren, ReactElement, ReactNode } from 'react';
 import { useRouter } from 'expo-router';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
-import type { IPropsWithStyle } from '@/types';
 import { Divider, type TextProps, TopNavigation, TopNavigationAction, useTheme } from '@ui-kitten/components';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { RenderProp } from '@ui-kitten/components/devsupport';
 import { IconName, iconRenderer } from '@/components/uiKitten/Icon';
 
-export interface IMainScreenLayoutProps extends PropsWithChildren,
-  IPropsWithStyle<ViewStyle> {
+export interface IMainScreenLayoutProps extends PropsWithChildren {
   title: string | RenderProp<TextProps>;
   subtitle?: string | RenderProp<TextProps>;
   canGoBack?: boolean;
@@ -30,6 +28,7 @@ export function MainScreenLayout(props: IMainScreenLayoutProps): ReactNode {
 
   return (
     <SafeAreaView
+      edges={['top']}
       style={[
         styles.safeArea,
         { backgroundColor: theme['background-basic-color-1'] },
@@ -47,7 +46,6 @@ export function MainScreenLayout(props: IMainScreenLayoutProps): ReactNode {
 
       <View
         style={[
-          props.style,
           styles.content,
           { backgroundColor: theme['background-basic-color-2'] },
         ]}
@@ -60,12 +58,12 @@ export function MainScreenLayout(props: IMainScreenLayoutProps): ReactNode {
 
 const styles = StyleSheet.create({
   safeArea: {
-    height: '100%',
+    flex: 1,
     display: 'flex',
     flexDirection: 'column',
   } satisfies ViewStyle,
 
   content: {
-    flexGrow: 1,
+    flex: 1,
   } satisfies ViewStyle,
 });

@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { TabScreenLayout } from '@/components/layout';
 import { useMoneyFormatter } from '@/hooks/formatters';
-import { MonthIdx } from '@/stores';
+import { useMonthStore } from '@/stores';
 import { useExpensesMonthSuspenseQuery } from '@/hooks/queries';
 import { ScrollView, StyleSheet, View, type ViewStyle } from 'react-native';
 import { groupBy } from 'lodash-es';
@@ -36,14 +36,12 @@ function sumRecords(records: Record[]): number {
   return records.reduce((acc, record) => acc + record.value, 0);
 }
 
-interface IMonthStatisticsProps {
-  monthIdx: MonthIdx;
-}
+function MonthStatistics(): ReactNode {
+  const monthIdx = useMonthStore((state) => state.activeIdx);
 
-function MonthStatistics(props: IMonthStatisticsProps): ReactNode {
   const expensesQuery = useExpensesMonthSuspenseQuery({
-    year: props.monthIdx.year,
-    month: props.monthIdx.month,
+    year: monthIdx.year,
+    month: monthIdx.month,
     subkey: ['statistics'],
 
     select: (records) => ({
@@ -88,7 +86,7 @@ function MonthStatistics(props: IMonthStatisticsProps): ReactNode {
 export default function Statistics(): ReactNode {
   return (
     <TabScreenLayout title="Statistics">
-      {(monthIdx) => <MonthStatistics monthIdx={monthIdx} />}
+      <MonthStatistics />
     </TabScreenLayout>
   );
 }

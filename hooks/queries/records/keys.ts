@@ -1,4 +1,3 @@
-export const RECORDS_BOUNDARIES_QUERY = ['records', 'boundaries'] as const;
 export const RECORDS_DETAILS_QUERY = (recordId: number) => ['records', recordId, 'details'] as const;
 export const RECORDS_EXISTS_QUERY = ['records', 'exists'] as const;
 

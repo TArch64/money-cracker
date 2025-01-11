@@ -27,13 +27,14 @@ export function FullScreenLayout(props: IFullScreenLayoutProps): ReactNode {
     >
       {props.title && (
         <TopNavigation
+          title={props.title}
+
           accessoryLeft={canGoBack ? (() => (
             <TopNavigationAction
               icon={iconRenderer(IconName.ARROW_BACK)}
               onPress={router.back}
             />
           )) : undefined}
-          title={props.title}
         />
       )}
 
