@@ -1,12 +1,12 @@
 import { flip, offset, useFloating } from '@floating-ui/react-native';
 import { FormInput, type IFormInputProps, type IFormInputValueController } from './FormInput';
 import { forwardRef, useEffect, useRef, useState } from 'react';
-import { StyleSheet, View, type ViewStyle } from 'react-native';
+import { Keyboard, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native';
 import { Menu, MenuItem, useTheme } from '@ui-kitten/components';
 import { useFormField } from './useFormField';
 import type { IPropsWithStyle } from '@/types';
-import { useClickOutside } from 'react-native-click-outside';
 import { HighlightText } from '../uiKitten';
+import { BackdropView } from '../BackdropView';
 
 interface IAutocompleteMenuProps extends IPropsWithStyle<ViewStyle> {
   value: string;
@@ -24,12 +24,12 @@ const AutocompleteMenu = forwardRef<View, IAutocompleteMenuProps>((props, ref) =
       style={[
         props.style,
         styles.dropdownMenu,
-        { backgroundColor: theme['background-basic-color-1'] },
       ]}
     >
       <Menu>
         {props.suggestions.map((suggestion) => (
           <MenuItem
+            style={{ backgroundColor: theme['background-basic-color-2'] }}
             key={suggestion}
             title={(txtProps) => (
               <HighlightText
@@ -66,7 +66,6 @@ export function FormAutocomplete(props: IFormAutocompleteProps) {
 
   const [isOpened, setOpened] = useState(false);
   const [floatingWidth, setFloatingWidth] = useState(0);
-  const clickOutsideRef = useClickOutside(() => setOpened(false));
 
   const valueController: IFormInputValueController = {
     value: field.state.value,
@@ -100,39 +99,46 @@ export function FormAutocomplete(props: IFormAutocompleteProps) {
 
   const isRendered = !!floatingStyles.top || !!floatingStyles.left;
 
+  function selectSuggestions(value: string) {
+    Keyboard.dismiss();
+    valueController.setValue(value);
+    setOpened(false);
+  }
+
   return (
-    <View>
-      <View collapsable={false} ref={clickOutsideRef}>
-        <View
-          collapsable={false}
-          ref={refs.setReference}
-          onLayout={(event) => setFloatingWidth(event.nativeEvent.layout.width)}
-        >
-          <FormInput
-            {...inputProps}
-            valueController={valueController}
-            onFocus={() => setOpened(true)}
-            onBlur={() => setOpened(false)}
-            onPress={() => setOpened(true)}
-          />
-        </View>
+    <>
+      {isOpened && !!displayingSuggestions.length && <BackdropView onPress={() => setOpened(false)} />}
+
+      <View
+        collapsable={false}
+        ref={refs.setReference}
+        onLayout={(event) => setFloatingWidth(event.nativeEvent.layout.width)}
+      >
+        <FormInput
+          {...inputProps}
+          valueController={valueController}
+          onFocus={() => setOpened(true)}
+          onBlur={() => setOpened(false)}
+          onPress={() => setOpened(true)}
+        />
       </View>
 
       {isOpened && !!displayingSuggestions.length && (
-        <>
-          <AutocompleteMenu
-            ref={refs.setFloating}
-            style={[
-              floatingStyles,
-              { width: floatingWidth, opacity: isRendered ? 1 : 0 },
-            ]}
-            value={valueController.value}
-            onSelect={valueController.setValue}
-            suggestions={displayingSuggestions}
-          />
-        </>
+        <AutocompleteMenu
+          ref={refs.setFloating}
+          style={[
+            floatingStyles,
+            {
+              width: floatingWidth,
+              opacity: isRendered ? 1 : 0,
+            },
+          ] satisfies StyleProp<ViewStyle>}
+          value={valueController.value}
+          onSelect={selectSuggestions}
+          suggestions={displayingSuggestions}
+        />
       )}
-    </View>
+    </>
   );
 }
 

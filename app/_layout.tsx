@@ -9,7 +9,6 @@ import { UiKittenProvider } from '@/components/uiKitten';
 import { QueryProvider } from '@/hooks/queries';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { documentDirectory } from 'expo-file-system';
-import { ClickOutsideProvider } from 'react-native-click-outside';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useInitialScreen } from '@/hooks/useInitialScreen';
@@ -33,26 +32,24 @@ export default function Layout() {
     <DatabaseProvider onReady={() => setDatabaseReady(true)}>
       {() => (
         <UiKittenProvider>
-          <ClickOutsideProvider>
-            <QueryProvider>
-              <SafeAreaProvider>
-                <GestureHandlerRootView>
-                  <BottomSheetModalProvider>
-                    <StatusBar style="auto" />
+          <QueryProvider>
+            <SafeAreaProvider>
+              <GestureHandlerRootView>
+                <BottomSheetModalProvider>
+                  <StatusBar style="auto" />
 
-                    <Stack
-                      screenOptions={() => ({
-                        headerShown: false,
-                        animation: isInitialScreen.current ? 'fade' : 'default',
-                        animationDuration: 200,
-                        freezeOnBlur: true,
-                      })}
-                    />
-                  </BottomSheetModalProvider>
-                </GestureHandlerRootView>
-              </SafeAreaProvider>
-            </QueryProvider>
-          </ClickOutsideProvider>
+                  <Stack
+                    screenOptions={() => ({
+                      headerShown: false,
+                      animation: isInitialScreen.current ? 'fade' : 'default',
+                      animationDuration: 200,
+                      freezeOnBlur: true,
+                    })}
+                  />
+                </BottomSheetModalProvider>
+              </GestureHandlerRootView>
+            </SafeAreaProvider>
+          </QueryProvider>
         </UiKittenProvider>
       )}
     </DatabaseProvider>
