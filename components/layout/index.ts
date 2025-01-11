@@ -1,4 +1,4 @@
 export * from './FullScreenLayout';
 export * from './MainScreenLayout';
 export * from './FormScreenLayout';
-export * from './TabScreenLayout';
+export * from './tab';
