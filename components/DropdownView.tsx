@@ -1,8 +1,9 @@
 import { type ReactNode, type RefCallback, useState } from 'react';
 import type { IPropsWithChildrenFn } from '@/types';
 import { BackdropView } from '@/components/BackdropView';
-import { type LayoutChangeEvent, type NativeMethods, StyleSheet, View, type ViewStyle } from 'react-native';
+import { type LayoutChangeEvent, type NativeMethods, StyleSheet, type ViewStyle } from 'react-native';
 import { flip, offset, shift, useFloating } from '@floating-ui/react-native';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
 export interface IDropdownActivatorProps {
   ref: RefCallback<NativeMethods>;
@@ -43,7 +44,7 @@ export function DropdownView(props: IDropdownViewProps): ReactNode {
       })}
 
       {props.isOpened && (
-        <View
+        <Animated.View
           ref={refs.setFloating}
           collapsable={false}
           style={[
@@ -51,12 +52,13 @@ export function DropdownView(props: IDropdownViewProps): ReactNode {
             {
               ...floatingStyles,
               width: floatingWidth,
-              opacity: isRendered ? 1 : 0,
             },
           ]}
+          entering={FadeIn.duration(200)}
+          exiting={FadeOut.duration(200)}
         >
           {props.children()}
-        </View>
+        </Animated.View>
       )}
     </>
   );
