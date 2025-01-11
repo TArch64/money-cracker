@@ -4,9 +4,7 @@ import { useFormField } from './useFormField';
 import { Keyboard, Pressable, type StyleProp, StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
 import { Text, useTheme } from '@ui-kitten/components';
 import { useDateFormatter } from '@/hooks/formatters';
-import { flip, offset, useFloating } from '@floating-ui/react-native';
-import { shift } from '@floating-ui/core';
-import { BackdropView } from '@/components/BackdropView';
+import { DropdownView } from '@/components/DropdownView';
 
 export interface IFormDatepickerProps {
   label: string;
@@ -46,99 +44,70 @@ export function FormDatepicker(props: IFormDatepickerProps): ReactNode {
 
   const error = field.state.meta.errors?.join(', ');
 
-  const [floatingWidth, setFloatingWidth] = useState(0);
-
-  const { refs, floatingStyles } = useFloating({
-    placement: 'bottom-start',
-
-    middleware: [
-      flip({ elementContext: 'reference' }),
-      shift({ elementContext: 'reference' }),
-      offset({ mainAxis: 4 }),
-    ],
-  });
-
-  const isRendered = !!floatingStyles.top || !!floatingStyles.left;
-
   const [isOpened, setOpened] = useState(false);
   const containerStyle = useContainerStyle(isOpened, !!error);
 
-  const toggle = () => setOpened((value) => {
-    if (!value) Keyboard.dismiss();
-    return !value;
-  });
+  function open() {
+    Keyboard.dismiss();
+    setOpened(true);
+  }
 
   const close = () => setOpened(false);
 
   return (
-    <>
-      {isOpened && <BackdropView onPress={close} />}
+    <DropdownView
+      isOpened={isOpened}
+      onOpen={open}
+      onClose={close}
 
-      <View>
-        <Pressable
-          collapsable={false}
-          ref={refs.setReference}
-          onLayout={(event) => setFloatingWidth(event.nativeEvent.layout.width)}
-          onPress={toggle}
-        >
-          <Text
-            category="label"
-            style={[
-              styles.label,
-              { color: theme['color-basic-600'] },
-            ] satisfies StyleProp<TextStyle>}
-          >
-            {props.label}
-          </Text>
-
-          <View style={[styles.container, containerStyle]}>
+      activator={(activatorProps) => (
+        <>
+          <Pressable {...activatorProps} onPress={isOpened ? close : open}>
             <Text
-              category="p1"
+              category="label"
               style={[
-                styles.value,
-                { color: isPlaceholder ? theme['color-basic-600'] : theme['color-basic-800'] },
+                styles.label,
+                { color: theme['color-basic-600'] },
               ] satisfies StyleProp<TextStyle>}
             >
-              {displayingValue}
+              {props.label}
             </Text>
-          </View>
-        </Pressable>
 
-        {error && (
-          <Text
-            category="c1"
-            style={[
-              styles.error,
-              { color: theme['color-danger-500'] },
-            ] satisfies StyleProp<TextStyle>}
-          >
-            {error}
-          </Text>
-        )}
+            <View style={[styles.container, containerStyle]}>
+              <Text
+                category="p1"
+                style={[
+                  styles.value,
+                  { color: isPlaceholder ? theme['color-basic-600'] : theme['color-basic-800'] },
+                ] satisfies StyleProp<TextStyle>}
+              >
+                {displayingValue}
+              </Text>
+            </View>
+          </Pressable>
 
-        {isOpened && (
-          <View
-            collapsable={false}
-            ref={refs.setFloating}
-            style={[
-              styles.dropdown,
-              floatingStyles,
-              {
-                width: floatingWidth,
-                opacity: isRendered ? 1 : 0,
-                backgroundColor: theme['background-basic-color-2'],
-              },
-            ] satisfies StyleProp<ViewStyle>}
-          >
-            <DateTimePicker
-              display="inline"
-              value={field.state.value}
-              onChange={(_, date) => field.handleChange(date)}
-            />
-          </View>
-        )}
-      </View>
-    </>
+          {error && (
+            <Text
+              category="c1"
+              style={[
+                styles.error,
+                { color: theme['color-danger-500'] },
+              ] satisfies StyleProp<TextStyle>}
+            >
+              {error}
+            </Text>
+          )}
+        </>
+      )}
+    >
+      {() => (
+        <DateTimePicker
+          display="inline"
+          value={field.state.value}
+          onChange={(_, date) => field.handleChange(date)}
+        />
+      )}
+    </DropdownView>
   );
 }
 
