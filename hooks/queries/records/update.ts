@@ -3,6 +3,7 @@ import { type Record, records, type RecordWithCategory, useDatabase } from '@/db
 import { RECORDS_DETAILS_QUERY, RECORDS_MONTH_LIST_QUERY } from './keys';
 import { useCategoryFindOrCreateMutation } from '../categories';
 import { eq } from 'drizzle-orm';
+import { MONTHS_QUERY } from '../general';
 
 export interface IUpdateRecordInput extends Omit<Record, 'id' | 'categoryId' | 'dateUnix' | 'type'> {
   category: string;
@@ -41,6 +42,9 @@ export function useRecordUpdateMutation(record: RecordWithCategory) {
         }),
         queryClient.invalidateQueries({
           queryKey: RECORDS_DETAILS_QUERY(record.id),
+        }),
+        queryClient.invalidateQueries({
+          queryKey: MONTHS_QUERY,
         }),
       ];
 

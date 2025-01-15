@@ -35,7 +35,6 @@
     "expo-sqlite": "~15.0.5",
     "expo-status-bar": "~2.0.0",
     "lodash-es": "^4.17.21",
-    "patch-package": "^8.0.0",
     "react": "18.3.1",
     "react-compiler-runtime": "^19.0.0-beta-63e3235-20250105",
     "react-native": "0.76.5",

@@ -4,7 +4,7 @@ import { StyleSheet, View, type ViewStyle } from 'react-native';
 import { Divider, type TextProps, TopNavigation, TopNavigationAction, useTheme } from '@ui-kitten/components';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { RenderProp } from '@ui-kitten/components/devsupport';
-import { IconName, iconRenderer } from '@/components/uiKitten/Icon';
+import { IconName, iconRenderer } from '@/components/uiKitten';
 
 export interface IMainScreenLayoutProps extends PropsWithChildren {
   title: string | RenderProp<TextProps>;

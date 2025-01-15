@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { Tabs } from 'expo-router';
 import { useTheme } from '@ui-kitten/components';
 import type { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
-import { Icon, IconName } from '@/components/uiKitten/Icon';
+import { Icon, IconName } from '@/components/uiKitten';
 import { type ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 

@@ -2,8 +2,8 @@ import { Text, type TextProps } from '@ui-kitten/components';
 import type { ReactNode } from 'react';
 import { useMonthStore } from '@/stores';
 import { useDateFormatter } from '@/hooks/formatters';
-import { Pressable, StyleSheet, type TextStyle } from 'react-native';
-import { Icon, IconName } from '@/components/uiKitten/Icon';
+import { StyleSheet, type TextStyle, TouchableOpacity } from 'react-native';
+import { Icon, IconName } from '@/components/uiKitten';
 
 export interface ITabHeaderTitleProps extends TextProps {
   onPress: () => void;
@@ -15,16 +15,17 @@ export function TabHeaderTitle(props: ITabHeaderTitleProps): ReactNode {
   const monthTitle = dateFormatter.format(activeIdx.date);
 
   return (
-    <Pressable
+    <TouchableOpacity
+      activeOpacity={0.6}
       style={styles.titlePressable}
       onPress={props.onPress}
     >
-      <Text {...props} style={props.style}>
+      <Text style={props.style}>
         {monthTitle}
       </Text>
 
       <Icon name={IconName.CHEVRON_DOWN} />
-    </Pressable>
+    </TouchableOpacity>
   );
 }
 

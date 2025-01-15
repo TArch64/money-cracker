@@ -33,4 +33,8 @@ export class MonthIdx {
 
     return new MonthIdx(this.year, this.month + 1);
   }
+
+  isEqual(other: MonthIdx): boolean {
+    return this.year === other.year && this.month === other.month;
+  }
 }

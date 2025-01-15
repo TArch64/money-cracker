@@ -8,7 +8,7 @@ import { confirm } from '@/helpers/confirm';
 import { useRecordDeleteMutation } from '@/hooks/queries';
 import { useRouter } from 'expo-router';
 import { getRecordTypeTitle, isExpenseRecord } from '@/enums';
-import { Icon, IconName } from '@/components/uiKitten/Icon';
+import { Icon, IconName } from '@/components/uiKitten';
 
 export interface IMonthRecordProps {
   record: RecordWithCategory;

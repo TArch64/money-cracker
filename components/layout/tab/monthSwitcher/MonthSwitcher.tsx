@@ -1,15 +1,22 @@
-import { forwardRef, type ReactNode, useImperativeHandle, useRef, useState } from 'react';
+import { forwardRef, type ReactNode, Suspense, useImperativeHandle, useRef, useState } from 'react';
 import { type BottomSheetBackdropProps, BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
 import { TopNavigation, TopNavigationAction } from '@ui-kitten/components';
-import { IconName, iconRenderer } from '@/components/uiKitten/Icon';
+import { IconName, iconRenderer } from '@/components/uiKitten';
 import Animated, { Extrapolation, interpolate, useAnimatedStyle } from 'react-native-reanimated';
-import { StyleSheet, TouchableWithoutFeedback, useWindowDimensions, type ViewStyle } from 'react-native';
+import {
+  type StyleProp,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  useWindowDimensions,
+  type ViewStyle,
+} from 'react-native';
+import { SwitcherYearList } from './SwitcherYearList';
 
 interface IModalBackdropProps extends BottomSheetBackdropProps {
   onClose: () => void;
 }
 
-function ModalBackdrop(props: IModalBackdropProps): ReactNode {
+function MonthSwitcherBackdrop(props: IModalBackdropProps): ReactNode {
   const animatedStyle = useAnimatedStyle(() => ({
     opacity: interpolate(1 + props.animatedIndex.value, [0, 1], [0, 1], Extrapolation.CLAMP),
   }));
@@ -24,12 +31,6 @@ function ModalBackdrop(props: IModalBackdropProps): ReactNode {
         ]}
       />
     </TouchableWithoutFeedback>
-  );
-}
-
-function MonthList(): ReactNode {
-  return (
-    <></>
   );
 }
 
@@ -59,12 +60,16 @@ export const MonthSwitcher = forwardRef<IMonthSwitcherRef>((_, ref) => {
       ref={modalRef}
       enableDismissOnClose
       enablePanDownToClose
-      backdropComponent={(props) => <ModalBackdrop {...props} onClose={close} />}
+      backdropComponent={(props) => <MonthSwitcherBackdrop {...props} onClose={close} />}
       handleComponent={null}
       onDismiss={() => setOpened(false)}
     >
       {isOpened && (
-        <BottomSheetView style={{ height: screen.height - 100 }}>
+        <BottomSheetView
+          style={{
+            height: screen.height - 100,
+          } satisfies StyleProp<ViewStyle>}
+        >
           <TopNavigation
             title="Select Month"
             alignment="center"
@@ -77,8 +82,9 @@ export const MonthSwitcher = forwardRef<IMonthSwitcherRef>((_, ref) => {
               />
             )}
           />
-
-          <MonthList />
+          <Suspense>
+            <SwitcherYearList />
+          </Suspense>
         </BottomSheetView>
       )}
     </BottomSheetModal>

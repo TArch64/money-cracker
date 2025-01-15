@@ -1,23 +1,15 @@
-import {
-  type FC,
-  type ReactNode,
-  type Ref,
-  type RefObject,
-  useEffect, useLayoutEffect,
-  useRef,
-  useState,
-} from 'react';
-import { BottomSheetModal, BottomSheetView, type BottomSheetBackdropProps } from '@gorhom/bottom-sheet';
+import { type FC, type ReactNode, type Ref, type RefObject, useLayoutEffect, useRef, useState } from 'react';
+import { type BottomSheetBackdropProps, BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
 import type { IPropsWithChildrenFn } from '@/types';
 import {
+  type NativeMethods,
   StyleSheet,
   TouchableWithoutFeedback,
-  type ViewStyle,
-  type NativeMethods,
   useWindowDimensions,
+  type ViewStyle,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Animated, {Extrapolation, interpolate, useAnimatedProps,} from 'react-native-reanimated';
+import Animated, { Extrapolation, interpolate, useAnimatedProps } from 'react-native-reanimated';
 import Svg, { Path, Rect } from 'react-native-svg';
 import { useTheme } from '@ui-kitten/components';
 

@@ -3,7 +3,7 @@ import { useRouter } from 'expo-router';
 import { TabScreenLayout } from '@/components/layout';
 import { Divider, Text, TopNavigationAction, useTheme } from '@ui-kitten/components';
 import { RecordType } from '@/enums';
-import { IconName, iconRenderer } from '@/components/uiKitten/Icon';
+import { IconName, iconRenderer } from '@/components/uiKitten';
 import { ScrollView, StyleSheet, View, type ViewStyle } from 'react-native';
 import { useMonthStore } from '@/stores';
 import { useRecordsMonthSuspenseQuery } from '@/hooks/queries';

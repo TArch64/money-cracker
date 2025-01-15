@@ -5,7 +5,7 @@ import type { IPropsWithStyle } from '@/types';
 import { type TextProps, TopNavigation, TopNavigationAction, useTheme } from '@ui-kitten/components';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { RenderProp } from '@ui-kitten/components/devsupport';
-import { IconName, iconRenderer } from '@/components/uiKitten/Icon';
+import { IconName, iconRenderer } from '@/components/uiKitten';
 
 export interface IFullScreenLayoutProps extends PropsWithChildren,
   IPropsWithStyle<ViewStyle> {

@@ -1,7 +1,7 @@
-import { type PropsWithChildren, type ReactNode, useRef } from 'react';
+import { type PropsWithChildren, type ReactNode, Suspense, useRef } from 'react';
 import { type IMainScreenLayoutProps, MainScreenLayout } from '../MainScreenLayout';
 import { TabHeaderTitle } from './TabHeaderTitle';
-import { type IMonthSwitcherRef, MonthSwitcher } from './MonthSwitcher';
+import { type IMonthSwitcherRef, MonthSwitcher } from './monthSwitcher';
 
 export interface ITabScreenLayoutProps extends PropsWithChildren {
   title: string;
@@ -24,7 +24,10 @@ export function TabScreenLayout(props: ITabScreenLayoutProps): ReactNode {
       )}
     >
       <MonthSwitcher ref={monthSwitcherRef} />
-      {props.children}
+
+      <Suspense>
+        {props.children}
+      </Suspense>
     </MainScreenLayout>
   );
 }
