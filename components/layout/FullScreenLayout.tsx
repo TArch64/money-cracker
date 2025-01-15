@@ -28,6 +28,7 @@ export function FullScreenLayout(props: IFullScreenLayoutProps): ReactNode {
       {props.title && (
         <TopNavigation
           title={props.title}
+          alignment="center"
 
           accessoryLeft={canGoBack ? (() => (
             <TopNavigationAction

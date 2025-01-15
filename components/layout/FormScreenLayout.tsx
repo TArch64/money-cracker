@@ -16,13 +16,7 @@ export function FormScreenLayout<S extends FormSchema>(props: IFormScreenLayoutP
   const Wrapper = props.fullScreen ? FullScreenLayout : MainScreenLayout;
 
   return (
-    <Wrapper
-      title={props.title!}
-      style={[
-        styles.root,
-        !props.fullScreen && styles.rootWithHeader,
-      ]}
-    >
+    <Wrapper title={props.title!} style={styles.root}>
       <Form
         schema={props.schema}
         initialValues={props.initialValues}
@@ -51,11 +45,8 @@ export function FormScreenLayout<S extends FormSchema>(props: IFormScreenLayoutP
 const styles = StyleSheet.create({
   root: {
     paddingHorizontal: 24,
-    paddingBottom: 104,
-  } satisfies ViewStyle,
-
-  rootWithHeader: {
     paddingTop: 16,
+    paddingBottom: 104,
   } satisfies ViewStyle,
 
   formColumn: {
