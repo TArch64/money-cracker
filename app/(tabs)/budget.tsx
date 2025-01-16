@@ -4,6 +4,7 @@ import { useMonthStore } from '@/stores';
 import { useBudgetMonthSuspenseQuery } from '@/hooks/queries';
 import { Button, Text } from '@ui-kitten/components';
 import { StyleSheet, type TextStyle, View } from 'react-native';
+import { Link } from 'expo-router';
 
 function Empty(): ReactNode {
   return (
@@ -12,9 +13,11 @@ function Empty(): ReactNode {
         No budget for this month
       </Text>
 
-      <Button appearance="ghost">
-        {(txtProps) => <Text {...txtProps}>Add Budget</Text>}
-      </Button>
+      <Link href="/budgets/new" asChild>
+        <Button appearance="ghost">
+          {(txtProps) => <Text {...txtProps}>Add Budget</Text>}
+        </Button>
+      </Link>
     </View>
   );
 }
