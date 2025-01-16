@@ -1,10 +1,10 @@
-import { Fragment, type ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import { useRouter } from 'expo-router';
 import { TabScreenLayout } from '@/components/layout';
 import { Divider, Text, TopNavigationAction, useTheme } from '@ui-kitten/components';
 import { RecordType } from '@/enums';
 import { IconName, iconRenderer } from '@/components/uiKitten';
-import { ScrollView, StyleSheet, View, type ViewStyle } from 'react-native';
+import { FlatList, StyleSheet, View, type ViewStyle } from 'react-native';
 import { useMonthStore } from '@/stores';
 import { useRecordsMonthSuspenseQuery } from '@/hooks/queries';
 import { MonthRecord } from '@/components/recordsList';
@@ -29,22 +29,22 @@ function MonthRecords(): ReactNode {
   }
 
   return (
-    <ScrollView>
-      {recordsQuery.data.map((record, index) => (
-        <Fragment key={record.id}>
-          {index > 0 && (
-            <Divider
-              style={[
-                styles.divider,
-                { backgroundColor: theme['color-basic-400'] },
-              ]}
-            />
-          )}
+    <FlatList
+      data={recordsQuery.data}
 
-          <MonthRecord record={record} />
-        </Fragment>
-      ))}
-    </ScrollView>
+      ItemSeparatorComponent={() => (
+        <Divider
+          style={[
+            styles.divider,
+            { backgroundColor: theme['color-basic-400'] },
+          ]}
+        />
+      )}
+
+      renderItem={({ item }) => (
+        <MonthRecord record={item} />
+      )}
+    />
   );
 }
 
