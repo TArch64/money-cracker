@@ -11,6 +11,8 @@ export const enum IconName {
   CALENDAR_OUTLINE = 'calendar-outline',
   PIE_CHART_OUTLINE = 'pie-chart-outline',
   CHEVRON_DOWN = 'chevron-down',
+  TRASH_OUTLINE = 'trash-outline',
+  EDIT_OUTLINE = 'edit-outline',
 }
 
 export function Icon(props: Omit<IconProps, 'name'> & { name: IconName }): ReactNode {

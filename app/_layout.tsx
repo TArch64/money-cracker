@@ -12,6 +12,7 @@ import { documentDirectory } from 'expo-file-system';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useInitialScreen } from '@/hooks/useInitialScreen';
+import { configureReanimatedLogger } from 'react-native-reanimated';
 
 if (__DEV__) {
   console.log('SQLite database path:');
@@ -19,6 +20,7 @@ if (__DEV__) {
 }
 
 SplashScreen.preventAutoHideAsync();
+configureReanimatedLogger({ strict: false });
 
 export default function Layout() {
   const isInitialScreen = useInitialScreen();

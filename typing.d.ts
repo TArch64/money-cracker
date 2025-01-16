@@ -1,7 +1,8 @@
 declare module '@ui-kitten/components' {
-  type BaseColors = 'basic' | 'primary' | 'success' | 'warning' | 'danger'
+  import type { ElementStatus } from '@/components/uiKitten';
+
   type ColorLevels = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
-  type Colors = BaseColors | `${BaseColors}-transparent`
+  type Colors = ElementStatus | `${ElementStatus}-transparent`
   type ColorKey = `color-${Colors}-${ColorLevels}`
   type BgKeys = `background-basic-color-${1 | 2 | 3}`
   type Theme = Record<ColorKey | BgKeys, string>;

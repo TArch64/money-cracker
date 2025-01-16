@@ -1,50 +1,17 @@
 import type { ReactNode } from 'react';
 import type { RecordWithCategory } from '@/db';
-import { Pressable, StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
-import { Button, Text, useTheme } from '@ui-kitten/components';
+import { StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
+import { Text, useTheme } from '@ui-kitten/components';
 import { useDateFormatter, useMoneyFormatter } from '@/hooks/formatters';
-import { ActionsSheetModal } from '@/components/bottomSheet';
 import { confirm } from '@/helpers/confirm';
 import { useRecordDeleteMutation } from '@/hooks/queries';
 import { useRouter } from 'expo-router';
 import { getRecordTypeTitle, isExpenseRecord } from '@/enums';
 import { Icon, IconName } from '@/components/uiKitten';
+import { SwipeActionView } from '@/components/SwipeActionView';
 
 export interface IMonthRecordProps {
   record: RecordWithCategory;
-}
-
-function DeleteAction(props: IMonthRecordProps): ReactNode {
-  const deleteMutation = useRecordDeleteMutation(props.record);
-  const title = getRecordTypeTitle(props.record.type);
-
-  function isDeleteConfirmed(): Promise<boolean> {
-    return confirm({
-      title: `Delete ${title}`,
-      message: `Are you sure you want to delete this ${title.toLowerCase()}?`,
-
-      accept: {
-        text: 'Delete',
-        style: 'destructive',
-      },
-    });
-  }
-
-  async function deleteRecord(): Promise<void> {
-    if (await isDeleteConfirmed()) {
-      deleteMutation.mutate();
-    }
-  }
-
-  return (
-    <Button
-      appearance="ghost"
-      status="danger"
-      onPress={deleteRecord}
-    >
-      {txtProps => <Text {...txtProps}>Delete {title}</Text>}
-    </Button>
-  );
 }
 
 export function MonthRecord(props: IMonthRecordProps): ReactNode {
@@ -52,6 +19,7 @@ export function MonthRecord(props: IMonthRecordProps): ReactNode {
   const router = useRouter();
   const dateFormatter = useDateFormatter({ month: 'long', day: 'numeric' });
   const moneyFormatter = useMoneyFormatter();
+  const deleteMutation = useRecordDeleteMutation(props.record);
 
   const isExpense = isExpenseRecord(props.record.type);
 
@@ -68,62 +36,80 @@ export function MonthRecord(props: IMonthRecordProps): ReactNode {
     })
   }
 
+  function isDeleteConfirmed(): Promise<boolean> {
+    return confirm({
+      title: `Delete ${title}`,
+      message: `Are you sure you want to delete this ${title.toLowerCase()}?`,
+
+      accept: {
+        text: 'Delete',
+        style: 'destructive',
+      },
+    });
+  }
+
   return (
-    <ActionsSheetModal
-      activator={({ openModal, ref }) => (
-        // @ts-expect-error
-        <Pressable ref={ref} style={styles.row} onPress={openModal}>
-          <View
-            style={[
-              styles.label,
-              { backgroundColor: theme[`color-${status}-500`] },
-            ]}
+    <SwipeActionView
+      rowStyle={styles.row}
+
+      left={{
+        icon: IconName.EDIT_OUTLINE,
+        status: 'info',
+
+        onAction: () => router.push({
+          pathname: '/records/[recordId]/edit',
+          params: { recordId: props.record.id },
+        }),
+      }}
+
+      right={{
+        icon: IconName.TRASH_OUTLINE,
+        status: 'danger',
+
+        async onAction() {
+          if (await isDeleteConfirmed()) deleteMutation.mutate();
+        },
+      }}
+    >
+      <View
+        style={[
+          styles.label,
+          { backgroundColor: theme[`color-${status}-500`] },
+        ]}
+      />
+
+      <View>
+        <Text style={styles.categoryName}>
+          {props.record.category.name}
+        </Text>
+
+        <View style={styles.dateRow}>
+          <Icon
+            name={IconName.CALENDAR_OUTLINE}
+            style={styles.dateIcon}
+            fill={theme['color-basic-600']}
           />
-
-          <View>
-            <Text style={styles.categoryName}>
-              {props.record.category.name}
-            </Text>
-
-            <View style={styles.dateRow}>
-              <Icon
-                name={IconName.CALENDAR_OUTLINE}
-                style={styles.dateIcon}
-                fill={theme['color-basic-600']}
-              />
-
-              <Text
-                style={[
-                  styles.date,
-                  { color: theme['color-basic-600'] },
-                ]}
-              >
-                {date}
-              </Text>
-            </View>
-          </View>
 
           <Text
             style={[
-              styles.value,
-              { color: theme[`color-${status}-500`] },
+              styles.date,
+              { color: theme['color-basic-600'] },
             ]}
           >
-            {value}
+            {date}
           </Text>
-        </Pressable>
-      )}
-    >
-      {({ withClose }) => (
-        <View style={styles.actionsColumn}>
-          <Button appearance="ghost" onPress={withClose(openEditRecord)}>
-            {txtProps => <Text {...txtProps}>Edit {title}</Text>}
-          </Button>
-
-          <DeleteAction record={props.record} />
         </View>
-      )}
-    </ActionsSheetModal>
+      </View>
+
+      <Text
+        style={[
+          styles.value,
+          { color: theme[`color-${status}-500`] },
+        ]}
+      >
+        {value}
+      </Text>
+    </SwipeActionView>
   );
 }
 
@@ -172,10 +158,4 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     alignSelf: 'center'
   } satisfies TextStyle,
-
-  actionsColumn: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 4,
-  } satisfies ViewStyle,
 });
