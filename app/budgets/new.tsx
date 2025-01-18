@@ -1,17 +1,17 @@
 import { type ReactNode, useMemo } from 'react';
 import { FormScreenLayout } from '@/components/layout';
 import { array, boolean, check, type InferOutput, minValue, number, object, pipe } from 'valibot';
-import { Button, Card, List, Text, useTheme } from '@ui-kitten/components';
+import { Button, Card, Text } from '@ui-kitten/components';
 import { useCategoriesListSuspenseQuery } from '@/hooks/queries';
 import { RecordType } from '@/enums';
-import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native';
+import { ScrollView, StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
+import { FormArray, FormNumericInput, useFormCheckable } from '@/components/form';
 import type { Category } from '@/db';
-import { type FormPathGet, useFormCheckable } from '@/components/form';
 
 const schemaCategory = object({
   id: number(),
   added: boolean(),
-  goal: pipe(number(), minValue(1, 'This field is required')),
+  goal: pipe(number(), minValue(0, 'Goal cannot be negative')),
 });
 
 const schema = object({
@@ -26,13 +26,13 @@ type FormCategorySchema = typeof schemaCategory;
 type FormCategory = InferOutput<FormCategorySchema>;
 
 interface IBudgetCategoryProps {
-  f: FormPathGet<FormSchema>;
-  index: number;
+  formCategory: FormCategory;
+  formPath: string;
   category: Category;
 }
 
 function BudgetCategory(props: IBudgetCategoryProps): ReactNode {
-  const [isAdded, setAdded] = useFormCheckable(props.f(`categories[${props.index}].added`));
+  const [isAdded, setAdded] = useFormCheckable(`${props.formPath}.added`);
 
   return (
     <Card
@@ -43,17 +43,27 @@ function BudgetCategory(props: IBudgetCategoryProps): ReactNode {
         <Text category="s2">
           {props.category.name}
         </Text>
+
+        {isAdded && (
+          <FormNumericInput
+            style={styles.cardGoal}
+            name={`${props.formPath}.goal`}
+            placeholder="Spending Goal"
+          />
+        )}
       </View>
     </Card>
   );
 }
 
 export default function New(): ReactNode {
-  const theme = useTheme();
-
   const categoriesQuery = useCategoriesListSuspenseQuery({
     type: RecordType.EXPENSE,
   });
+
+  const categoryIdMap = useMemo(() => Object.fromEntries(
+    categoriesQuery.data.map((category) => [category.id, category]),
+  ), [categoriesQuery.data]);
 
   const initialCategories = useMemo(() => (
     categoriesQuery.data.map((category): FormCategory => ({
@@ -76,32 +86,27 @@ export default function New(): ReactNode {
         </Button>
       )}
 
-      onSubmit={() => {
+      onSubmit={(event) => {
+        console.log(JSON.stringify(event.value, null, 2));
       }}
     >
       {({ f }) => (
-        <>
+        <ScrollView contentContainerStyle={styles.list}>
           <Text category="p1">
             Select Categories
           </Text>
 
-          <List
-            data={categoriesQuery.data}
-            contentContainerStyle={styles.list}
-
-            style={{
-              backgroundColor: theme['background-basic-color-1'],
-            } satisfies StyleProp<ViewStyle>}
-
-            renderItem={({ item, index }) => (
+          <FormArray<FormCategory> name={f('categories')}>
+            {(categories) => categories.map((formCategory, index) => (
               <BudgetCategory
-                category={item}
-                index={index}
-                f={f}
+                key={formCategory.id}
+                category={categoryIdMap[formCategory.id]}
+                formPath={`categories[${index}]`}
+                formCategory={formCategory}
               />
-            )}
-          />
-        </>
+            ))}
+          </FormArray>
+        </ScrollView>
       )}
     </FormScreenLayout>
   );
@@ -113,7 +118,11 @@ const styles = StyleSheet.create({
   } satisfies ViewStyle,
 
   cardInner: {
-    marginVertical: -8,
-    marginHorizontal: -12,
+    marginVertical: -6,
+    marginHorizontal: -10,
   } satisfies ViewStyle,
+
+  cardGoal: {
+    marginTop: 12,
+  } satisfies TextStyle,
 });
