@@ -2,7 +2,7 @@ import { type ReactNode, useEffect, useMemo, useRef } from 'react';
 import { FormScreenLayout } from '@/components/layout';
 import { array, boolean, type InferOutput, minValue, number, object, pipe } from 'valibot';
 import { Button, Card, Text } from '@ui-kitten/components';
-import { useCategoriesListSuspenseQuery } from '@/hooks/queries';
+import { useBudgetCreateMutation, useCategoriesListSuspenseQuery } from '@/hooks/queries';
 import { RecordType } from '@/enums';
 import { ScrollView, StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
 import { FormArray, FormNumericInput, type FormSubmitHandler, useFormCheckable } from '@/components/form';
@@ -10,6 +10,8 @@ import type { Category } from '@/db';
 import { showAlert } from '@/helpers/showAlert';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 import { useRefLayout } from '@/hooks/useRefLayout';
+import { useMonthStore } from '@/stores';
+import { useRouter } from 'expo-router';
 
 const schemaCategory = object({
   id: number(),
@@ -89,6 +91,10 @@ function BudgetCategory(props: IBudgetCategoryProps): ReactNode {
 }
 
 export default function New(): ReactNode {
+  const router = useRouter();
+  const activeMonthIdx = useMonthStore((state) => state.activeIdx);
+  const createMutation = useBudgetCreateMutation();
+
   const categoriesQuery = useCategoriesListSuspenseQuery({
     type: RecordType.EXPENSE,
   });
@@ -105,7 +111,7 @@ export default function New(): ReactNode {
     }))
   ), [categoriesQuery.data]);
 
-  const onSubmit: FormSubmitHandler<FormSchema> = (event) => {
+  const onSubmit: FormSubmitHandler<FormSchema> = async (event) => {
     const addedCategories = event.value.categories.filter((category) => category.added);
 
     if (!addedCategories.length) {
@@ -114,6 +120,17 @@ export default function New(): ReactNode {
         message: 'Please select at least one category',
       });
     }
+
+    await createMutation.mutateAsync({
+      monthIdx: activeMonthIdx,
+
+      categories: addedCategories.map((category) => ({
+        categoryId: category.id,
+        goal: category.goal,
+      })),
+    });
+
+    router.back();
   };
 
   return (
