@@ -22,8 +22,10 @@ export default function Edit(): ReactNode {
   const recordQuery = useRecordDetailsSuspenseQuery(recordId);
   const updateMutation = useRecordUpdateMutation(recordQuery.data);
 
-  const categoriesQuery = useCategoriesListQuery(recordQuery.data.type, (categories) => {
-    return categories.map((category) => category.name);
+  const categoriesQuery = useCategoriesListQuery({
+    type: recordQuery.data.type,
+    subkey: ['suggestions'],
+    select: (categories) => categories.map((category) => category.name),
   });
 
   const isIncome = isIncomeRecord(recordQuery.data.type);

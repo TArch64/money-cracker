@@ -55,8 +55,10 @@ export default function New(): ReactNode {
     return new Date(activeMonthIdx.year, activeMonthIdx.month, 1);
   }, []);
 
-  const categoriesQuery = useCategoriesListQuery(type, (categories) => {
-    return categories.map((category) => category.name);
+  const categoriesQuery = useCategoriesListQuery({
+    type,
+    subkey: ['suggestions'],
+    select: (categories) => categories.map((category) => category.name),
   });
 
   const createRecordMutation = useRecordCreateMutation();

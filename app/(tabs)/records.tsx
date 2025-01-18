@@ -1,10 +1,10 @@
 import { type ReactNode } from 'react';
 import { useRouter } from 'expo-router';
 import { TabScreenLayout } from '@/components/layout';
-import { Divider, Text, TopNavigationAction, useTheme } from '@ui-kitten/components';
+import { Divider, List, Text, TopNavigationAction, useTheme } from '@ui-kitten/components';
 import { RecordType } from '@/enums';
 import { IconName, iconRenderer } from '@/components/uiKitten';
-import { FlatList, StyleSheet, View, type ViewStyle } from 'react-native';
+import { StyleSheet, View, type ViewStyle } from 'react-native';
 import { useMonthStore } from '@/stores';
 import { useRecordsMonthSuspenseQuery } from '@/hooks/queries';
 import { MonthRecord } from '@/components/recordsList';
@@ -29,7 +29,7 @@ function MonthRecords(): ReactNode {
   }
 
   return (
-    <FlatList
+    <List
       data={recordsQuery.data}
 
       ItemSeparatorComponent={() => (

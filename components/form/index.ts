@@ -6,3 +6,4 @@ export * from './FormSubmit';
 export * from './FormDatepicker';
 export * from './FormAutocomplete';
 export * from './FormButtonSelect';
+export * from './useFormCheckable';

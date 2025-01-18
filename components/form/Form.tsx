@@ -7,9 +7,10 @@ import type { IPropsWithChildrenFn } from '@/types';
 export type FormSchema = ObjectSchema<any, any>
 export type FormApi<S extends FormSchema = FormSchema> = ReactFormExtendedApi<InferOutput<S>, any>;
 export type FormKey<S extends FormSchema> = DeepKeys<InferOutput<S>>;
+export type FormPathGet<S extends FormSchema> = (path: FormKey<S>) => FormKey<S>;
 
 export interface IFormContext<S extends FormSchema> {
-  f: (path: FormKey<S>) => FormKey<S>;
+  f: FormPathGet<S>;
 }
 
 export interface FormSubmitEvent<S extends FormSchema> {
@@ -36,7 +37,7 @@ export function Form<S extends FormSchema>(props: IFormProps<S>): ReactNode {
 
   return (
     <FormProvider form={form}>
-      {props.children({ f: (path: FormKey<S>) => path })}
+      {props.children({ f: (path) => path })}
     </FormProvider>
   );
 }
