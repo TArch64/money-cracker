@@ -3,7 +3,7 @@ import type { RecordWithCategory } from '@/db';
 import { StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
 import { Text, useTheme } from '@ui-kitten/components';
 import { useDateFormatter, useMoneyFormatter } from '@/hooks/formatters';
-import { confirm } from '@/helpers/confirm';
+import { showConfirm } from '@/helpers/showConfirm';
 import { useRecordDeleteMutation } from '@/hooks/queries';
 import { useRouter } from 'expo-router';
 import { getRecordTypeTitle, isExpenseRecord } from '@/enums';
@@ -37,7 +37,7 @@ export function MonthRecord(props: IMonthRecordProps): ReactNode {
   }
 
   function isDeleteConfirmed(): Promise<boolean> {
-    return confirm({
+    return showConfirm({
       title: `Delete ${title}`,
       message: `Are you sure you want to delete this ${title.toLowerCase()}?`,
 

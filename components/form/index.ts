@@ -7,4 +7,5 @@ export * from './FormDatepicker';
 export * from './FormAutocomplete';
 export * from './FormButtonSelect';
 export * from './FormArray';
+export * from './FormError';
 export * from './useFormCheckable';

@@ -1,12 +1,13 @@
 import { type ReactNode, useMemo } from 'react';
 import { FormScreenLayout } from '@/components/layout';
-import { array, boolean, check, type InferOutput, minValue, number, object, pipe } from 'valibot';
+import { array, boolean, type InferOutput, minValue, number, object, pipe } from 'valibot';
 import { Button, Card, Text } from '@ui-kitten/components';
 import { useCategoriesListSuspenseQuery } from '@/hooks/queries';
 import { RecordType } from '@/enums';
 import { ScrollView, StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
-import { FormArray, FormNumericInput, useFormCheckable } from '@/components/form';
+import { FormArray, FormNumericInput, type FormSubmitHandler, useFormCheckable } from '@/components/form';
 import type { Category } from '@/db';
+import { showAlert } from '@/helpers/showAlert';
 
 const schemaCategory = object({
   id: number(),
@@ -15,10 +16,7 @@ const schemaCategory = object({
 });
 
 const schema = object({
-  categories: pipe(
-    array(schemaCategory),
-    check((categories) => categories.some(category => category.added), 'You must add at least one category'),
-  ),
+  categories: array(schemaCategory),
 });
 
 type FormSchema = typeof schema;
@@ -73,6 +71,17 @@ export default function New(): ReactNode {
     }))
   ), [categoriesQuery.data]);
 
+  const onSubmit: FormSubmitHandler<FormSchema> = (event) => {
+    const addedCategories = event.value.categories.filter((category) => category.added);
+
+    if (!addedCategories.length) {
+      return showAlert({
+        title: 'Error',
+        message: 'Please select at least one category',
+      });
+    }
+  };
+
   return (
     <FormScreenLayout
       fullScreen
@@ -86,9 +95,7 @@ export default function New(): ReactNode {
         </Button>
       )}
 
-      onSubmit={(event) => {
-        console.log(JSON.stringify(event.value, null, 2));
-      }}
+      onSubmit={onSubmit}
     >
       {({ f }) => (
         <ScrollView contentContainerStyle={styles.list}>
@@ -97,14 +104,14 @@ export default function New(): ReactNode {
           </Text>
 
           <FormArray<FormCategory> name={f('categories')}>
-            {(categories) => categories.map((formCategory, index) => (
+            {({ item, itemName }) => (
               <BudgetCategory
-                key={formCategory.id}
-                category={categoryIdMap[formCategory.id]}
-                formPath={`categories[${index}]`}
-                formCategory={formCategory}
+                key={item.id}
+                category={categoryIdMap[item.id]}
+                formPath={itemName}
+                formCategory={item}
               />
-            ))}
+            )}
           </FormArray>
         </ScrollView>
       )}

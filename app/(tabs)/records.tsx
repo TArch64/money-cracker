@@ -32,18 +32,16 @@ function MonthRecords(): ReactNode {
     <List
       data={recordsQuery.data}
 
-      ItemSeparatorComponent={() => (
+      ItemSeparatorComponent={() =>
         <Divider
           style={[
             styles.divider,
             { backgroundColor: theme['color-basic-400'] },
           ]}
         />
-      )}
+      }
 
-      renderItem={({ item }) => (
-        <MonthRecord record={item} />
-      )}
+      renderItem={({ item }) => <MonthRecord record={item} />}
     />
   );
 }
@@ -62,12 +60,12 @@ export default function Records(): ReactNode {
     <TabScreenLayout
       title="Records"
 
-      headerRight={() => (
+      headerRight={() =>
         <TopNavigationAction
           icon={iconRenderer(IconName.PLUS)}
           onPress={openNewRecord}
         />
-      )}
+      }
     >
       <MonthRecords />
     </TabScreenLayout>

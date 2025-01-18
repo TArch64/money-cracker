@@ -10,7 +10,7 @@ export interface IConfirmProps {
   accept?: string | IConfirmButton;
 }
 
-export function confirm(props: IConfirmProps): Promise<boolean> {
+export function showConfirm(props: IConfirmProps): Promise<boolean> {
   const decline: IConfirmButton = typeof props.decline === 'object' ? props.decline : {
     style: 'cancel',
     text: props.decline || 'Cancel',

@@ -1,7 +1,7 @@
 import { Input, type InputProps } from '@ui-kitten/components';
 import type { ReactNode } from 'react';
 import { useFormField } from './useFormField';
-import { renderFormError } from './FormError';
+import { formErrorRenderer } from './FormError';
 
 export interface IFormInputValueController {
   value: string;
@@ -30,7 +30,7 @@ export function FormInput(props: IFormInputProps): ReactNode {
       value={valueController.value}
       onChangeText={valueController.setValue}
       status={error ? 'danger' : 'basic'}
-      caption={renderFormError(error)}
+      caption={formErrorRenderer(error)}
     />
   );
 }

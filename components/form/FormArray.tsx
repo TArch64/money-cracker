@@ -1,17 +1,30 @@
 import type { ReactNode } from 'react';
 import type { IPropsWithChildrenFn } from '@/types';
 import { useFormContext } from './FormProvider';
+import { useField } from '@tanstack/react-form';
 
-export interface IFormArrayProps<I> extends IPropsWithChildrenFn<[items: I[]]> {
+export interface IFormArrayContext<I> {
+  index: number;
+  item: I;
+  itemName: string;
+}
+
+export interface IFormArrayProps<I> extends IPropsWithChildrenFn<[itemCtx: IFormArrayContext<I>]> {
   name: string;
 }
 
 export function FormArray<I>(props: IFormArrayProps<I>): ReactNode {
   const form = useFormContext();
 
-  return (
-    <form.Field name={props.name} mode="array">
-      {(field) => props.children(field.state.value)}
-    </form.Field>
-  );
+  const field = useField({
+    name: props.name,
+    form: form as any,
+    mode: 'array',
+  });
+
+  return (field.state.value as I[]).map((item, index) => props.children({
+    item,
+    index,
+    itemName: `${props.name}[${index}]`,
+  }));
 }

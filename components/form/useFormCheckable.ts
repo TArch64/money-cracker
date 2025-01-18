@@ -1,6 +1,8 @@
 import { useFormField } from './useFormField';
 
-export function useFormCheckable(name: string): [isChecked: boolean, setChecked: (value: boolean) => void] {
+type FormCheckable = [isChecked: boolean, setChecked: (value: boolean) => void];
+
+export function useFormCheckable(name: string): FormCheckable {
   const field = useFormField(name);
-  return [field.state.value, field.setValue];
+  return [field.state.value, field.handleChange];
 }
