@@ -1,6 +1,7 @@
-import { type ReactNode, useState } from 'react';
+import { forwardRef, type ReactNode, useState } from 'react';
 import { FormInput, type IFormInputProps, type IFormInputValueController } from './FormInput';
 import { type FormFieldApi, useFormField } from './useFormField';
+import { View } from 'react-native';
 
 export interface IFormNumericInputProps extends Omit<IFormInputProps, 'valueController' | 'keyboardType' | 'autoCapitalize' | 'autoComplete' | 'autoCorrect'> {
 }
@@ -33,18 +34,20 @@ function useValueController(field: FormFieldApi): IFormInputValueController {
   };
 }
 
-export function FormNumericInput(props: IFormNumericInputProps): ReactNode {
+export const FormNumericInput = forwardRef<View, IFormNumericInputProps>((props, ref): ReactNode => {
   const field = useFormField(props.name);
   const valueController = useValueController(field);
 
   return (
-    <FormInput
-      {...props}
-      keyboardType="numeric"
-      autoCapitalize="none"
-      autoComplete="off"
-      autoCorrect={false}
-      valueController={valueController}
-    />
+    <View ref={ref}>
+      <FormInput
+        {...props}
+        keyboardType="numeric"
+        autoCapitalize="none"
+        autoComplete="off"
+        autoCorrect={false}
+        valueController={valueController}
+      />
+    </View>
   );
-}
+});

@@ -1,4 +1,4 @@
-import { type ReactNode, useMemo } from 'react';
+import { type ReactNode, useEffect, useMemo, useRef } from 'react';
 import { FormScreenLayout } from '@/components/layout';
 import { array, boolean, type InferOutput, minValue, number, object, pipe } from 'valibot';
 import { Button, Card, Text } from '@ui-kitten/components';
@@ -8,6 +8,8 @@ import { ScrollView, StyleSheet, type TextStyle, View, type ViewStyle } from 're
 import { FormArray, FormNumericInput, type FormSubmitHandler, useFormCheckable } from '@/components/form';
 import type { Category } from '@/db';
 import { showAlert } from '@/helpers/showAlert';
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
+import { useRefLayout } from '@/hooks/useRefLayout';
 
 const schemaCategory = object({
   id: number(),
@@ -29,28 +31,60 @@ interface IBudgetCategoryProps {
   category: Category;
 }
 
+const CARD_PADDING = 26;
+const AnimatedCard = Animated.createAnimatedComponent(Card);
+
 function BudgetCategory(props: IBudgetCategoryProps): ReactNode {
   const [isAdded, setAdded] = useFormCheckable(`${props.formPath}.added`);
+  const [headerRef, headerLayout] = useRefLayout();
+  const [goalRef, goalLayout] = useRefLayout();
+  const cardHeight = useSharedValue(0);
+  const isInitial = useRef(true);
+
+  useEffect(() => {
+    if (headerLayout) {
+      cardHeight.value = headerLayout.height + CARD_PADDING;
+    }
+  }, [headerLayout]);
+
+  useEffect(() => {
+    if (!isInitial.current) {
+      const baseHeight = headerLayout!.height + CARD_PADDING;
+      const height = goalLayout ? baseHeight + goalLayout!.height : baseHeight;
+      cardHeight.value = withSpring(height, { duration: 500, dampingRatio: 0.9 });
+    }
+
+    isInitial.current = false;
+  }, [goalLayout]);
+
+  const animatedCardStyle = useAnimatedStyle(() => !headerLayout ? {} : {
+    height: cardHeight.value,
+  });
 
   return (
-    <Card
+    <AnimatedCard
       status={isAdded ? 'primary' : 'basic'}
+      style={animatedCardStyle}
       onPress={() => setAdded(!isAdded)}
     >
-      <View style={styles.cardInner}>
-        <Text category="s2">
-          {props.category.name}
-        </Text>
+      <Animated.View style={styles.cardInner}>
+        <View ref={headerRef}>
+          <Text category="s2">
+            {props.category.name}
+          </Text>
+        </View>
 
         {isAdded && (
-          <FormNumericInput
-            style={styles.cardGoal}
-            name={`${props.formPath}.goal`}
-            placeholder="Spending Goal"
-          />
+          <View ref={goalRef}>
+            <FormNumericInput
+              name={`${props.formPath}.goal`}
+              style={styles.cardGoal}
+              placeholder="Spending Goal"
+            />
+          </View>
         )}
-      </View>
-    </Card>
+      </Animated.View>
+    </AnimatedCard>
   );
 }
 
