@@ -4,12 +4,13 @@ import { useMonthsSuspenseQuery } from '@/hooks/queries';
 import { groupBy } from 'lodash-es';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { SwitcherMonthList } from './SwitcherMonthList';
+import { MonthIdx } from '@/stores';
 
 export function SwitcherYearList(): ReactNode {
   const theme = useTheme();
 
   const monthsQuery = useMonthsSuspenseQuery((months) => {
-    return Object.entries(groupBy(months, 'year'))
+    return Object.entries(groupBy([MonthIdx.current().next, ...months], 'year'))
       .sort(([a], [b]) => Number(b) - Number(a));
   });
 
