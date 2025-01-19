@@ -1,38 +1,37 @@
 import { type ReactNode, useMemo } from 'react';
 import { FormScreenLayout } from '@/components/layout';
 import { Button, Text } from '@ui-kitten/components';
-import { useBudgetCreateMutation, useCategoriesListSuspenseQuery } from '@/hooks/queries';
+import { useBudgetIdSuspenseQuery, useCategoriesListSuspenseQuery } from '@/hooks/queries';
 import { RecordType } from '@/enums';
 import { ScrollView, StyleSheet, type ViewStyle } from 'react-native';
-import { useMonthStore } from '@/stores';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { BudgetForm, budgetSchema, type FormBudgetCategory, useBudgetFormSubmit } from '@/components/budgetForm';
 
 const schema = budgetSchema();
 
-export default function New(): ReactNode {
+export default function Edit(): ReactNode {
+  const { budgetId } = useLocalSearchParams<{ budgetId: string }>();
+
   const router = useRouter();
-  const activeMonthIdx = useMonthStore((state) => state.activeIdx);
-  const createMutation = useBudgetCreateMutation();
+  const budget = useBudgetIdSuspenseQuery(Number(budgetId));
 
   const categoriesQuery = useCategoriesListSuspenseQuery({
     type: RecordType.EXPENSE,
   });
 
-  const initialCategories = useMemo(() => (
-    categoriesQuery.data.map((category): FormBudgetCategory => ({
+  const initialCategories = useMemo(() => {
+    const budgetCategoriesMap = Object.fromEntries(
+      budget.data!.categories.map((category) => [category.categoryId, category]),
+    );
+
+    return categoriesQuery.data.map((category): FormBudgetCategory => ({
       id: category.id,
-      added: false,
-      goal: 0,
-    }))
-  ), [categoriesQuery.data]);
+      added: !!budgetCategoriesMap[category.id],
+      goal: budgetCategoriesMap[category.id]?.goal ?? 0,
+    }));
+  }, [categoriesQuery.data]);
 
   const onSubmit = useBudgetFormSubmit(async (categories) => {
-    await createMutation.mutateAsync({
-      monthIdx: activeMonthIdx,
-      categories,
-    });
-
     router.back();
   });
 
@@ -40,12 +39,12 @@ export default function New(): ReactNode {
     <FormScreenLayout
       fullScreen
       schema={schema}
-      title="New Budget"
+      title="Edit Budget"
       initialValues={{ categories: initialCategories }}
 
       submit={({ submit, disabled }) => (
         <Button disabled={disabled} onPress={submit}>
-          {textProps => <Text {...textProps}>Add Budget</Text>}
+          {textProps => <Text {...textProps}>Save Budget</Text>}
         </Button>
       )}
 

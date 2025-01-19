@@ -1,4 +1,6 @@
-type MonthKey = [string, string, year: number, string, month: number, string];
+export const BUDGET_ID_QUERY = (id: number) => ['budgets', id] as const;
+
+type MonthKey = [string, string, year: number, string, month: number];
 
 export function BUDGET_MONTH_QUERY(date: Date): MonthKey;
 export function BUDGET_MONTH_QUERY(year: number, month: number): MonthKey;
@@ -12,6 +14,5 @@ export function BUDGET_MONTH_QUERY(yearOrDate: number | Date, month?: number): M
     date?.getFullYear() ?? yearOrDate as number,
     'month',
     date?.getMonth() ?? month!,
-    'list',
   ] as const;
 }

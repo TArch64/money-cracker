@@ -1,10 +1,11 @@
-import type { ReactNode } from 'react';
+import { type ReactNode, useCallback } from 'react';
 import { TabScreenLayout } from '@/components/layout';
 import { useMonthStore } from '@/stores';
-import { useBudgetMonthSuspenseQuery } from '@/hooks/queries';
-import { Button, Text } from '@ui-kitten/components';
+import { useBudgetMonthQuery } from '@/hooks/queries';
+import { Button, Text, TopNavigationAction } from '@ui-kitten/components';
 import { StyleSheet, type TextStyle, View } from 'react-native';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
+import { IconName, iconRenderer } from '@/components/uiKitten';
 
 function Empty(): ReactNode {
   return (
@@ -23,12 +24,29 @@ function Empty(): ReactNode {
 }
 
 export default function Budget(): ReactNode {
+  const router = useRouter();
   const monthIdx = useMonthStore((state) => state.activeIdx);
-  const budget = useBudgetMonthSuspenseQuery(monthIdx.year, monthIdx.month);
+  const budget = useBudgetMonthQuery(monthIdx.year, monthIdx.month);
+
+  const openEdit = useCallback((): void => {
+    router.push({
+      pathname: '/budgets/[budgetId]/edit',
+      params: { budgetId: budget.data!.id },
+    });
+  }, [budget.data?.id]);
 
   return (
-    <TabScreenLayout title="Budget">
-      {budget.data ? (
+    <TabScreenLayout
+      title="Budget"
+
+      headerRight={budget.data ? () => (
+        <TopNavigationAction
+          icon={iconRenderer(IconName.EDIT_OUTLINE)}
+          onPress={openEdit}
+        />
+      ) : undefined}
+    >
+      {budget.isLoading ? null : budget.data ? (
         <Text>test</Text>
       ) : (
         <Empty />

@@ -56,7 +56,7 @@ export type Budget = InferSelectModel<typeof budgets>;
 export type BudgetInsert = InferInsertModel<typeof budgets>;
 
 export type BudgetWithCategories = Budget & {
-  categories: (Pick<BudgetCategory, 'goal'> & Pick<Category, 'name'>)[]
+  categories: (Omit<BudgetCategory, 'budgetId'> & Pick<Category, 'name'>)[]
 };
 
 export const budgetCategories = sqliteTable('budget_categories', {

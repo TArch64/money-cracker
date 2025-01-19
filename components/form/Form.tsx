@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { type DeepKeys, type ReactFormExtendedApi, standardSchemaValidator, useForm } from '@tanstack/react-form';
-import type { InferOutput, ObjectSchema } from 'valibot';
+import type { InferOutput, MaybePromise, ObjectSchema } from 'valibot';
 import { FormProvider } from './FormProvider';
 import type { IPropsWithChildrenFn } from '@/types';
 
@@ -18,7 +18,7 @@ export interface FormSubmitEvent<S extends FormSchema> {
   formApi: FormApi<S>
 }
 
-export type FormSubmitHandler<S extends FormSchema> = (event: FormSubmitEvent<S>) => void | Promise<void>
+export type FormSubmitHandler<S extends FormSchema> = (event: FormSubmitEvent<S>) => MaybePromise<void>
 
 export interface IFormProps<S extends FormSchema> extends IPropsWithChildrenFn<[formCtx: IFormContext<S>]> {
   schema: S;
