@@ -1,10 +1,16 @@
-import type { PropsWithChildren, ReactNode } from 'react';
-import { type LayoutChangeEvent, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native';
+import type { ReactNode } from 'react';
+import { ScrollView, type StyleProp, StyleSheet, type ViewStyle } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
+import type { IPropsWithChildrenFn } from '@/types';
 
-export interface IAnimatedHeightTransitionProps extends PropsWithChildren {
+export interface IAnimatedHeightContext {
+  update: (width: number, height: number) => void;
+}
+
+export interface IAnimatedHeightTransitionProps {
   transition?: (value: number) => number;
   style?: StyleProp<ViewStyle>;
+  children: IPropsWithChildrenFn<[ctx: IAnimatedHeightContext]>['children'] | ReactNode;
 }
 
 export function AnimatedHeight(props: IAnimatedHeightTransitionProps): ReactNode {
@@ -15,9 +21,8 @@ export function AnimatedHeight(props: IAnimatedHeightTransitionProps): ReactNode
     dampingRatio: 0.9,
   }));
 
-  function onLayout(event: LayoutChangeEvent): void {
-    const newHeight = event.nativeEvent.layout.height;
-    height.value = height.value ? transition(newHeight) : newHeight;
+  function onContentSizeChange(_: number, h: number): void {
+    height.value = height.value ? transition(h) : h;
   }
 
   const animatedStyle = useAnimatedStyle(() => !height.value ? {} : {
@@ -26,9 +31,11 @@ export function AnimatedHeight(props: IAnimatedHeightTransitionProps): ReactNode
 
   return (
     <Animated.View style={[props.style, styles.container, animatedStyle]}>
-      <View onLayout={onLayout}>
-        {props.children}
-      </View>
+      {typeof props.children === 'function' ? props.children({ update: onContentSizeChange }) : (
+        <ScrollView scrollEnabled={false} onContentSizeChange={onContentSizeChange}>
+          {props.children}
+        </ScrollView>
+      )}
     </Animated.View>
   );
 }

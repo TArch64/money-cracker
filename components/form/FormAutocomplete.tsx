@@ -1,10 +1,11 @@
 import { FormInput, type IFormInputProps, type IFormInputValueController } from './FormInput';
 import { useEffect, useRef, useState } from 'react';
-import { Keyboard, View } from 'react-native';
+import { Keyboard, View, type ViewStyle } from 'react-native';
 import { Menu, MenuItem, useTheme } from '@ui-kitten/components';
 import { useFormField } from './useFormField';
 import { HighlightText } from '../uiKitten';
-import { DropdownView } from '@/components/DropdownView';
+import { DropdownView } from '../DropdownView';
+import { AnimatedHeight } from '../AnimatedHeight';
 
 interface IAutocompleteMenuProps {
   value: string;
@@ -16,22 +17,26 @@ function AutocompleteMenu(props: IAutocompleteMenuProps) {
   const theme = useTheme();
 
   return (
-    <Menu>
-      {props.suggestions.map((suggestion) => (
-        <MenuItem
-          style={{ backgroundColor: theme['background-basic-color-2'] }}
-          key={suggestion}
-          title={(txtProps) => (
-            <HighlightText
-              {...txtProps}
-              text={suggestion}
-              highlight={props.value}
+    <AnimatedHeight>
+      {(ctx) => (
+        <Menu onContentSizeChange={ctx.update}>
+          {props.suggestions.map((suggestion) => (
+            <MenuItem
+              style={{ backgroundColor: theme['background-basic-color-1'] } satisfies ViewStyle}
+              key={suggestion}
+              title={(txtProps) => (
+                <HighlightText
+                  {...txtProps}
+                  text={suggestion}
+                  highlight={props.value}
+                />
+              )}
+              onPress={() => props.onSelect(suggestion)}
             />
-          )}
-          onPress={() => props.onSelect(suggestion)}
-        />
-      ))}
-    </Menu>
+          ))}
+        </Menu>
+      )}
+    </AnimatedHeight>
   );
 }
 
