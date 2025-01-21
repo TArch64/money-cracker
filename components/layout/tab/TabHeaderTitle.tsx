@@ -21,7 +21,10 @@ export function TabHeaderTitle(props: ITabHeaderTitleProps): ReactNode {
           {monthTitle}
         </Text>
 
-        <Icon name={IconName.CHEVRON_DOWN} />
+        <Icon
+          name={IconName.CHEVRON_DOWN}
+          fill={StyleSheet.flatten(props.style).color}
+        />
       </View>
     </Link>
   );

@@ -30,6 +30,8 @@ export default function Layout(): ReactNode {
 
         tabBarStyle: {
           height: safeArea.bottom + 56,
+          borderTopColor: theme['background-basic-color-1'],
+          backgroundColor: theme['background-basic-color-1'],
         } satisfies ViewStyle,
 
         tabBarItemStyle: {
