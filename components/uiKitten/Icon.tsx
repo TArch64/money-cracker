@@ -15,10 +15,9 @@ export const enum IconName {
   EDIT_OUTLINE = 'edit-outline',
 }
 
-export function Icon(props: Omit<IconProps, 'name'> & { name: IconName }): ReactNode {
-  return <Icon_ {...props} />;
-}
+export const Icon = (props: Omit<IconProps, 'name'> & { name: IconName }): ReactNode => (
+  <Icon_ {...props} />
+);
 
-export function iconRenderer(name: IconName): RenderProp<Partial<ImageProps>> {
-  return (iconProps) => <Icon {...iconProps} name={name} />;
-}
+export const iconRenderer = (name: IconName): RenderProp<Partial<ImageProps>> =>
+  (iconProps) => <Icon {...iconProps} name={name} />;

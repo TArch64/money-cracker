@@ -2,7 +2,7 @@ import { type ReactNode } from 'react';
 import { IndexPath, Select, SelectItem, type SelectProps, Text, type TextProps, useTheme } from '@ui-kitten/components';
 import { useFormField } from './useFormField';
 import { StyleSheet, type TextStyle } from 'react-native';
-import { renderFormError } from './FormError';
+import { formErrorRenderer } from './FormError';
 
 interface ISelectValueProps extends Omit<TextProps, 'children'> {
   value?: string;
@@ -63,7 +63,7 @@ export function FormSelect(props: IFormSelectProps): ReactNode {
       selectedIndex={selectedPath}
       onSelect={selectItem}
       status={error ? 'danger' : 'basic'}
-      caption={renderFormError(error) as SelectProps['caption']}
+      caption={formErrorRenderer(error) as SelectProps['caption']}
     >
       {items.map((item) => (
         <SelectItem key={item.value} title={item.title} />

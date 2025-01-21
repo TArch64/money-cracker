@@ -9,25 +9,23 @@ export interface ISwitcherMonthListProps {
   months: MonthIdx[];
 }
 
-export function SwitcherMonthList(props: ISwitcherMonthListProps): ReactNode {
-  return (
-    <>
-      <ListItem
-        disabled
-        title={(txtProps) => (
-          <Text {...txtProps} style={[txtProps?.style, styles.yearTitle]}>
-            {props.year}
-          </Text>
-        )}
-      />
+export const SwitcherMonthList = (props: ISwitcherMonthListProps): ReactNode => (
+  <>
+    <ListItem
+      disabled
+      title={(txtProps) => (
+        <Text {...txtProps} style={[txtProps?.style, styles.yearTitle]}>
+          {props.year}
+        </Text>
+      )}
+    />
 
-      <List
-        data={props.months}
-        renderItem={({ item }) => <SwitcherMonth monthIdx={item} />}
-      />
-    </>
-  );
-}
+    <List
+      data={props.months}
+      renderItem={({ item }) => <SwitcherMonth monthIdx={item} />}
+    />
+  </>
+);
 
 const styles = StyleSheet.create({
   yearTitle: {

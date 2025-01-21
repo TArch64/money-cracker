@@ -7,17 +7,14 @@ export interface ITabScreenLayoutProps extends PropsWithChildren {
   headerRight?: IMainScreenLayoutProps['headerRight'];
 }
 
-export function TabScreenLayout(props: ITabScreenLayoutProps): ReactNode {
-
-  return (
-    <MainScreenLayout
-      canGoBack={false}
-      headerRight={props.headerRight}
-      title={(txtProps) => <TabHeaderTitle {...txtProps} />}
-    >
-      <Suspense>
-        {props.children}
-      </Suspense>
-    </MainScreenLayout>
-  );
-}
+export const TabScreenLayout = (props: ITabScreenLayoutProps): ReactNode => (
+  <MainScreenLayout
+    canGoBack={false}
+    headerRight={props.headerRight}
+    title={(txtProps) => <TabHeaderTitle {...txtProps} />}
+  >
+    <Suspense>
+      {props.children}
+    </Suspense>
+  </MainScreenLayout>
+);

@@ -2,24 +2,38 @@ import { type ReactNode, useCallback } from 'react';
 import { TabScreenLayout } from '@/components/layout';
 import { useMonthStore } from '@/stores';
 import { useBudgetMonthQuery } from '@/hooks/queries';
-import { Button, List, Text, TopNavigationAction } from '@ui-kitten/components';
-import { StyleSheet, type TextStyle, View } from 'react-native';
+import { Button, List, ProgressBar, Text, TopNavigationAction } from '@ui-kitten/components';
+import { StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { IconName, iconRenderer } from '@/components/uiKitten';
-import type { BudgetWithCategories } from '@/db';
+import type { BudgetCategoryItem, BudgetWithCategories } from '@/db';
 
-function Empty(): ReactNode {
+const Empty = (): ReactNode => (
+  <View style={styles.empty}>
+    <Text category="s1" style={styles.emptyHeading}>
+      No budget for this month
+    </Text>
+
+    <Link href="/budgets/new" asChild>
+      <Button appearance="ghost">
+        {(txtProps) => <Text {...txtProps}>Add Budget</Text>}
+      </Button>
+    </Link>
+  </View>
+);
+
+interface IBudgetCategoryProps {
+  category: BudgetCategoryItem;
+}
+
+function BudgetCategory(props: IBudgetCategoryProps): ReactNode {
   return (
-    <View style={styles.empty}>
-      <Text category="s1" style={styles.emptyHeading}>
-        No budget for this month
+    <View style={styles.category}>
+      <Text style={styles.categoryTitle}>
+        {props.category.name}
       </Text>
 
-      <Link href="/budgets/new" asChild>
-        <Button appearance="ghost">
-          {(txtProps) => <Text {...txtProps}>Add Budget</Text>}
-        </Button>
-      </Link>
+      <ProgressBar />
     </View>
   );
 }
@@ -32,13 +46,8 @@ function BudgetMonth(props: IBudgetMonthProps): ReactNode {
   return (
     <List
       data={props.budget.categories}
-
-      renderItem={({ item }) => (
-        <View>
-          <Text category="s1">{item.name}</Text>
-          <Text category="s2">{item.goal}</Text>
-        </View>
-      )}
+      contentContainerStyle={styles.categoryList}
+      renderItem={({ item }) => <BudgetCategory category={item} />}
     />
   );
 }
@@ -86,5 +95,19 @@ const styles = StyleSheet.create({
 
   emptyHeading: {
     marginBottom: 8,
+  } satisfies TextStyle,
+
+  categoryList: {
+    paddingVertical: 8,
+    paddingHorizontal: 4,
+    gap: 4,
+  } satisfies ViewStyle,
+
+  category: {
+    padding: 8,
+  } satisfies ViewStyle,
+
+  categoryTitle: {
+    marginBottom: 4,
   } satisfies TextStyle,
 });

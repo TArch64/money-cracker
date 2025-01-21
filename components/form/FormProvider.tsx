@@ -9,10 +9,8 @@ const Context = createContext<FormApi>(null!);
 
 export const useFormContext = () => useContext(Context);
 
-export function FormProvider(props: IFormProviderProps): ReactNode {
-  return (
-    <Context.Provider value={props.form}>
-      {props.children}
-    </Context.Provider>
-  );
-}
+export const FormProvider = (props: IFormProviderProps): ReactNode => (
+  <Context.Provider value={props.form}>
+    {props.children}
+  </Context.Provider>
+);

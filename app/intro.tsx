@@ -9,25 +9,23 @@ interface IntroLinkProps {
   type: RecordType;
 }
 
-function IntroLink(props: IntroLinkProps): ReactNode {
-  return (
-    <Link
-      asChild
-      href={{
-        pathname: '/records/new',
-        params: { type: props.type },
-      }}
-    >
-      <Button appearance="ghost" size="small">
-        {(textProps) => (
-          <Text {...textProps} style={[textProps?.style, styles.rowText]}>
-            {getRecordTypeTitle(props.type)}
-          </Text>
-        )}
-      </Button>
-    </Link>
-  );
-}
+const IntroLink = (props: IntroLinkProps): ReactNode => (
+  <Link
+    asChild
+    href={{
+      pathname: '/records/new',
+      params: { type: props.type },
+    }}
+  >
+    <Button appearance="ghost" size="small">
+      {(textProps) => (
+        <Text {...textProps} style={[textProps?.style, styles.rowText]}>
+          {getRecordTypeTitle(props.type)}
+        </Text>
+      )}
+    </Button>
+  </Link>
+);
 
 export default function Intro(): ReactNode {
   return (

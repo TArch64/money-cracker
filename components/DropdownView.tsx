@@ -31,8 +31,6 @@ export function DropdownView(props: IDropdownViewProps): ReactNode {
     ],
   });
 
-  const isRendered = !!floatingStyles.top || !!floatingStyles.left;
-
   return (
     <>
       {props.isOpened && <BackdropView onPress={props.onClose} />}

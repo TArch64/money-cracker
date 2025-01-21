@@ -55,9 +55,8 @@ export const budgetsRelations = relations(budgets, ({ many }) => ({
 export type Budget = InferSelectModel<typeof budgets>;
 export type BudgetInsert = InferInsertModel<typeof budgets>;
 
-export type BudgetWithCategories = Budget & {
-  categories: (Omit<BudgetCategory, 'budgetId'> & Pick<Category, 'name'>)[]
-};
+export type BudgetCategoryItem = Omit<BudgetCategory, 'budgetId'> & Pick<Category, 'name'>;
+export type BudgetWithCategories = Budget & { categories: BudgetCategoryItem[] };
 
 export const budgetCategories = sqliteTable('budget_categories', {
   budgetId: integer().references(() => budgets.id, { onDelete: 'cascade' }).notNull(),

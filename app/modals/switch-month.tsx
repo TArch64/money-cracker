@@ -20,6 +20,7 @@ export default function SwitchMonth(): ReactNode {
           />
         )}
       />
+
       <Suspense>
         <SwitcherYearList />
       </Suspense>

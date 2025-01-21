@@ -29,13 +29,6 @@ export function MonthRecord(props: IMonthRecordProps): ReactNode {
   const title = getRecordTypeTitle(props.record.type);
   const status = isExpense ? 'danger' : 'success';
 
-  function openEditRecord(): void {
-    router.push({
-      pathname: '/records/[recordId]/edit',
-      params: { recordId: props.record.id },
-    })
-  }
-
   function isDeleteConfirmed(): Promise<boolean> {
     return showConfirm({
       title: `Delete ${title}`,
