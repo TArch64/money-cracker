@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
 import { ScrollView, type StyleProp, StyleSheet, type ViewStyle } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
-import type { IPropsWithChildrenFn } from '@/types';
 
 export interface IAnimatedHeightContext {
   update: (width: number, height: number) => void;
@@ -10,7 +9,7 @@ export interface IAnimatedHeightContext {
 export interface IAnimatedHeightTransitionProps {
   transition?: (value: number) => number;
   style?: StyleProp<ViewStyle>;
-  children: IPropsWithChildrenFn<[ctx: IAnimatedHeightContext]>['children'] | ReactNode;
+  children: ReactNode | ((ctx: IAnimatedHeightContext) => ReactNode);
 }
 
 export function AnimatedHeight(props: IAnimatedHeightTransitionProps): ReactNode {
