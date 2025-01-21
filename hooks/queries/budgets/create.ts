@@ -1,14 +1,13 @@
-import { budgetCategories, type BudgetCategory, budgets, useDatabase } from '@/db';
+import { budgetCategories, budgets, useDatabase } from '@/db';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { MonthIdx } from '@/stores';
 import { BUDGET_MONTH_QUERY } from './keys';
 import { MONTHS_QUERY } from '../general';
-
-export type BudgetCreateCategory = Omit<BudgetCategory, 'budgetId'>;
+import { type BudgetInputCategory, budgetInputCategoryToInsert } from './helpers';
 
 export interface IBudgetCreateInput {
   monthIdx: MonthIdx;
-  categories: BudgetCreateCategory[];
+  categories: BudgetInputCategory[];
 }
 
 export function useBudgetCreateMutation() {
@@ -26,12 +25,13 @@ export function useBudgetCreateMutation() {
           })
           .returning({ id: budgets.id });
 
+        const categoryInserts = input.categories
+          .filter((category) => category.added)
+          .map((category) => budgetInputCategoryToInsert(budget.id, category));
+
         await tx
           .insert(budgetCategories)
-          .values(input.categories.map((category) => ({
-            ...category,
-            budgetId: budget.id,
-          })));
+          .values(categoryInserts);
       });
 
       return { monthIdx: input.monthIdx };

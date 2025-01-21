@@ -1,7 +1,7 @@
 import { type ReactNode, useMemo } from 'react';
 import { FormScreenLayout } from '@/components/layout';
 import { Button, Text } from '@ui-kitten/components';
-import { useBudgetIdSuspenseQuery, useCategoriesListSuspenseQuery } from '@/hooks/queries';
+import { useBudgetIdSuspenseQuery, useBudgetUpdateMutation, useCategoriesListSuspenseQuery } from '@/hooks/queries';
 import { RecordType } from '@/enums';
 import { ScrollView, StyleSheet, type ViewStyle } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -14,6 +14,7 @@ export default function Edit(): ReactNode {
 
   const router = useRouter();
   const budget = useBudgetIdSuspenseQuery(Number(budgetId));
+  const updateMutation = useBudgetUpdateMutation();
 
   const categoriesQuery = useCategoriesListSuspenseQuery({
     type: RecordType.EXPENSE,
@@ -32,6 +33,11 @@ export default function Edit(): ReactNode {
   }, [categoriesQuery.data]);
 
   const onSubmit = useBudgetFormSubmit(async (categories) => {
+    await updateMutation.mutateAsync({
+      id: budget.data.id,
+      categories,
+    });
+
     router.back();
   });
 

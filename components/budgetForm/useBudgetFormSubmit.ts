@@ -1,22 +1,23 @@
 import type { FormSubmitHandler } from '../form';
 import type { BudgetSchema } from './schema';
 import { showAlert } from '@/helpers/showAlert';
-import type { BudgetCreateCategory } from '@/hooks/queries';
+import type { BudgetInputCategory } from '@/hooks/queries';
 
-export function useBudgetFormSubmit(onSubmit: (categories: BudgetCreateCategory[]) => void): FormSubmitHandler<BudgetSchema> {
+export function useBudgetFormSubmit(onSubmit: (categories: BudgetInputCategory[]) => void): FormSubmitHandler<BudgetSchema> {
   return (event) => {
-    const addedCategories = event.value.categories.filter((category) => category.added);
+    const isAnyCategoryAdded = event.value.categories.some((category) => category.added);
 
-    if (!addedCategories.length) {
+    if (!isAnyCategoryAdded) {
       return showAlert({
         title: 'Error',
         message: 'Please select at least one category',
       });
     }
 
-    return onSubmit(addedCategories.map((category) => ({
+    return onSubmit(event.value.categories.map((category) => ({
       categoryId: category.id,
       goal: category.goal,
+      added: category.added,
     })));
   };
 }
