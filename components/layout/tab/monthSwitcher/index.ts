@@ -1,1 +1,1 @@
-export * from './MonthSwitcher';
+export * from './SwitcherYearList';

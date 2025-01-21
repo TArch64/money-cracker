@@ -2,10 +2,11 @@ import { type ReactNode, useCallback } from 'react';
 import { TabScreenLayout } from '@/components/layout';
 import { useMonthStore } from '@/stores';
 import { useBudgetMonthQuery } from '@/hooks/queries';
-import { Button, Text, TopNavigationAction } from '@ui-kitten/components';
+import { Button, List, Text, TopNavigationAction } from '@ui-kitten/components';
 import { StyleSheet, type TextStyle, View } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { IconName, iconRenderer } from '@/components/uiKitten';
+import type { BudgetWithCategories } from '@/db';
 
 function Empty(): ReactNode {
   return (
@@ -20,6 +21,25 @@ function Empty(): ReactNode {
         </Button>
       </Link>
     </View>
+  );
+}
+
+interface IBudgetMonthProps {
+  budget: BudgetWithCategories;
+}
+
+function BudgetMonth(props: IBudgetMonthProps): ReactNode {
+  return (
+    <List
+      data={props.budget.categories}
+
+      renderItem={({ item }) => (
+        <View>
+          <Text category="s1">{item.name}</Text>
+          <Text category="s2">{item.goal}</Text>
+        </View>
+      )}
+    />
   );
 }
 
@@ -46,11 +66,11 @@ export default function Budget(): ReactNode {
         />
       ) : undefined}
     >
-      {budget.isLoading ? null : budget.data ? (
-        <Text>test</Text>
-      ) : (
-        <Empty />
-      )}
+      {budget.isLoading
+        ? null
+        : budget.data
+          ? <BudgetMonth budget={budget.data} />
+          : <Empty />}
     </TabScreenLayout>
   );
 }
