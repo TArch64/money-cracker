@@ -1,8 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { BUDGET_ID_QUERY } from './keys';
-import { budgets, useDatabase } from '@/db';
+import { budgetCategories, budgets, categories, useDatabase } from '@/db';
 import { eq } from 'drizzle-orm';
-import { fetchBudgetCategories } from './helpers';
 
 export function useBudgetIdSuspenseQuery(id: number) {
   const db = useDatabase();
@@ -18,7 +17,19 @@ export function useBudgetIdSuspenseQuery(id: number) {
         .from(budgets)
         .where(eq(budgets.id, id));
 
-      return fetchBudgetCategories(db, budget);
+      return {
+        ...budget,
+
+        categories: await db
+          .select({
+            categoryId: budgetCategories.categoryId,
+            goal: budgetCategories.goal,
+            name: categories.name,
+          })
+          .from(budgetCategories)
+          .innerJoin(categories, eq(budgetCategories.categoryId, categories.id))
+          .where(eq(budgetCategories.budgetId, budget.id)),
+      };
     },
   });
 }

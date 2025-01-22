@@ -1,12 +1,11 @@
 import { type ReactNode, useCallback } from 'react';
 import { TabScreenLayout } from '@/components/layout';
 import { useMonthStore } from '@/stores';
-import { useBudgetMonthQuery } from '@/hooks/queries';
+import { type MonthBudget, type MonthBudgetCategory, useBudgetMonthQuery } from '@/hooks/queries';
 import { Button, List, ProgressBar, Text, TopNavigationAction } from '@ui-kitten/components';
 import { StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { IconName, iconRenderer } from '@/components/uiKitten';
-import type { BudgetCategoryItem, BudgetWithCategories } from '@/db';
 
 const Empty = (): ReactNode => (
   <View style={styles.empty}>
@@ -23,7 +22,7 @@ const Empty = (): ReactNode => (
 );
 
 interface IBudgetCategoryProps {
-  category: BudgetCategoryItem;
+  category: MonthBudgetCategory;
 }
 
 function BudgetCategory(props: IBudgetCategoryProps): ReactNode {
@@ -33,13 +32,13 @@ function BudgetCategory(props: IBudgetCategoryProps): ReactNode {
         {props.category.name}
       </Text>
 
-      <ProgressBar />
+      <ProgressBar size="large" />
     </View>
   );
 }
 
 interface IBudgetMonthProps {
-  budget: BudgetWithCategories;
+  budget: MonthBudget;
 }
 
 function BudgetMonth(props: IBudgetMonthProps): ReactNode {
