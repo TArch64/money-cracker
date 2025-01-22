@@ -1,17 +1,15 @@
-import { useMemo } from 'react';
 import { useLocales } from 'expo-localization';
+import { useNumberFormatter } from './number';
 
 export type MoneyFormatOptions = Omit<Intl.NumberFormatOptions, 'style' | 'currency'>;
 
 export function useMoneyFormatter(options: MoneyFormatOptions = {}): Intl.NumberFormat {
   const [locale] = useLocales();
 
-  return useMemo(() => {
-    return new Intl.NumberFormat(locale.languageTag!, {
-      ...options,
-      style: 'currency',
-      currency: locale.currencyCode!,
-      minimumFractionDigits: 0,
-    });
-  }, [locale.currencyCode, locale.languageTag]);
+  return useNumberFormatter({
+    style: 'currency',
+    currency: locale.currencyCode!,
+    minimumFractionDigits: 0,
+    ...options,
+  });
 }
