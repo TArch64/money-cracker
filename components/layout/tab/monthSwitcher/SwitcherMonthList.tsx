@@ -21,6 +21,7 @@ export const SwitcherMonthList = (props: ISwitcherMonthListProps): ReactNode => 
     />
 
     <List
+      scrollEnabled={false}
       data={props.months}
       renderItem={({ item }) => <SwitcherMonth monthIdx={item} />}
     />

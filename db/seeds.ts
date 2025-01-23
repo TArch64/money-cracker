@@ -15,8 +15,16 @@ function getDateRange(): MonthIdx[] {
 }
 
 function getRecordValues(): number[] {
-  const count = Math.floor(Math.random() * 10) + 10;
-  return new Array(count).fill(0).map(() => 100 + Math.floor(Math.random() * 5_000));
+  const count = Math.floor(Math.random() * 10) + 5;
+  return new Array(count).fill(0).map(() => 100 + Math.floor(Math.random() * 2_000));
+}
+
+function getMonthDays(idx: MonthIdx): Date[] {
+  const lastDay = new Date(idx.date.getFullYear(), idx.date.getMonth(), 0).getDate();
+
+  return new Array(lastDay)
+    .fill(0)
+    .map((_, index) => new Date(idx.date.getFullYear(), idx.date.getMonth(), index + 1));
 }
 
 export async function runSeeds(db: AppDatabase): Promise<void> {
@@ -48,14 +56,14 @@ export async function runSeeds(db: AppDatabase): Promise<void> {
         value: 100_000,
       })),
 
-      ...monthIdxes.flatMap((idx) => {
-        return getRecordValues().map((value): RecordInsert => ({
-          categoryId: expenseCategories[Math.floor(Math.random() * expenseCategories.length)].id,
-          type: RecordType.EXPENSE,
-          date: idx.date,
-          value,
-        }));
-      }),
+      ...monthIdxes.flatMap((idx) =>
+        getMonthDays(idx).flatMap((date) =>
+          getRecordValues().flatMap((value): RecordInsert => ({
+            categoryId: expenseCategories[Math.floor(Math.random() * expenseCategories.length)].id,
+            type: RecordType.EXPENSE,
+            date,
+            value,
+          })))),
     ]);
   });
 }

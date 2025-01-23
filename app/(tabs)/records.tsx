@@ -1,21 +1,48 @@
 import { type ReactNode } from 'react';
 import { useRouter } from 'expo-router';
 import { TabScreenLayout } from '@/components/layout';
-import { Divider, List, Text, TopNavigationAction, useTheme } from '@ui-kitten/components';
+import { Text, TopNavigationAction } from '@ui-kitten/components';
 import { RecordType } from '@/enums';
 import { IconName, iconRenderer } from '@/components/uiKitten';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
 import { useMonthStore } from '@/stores';
 import { useRecordsMonthSuspenseQuery } from '@/hooks/queries';
-import { MonthRecord } from '@/components/recordsList';
+import { MonthDayHeader, MonthRecord } from '@/components/recordsList';
+import { groupBy } from 'lodash-es';
+import type { RecordWithCategory } from '@/db';
+import { FlashList } from '@shopify/flash-list';
+
+const enum ListItemType {
+  DAY_HEADER = 'day-header',
+  RECORD = 'record',
+}
+
+interface IDayHeaderListItem {
+  type: ListItemType.DAY_HEADER;
+  date: Date;
+}
+
+interface IRecordListItem {
+  type: ListItemType.RECORD;
+  record: RecordWithCategory;
+}
+
+type ListItem = IDayHeaderListItem | IRecordListItem;
 
 function MonthRecords(): ReactNode {
-  const theme = useTheme();
   const monthIdx = useMonthStore((state) => state.activeIdx);
 
   const recordsQuery = useRecordsMonthSuspenseQuery({
     year: monthIdx.year,
     month: monthIdx.month,
+    subkey: ['month-records'],
+
+    select: (records) => (
+      Object.entries(groupBy(records, (record) => record.date.getDate())).flatMap(([_, records]): ListItem[] => [
+        { type: ListItemType.DAY_HEADER, date: new Date(records[0].date) },
+        ...records.map((record) => ({ type: ListItemType.RECORD as const, record })),
+      ])
+    ),
   });
 
   if (!recordsQuery.data.length) {
@@ -29,19 +56,23 @@ function MonthRecords(): ReactNode {
   }
 
   return (
-    <List
+    <FlashList
+      removeClippedSubviews
       data={recordsQuery.data}
+      estimatedItemSize={43.3}
+      getItemType={(item) => item.type}
 
-      ItemSeparatorComponent={() =>
-        <Divider
-          style={[
-            styles.divider,
-            { backgroundColor: theme['color-basic-400'] },
-          ]}
-        />
-      }
+      renderItem={({ item }) => (
+        item.type === ListItemType.DAY_HEADER
+          ? <MonthDayHeader date={item.date} />
+          : <MonthRecord record={item.record} />
+      )}
 
-      renderItem={({ item }) => <MonthRecord record={item} />}
+      overrideItemLayout={(layout, item) => {
+        if (item.type === ListItemType.DAY_HEADER) {
+          layout.size = 22.3;
+        }
+      }}
     />
   );
 }
@@ -80,11 +111,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-  } satisfies ViewStyle,
-
-  divider: {
-    marginLeft: 8,
-    marginRight: 12,
-  } satisfies ViewStyle,
+  } satisfies ViewStyle
 });
 

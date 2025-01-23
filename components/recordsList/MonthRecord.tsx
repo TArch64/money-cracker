@@ -2,12 +2,12 @@ import type { ReactNode } from 'react';
 import type { RecordWithCategory } from '@/db';
 import { StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
 import { Text, useTheme } from '@ui-kitten/components';
-import { useDateFormatter, useMoneyFormatter } from '@/hooks/formatters';
+import { useMoneyFormatter } from '@/hooks/formatters';
 import { showConfirm } from '@/helpers/showConfirm';
 import { useRecordDeleteMutation } from '@/hooks/queries';
 import { useRouter } from 'expo-router';
 import { getRecordTypeTitle, isExpenseRecord } from '@/enums';
-import { Icon, IconName } from '@/components/uiKitten';
+import { IconName } from '@/components/uiKitten';
 import { SwipeActionView } from '@/components/SwipeActionView';
 
 export interface IMonthRecordProps {
@@ -17,14 +17,12 @@ export interface IMonthRecordProps {
 export function MonthRecord(props: IMonthRecordProps): ReactNode {
   const theme = useTheme();
   const router = useRouter();
-  const dateFormatter = useDateFormatter({ month: 'long', day: 'numeric' });
-  const moneyFormatter = useMoneyFormatter();
   const deleteMutation = useRecordDeleteMutation(props.record);
 
   const isExpense = isExpenseRecord(props.record.type);
 
-  const date = dateFormatter.format(props.record.date);
-  const value = moneyFormatter.format(isExpense ? -props.record.value : props.record.value);
+  const moneyFormatter = useMoneyFormatter();
+  const value = moneyFormatter.format(props.record.value);
 
   const title = getRecordTypeTitle(props.record.type);
   const status = isExpense ? 'danger' : 'success';
@@ -71,28 +69,9 @@ export function MonthRecord(props: IMonthRecordProps): ReactNode {
         ]}
       />
 
-      <View>
-        <Text style={styles.categoryName}>
-          {props.record.category.name}
-        </Text>
-
-        <View style={styles.dateRow}>
-          <Icon
-            name={IconName.CALENDAR_OUTLINE}
-            style={styles.dateIcon}
-            fill={theme['color-basic-600']}
-          />
-
-          <Text
-            style={[
-              styles.date,
-              { color: theme['color-basic-600'] },
-            ]}
-          >
-            {date}
-          </Text>
-        </View>
-      </View>
+      <Text style={styles.categoryName}>
+        {props.record.category.name}
+      </Text>
 
       <Text
         style={[
@@ -119,16 +98,15 @@ const styles = StyleSheet.create({
   label: {
     width: 6,
     height: '100%',
-    borderTopLeftRadius: 4,
-    borderBottomLeftRadius: 4,
-    marginRight: 6,
+    borderRadius: 4,
+    marginRight: 8,
     position: 'relative',
-    top: 2,
   } satisfies ViewStyle,
 
   categoryName: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: 600,
+    paddingVertical: 4,
   } satisfies TextStyle,
 
   dateRow: {
