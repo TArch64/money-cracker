@@ -3,7 +3,7 @@ import Swipeable, { type SwipeableMethods } from 'react-native-gesture-handler/R
 import { type ElementStatus, IconName, iconRenderer } from './uiKitten';
 import { Button, useTheme } from '@ui-kitten/components';
 import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native';
-import Animated, { type SharedValue, useAnimatedStyle, useDerivedValue } from 'react-native-reanimated';
+import Animated, { type SharedValue, useAnimatedStyle } from 'react-native-reanimated';
 
 export interface ISwipeAction {
   icon: IconName;
@@ -23,11 +23,14 @@ const AnimatedButton = Animated.createAnimatedComponent(Button);
 function SwipeAction(props: ISwipeActionProps): ReactNode {
   const theme = useTheme();
   const [width, setWidth] = useState(0);
-  const widthValue = useDerivedValue(() => width);
   const sideModifier = props.side === 'left' ? 1 : -1;
 
   const buttonAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: props.dragged.value - (sideModifier * widthValue.value) }],
+    transform: [{
+      translateX: props.dragged.value
+        - (sideModifier * width)
+        - (Math.max((props.dragged.value * 1.5) - width, 0) / 5),
+    }],
   }));
 
   const overshootAnimatedStyle = useAnimatedStyle(() => ({
@@ -50,15 +53,21 @@ function SwipeAction(props: ISwipeActionProps): ReactNode {
       onLayout={(event) => setWidth(event.nativeEvent.layout.width)}
     >
       <AnimatedButton
-        style={[styles.actionButton, buttonAnimatedStyle]}
+        style={[
+          styles.actionButton,
+          styles[`action:${props.side}`],
+          buttonAnimatedStyle,
+        ]}
+
         status={props.action.status}
-        accessoryLeft={iconRenderer(props.action.icon)}
+        accessoryLeft={iconRenderer(props.action.icon, { marginHorizontal: 0 })}
         onPress={onPress}
       />
 
       <Animated.View
         style={[
           styles.actionOvershoot,
+          styles[`action:${props.side}`],
           { backgroundColor: theme[`color-${props.action.status}-500`] },
           overshootAnimatedStyle,
         ] satisfies StyleProp<ViewStyle>}
@@ -120,10 +129,22 @@ const styles = StyleSheet.create({
     display: 'flex',
   } satisfies ViewStyle,
 
+  'action:left': {
+    borderTopRightRadius: 4,
+    borderBottomRightRadius: 4,
+  } satisfies ViewStyle,
+
+  'action:right': {
+    borderTopLeftRadius: 4,
+    borderBottomLeftRadius: 4,
+  } satisfies ViewStyle,
+
   actionButton: {
+    backgroundColor: 'transparent',
     flex: 1,
     borderRadius: 0,
     zIndex: 1,
+    minWidth: 0,
   } satisfies ViewStyle,
 
   actionOvershoot: {

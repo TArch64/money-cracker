@@ -1,10 +1,11 @@
-import type { ImageProps } from 'react-native';
+import type { ImageProps, ImageStyle, StyleProp } from 'react-native';
 import type { RenderProp } from '@ui-kitten/components/devsupport';
 import { Icon as Icon_, type IconProps } from '@ui-kitten/components';
 import type { ReactNode } from 'react';
 
 export const enum IconName {
   ARROW_BACK = 'arrow-back',
+  ARROW_UPWARD = 'arrow-upward',
   PLUS = 'plus',
   LIST = 'list',
   BRIEFCASE_OUTLINE = 'briefcase-outline',
@@ -19,5 +20,5 @@ export const Icon = (props: Omit<IconProps, 'name'> & { name: IconName }): React
   <Icon_ {...props} />
 );
 
-export const iconRenderer = (name: IconName): RenderProp<Partial<ImageProps>> =>
-  (iconProps) => <Icon {...iconProps} name={name} />;
+export const iconRenderer = (name: IconName, style?: StyleProp<ImageStyle>): RenderProp<Partial<ImageProps>> =>
+  (iconProps) => <Icon {...iconProps} name={name} style={[iconProps?.style, style]} />;

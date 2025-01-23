@@ -1,13 +1,14 @@
 import type { RecordWithCategory } from '@/db';
-import type { ReactNode } from 'react';
+import { type ReactNode, useRef, useState } from 'react';
 import { useMonthStore } from '@/stores';
 import { useRecordsMonthSuspenseQuery } from '@/hooks/queries';
 import { groupBy } from 'lodash-es';
-import { StyleSheet, View, type ViewStyle } from 'react-native';
+import { FlatList, StyleSheet, View, type ViewStyle } from 'react-native';
 import { Text } from '@ui-kitten/components';
 import { FlashList } from '@shopify/flash-list';
 import { MonthDayHeader } from './MonthDayHeader';
 import { MonthRecord } from './MonthRecord';
+import { MonthBackToTop } from './MonthBackToTop';
 
 const enum ListItemType {
   DAY_HEADER = 'day-header',
@@ -27,7 +28,10 @@ interface IRecordListItem {
 type ListItem = IDayHeaderListItem | IRecordListItem;
 
 export function MonthRecords(): ReactNode {
+  const listRef = useRef<FlatList<ListItem>>(null);
   const monthIdx = useMonthStore((state) => state.activeIdx);
+  const isScrollingToTop = useRef(false);
+  const [isBackToTopVisible, setBackToTopVisible] = useState(false);
 
   const recordsQuery = useRecordsMonthSuspenseQuery({
     year: monthIdx.year,
@@ -53,24 +57,53 @@ export function MonthRecords(): ReactNode {
   }
 
   return (
-    <FlashList
-      removeClippedSubviews
-      data={recordsQuery.data}
-      estimatedItemSize={43.3}
-      getItemType={(item) => item.type}
+    <>
+      <FlashList
+        ref={listRef as any}
+        removeClippedSubviews
+        data={recordsQuery.data}
+        estimatedItemSize={43.3}
+        scrollEventThrottle={16}
+        getItemType={(item) => item.type}
 
-      renderItem={({ item }) => (
-        item.type === ListItemType.DAY_HEADER
-          ? <MonthDayHeader date={item.date} />
-          : <MonthRecord record={item.record} />
-      )}
+        renderItem={({ item }) => (
+          item.type === ListItemType.DAY_HEADER
+            ? <MonthDayHeader date={item.date} />
+            : <MonthRecord record={item.record} />
+        )}
 
-      overrideItemLayout={(layout, item) => {
-        if (item.type === ListItemType.DAY_HEADER) {
-          layout.size = 22.3;
-        }
-      }}
-    />
+        overrideItemLayout={(layout, item) => {
+          if (item.type === ListItemType.DAY_HEADER) {
+            layout.size = 22.3;
+          }
+        }}
+
+        onScroll={(event) => {
+          if (isScrollingToTop.current) {
+            return;
+          }
+
+          const offsetY = event.nativeEvent.contentOffset.y;
+          const shouldShow = offsetY > 200;
+
+          if (shouldShow !== isBackToTopVisible) {
+            setBackToTopVisible(shouldShow);
+          }
+        }}
+
+        onMomentumScrollEnd={() => isScrollingToTop.current = false}
+      />
+
+      <MonthBackToTop
+        visible={isBackToTopVisible}
+
+        onPress={() => {
+          isScrollingToTop.current = true;
+          setBackToTopVisible(false);
+          listRef.current?.scrollToOffset({ animated: true, offset: 0 });
+        }}
+      />
+    </>
   );
 }
 
