@@ -5,11 +5,11 @@ import { ListItem, useTheme } from '@ui-kitten/components';
 import { StyleSheet, type ViewStyle } from 'react-native';
 import { useRouter } from 'expo-router';
 
-export interface ISwitcherMonthProps {
+export interface ISwitcherMonthYearProps {
   monthIdx: MonthIdx;
 }
 
-export function SwitcherMonth(props: ISwitcherMonthProps): ReactNode {
+export function SwitcherYearMonth(props: ISwitcherMonthYearProps): ReactNode {
   const router = useRouter();
   const theme = useTheme();
   const dateFormatter = useDateFormatter({ month: 'long' });
