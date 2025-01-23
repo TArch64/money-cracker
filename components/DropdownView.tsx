@@ -1,9 +1,10 @@
 import { type ReactNode, type RefCallback, useState } from 'react';
 import type { IPropsWithChildrenFn } from '@/types';
 import { BackdropView } from '@/components/BackdropView';
-import { type LayoutChangeEvent, type NativeMethods, StyleSheet, type ViewStyle } from 'react-native';
+import { type LayoutChangeEvent, type NativeMethods, type StyleProp, StyleSheet, type ViewStyle } from 'react-native';
 import { flip, offset, shift, useFloating } from '@floating-ui/react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+import { useTheme } from '@ui-kitten/components';
 
 export interface IDropdownActivatorProps {
   ref: RefCallback<NativeMethods>;
@@ -19,6 +20,7 @@ export interface IDropdownViewProps extends IPropsWithChildrenFn {
 }
 
 export function DropdownView(props: IDropdownViewProps): ReactNode {
+  const theme = useTheme();
   const [floatingWidth, setFloatingWidth] = useState(0);
 
   const { refs, floatingStyles } = useFloating({
@@ -45,13 +47,16 @@ export function DropdownView(props: IDropdownViewProps): ReactNode {
         <Animated.View
           ref={refs.setFloating}
           collapsable={false}
+
           style={[
             styles.dropdownMenu,
             {
               ...floatingStyles,
               width: floatingWidth,
+              boxShadow: theme['box-shadow'],
             },
-          ]}
+          ] satisfies StyleProp<ViewStyle>}
+
           entering={FadeIn.duration(200)}
           exiting={FadeOut.duration(200)}
         >
@@ -67,6 +72,5 @@ const styles = StyleSheet.create({
     zIndex: 1000,
     borderRadius: 4,
     overflow: 'hidden',
-    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
   } satisfies ViewStyle,
 });

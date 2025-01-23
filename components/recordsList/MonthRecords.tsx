@@ -91,6 +91,7 @@ export function MonthRecords(): ReactNode {
           }
         }}
 
+        ListHeaderComponent={<View style={{ height: 8 }} />}
         onMomentumScrollEnd={() => isScrollingToTop.current = false}
       />
 

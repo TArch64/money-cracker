@@ -5,7 +5,7 @@ declare module '@ui-kitten/components' {
   type Colors = ElementStatus | `${ElementStatus}-transparent`
   type ColorKey = `color-${Colors}-${ColorLevels}`
   type BgKeys = `background-basic-color-${1 | 2 | 3}`
-  type Theme = Record<ColorKey | BgKeys, string>;
+  export type Theme = Record<ColorKey | BgKeys, string> & { 'box-shadow': string };
 
   export function useTheme(): Theme;
 }

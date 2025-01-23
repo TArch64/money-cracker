@@ -133,12 +133,5 @@ const styles = StyleSheet.create({
     minHeight: 40,
     display: 'flex',
     justifyContent: 'center',
-  } satisfies ViewStyle,
-
-  dropdown: {
-    zIndex: 1000,
-    borderRadius: 4,
-    overflow: 'hidden',
-    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-  } satisfies ViewStyle,
+  } satisfies ViewStyle
 });

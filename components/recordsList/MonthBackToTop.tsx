@@ -1,8 +1,8 @@
-import { type ReactNode } from 'react';
+import { type ReactNode, useLayoutEffect, useRef } from 'react';
 import { IconName, iconRenderer } from '@/components/uiKitten';
-import { Button } from '@ui-kitten/components';
-import { StyleSheet, View, type ViewStyle } from 'react-native';
-import Animated, { FadeInDown, FadeOut } from 'react-native-reanimated';
+import { Button, useTheme } from '@ui-kitten/components';
+import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native';
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
 export interface IMonthBackToTopProps {
   visible: boolean;
@@ -11,38 +11,55 @@ export interface IMonthBackToTopProps {
 
 const AnimatedButton = Animated.createAnimatedComponent(Button);
 
-export const MonthBackToTop = (props: IMonthBackToTopProps): ReactNode => (
-  <View style={styles.container}>
-    {props.visible && (
+export const MonthBackToTop = (props: IMonthBackToTopProps): ReactNode => {
+  const theme = useTheme();
+  const progress = useSharedValue(0);
+  const isInitial = useRef(true);
+
+  useLayoutEffect(() => {
+    if (isInitial.current) {
+      isInitial.current = false;
+      return;
+    }
+
+    progress.value = withSpring(props.visible ? 1 : 0, { duration: 100, dampingRatio: 0.9 });
+  }, [props.visible]);
+
+  const containerAnimatedStyle = useAnimatedStyle((): ViewStyle => ({
+    opacity: progress.value,
+
+    transform: [
+      { translateX: '-50%' },
+      { translateY: (1 - progress.value) * 30 },
+      { scale: 0.8 + (0.2 * progress.value) },
+    ],
+  }));
+
+  return (
+    <Animated.View style={[styles.container, containerAnimatedStyle]}>
       <AnimatedButton
         status="control"
-        style={styles.button}
-
-        entering={FadeInDown.springify(500).withInitialValues({
-          opacity: 0,
-          transform: [{ translateY: 25 }, { scale: 0.5 }],
-        })}
-
-        exiting={FadeOut.duration(200)}
+        style={[
+          styles.button,
+          { boxShadow: theme['box-shadow'] },
+        ]  satisfies StyleProp<ViewStyle>}
         accessoryLeft={iconRenderer(IconName.ARROW_UPWARD)}
         onPress={props.onPress}
       />
-    )}
-  </View>
-);
+    </Animated.View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     bottom: 16,
-    width: 0,
-    marginLeft: -24,
+    width: 40,
     left: '50%',
   } as ViewStyle,
 
   button: {
     aspectRatio: 1,
     borderRadius: '100%',
-    boxShadow: '0 0 6px rgba(0, 0, 0, 0.05)',
   } satisfies ViewStyle,
 });
