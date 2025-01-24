@@ -30,7 +30,6 @@ export const MonthBackToTop = (props: IMonthBackToTopProps): ReactNode => {
 
     transform: [
       { translateX: '-50%' },
-      { translateY: (1 - progress.value) * 30 },
       { scale: 0.8 + (0.2 * progress.value) },
     ],
   }));
