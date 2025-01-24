@@ -29,7 +29,7 @@ function SwipeAction(props: ISwipeActionProps): ReactNode {
     transform: [{
       translateX: props.dragged.value
         - (sideModifier * width)
-        - (Math.max((props.dragged.value * 1.5) - width, 0) / 5),
+        - (sideModifier * Math.max((Math.abs(props.dragged.value) * 1.5) - width, 0) / 5),
     }],
   }));
 
@@ -95,6 +95,8 @@ export function SwipeActionView(props: ISwipeActionViewProps): ReactNode {
     <Swipeable
       ref={swipeable}
       overshootFriction={2}
+      leftThreshold={50}
+      rightThreshold={50}
       enableTrackpadTwoFingerGesture
       childrenContainerStyle={props.rowStyle}
 
