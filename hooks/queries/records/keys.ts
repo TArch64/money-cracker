@@ -18,3 +18,9 @@ export function RECORDS_MONTH_LIST_QUERY(yearOrDate: number | Date, month?: numb
     'list',
   ] as const;
 }
+
+type MonthStatisticsQuery = [...MonthListKey, string];
+
+export function RECORDS_MONTH_STATISTICS_QUERY(year: number, month: number): MonthStatisticsQuery {
+  return [...RECORDS_MONTH_LIST_QUERY(year, month), 'statistics'];
+}

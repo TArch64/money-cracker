@@ -2,13 +2,10 @@ import type { ReactNode } from 'react';
 import { TabScreenLayout } from '@/components/layout';
 import { useMoneyFormatter } from '@/hooks/formatters';
 import { useMonthStore } from '@/stores';
-import { useRecordsMonthSuspenseQuery } from '@/hooks/queries';
+import { useRecordsMonthStatisticsSuspenseQuery } from '@/hooks/queries';
 import { ScrollView, StyleSheet, View, type ViewStyle } from 'react-native';
-import { groupBy } from 'lodash-es';
 import { Text } from '@ui-kitten/components';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import type { Record } from '@/db';
-import { RecordType } from '@/enums';
 
 interface IDataRowProps {
   label: string;
@@ -33,33 +30,11 @@ function DataRow(props: IDataRowProps): ReactNode {
   );
 }
 
-function sumRecords(records: Record[]): number {
-  return records.reduce((acc, record) => acc + record.value, 0);
-}
-
 function MonthStatistics(): ReactNode {
   const monthIdx = useMonthStore((state) => state.activeIdx);
+  const expensesQuery = useRecordsMonthStatisticsSuspenseQuery(monthIdx.year, monthIdx.month);
 
-  const expensesQuery = useRecordsMonthSuspenseQuery({
-    year: monthIdx.year,
-    month: monthIdx.month,
-    subkey: ['statistics'],
-
-    filter: {
-      type: RecordType.EXPENSE,
-    },
-
-    select: (records) => ({
-      total: sumRecords(records),
-
-      categories: Object
-        .entries(groupBy(records, 'category.name'))
-        .map(([name, records]) => ({ name, value: sumRecords(records) }))
-        .sort((c1, c2) => c2.value - c1.value),
-    }),
-  });
-
-  if (!expensesQuery.data.total) {
+  if (!expensesQuery.data.hasExpenses) {
     return (
       <SafeAreaView style={[styles.column, styles.emptyColumn]} edges={['bottom']}>
         <Text>
@@ -74,14 +49,14 @@ function MonthStatistics(): ReactNode {
       <DataRow
         label="Total Expenses"
         labelCategory="s1"
-        value={expensesQuery.data.total}
+        value={expensesQuery.data.expenseTotal}
       />
 
-      {expensesQuery.data.categories.map((category) => (
+      {expensesQuery.data.expenseCategories.map((category) => (
         <DataRow
-          key={category.name}
+          key={category.id}
           label={category.name}
-          value={category.value}
+          value={category.total}
         />
       ))}
     </ScrollView>
