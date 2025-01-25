@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
-    marginBottom: 4,
+    marginBottom: 8,
     paddingHorizontal: 1,
   } satisfies ViewStyle,
 
