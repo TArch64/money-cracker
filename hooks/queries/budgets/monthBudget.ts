@@ -14,6 +14,7 @@ import {
   useDatabase,
 } from '@/db';
 import { and, eq, notInArray } from 'drizzle-orm';
+import { RecordType } from '@/enums';
 
 export type MonthBudgetCategory = Omit<BudgetCategory, 'budgetId'>
   & Pick<Category, 'name'>
@@ -48,6 +49,7 @@ async function getBudgetOther(db: AppDatabase, budget: Budget): Promise<number> 
     .from(records)
     .where(and(
       eqDate(records.date, { year: budget.year, month: budget.month }),
+      eq(records.type, RecordType.EXPENSE),
       notInArray(records.categoryId, db
         .select({ id: budgetCategories.categoryId })
         .from(budgetCategories)
