@@ -3,7 +3,20 @@ import Swipeable, { type SwipeableMethods } from 'react-native-gesture-handler/R
 import { type ElementStatus, IconName, iconRenderer } from './uiKitten';
 import { Button, useTheme } from '@ui-kitten/components';
 import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native';
-import Animated, { type SharedValue, useAnimatedStyle } from 'react-native-reanimated';
+import Animated, {
+  runOnJS,
+  type SharedValue,
+  useAnimatedReaction,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
+import { impactAsync, ImpactFeedbackStyle } from 'expo-haptics';
+
+const enum Side {
+  LEFT = 'left',
+  RIGHT = 'right',
+}
 
 export interface ISwipeAction {
   icon: IconName;
@@ -13,24 +26,40 @@ export interface ISwipeAction {
 
 interface ISwipeActionProps {
   action: ISwipeAction;
+  size: number;
+  progress: SharedValue<number>;
   dragged: SharedValue<number>;
   swipeable: SwipeableMethods;
-  side: 'left' | 'right';
+  side: Side;
 }
 
 const AnimatedButton = Animated.createAnimatedComponent(Button);
 
 function SwipeAction(props: ISwipeActionProps): ReactNode {
   const theme = useTheme();
-  const [width, setWidth] = useState(0);
-  const sideModifier = props.side === 'left' ? 1 : -1;
+  const sideModifier = props.side === Side.LEFT ? 1 : -1;
+  const scale = useSharedValue(0.7);
 
-  const buttonAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [{
-      translateX: props.dragged.value
-        - (sideModifier * width)
-        - (sideModifier * Math.max((Math.abs(props.dragged.value) * 1.5) - width, 0) / 5),
-    }],
+  function vibrate() {
+    impactAsync(ImpactFeedbackStyle.Medium);
+  }
+
+  useAnimatedReaction(() => props.progress.value, (progress, previous) => {
+    if (progress >= 1 && (previous || 0) < 1) {
+      scale.value = withSpring(1);
+      runOnJS(vibrate)();
+    }
+
+    if (progress < 1 && (previous || 0) >= 1) {
+      scale.value = withSpring(0.7);
+    }
+  });
+
+  const buttonAnimatedStyle = useAnimatedStyle((): ViewStyle => ({
+    transform: [
+      { translateX: props.dragged.value - (sideModifier * props.size) },
+      { scale: scale.value },
+    ],
   }));
 
   const overshootAnimatedStyle = useAnimatedStyle(() => ({
@@ -44,20 +73,14 @@ function SwipeAction(props: ISwipeActionProps): ReactNode {
   }
 
   return (
-    <View
-      style={[
-        styles.action,
-        !width && { opacity: 0 },
-      ] satisfies StyleProp<ViewStyle>}
-
-      onLayout={(event) => setWidth(event.nativeEvent.layout.width)}
-    >
+    <>
       <AnimatedButton
         style={[
           styles.actionButton,
           styles[`action:${props.side}`],
           buttonAnimatedStyle,
-        ]}
+          { width: props.size, height: props.size },
+        ] satisfies StyleProp<ViewStyle>}
 
         status={props.action.status}
         accessoryLeft={iconRenderer(props.action.icon, { marginHorizontal: 0 })}
@@ -72,7 +95,7 @@ function SwipeAction(props: ISwipeActionProps): ReactNode {
           overshootAnimatedStyle,
         ] satisfies StyleProp<ViewStyle>}
       />
-    </View>
+    </>
   );
 }
 
@@ -84,53 +107,50 @@ export interface ISwipeActionViewProps extends PropsWithChildren {
 
 export function SwipeActionView(props: ISwipeActionViewProps): ReactNode {
   const swipeable = useRef<SwipeableMethods>(null);
+  const [height, setHeight] = useState(0);
 
   function onSwipeableOpen(direction: 'left' | 'right'): void {
     swipeable.current?.close();
-    const action = direction === 'right' ? props.right : props.left;
-    action?.onAction();
+    props[direction]?.onAction();
+  }
+
+  function actionRenderer(side: Side) {
+    if (!props[side] || !height) {
+      return;
+    }
+
+    return (progress: SharedValue<number>, dragged: SharedValue<number>, swipeable: SwipeableMethods) => (
+      <SwipeAction
+        side={side}
+        action={props[side]!}
+        size={height}
+        progress={progress}
+        dragged={dragged}
+        swipeable={swipeable}
+      />
+    );
   }
 
   return (
-    <Swipeable
-      ref={swipeable}
-      overshootFriction={2}
-      leftThreshold={50}
-      rightThreshold={50}
-      enableTrackpadTwoFingerGesture
-      childrenContainerStyle={props.rowStyle}
-
-      renderLeftActions={props.left ? ((_, dragged, swipeable) => (
-        <SwipeAction
-          side="left"
-          action={props.left!}
-          dragged={dragged}
-          swipeable={swipeable}
-        />
-      )) : undefined}
-
-      renderRightActions={(_, dragged, swipeable) => (
-        <SwipeAction
-          side="right"
-          action={props.right}
-          dragged={dragged}
-          swipeable={swipeable}
-        />
-      )}
-
-      onSwipeableWillOpen={onSwipeableOpen}
-    >
-      {props.children}
-    </Swipeable>
+    <View onLayout={event => setHeight(event.nativeEvent.layout.height)}>
+      <Swipeable
+        ref={swipeable}
+        overshootFriction={2}
+        leftThreshold={50}
+        rightThreshold={50}
+        enableTrackpadTwoFingerGesture
+        childrenContainerStyle={props.rowStyle}
+        renderLeftActions={actionRenderer(Side.LEFT)}
+        renderRightActions={actionRenderer(Side.RIGHT)}
+        onSwipeableWillOpen={onSwipeableOpen}
+      >
+        {props.children}
+      </Swipeable>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  action: {
-    position: 'relative',
-    display: 'flex',
-  } satisfies ViewStyle,
-
   'action:left': {
     borderTopRightRadius: 4,
     borderBottomRightRadius: 4,
@@ -143,10 +163,8 @@ const styles = StyleSheet.create({
 
   actionButton: {
     backgroundColor: 'transparent',
-    flex: 1,
     borderRadius: 0,
     zIndex: 1,
-    minWidth: 0,
   } satisfies ViewStyle,
 
   actionOvershoot: {
