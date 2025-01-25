@@ -56,13 +56,13 @@ function CategoriesList(): ReactNode {
       data={categoriesQuery.data}
 
       style={[
-        styles.list,
         { backgroundColor: theme['background-basic-color-1'] },
       ] satisfies StyleProp<ViewStyle>}
 
       renderItem={({ item }) => (
         <ListItem
           title={item.name}
+          style={styles.listItem}
           onPress={() => showActions(item)}
         />
       )}
@@ -91,12 +91,8 @@ export default function Index(): ReactNode {
 
 const styles = StyleSheet.create({
   typeSelector: {
-    marginBottom: 16,
-  } satisfies ViewStyle,
-
-  list: {
-    paddingHorizontal: 24,
-    paddingVertical: 16,
+    marginVertical: 16,
+    marginHorizontal: 24,
   } satisfies ViewStyle,
 
   listEmpty: {
@@ -105,5 +101,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+  } satisfies ViewStyle,
+
+  listItem: {
+    marginHorizontal: 12,
+    borderRadius: 4,
   } satisfies ViewStyle,
 });
