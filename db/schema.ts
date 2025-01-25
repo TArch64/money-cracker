@@ -1,7 +1,17 @@
 import { index, integer, primaryKey, sqliteTable, text, unique } from 'drizzle-orm/sqlite-core';
 import { type InferInsertModel, type InferSelectModel, relations, sql } from 'drizzle-orm';
-import { RecordType } from '@/enums';
-import { date } from './customTypes';
+import { IntroState, RecordType } from '@/enums';
+import { date, enum_ } from './customTypes';
+
+export const USER_ID = 1;
+
+export const users = sqliteTable('users', {
+  id: integer().primaryKey().default(USER_ID),
+  intro: enum_('intro', IntroState).notNull().default(IntroState.PENDING),
+});
+
+export type User = InferSelectModel<typeof users>;
+export type UserInsert = InferInsertModel<typeof users>;
 
 const recordTypeEnum = Object.values(RecordType) as [RecordType, ...RecordType[]];
 

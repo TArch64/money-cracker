@@ -1,5 +1,4 @@
 export const RECORDS_DETAILS_QUERY = (recordId: number) => ['records', recordId, 'details'] as const;
-export const RECORDS_EXISTS_QUERY = ['records', 'exists'] as const;
 
 type MonthListKey = [string, string, year: number, string, month: number, string];
 

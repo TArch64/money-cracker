@@ -12,7 +12,7 @@ export interface IBudgetAvailableMoneyProps extends IPropsWithStyle<ViewStyle> {
 export function BudgetAvailableMoney(props: IBudgetAvailableMoneyProps): ReactNode {
   const moneyFormatter = useMoneyFormatter();
   const value = moneyFormatter.format(props.value);
-  const status = props.value > 0 ? 'basic' : 'danger';
+  const status = props.value >= 0 ? 'basic' : 'danger';
 
   return (
     <BudgetCard style={props.style}>

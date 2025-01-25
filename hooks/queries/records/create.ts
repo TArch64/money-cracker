@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { type RecordInsert, records, useDatabase } from '@/db';
-import { RECORDS_EXISTS_QUERY } from './keys';
 import { useCategoryFindOrCreateMutation } from '../categories';
 import { MONTHS_QUERY } from '../general';
 
@@ -31,8 +30,6 @@ export function useRecordCreateMutation() {
     },
 
     async onSuccess() {
-      queryClient.setQueryData(RECORDS_EXISTS_QUERY, true);
-
       await queryClient.invalidateQueries({
         queryKey: MONTHS_QUERY,
       });

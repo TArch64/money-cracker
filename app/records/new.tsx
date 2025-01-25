@@ -2,7 +2,7 @@ import { type ReactNode, useMemo, useState } from 'react';
 import { FormScreenLayout } from '@/components/layout';
 import { Button, Text } from '@ui-kitten/components';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { getRecordTypeTitle, isIncomeRecord, RecordType } from '@/enums';
+import { getRecordTypeTitle, IntroState, isIncomeRecord, RecordType } from '@/enums';
 import {
   FormAutocomplete,
   FormButtonSelect,
@@ -12,7 +12,7 @@ import {
   type IButtonSelectOption,
 } from '@/components/form';
 import { date, enum_, minLength, minValue, number, object, pipe, string } from 'valibot';
-import { useCategoriesListQuery, useRecordCreateMutation } from '@/hooks/queries';
+import { useCategoriesListQuery, useRecordCreateMutation, useUserUpdateMutation } from '@/hooks/queries';
 import { useMonthStore } from '@/stores';
 
 const schema = object({
@@ -35,8 +35,14 @@ const recordTypeOptions: IButtonSelectOption<RecordType>[] = [
   },
 ];
 
+type SearchParams = {
+  type: RecordType;
+  intro?: 'yes'
+};
+
 export default function New(): ReactNode {
-  const { type: initialType } = useLocalSearchParams<{ type: RecordType }>();
+  const { type: initialType, intro } = useLocalSearchParams<SearchParams>();
+  const isIntro = intro === 'yes';
   const activeMonthIdx = useMonthStore((state) => state.activeIdx);
   const router = useRouter();
 
@@ -62,9 +68,17 @@ export default function New(): ReactNode {
   });
 
   const createRecordMutation = useRecordCreateMutation();
+  const updateUserMutation = useUserUpdateMutation();
 
   const onSubmit: FormSubmitHandler<Schema> = async (event) => {
     await createRecordMutation.mutateAsync(event.value);
+
+    if (isIntro) {
+      await updateUserMutation.mutateAsync({
+        intro: IntroState.COMPLETED,
+      });
+    }
+
     router.dismissAll();
     router.replace('/records');
   };

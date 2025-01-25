@@ -1,7 +1,7 @@
 import type { MonthBudget } from '@/hooks/queries';
 import { type ReactNode, useMemo } from 'react';
 import { MonthIdx, useMonthStore } from '@/stores';
-import { List, useTheme } from '@ui-kitten/components';
+import { List } from '@ui-kitten/components';
 import { BudgetCategory } from './BudgetCategory';
 import { StyleSheet, type ViewStyle } from 'react-native';
 import { BudgetUncategorized } from './BudgetUncategorized';
@@ -12,7 +12,6 @@ export interface IBudgetMonthProps {
 }
 
 export function BudgetMonth(props: IBudgetMonthProps): ReactNode {
-  const theme = useTheme();
   const activeMonthIdx = useMonthStore((state) => state.activeIdx);
 
   const dayProgress = useMemo(() => {

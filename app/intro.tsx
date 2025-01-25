@@ -1,5 +1,5 @@
 import { type ReactNode } from 'react';
-import { Link } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { Button, Text } from '@ui-kitten/components';
 import { FullScreenLayout } from '@/components/layout';
 import { StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
@@ -9,23 +9,32 @@ interface IntroLinkProps {
   type: RecordType;
 }
 
-const IntroLink = (props: IntroLinkProps): ReactNode => (
-  <Link
-    asChild
-    href={{
+function IntroLink(props: IntroLinkProps): ReactNode {
+  const router = useRouter();
+
+  function open() {
+    router.push({
       pathname: '/records/new',
-      params: { type: props.type },
-    }}
-  >
-    <Button appearance="ghost" size="small">
+
+      params: {
+        type: props.type,
+        intro: 'yes',
+      },
+    });
+  }
+
+  const text = getRecordTypeTitle(props.type);
+
+  return (
+    <Button appearance="ghost" size="small" onPress={open}>
       {(textProps) => (
         <Text {...textProps} style={[textProps?.style, styles.rowText]}>
-          {getRecordTypeTitle(props.type)}
+          {text}
         </Text>
       )}
     </Button>
-  </Link>
-);
+  );
+}
 
 export default function Intro(): ReactNode {
   return (

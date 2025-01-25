@@ -22,11 +22,11 @@ function DatabaseSeeds(props: IDatabaseInnerProviderProps): ReactNode {
 
   useEffect(() => {
     if (__DEV__) {
-      import('./seeds').then(async ({ runSeeds }) => {
-        await runSeeds(props.client);
+      // import('./seeds').then(async ({ runSeeds }) => {
+      // await runSeeds(props.client);
         setReady(true);
         props.onReady();
-      });
+      // });
     }
   }, []);
 
