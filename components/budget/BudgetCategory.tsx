@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { ProgressBar, Text, useTheme } from '@ui-kitten/components';
 import { useNumberFormatter } from '@/hooks/formatters';
 import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native';
+import { BudgetCard } from './BudgetCard';
 
 export interface IBudgetCategoryProps {
   category: MonthBudgetCategory;
@@ -18,7 +19,7 @@ export function BudgetCategory(props: IBudgetCategoryProps): ReactNode {
   const goal = numberFormatter.format(props.category.goal);
 
   return (
-    <View style={styles.category}>
+    <BudgetCard>
       <View style={styles.categoryRow}>
         <Text>
           {props.category.name}
@@ -35,7 +36,7 @@ export function BudgetCategory(props: IBudgetCategoryProps): ReactNode {
           progress={progress}
           animating={false}
           status={status}
-          size="large"
+          size="giant"
         />
 
         {props.dayProgress > 0 && props.dayProgress < 1 && (
@@ -50,28 +51,24 @@ export function BudgetCategory(props: IBudgetCategoryProps): ReactNode {
           />
         )}
       </View>
-    </View>
+    </BudgetCard>
   );
 }
 
 const styles = StyleSheet.create({
-  category: {
-    padding: 8,
-  } satisfies ViewStyle,
-
   categoryRow: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
-    marginBottom: 8,
+    marginBottom: 10,
     paddingHorizontal: 1,
   } satisfies ViewStyle,
 
   dayProgress: {
     position: 'absolute',
     left: 0,
-    top: -4,
+    top: -3,
     width: 2,
     height: 16,
   } satisfies ViewStyle,

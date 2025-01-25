@@ -1,9 +1,9 @@
 import type { MonthBudget } from '@/hooks/queries';
 import { type ReactNode, useMemo } from 'react';
 import { MonthIdx, useMonthStore } from '@/stores';
-import { List } from '@ui-kitten/components';
+import { List, useTheme } from '@ui-kitten/components';
 import { BudgetCategory } from './BudgetCategory';
-import { StyleSheet, View, type ViewStyle } from 'react-native';
+import { StyleSheet, type ViewStyle } from 'react-native';
 import { BudgetUncategorized } from './BudgetUncategorized';
 import { BudgetAvailableMoney } from './BudgetAvailableMoney';
 
@@ -12,6 +12,7 @@ export interface IBudgetMonthProps {
 }
 
 export function BudgetMonth(props: IBudgetMonthProps): ReactNode {
+  const theme = useTheme();
   const activeMonthIdx = useMonthStore((state) => state.activeIdx);
 
   const dayProgress = useMemo(() => {
@@ -42,29 +43,33 @@ export function BudgetMonth(props: IBudgetMonthProps): ReactNode {
         />
       )}
 
-      ListFooterComponent={
-        <View style={styles.listFooter}>
-          {props.budget.uncategorized && <BudgetUncategorized value={props.budget.uncategorized} />}
-          <BudgetAvailableMoney value={props.budget.available} />
-        </View>
+      ListHeaderComponent={
+        <BudgetAvailableMoney
+          style={styles.availableMoney}
+          value={props.budget.available}
+        />
       }
+
+      ListFooterComponent={props.budget.uncategorized ? (
+        <BudgetUncategorized value={props.budget.uncategorized} />
+      ) : undefined}
     />
   );
 }
 
 const styles = StyleSheet.create({
   categoryList: {
-    paddingVertical: 8,
-    paddingHorizontal: 4,
-    gap: 4,
+    padding: 8,
+    gap: 8,
+  } satisfies ViewStyle,
+
+  availableMoney: {
+    marginBottom: 8,
   } satisfies ViewStyle,
 
   listFooter: {
     paddingTop: 12,
     paddingBottom: 8,
     paddingHorizontal: 8,
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 16,
   } satisfies ViewStyle,
 });

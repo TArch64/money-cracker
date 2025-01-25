@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { Text } from '@ui-kitten/components';
 import { useMoneyFormatter } from '@/hooks/formatters';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
+import { BudgetCard } from './BudgetCard';
 
 export interface IBudgetUncategorizedProps {
   value: number;
@@ -12,10 +13,12 @@ export function BudgetUncategorized(props: IBudgetUncategorizedProps): ReactNode
   const value = moneyFormatter.format(props.value);
 
   return (
-    <View style={styles.row}>
-      <Text>Uncategorized</Text>
-      <Text>{value}</Text>
-    </View>
+    <BudgetCard>
+      <View style={styles.row}>
+        <Text>Uncategorized</Text>
+        <Text>{value}</Text>
+      </View>
+    </BudgetCard>
   );
 }
 

@@ -2,8 +2,10 @@ import type { ReactNode } from 'react';
 import { useMoneyFormatter } from '@/hooks/formatters';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
 import { Text } from '@ui-kitten/components';
+import { BudgetCard } from './BudgetCard';
+import type { IPropsWithStyle } from '@/types';
 
-export interface IBudgetAvailableMoneyProps {
+export interface IBudgetAvailableMoneyProps extends IPropsWithStyle<ViewStyle> {
   value: number;
 }
 
@@ -13,10 +15,12 @@ export function BudgetAvailableMoney(props: IBudgetAvailableMoneyProps): ReactNo
   const status = props.value > 0 ? 'basic' : 'danger';
 
   return (
-    <View style={styles.row}>
-      <Text>Available Money</Text>
-      <Text status={status}>{value}</Text>
-    </View>
+    <BudgetCard style={props.style}>
+      <View style={styles.row}>
+        <Text category="s1">Available Money</Text>
+        <Text status={status}>{value}</Text>
+      </View>
+    </BudgetCard>
   );
 }
 
