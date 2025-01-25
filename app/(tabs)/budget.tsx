@@ -32,7 +32,7 @@ export default function Budget(): ReactNode {
     >
       {budget.isLoading
         ? null
-        : budget.data
+        : budget.data?.categories?.length || budget.data?.uncategorized
           ? <BudgetMonth budget={budget.data} />
           : <BudgetEmpty />}
     </TabScreenLayout>

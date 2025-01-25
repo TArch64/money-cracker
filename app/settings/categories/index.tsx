@@ -5,6 +5,8 @@ import { RecordType } from '@/enums';
 import { ButtonSelect, type IButtonSelectOption } from '@/components/ButtonSelect';
 import { List, ListItem, Text, useTheme } from '@ui-kitten/components';
 import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native';
+import type { Category } from '@/db';
+import { showActionSheet } from '@/helpers/showActionSheet';
 
 const recordTypeOptions: IButtonSelectOption<RecordType>[] = [
   {
@@ -30,6 +32,24 @@ function CategoriesList(): ReactNode {
   const [type, setType] = useState(RecordType.EXPENSE);
   const categoriesQuery = useCategoriesListQuery({ type });
 
+  function showActions(category: Category) {
+    showActionSheet([
+      {
+        text: 'Rename',
+        onPress: () => 0,
+      },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: () => 0,
+      },
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+    ]);
+  }
+
   return (
     <List
       removeClippedSubviews
@@ -41,7 +61,10 @@ function CategoriesList(): ReactNode {
       ] satisfies StyleProp<ViewStyle>}
 
       renderItem={({ item }) => (
-        <ListItem title={item.name} />
+        <ListItem
+          title={item.name}
+          onPress={() => showActions(item)}
+        />
       )}
 
       ListHeaderComponent={
@@ -58,7 +81,7 @@ function CategoriesList(): ReactNode {
   );
 }
 
-export default function Categories(): ReactNode {
+export default function Index(): ReactNode {
   return (
     <FullScreenLayout title="Categories">
       <CategoriesList />
