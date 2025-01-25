@@ -29,10 +29,11 @@ export function useRecordsMonthStatisticsSuspenseQuery(year: number, month: numb
         .select({
           id: categories.id,
           name: categories.name,
+          // language=SQL format=false
           total: sql<number>`SUM(
           ${records.value}
           )
-          as
+          AS
           total`,
         })
         .from(records)

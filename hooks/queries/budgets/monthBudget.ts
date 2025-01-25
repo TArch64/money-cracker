@@ -7,6 +7,7 @@ import {
   budgets,
   categories,
   type Category,
+  eqDate,
   records,
   useDatabase,
 } from '@/db';
@@ -52,7 +53,10 @@ export function useBudgetMonthQuery(year: number, month: number) {
           .from(budgetCategories)
           .innerJoin(categories, eq(budgetCategories.categoryId, categories.id))
           .innerJoin(records, eq(records.categoryId, budgetCategories.categoryId))
-          .where(eq(budgetCategories.budgetId, budget.id))
+          .where(and(
+            eq(budgetCategories.budgetId, budget.id),
+            eqDate(records.date, { year, month }),
+          ))
           .groupBy(budgetCategories.categoryId),
       };
     },
