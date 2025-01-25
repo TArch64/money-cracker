@@ -15,6 +15,7 @@ import {
 } from '@/db';
 import { and, eq, notInArray } from 'drizzle-orm';
 import { RecordType } from '@/enums';
+import { useIsFocused } from '@react-navigation/core';
 
 export type MonthBudgetCategory = Omit<BudgetCategory, 'budgetId'>
   & Pick<Category, 'name'>
@@ -82,8 +83,10 @@ async function getAvailableMoney(
 
 export function useBudgetMonthQuery(year: number, month: number) {
   const db = useDatabase();
+  const isFocused = useIsFocused();
 
   return useQuery({
+    subscribed: isFocused,
     queryKey: BUDGET_MONTH_QUERY(year, month),
 
     async queryFn(args): Promise<MonthBudget | null> {

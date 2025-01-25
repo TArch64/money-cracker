@@ -3,6 +3,7 @@ import { categories, eqDate, records, type RecordWithCategory, useDatabase } fro
 import { and, desc, eq, getTableColumns } from 'drizzle-orm';
 import { RECORDS_MONTH_LIST_QUERY } from './keys';
 import { RecordType } from '@/enums';
+import { useIsFocused } from '@react-navigation/core';
 
 export interface IRecordsMonthFilter {
   type?: RecordType;
@@ -18,8 +19,11 @@ export interface IRecordsMonthOptions<D = RecordWithCategory[]> {
 
 export function useRecordsMonthSuspenseQuery<D = RecordWithCategory[]>(options: IRecordsMonthOptions<D>) {
   const db = useDatabase();
+  const isFocused = useIsFocused();
 
   return useSuspenseQuery({
+    subscribed: isFocused,
+
     queryKey: [
       ...RECORDS_MONTH_LIST_QUERY(options.year, options.month),
       ...(options.subkey || []),

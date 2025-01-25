@@ -49,13 +49,16 @@ export function SwitcherYearMonth(props: ISwitcherMonthYearProps): ReactNode {
 
 const styles = StyleSheet.create({
   month: {
-    paddingLeft: 20,
+    paddingLeft: 16,
+    marginHorizontal: 4,
+    borderRadius: 8,
+    overflow: 'hidden',
   } satisfies ViewStyle,
 
   currentMonth: {
-    left: 2,
-    width: 4,
-    height: 35,
+    left: 4,
+    width: 3,
+    height: 30,
     borderRadius: 2,
     position: 'absolute',
   } satisfies ViewStyle,

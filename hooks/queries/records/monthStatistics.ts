@@ -3,6 +3,7 @@ import { RECORDS_MONTH_STATISTICS_QUERY } from './keys';
 import { categories, eqDate, records, sum, useDatabase } from '@/db';
 import { and, eq } from 'drizzle-orm';
 import { RecordType } from '@/enums';
+import { useIsFocused } from '@react-navigation/core';
 
 export interface IRecordCategoryStatistics {
   id: number;
@@ -18,8 +19,10 @@ export interface IRecordMonthStatistics {
 
 export function useRecordsMonthStatisticsSuspenseQuery(year: number, month: number) {
   const db = useDatabase();
+  const isFocused = useIsFocused();
 
   return useSuspenseQuery({
+    subscribed: isFocused,
     queryKey: RECORDS_MONTH_STATISTICS_QUERY(year, month),
 
     async queryFn(args): Promise<IRecordMonthStatistics> {
