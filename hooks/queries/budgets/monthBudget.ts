@@ -9,9 +9,10 @@ import {
   type Category,
   eqDate,
   records,
+  sum,
   useDatabase,
 } from '@/db';
-import { and, eq, sql } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 
 export type MonthBudgetCategory = Omit<BudgetCategory, 'budgetId'>
   & Pick<Category, 'name'>
@@ -46,8 +47,7 @@ export function useBudgetMonthQuery(year: number, month: number) {
           .select({
             categoryId: budgetCategories.categoryId,
             goal: budgetCategories.goal,
-            // language=SQL format=false
-            spent: sql<number>`SUM(${records.value}) as spent`,
+            spent: sum(records.value, 'spent'),
             name: categories.name,
           })
           .from(budgetCategories)

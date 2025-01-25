@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { RECORDS_MONTH_STATISTICS_QUERY } from './keys';
-import { categories, eqDate, records, useDatabase } from '@/db';
-import { and, eq, sql } from 'drizzle-orm';
+import { categories, eqDate, records, sum, useDatabase } from '@/db';
+import { and, eq } from 'drizzle-orm';
 import { RecordType } from '@/enums';
 
 export interface IRecordCategoryStatistics {
@@ -29,12 +29,7 @@ export function useRecordsMonthStatisticsSuspenseQuery(year: number, month: numb
         .select({
           id: categories.id,
           name: categories.name,
-          // language=SQL format=false
-          total: sql<number>`SUM(
-          ${records.value}
-          )
-          AS
-          total`,
+          total: sum(records.value, 'total'),
         })
         .from(records)
         .innerJoin(categories, eq(categories.id, records.categoryId))
