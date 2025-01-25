@@ -6,10 +6,7 @@ import { StyleSheet, type TextStyle, View } from 'react-native';
 import { Icon, IconName } from '@/components/uiKitten';
 import { Link } from 'expo-router';
 
-export interface ITabHeaderTitleProps extends TextProps {
-}
-
-export function TabHeaderTitle(props: ITabHeaderTitleProps): ReactNode {
+export function TabHeaderTitle(props: TextProps): ReactNode {
   const activeIdx = useMonthStore((state) => state.activeIdx);
   const dateFormatter = useDateFormatter({ year: 'numeric', month: 'long' });
   const monthTitle = dateFormatter.format(activeIdx.date);

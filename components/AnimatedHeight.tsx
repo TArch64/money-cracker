@@ -31,7 +31,12 @@ export function AnimatedHeight(props: IAnimatedHeightTransitionProps): ReactNode
   return (
     <Animated.View style={[props.style, styles.container, animatedStyle]}>
       {typeof props.children === 'function' ? props.children({ update: onContentSizeChange }) : (
-        <ScrollView scrollEnabled={false} onContentSizeChange={onContentSizeChange}>
+        <ScrollView
+          scrollEnabled={false}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          onContentSizeChange={onContentSizeChange}
+        >
           {props.children}
         </ScrollView>
       )}

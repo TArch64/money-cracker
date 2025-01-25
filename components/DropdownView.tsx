@@ -53,7 +53,7 @@ export function DropdownView(props: IDropdownViewProps): ReactNode {
             {
               ...floatingStyles,
               width: floatingWidth,
-              boxShadow: theme['box-shadow'],
+              boxShadow: theme['box-shadow-2'],
             },
           ] satisfies StyleProp<ViewStyle>}
 

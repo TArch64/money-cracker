@@ -9,7 +9,8 @@ type ColorScheme = 'light' | 'dark';
 const COMMON_THEME: Partial<Theme> = {
   'color-success-500': '#22c55e',
   'color-danger-500': '#ef4444',
-  'box-shadow': '0 0 10px rgba(0, 0, 0, 0.1)',
+  'box-shadow-1': '0 0 5px rgba(0, 0, 0, 0.1)',
+  'box-shadow-2': '0 0 10px rgba(0, 0, 0, 0.1)',
 };
 
 const themes: Record<ColorScheme, () => Theme> = {

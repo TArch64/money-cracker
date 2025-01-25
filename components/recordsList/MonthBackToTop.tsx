@@ -40,7 +40,7 @@ export const MonthBackToTop = (props: IMonthBackToTopProps): ReactNode => {
         status="control"
         style={[
           styles.button,
-          { boxShadow: theme['box-shadow'] },
+          { boxShadow: theme['box-shadow-2'] },
         ]  satisfies StyleProp<ViewStyle>}
         accessoryLeft={iconRenderer(IconName.ARROW_UPWARD)}
         onPress={props.onPress}

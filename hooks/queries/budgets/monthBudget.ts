@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { BUDGET_MONTH_QUERY } from './keys';
 import {
+  type AppDatabase,
   type Budget,
   budgetCategories,
   type BudgetCategory,
@@ -12,15 +13,50 @@ import {
   sum,
   useDatabase,
 } from '@/db';
-import { and, eq } from 'drizzle-orm';
+import { and, eq, notInArray } from 'drizzle-orm';
 
 export type MonthBudgetCategory = Omit<BudgetCategory, 'budgetId'>
   & Pick<Category, 'name'>
   & { spent: number; };
 
 export type MonthBudget = Budget & {
-  categories: MonthBudgetCategory[]
+  categories: MonthBudgetCategory[];
+  other: number;
 };
+
+function getBudgetCategories(db: AppDatabase, budget: Budget): Promise<MonthBudgetCategory[]> {
+  return db
+    .select({
+      categoryId: budgetCategories.categoryId,
+      goal: budgetCategories.goal,
+      spent: sum(records.value, 'spent'),
+      name: categories.name,
+    })
+    .from(budgetCategories)
+    .innerJoin(categories, eq(budgetCategories.categoryId, categories.id))
+    .innerJoin(records, eq(records.categoryId, budgetCategories.categoryId))
+    .where(and(
+      eq(budgetCategories.budgetId, budget.id),
+      eqDate(records.date, { year: budget.year, month: budget.month }),
+    ))
+    .groupBy(budgetCategories.categoryId);
+}
+
+async function getBudgetOther(db: AppDatabase, budget: Budget): Promise<number> {
+  const rows = await db
+    .select({ spent: sum(records.value, 'spent') })
+    .from(records)
+    .where(and(
+      eqDate(records.date, { year: budget.year, month: budget.month }),
+      notInArray(records.categoryId, db
+        .select({ id: budgetCategories.categoryId })
+        .from(budgetCategories)
+        .where(eq(budgetCategories.budgetId, budget.id)),
+      ),
+    ));
+
+  return rows[0].spent;
+}
 
 export function useBudgetMonthQuery(year: number, month: number) {
   const db = useDatabase();
@@ -40,24 +76,15 @@ export function useBudgetMonthQuery(year: number, month: number) {
         return null;
       }
 
+      const [categories_, other] = await Promise.all([
+        getBudgetCategories(db, budget),
+        getBudgetOther(db, budget),
+      ]);
+
       return {
         ...budget,
-
-        categories: await db
-          .select({
-            categoryId: budgetCategories.categoryId,
-            goal: budgetCategories.goal,
-            spent: sum(records.value, 'spent'),
-            name: categories.name,
-          })
-          .from(budgetCategories)
-          .innerJoin(categories, eq(budgetCategories.categoryId, categories.id))
-          .innerJoin(records, eq(records.categoryId, budgetCategories.categoryId))
-          .where(and(
-            eq(budgetCategories.budgetId, budget.id),
-            eqDate(records.date, { year, month }),
-          ))
-          .groupBy(budgetCategories.categoryId),
+        categories: categories_,
+        other,
       };
     },
   });
