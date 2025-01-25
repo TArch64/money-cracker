@@ -14,7 +14,8 @@ export const enum IconName {
   CHEVRON_DOWN = 'chevron-down',
   TRASH_OUTLINE = 'trash-outline',
   EDIT_OUTLINE = 'edit-outline',
-  SETTINGS_OUTLINE = 'settings-2-outline'
+  SETTINGS_OUTLINE = 'settings-2-outline',
+  FOLDER_OUTLINE = 'folder-outline'
 }
 
 export const Icon = (props: Omit<IconProps, 'name'> & { name: IconName }): ReactNode => (
