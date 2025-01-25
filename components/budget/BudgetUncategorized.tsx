@@ -3,11 +3,11 @@ import { Text } from '@ui-kitten/components';
 import { useMoneyFormatter } from '@/hooks/formatters';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
 
-export interface IBudgetOtherProps {
+export interface IBudgetUncategorizedProps {
   value: number;
 }
 
-export function BudgetOther(props: IBudgetOtherProps): ReactNode {
+export function BudgetUncategorized(props: IBudgetUncategorizedProps): ReactNode {
   const moneyFormatter = useMoneyFormatter();
   const value = moneyFormatter.format(props.value);
 

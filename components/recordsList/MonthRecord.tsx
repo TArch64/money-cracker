@@ -22,7 +22,7 @@ export function MonthRecord(props: IMonthRecordProps): ReactNode {
   const isExpense = isExpenseRecord(props.record.type);
 
   const moneyFormatter = useMoneyFormatter();
-  const value = moneyFormatter.format(props.record.value);
+  const value = moneyFormatter.format(isExpense ? -props.record.value : props.record.value);
 
   const title = getRecordTypeTitle(props.record.type);
   const status = isExpense ? 'danger' : 'success';

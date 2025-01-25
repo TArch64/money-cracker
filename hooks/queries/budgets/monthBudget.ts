@@ -22,7 +22,8 @@ export type MonthBudgetCategory = Omit<BudgetCategory, 'budgetId'>
 
 export type MonthBudget = Budget & {
   categories: MonthBudgetCategory[];
-  other: number;
+  uncategorized: number;
+  available: number;
 };
 
 function getBudgetCategories(db: AppDatabase, budget: Budget): Promise<MonthBudgetCategory[]> {
@@ -43,7 +44,7 @@ function getBudgetCategories(db: AppDatabase, budget: Budget): Promise<MonthBudg
     .groupBy(budgetCategories.categoryId);
 }
 
-async function getBudgetOther(db: AppDatabase, budget: Budget): Promise<number> {
+async function getBudgetUncategorized(db: AppDatabase, budget: Budget): Promise<number> {
   const rows = await db
     .select({ spent: sum(records.value, 'spent') })
     .from(records)
@@ -58,6 +59,25 @@ async function getBudgetOther(db: AppDatabase, budget: Budget): Promise<number> 
     ));
 
   return rows[0].spent;
+}
+
+async function getAvailableMoney(
+  db: AppDatabase,
+  budget: Budget,
+  categories: MonthBudgetCategory[],
+  uncategorized: number,
+): Promise<number> {
+  const spent = categories.reduce((acc, { spent }) => acc + spent, 0) + uncategorized;
+
+  const incomeRows = await db
+    .select({ income: sum(records.value, 'income') })
+    .from(records)
+    .where(and(
+      eq(records.type, RecordType.INCOME),
+      eqDate(records.date, { year: budget.year, month: budget.month }),
+    ));
+
+  return incomeRows[0].income - spent;
 }
 
 export function useBudgetMonthQuery(year: number, month: number) {
@@ -78,15 +98,16 @@ export function useBudgetMonthQuery(year: number, month: number) {
         return null;
       }
 
-      const [categories_, other] = await Promise.all([
+      const [categories_, uncategorized] = await Promise.all([
         getBudgetCategories(db, budget),
-        getBudgetOther(db, budget),
+        getBudgetUncategorized(db, budget),
       ]);
 
       return {
         ...budget,
         categories: categories_,
-        other,
+        uncategorized,
+        available: await getAvailableMoney(db, budget, categories_, uncategorized),
       };
     },
   });

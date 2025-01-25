@@ -4,7 +4,8 @@ import { MonthIdx, useMonthStore } from '@/stores';
 import { List } from '@ui-kitten/components';
 import { BudgetCategory } from './BudgetCategory';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
-import { BudgetOther } from './BudgetOther';
+import { BudgetUncategorized } from './BudgetUncategorized';
+import { BudgetAvailableMoney } from './BudgetAvailableMoney';
 
 export interface IBudgetMonthProps {
   budget: MonthBudget;
@@ -43,7 +44,8 @@ export function BudgetMonth(props: IBudgetMonthProps): ReactNode {
 
       ListFooterComponent={
         <View style={styles.listFooter}>
-          <BudgetOther value={props.budget.other} />
+          {props.budget.uncategorized && <BudgetUncategorized value={props.budget.uncategorized} />}
+          <BudgetAvailableMoney value={props.budget.available} />
         </View>
       }
     />
@@ -61,5 +63,8 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     paddingBottom: 8,
     paddingHorizontal: 8,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 16,
   } satisfies ViewStyle,
 });
