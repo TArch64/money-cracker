@@ -1,5 +1,5 @@
 import { type ReactNode } from 'react';
-import { useRouter } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { TabScreenLayout } from '@/components/layout';
 import { TopNavigationAction } from '@ui-kitten/components';
 import { RecordType } from '@/enums';
@@ -19,6 +19,12 @@ export default function Records(): ReactNode {
   return (
     <TabScreenLayout
       title="Records"
+
+      headerLeft={() => (
+        <Link href="/records/statistics" asChild>
+          <TopNavigationAction icon={iconRenderer(IconName.PIE_CHART_OUTLINE)} />
+        </Link>
+      )}
 
       headerRight={() =>
         <TopNavigationAction

@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { TabScreenLayout } from '@/components/layout';
+import { FullScreenLayout } from '@/components/layout';
 import { useMoneyFormatter } from '@/hooks/formatters';
 import { useMonthStore } from '@/stores';
 import { useRecordsMonthStatisticsSuspenseQuery } from '@/hooks/queries';
@@ -65,9 +65,9 @@ function MonthStatistics(): ReactNode {
 
 export default function Statistics(): ReactNode {
   return (
-    <TabScreenLayout title="Statistics">
+    <FullScreenLayout title="Statistics">
       <MonthStatistics />
-    </TabScreenLayout>
+    </FullScreenLayout>
   );
 }
 

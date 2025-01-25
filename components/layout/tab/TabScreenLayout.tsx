@@ -4,12 +4,14 @@ import { TabHeaderTitle } from './TabHeaderTitle';
 
 export interface ITabScreenLayoutProps extends PropsWithChildren {
   title: string;
+  headerLeft?: IMainScreenLayoutProps['headerLeft'];
   headerRight?: IMainScreenLayoutProps['headerRight'];
 }
 
 export const TabScreenLayout = (props: ITabScreenLayoutProps): ReactNode => (
   <MainScreenLayout
     canGoBack={false}
+    headerLeft={props.headerLeft}
     headerRight={props.headerRight}
     title={(txtProps) => <TabHeaderTitle {...txtProps} />}
   >

@@ -56,10 +56,10 @@ export default function Layout(): ReactNode {
       />
 
       <Tabs.Screen
-        name="statistics"
+        name="settings"
         options={{
-          title: 'Statistics',
-          tabBarIcon: iconRenderer(IconName.PIE_CHART_OUTLINE),
+          title: 'Settings',
+          tabBarIcon: iconRenderer(IconName.SETTINGS_OUTLINE),
         }}
       />
     </Tabs>
