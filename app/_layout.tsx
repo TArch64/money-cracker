@@ -14,6 +14,7 @@ import { useTheme } from '@ui-kitten/components';
 import { useInitialScreen } from '@/hooks/useInitialScreen';
 import { Stack } from 'expo-router';
 import type { ViewStyle } from 'react-native';
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 if (__DEV__) {
   console.log('SQLite database path:');
@@ -64,8 +65,12 @@ export default function Layout() {
           <QueryProvider>
             <SafeAreaProvider>
               <GestureHandlerRootView>
-                <StatusBar style="auto" />
-                <StackRoot />
+                <ActionSheetProvider>
+                  <>
+                    <StatusBar style="auto" />
+                    <StackRoot />
+                  </>
+                </ActionSheetProvider>
               </GestureHandlerRootView>
             </SafeAreaProvider>
           </QueryProvider>

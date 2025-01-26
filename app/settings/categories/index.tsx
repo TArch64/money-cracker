@@ -1,12 +1,12 @@
 import { type ReactNode, useState } from 'react';
 import { FullScreenLayout } from '@/components/layout';
 import { useCategoriesListQuery } from '@/hooks/queries';
+import { useActionSheet } from '@/hooks/useActionSheet';
 import { RecordType } from '@/enums';
 import { ButtonSelect, type IButtonSelectOption } from '@/components/ButtonSelect';
 import { List, ListItem, Text, useTheme } from '@ui-kitten/components';
 import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native';
 import type { Category } from '@/db';
-import { showActionSheet } from '@/helpers/showActionSheet';
 
 const recordTypeOptions: IButtonSelectOption<RecordType>[] = [
   {
@@ -27,28 +27,40 @@ const ListEmpty = (): ReactNode => (
   </View>
 );
 
+interface ICategoryListItemProps {
+  category: Category;
+}
+
+function CategoryListItem(props: ICategoryListItemProps): ReactNode {
+  const showActionsSheet = useActionSheet(() => [
+    {
+      text: 'Rename',
+      onPress: () => 0,
+    },
+    {
+      text: 'Delete',
+      style: 'destructive',
+      onPress: () => 0,
+    },
+    {
+      text: 'Cancel',
+      style: 'cancel',
+    },
+  ]);
+
+  return (
+    <ListItem
+      title={props.category.name}
+      style={styles.listItem}
+      onPress={showActionsSheet}
+    />
+  );
+}
+
 function CategoriesList(): ReactNode {
   const theme = useTheme();
   const [type, setType] = useState(RecordType.EXPENSE);
   const categoriesQuery = useCategoriesListQuery({ type });
-
-  function showActions(category: Category) {
-    showActionSheet([
-      {
-        text: 'Rename',
-        onPress: () => 0,
-      },
-      {
-        text: 'Delete',
-        style: 'destructive',
-        onPress: () => 0,
-      },
-      {
-        text: 'Cancel',
-        style: 'cancel',
-      },
-    ]);
-  }
 
   return (
     <List
@@ -59,13 +71,7 @@ function CategoriesList(): ReactNode {
         { backgroundColor: theme['background-basic-color-1'] },
       ] satisfies StyleProp<ViewStyle>}
 
-      renderItem={({ item }) => (
-        <ListItem
-          title={item.name}
-          style={styles.listItem}
-          onPress={() => showActions(item)}
-        />
-      )}
+      renderItem={({ item }) => <CategoryListItem category={item} />}
 
       ListHeaderComponent={
         <ButtonSelect
