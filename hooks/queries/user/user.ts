@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { USER_QUERY } from './keys';
+import { USER_QUERY } from '../keys';
 import { useDatabase, USER_ID, users } from '@/db';
 import { eq } from 'drizzle-orm';
 

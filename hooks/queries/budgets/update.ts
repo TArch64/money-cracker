@@ -9,7 +9,7 @@ import {
   useDatabase,
 } from '@/db';
 import { and, eq, inArray } from 'drizzle-orm';
-import { BUDGET_ID_QUERY, BUDGET_MONTH_QUERY } from './keys';
+import { BUDGET_ID_QUERY, BUDGET_MONTH_QUERY } from '../keys';
 
 export interface IBudgetUpdateInput {
   id: number;

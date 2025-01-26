@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { BUDGET_MONTH_QUERY } from './keys';
+import { BUDGET_MONTH_QUERY } from '../keys';
 import {
   type AppDatabase,
   type Budget,

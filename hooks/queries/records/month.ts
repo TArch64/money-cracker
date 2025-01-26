@@ -1,7 +1,7 @@
 import { type QueryKey, useSuspenseQuery } from '@tanstack/react-query';
 import { categories, eqDate, records, type RecordWithCategory, useDatabase } from '@/db';
 import { and, desc, eq, getTableColumns } from 'drizzle-orm';
-import { RECORDS_MONTH_LIST_QUERY } from './keys';
+import { RECORDS_MONTH_LIST_QUERY } from '../keys';
 import { RecordType } from '@/enums';
 import { useIsFocused } from '@react-navigation/core';
 

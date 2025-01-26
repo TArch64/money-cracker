@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { type RecordInsert, records, useDatabase } from '@/db';
-import { CATEGORIES_LIST_WITH_USAGE_QUERY, useCategoryFindOrCreateMutation } from '../categories';
-import { MONTHS_QUERY } from '../general';
+import { useCategoryFindOrCreateMutation } from '../categories';
+import { CATEGORIES_LIST_WITH_USAGE_QUERY, MONTHS_QUERY } from '../keys';
 
 export interface IRecordCreateInput extends Omit<RecordInsert, 'categoryId'> {
   category: string;

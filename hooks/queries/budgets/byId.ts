@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { BUDGET_ID_QUERY } from './keys';
+import { BUDGET_ID_QUERY } from '../keys';
 import { budgetCategories, budgets, categories, useDatabase } from '@/db';
 import { eq } from 'drizzle-orm';
 

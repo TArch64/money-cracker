@@ -1,8 +1,7 @@
 import { budgetCategories, budgets, useDatabase } from '@/db';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { MonthIdx } from '@/stores';
-import { BUDGET_MONTH_QUERY } from './keys';
-import { MONTHS_QUERY } from '../general';
+import { BUDGET_MONTH_QUERY, MONTHS_QUERY } from '../keys';
 import { type BudgetInputCategory, budgetInputCategoryToInsert } from './helpers';
 
 export interface IBudgetCreateInput {

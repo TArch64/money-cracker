@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { MONTHS_QUERY } from './keys';
+import { MONTHS_QUERY } from '../keys';
 import { budgets, records, useDatabase } from '@/db';
 import { desc, sql } from 'drizzle-orm';
 import { MonthIdx } from '@/stores';

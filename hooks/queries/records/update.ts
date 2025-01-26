@@ -1,9 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { type Record, records, type RecordWithCategory, useDatabase } from '@/db';
-import { RECORDS_DETAILS_QUERY, RECORDS_MONTH_LIST_QUERY } from './keys';
+import { MONTHS_QUERY, RECORDS_DETAILS_QUERY, RECORDS_MONTH_LIST_QUERY } from '../keys';
 import { useCategoryFindOrCreateMutation } from '../categories';
 import { eq } from 'drizzle-orm';
-import { MONTHS_QUERY } from '../general';
 
 export interface IUpdateRecordInput extends Omit<Record, 'id' | 'categoryId' | 'dateUnix' | 'type'> {
   category: string;

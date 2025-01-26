@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { RecordType } from '@/enums';
-import { CATEGORIES_LIST_WITH_USAGE_QUERY } from './keys';
+import { CATEGORIES_LIST_WITH_USAGE_QUERY } from '../keys';
 import { budgetCategories, categories, type Category, records, useDatabase } from '@/db';
 import { eq, exists, getTableColumns } from 'drizzle-orm';
 

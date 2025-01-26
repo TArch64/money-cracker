@@ -1,9 +1,7 @@
 import { type Record, records, useDatabase } from '@/db';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { eq } from 'drizzle-orm';
-import { RECORDS_MONTH_LIST_QUERY } from './keys';
-import { MONTHS_QUERY } from '../general';
-import { CATEGORIES_LIST_WITH_USAGE_QUERY } from '@/hooks/queries';
+import { CATEGORIES_LIST_WITH_USAGE_QUERY, MONTHS_QUERY, RECORDS_MONTH_LIST_QUERY } from '../keys';
 
 export function useRecordDeleteMutation(record: Record) {
   const db = useDatabase();
