@@ -4,18 +4,18 @@ import { useMoneyFormatter } from '@/hooks/formatters';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
 import { BudgetCard } from './BudgetCard';
 
-export interface IBudgetUncategorizedProps {
+export interface IBudgetOtherProps {
   value: number;
 }
 
-export function BudgetUncategorized(props: IBudgetUncategorizedProps): ReactNode {
+export function BudgetOther(props: IBudgetOtherProps): ReactNode {
   const moneyFormatter = useMoneyFormatter();
   const value = moneyFormatter.format(props.value);
 
   return (
     <BudgetCard>
       <View style={styles.row}>
-        <Text>Uncategorized</Text>
+        <Text>Other Categories</Text>
         <Text>{value}</Text>
       </View>
     </BudgetCard>

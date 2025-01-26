@@ -4,7 +4,7 @@ import { MonthIdx, useMonthStore } from '@/stores';
 import { List } from '@ui-kitten/components';
 import { BudgetCategory } from './BudgetCategory';
 import { StyleSheet, type ViewStyle } from 'react-native';
-import { BudgetUncategorized } from './BudgetUncategorized';
+import { BudgetOther } from './BudgetOther';
 import { BudgetAvailableMoney } from './BudgetAvailableMoney';
 
 export interface IBudgetMonthProps {
@@ -50,7 +50,7 @@ export function BudgetMonth(props: IBudgetMonthProps): ReactNode {
       }
 
       ListFooterComponent={props.budget.uncategorized ? (
-        <BudgetUncategorized value={props.budget.uncategorized} />
+        <BudgetOther value={props.budget.uncategorized} />
       ) : undefined}
     />
   );
