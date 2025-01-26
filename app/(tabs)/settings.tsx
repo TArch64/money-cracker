@@ -1,7 +1,7 @@
 import { FullScreenLayout } from '@/components/layout';
 import type { ReactNode } from 'react';
 import { Menu, MenuItem, useTheme } from '@ui-kitten/components';
-import type { StyleProp, ViewStyle } from 'react-native';
+import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native';
 import { IconName, iconRenderer } from '@/components/uiKitten';
 import { useRouter } from 'expo-router';
 
@@ -18,6 +18,7 @@ export default function Settings(): ReactNode {
       >
         <MenuItem
           title="Categories"
+          style={styles.menuItem}
           accessoryLeft={iconRenderer(IconName.FOLDER_OUTLINE)}
           onPress={() => router.push('/settings/categories')}
         />
@@ -25,3 +26,10 @@ export default function Settings(): ReactNode {
     </FullScreenLayout>
   );
 }
+
+const styles = StyleSheet.create({
+  menuItem: {
+    marginHorizontal: 12,
+    borderRadius: 4,
+  } satisfies ViewStyle,
+});

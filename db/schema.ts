@@ -1,7 +1,7 @@
 import { index, integer, primaryKey, sqliteTable, text, unique } from 'drizzle-orm/sqlite-core';
-import { type InferInsertModel, type InferSelectModel, relations, sql } from 'drizzle-orm';
+import { type InferInsertModel, type InferSelectModel, relations } from 'drizzle-orm';
 import { IntroState, RecordType } from '@/enums';
-import { date, enum_ } from './customTypes';
+import { date, dateUnix, enum_ } from './customTypes';
 
 export const USER_ID = 1;
 
@@ -33,7 +33,7 @@ export const records = sqliteTable('records', {
   type: text({ enum: recordTypeEnum }).notNull(),
   value: integer().notNull(),
   date: date().notNull(),
-  dateUnix: integer().notNull().generatedAlwaysAs(sql`UNIXEPOCH(date)`, { mode: 'stored' }),
+  dateUnix: dateUnix('date').notNull(),
   categoryId: integer().references(() => categories.id, { onDelete: 'restrict' }).notNull()
 }, (t) => [
   index('records_type_idx').on(t.type),

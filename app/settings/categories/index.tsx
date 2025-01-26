@@ -1,12 +1,12 @@
 import { type ReactNode, useState } from 'react';
 import { FullScreenLayout } from '@/components/layout';
-import { useCategoriesListQuery } from '@/hooks/queries';
+import { type CategoryWithUsage, useCategoriesListWithUsageQuery, useCategoryDeleteMutation } from '@/hooks/queries';
 import { useActionSheet } from '@/hooks/useActionSheet';
 import { RecordType } from '@/enums';
 import { ButtonSelect, type IButtonSelectOption } from '@/components/ButtonSelect';
 import { List, ListItem, Text, useTheme } from '@ui-kitten/components';
 import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native';
-import type { Category } from '@/db';
+import { showConfirm } from '@/helpers/showConfirm';
 
 const recordTypeOptions: IButtonSelectOption<RecordType>[] = [
   {
@@ -28,10 +28,24 @@ const ListEmpty = (): ReactNode => (
 );
 
 interface ICategoryListItemProps {
-  category: Category;
+  category: CategoryWithUsage;
 }
 
 function CategoryListItem(props: ICategoryListItemProps): ReactNode {
+  const deleteMutation = useCategoryDeleteMutation();
+
+  function isDeleteConfirmed() {
+    return showConfirm({
+      title: 'Delete Category',
+      message: `Are you sure you want to delete "${props.category.name}" category?`,
+
+      accept: {
+        text: 'Delete',
+        style: 'destructive',
+      },
+    });
+  }
+
   const showActionsSheet = useActionSheet(() => [
     {
       text: 'Rename',
@@ -40,7 +54,21 @@ function CategoryListItem(props: ICategoryListItemProps): ReactNode {
     {
       text: 'Delete',
       style: 'destructive',
-      onPress: () => 0,
+
+      onPress: async () => {
+        if (props.category.budgetExists || props.category.recordExists) {
+          return;
+        }
+
+        if (!await isDeleteConfirmed()) {
+          return;
+        }
+
+        await deleteMutation.mutateAsync({
+          id: props.category.id,
+          type: props.category.type,
+        });
+      },
     },
     {
       text: 'Cancel',
@@ -60,7 +88,7 @@ function CategoryListItem(props: ICategoryListItemProps): ReactNode {
 function CategoriesList(): ReactNode {
   const theme = useTheme();
   const [type, setType] = useState(RecordType.EXPENSE);
-  const categoriesQuery = useCategoriesListQuery({ type });
+  const categoriesQuery = useCategoriesListWithUsageQuery(type);
 
   return (
     <List

@@ -32,6 +32,7 @@ export function useRecordUpdateMutation(record: RecordWithCategory) {
 
       return {
         newDate: input.date,
+        categoryId: categoryMutation.category.id,
       };
     },
 
@@ -40,9 +41,11 @@ export function useRecordUpdateMutation(record: RecordWithCategory) {
         queryClient.invalidateQueries({
           queryKey: RECORDS_MONTH_LIST_QUERY(record.date),
         }),
+
         queryClient.invalidateQueries({
           queryKey: RECORDS_DETAILS_QUERY(record.id),
         }),
+
         queryClient.invalidateQueries({
           queryKey: MONTHS_QUERY,
         }),
@@ -54,6 +57,12 @@ export function useRecordUpdateMutation(record: RecordWithCategory) {
       ) {
         promises.push(queryClient.invalidateQueries({
           queryKey: RECORDS_MONTH_LIST_QUERY(data.newDate),
+        }));
+      }
+
+      if (data.categoryId !== record.categoryId) {
+        promises.push(queryClient.invalidateQueries({
+          queryKey: MONTHS_QUERY,
         }));
       }
 

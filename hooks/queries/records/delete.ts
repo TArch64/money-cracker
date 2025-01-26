@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { eq } from 'drizzle-orm';
 import { RECORDS_MONTH_LIST_QUERY } from './keys';
 import { MONTHS_QUERY } from '../general';
+import { CATEGORIES_LIST_WITH_USAGE_QUERY } from '@/hooks/queries';
 
 export function useRecordDeleteMutation(record: Record) {
   const db = useDatabase();
@@ -17,6 +18,10 @@ export function useRecordDeleteMutation(record: Record) {
       return Promise.all([
         queryClient.invalidateQueries({
           queryKey: RECORDS_MONTH_LIST_QUERY(record.date),
+        }),
+
+        queryClient.invalidateQueries({
+          queryKey: CATEGORIES_LIST_WITH_USAGE_QUERY(record.type),
         }),
 
         queryClient.invalidateQueries({
