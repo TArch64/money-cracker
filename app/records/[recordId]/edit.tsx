@@ -17,9 +17,8 @@ type Schema = typeof schema;
 
 export default function Edit(): ReactNode {
   const router = useRouter();
-  const { recordId: recordId_ } = useLocalSearchParams<{ recordId: string }>();
-  const recordId = +recordId_;
-  const recordQuery = useRecordDetailsSuspenseQuery(recordId);
+  const searchParams = useLocalSearchParams<{ recordId: string }>();
+  const recordQuery = useRecordDetailsSuspenseQuery(+searchParams.recordId);
   const updateMutation = useRecordUpdateMutation(recordQuery.data);
 
   const categoriesQuery = useCategoriesListQuery({

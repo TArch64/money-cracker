@@ -10,10 +10,9 @@ import { BudgetForm, budgetSchema, type FormBudgetCategory, useBudgetFormSubmit 
 const schema = budgetSchema();
 
 export default function Edit(): ReactNode {
-  const { budgetId } = useLocalSearchParams<{ budgetId: string }>();
-
+  const searchParams = useLocalSearchParams<{ budgetId: string }>();
   const router = useRouter();
-  const budget = useBudgetIdSuspenseQuery(Number(budgetId));
+  const budget = useBudgetIdSuspenseQuery(Number(searchParams.budgetId));
   const updateMutation = useBudgetUpdateMutation();
 
   const categoriesQuery = useCategoriesListSuspenseQuery({

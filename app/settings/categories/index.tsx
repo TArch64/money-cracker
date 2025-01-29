@@ -4,9 +4,11 @@ import { type CategoryWithUsage, useCategoriesListWithUsageQuery, useCategoryDel
 import { useActionSheet } from '@/hooks/useActionSheet';
 import { RecordType } from '@/enums';
 import { ButtonSelect, type IButtonSelectOption } from '@/components/ButtonSelect';
-import { List, ListItem, Text, useTheme } from '@ui-kitten/components';
+import { List, ListItem, Text, TopNavigationAction, useTheme } from '@ui-kitten/components';
 import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native';
 import { showConfirm } from '@/helpers/showConfirm';
+import { useRouter } from 'expo-router';
+import { IconName, iconRenderer } from '@/components/uiKitten';
 
 const recordTypeOptions: IButtonSelectOption<RecordType>[] = [
   {
@@ -85,10 +87,14 @@ function CategoryListItem(props: ICategoryListItemProps): ReactNode {
   );
 }
 
-function CategoriesList(): ReactNode {
+interface ICategoriesListProps {
+  type: RecordType;
+  onTypeChange: (type: RecordType) => void;
+}
+
+function CategoriesList(props: ICategoriesListProps): ReactNode {
   const theme = useTheme();
-  const [type, setType] = useState(RecordType.EXPENSE);
-  const categoriesQuery = useCategoriesListWithUsageQuery(type);
+  const categoriesQuery = useCategoriesListWithUsageQuery(props.type);
 
   return (
     <List
@@ -103,8 +109,8 @@ function CategoriesList(): ReactNode {
 
       ListHeaderComponent={
         <ButtonSelect
-          value={type}
-          onChange={setType}
+          value={props.type}
+          onChange={props.onTypeChange}
           options={recordTypeOptions}
           style={styles.typeSelector}
         />
@@ -116,9 +122,31 @@ function CategoriesList(): ReactNode {
 }
 
 export default function Index(): ReactNode {
+  const router = useRouter();
+  const [type, setType] = useState(RecordType.EXPENSE);
+
+  function openCreate() {
+    router.push({
+      pathname: '/settings/categories/new',
+      params: { type },
+    });
+  }
+
   return (
-    <FullScreenLayout title="Categories">
-      <CategoriesList />
+    <FullScreenLayout
+      title="Categories"
+
+      headerRight={() => (
+        <TopNavigationAction
+          icon={iconRenderer(IconName.PLUS)}
+          onPress={openCreate}
+        />
+      )}
+    >
+      <CategoriesList
+        type={type}
+        onTypeChange={setType}
+      />
     </FullScreenLayout>
   );
 }

@@ -7,17 +7,15 @@ export const USER_ID = 1;
 
 export const users = sqliteTable('users', {
   id: integer().primaryKey().default(USER_ID),
-  intro: enum_('intro', IntroState).notNull().default(IntroState.PENDING),
+  intro: enum_(IntroState).notNull().default(IntroState.PENDING),
 });
 
 export type User = InferSelectModel<typeof users>;
 export type UserInsert = InferInsertModel<typeof users>;
 
-const recordTypeEnum = Object.values(RecordType) as [RecordType, ...RecordType[]];
-
 export const categories = sqliteTable('categories', {
   id: integer().primaryKey(),
-  type: text({ enum: recordTypeEnum }).notNull(),
+  type: enum_(RecordType).notNull(),
   name: text().notNull().unique(),
 });
 
@@ -30,7 +28,7 @@ export type CategoryInsert = InferInsertModel<typeof categories>;
 
 export const records = sqliteTable('records', {
   id: integer().primaryKey(),
-  type: text({ enum: recordTypeEnum }).notNull(),
+  type: enum_(RecordType).notNull(),
   value: integer().notNull(),
   date: date().notNull(),
   dateUnix: dateUnix('date').notNull(),

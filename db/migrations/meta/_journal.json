@@ -5,22 +5,15 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1736112408613,
-      "tag": "0000_purple_katie_power",
+      "when": 1738092741301,
+      "tag": "0000_tough_james_howlett",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "6",
-      "when": 1737831990231,
-      "tag": "0001_real_dragon_man",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1737831993643,
-      "tag": "0002_magenta_jigsaw",
+      "when": 1738092836261,
+      "tag": "0001_elite_valeria_richards",
       "breakpoints": true
     }
   ]

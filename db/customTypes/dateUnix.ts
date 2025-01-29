@@ -2,7 +2,7 @@ import { integer } from 'drizzle-orm/sqlite-core';
 import { sql } from 'drizzle-orm';
 
 export function dateUnix(dateColumn: string) {
-  return integer().generatedAlwaysAs(sql`UNIXEPOCH(
-  ${sql.raw(dateColumn)}
-  )`, { mode: 'stored' });
+  // language=SQL format=false
+  const expression = sql`UNIXEPOCH(${sql.raw(dateColumn)})`;
+  return integer().generatedAlwaysAs(expression, { mode: 'stored' });
 }

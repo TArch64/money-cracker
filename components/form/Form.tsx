@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react';
 import { type DeepKeys, type ReactFormExtendedApi, standardSchemaValidator, useForm } from '@tanstack/react-form';
-import type { InferOutput, MaybePromise, ObjectSchema } from 'valibot';
+import type { InferOutput, MaybePromise, ObjectSchema, ObjectSchemaAsync } from 'valibot';
 import { FormProvider } from './FormProvider';
 import type { IPropsWithChildrenFn } from '@/types';
 
-export type FormSchema = ObjectSchema<any, any>
+export type FormSchema = ObjectSchema<any, any> | ObjectSchemaAsync<any, any>;
 export type FormApi<S extends FormSchema = FormSchema> = ReactFormExtendedApi<InferOutput<S>, any>;
 export type FormKey<S extends FormSchema> = DeepKeys<InferOutput<S>>;
 export type FormPathGet<S extends FormSchema> = (path: FormKey<S>) => FormKey<S>;
@@ -31,12 +31,19 @@ export function Form<S extends FormSchema>(props: IFormProps<S>): ReactNode {
   const form = useForm({
     defaultValues: props.initialValues,
     validatorAdapter: standardSchemaValidator(),
-    validators: { onSubmit: props.schema },
+    validators: props.schema.async ? { onSubmitAsync: props.schema } : { onSubmit: props.schema },
     onSubmit: props.onSubmit,
   });
 
   return (
     <FormProvider form={form}>
+      <form.Subscribe selector={(state: any) => [state.errors]}>
+        {(data) => {
+          console.log(data);
+          return null;
+        }}
+      </form.Subscribe>
+
       {props.children({ f: (path) => path })}
     </FormProvider>
   );

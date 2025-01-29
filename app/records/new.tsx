@@ -35,18 +35,17 @@ const recordTypeOptions: IButtonSelectOption<RecordType>[] = [
   },
 ];
 
-type SearchParams = {
-  type: RecordType;
-  intro?: 'yes'
-};
-
 export default function New(): ReactNode {
-  const { type: initialType, intro } = useLocalSearchParams<SearchParams>();
-  const isIntro = intro === 'yes';
+  const searchParams = useLocalSearchParams<{
+    type: RecordType;
+    intro?: 'yes'
+  }>();
+
+  const isIntro = searchParams.intro === 'yes';
   const activeMonthIdx = useMonthStore((state) => state.activeIdx);
   const router = useRouter();
 
-  const [type, setType] = useState(initialType);
+  const [type, setType] = useState(searchParams.type);
   const isIncome = isIncomeRecord(type);
   const screenTitle = getRecordTypeTitle(type);
   const valueLabel = isIncome ? 'Money received' : 'Money spent';
@@ -91,7 +90,7 @@ export default function New(): ReactNode {
       onSubmit={onSubmit}
 
       initialValues={{
-        type: initialType,
+        type: searchParams.type,
         category: '',
         value: 0,
         date: initialDate,

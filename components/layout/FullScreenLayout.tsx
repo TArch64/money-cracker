@@ -1,4 +1,4 @@
-import { type PropsWithChildren, type ReactNode } from 'react';
+import { type PropsWithChildren, type ReactElement, type ReactNode } from 'react';
 import { useRouter } from 'expo-router';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
 import type { IPropsWithStyle } from '@/types';
@@ -11,12 +11,21 @@ export interface IFullScreenLayoutProps extends PropsWithChildren,
   IPropsWithStyle<ViewStyle> {
   title?: string | RenderProp<TextProps>;
   canGoBack?: boolean;
+  headerLeft?: () => ReactElement;
+  headerRight?: () => ReactElement;
 }
 
 export function FullScreenLayout(props: IFullScreenLayoutProps): ReactNode {
   const router = useRouter();
   const theme = useTheme();
   const canGoBack = props.canGoBack ?? router.canGoBack();
+
+  const headerLeft = props.headerLeft ?? (canGoBack ? (() => (
+    <TopNavigationAction
+      icon={iconRenderer(IconName.ARROW_BACK)}
+      onPress={router.back}
+    />
+  )) : undefined);
 
   return (
     <SafeAreaView
@@ -29,13 +38,8 @@ export function FullScreenLayout(props: IFullScreenLayoutProps): ReactNode {
         <TopNavigation
           title={props.title}
           alignment="center"
-
-          accessoryLeft={canGoBack ? (() => (
-            <TopNavigationAction
-              icon={iconRenderer(IconName.ARROW_BACK)}
-              onPress={router.back}
-            />
-          )) : undefined}
+          accessoryLeft={headerLeft}
+          accessoryRight={props.headerRight}
         />
       )}
 

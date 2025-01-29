@@ -1,13 +1,11 @@
 import journal from './meta/_journal.json';
-import m0000 from './0000_purple_katie_power.sql';
-import m0001 from './0001_real_dragon_man.sql';
-import m0002 from './0002_magenta_jigsaw.sql';
+import m0000 from './0000_tough_james_howlett.sql';
+import m0001 from './0001_elite_valeria_richards.sql';
 
 export default {
   journal,
   migrations: {
     m0000,
-    m0001,
-    m0002
+    m0001
   }
 };

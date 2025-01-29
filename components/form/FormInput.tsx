@@ -1,5 +1,5 @@
 import { Input, type InputProps } from '@ui-kitten/components';
-import type { ReactNode } from 'react';
+import { type ReactNode, useMemo } from 'react';
 import { useFormField } from './useFormField';
 import { formErrorRenderer } from './FormError';
 
@@ -17,10 +17,10 @@ export function FormInput(props: IFormInputProps): ReactNode {
   const { name, valueController: valueController_, ...inputProps } = props;
   const field = useFormField(name);
 
-  const valueController = valueController_ ?? {
+  const valueController = valueController_ ?? useMemo(() => ({
     value: field.state.value,
     setValue: (value) => field.handleChange(value),
-  };
+  }), [field.state.value]);
 
   const error = field.state.meta.errors?.join(', ');
 

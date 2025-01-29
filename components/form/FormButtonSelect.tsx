@@ -17,7 +17,7 @@ export function FormButtonSelect<V extends ButtonSelectValue>(props: IFormButton
       value={field.state.value}
 
       onChange={(value) => {
-        field.setValue(value);
+        field.handleChange(value);
         props.onChange?.(value);
       }}
     />
