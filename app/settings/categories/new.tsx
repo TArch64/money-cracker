@@ -28,8 +28,6 @@ export default function New(): ReactNode {
   }), []);
 
   const onSubmit: FormSubmitHandler<typeof schema> = async (event) => {
-    console.log(event);
-
     await createMutation.mutateAsync({
       type: searchParams.type,
       name: event.value.name,
