@@ -31,7 +31,6 @@
     "eas-cli": "^14.5.0",
     "expo": "^52.0.28",
     "expo-file-system": "~18.0.7",
-    "expo-haptics": "~14.0.1",
     "expo-localization": "~16.0.1",
     "expo-router": "~4.0.17",
     "expo-splash-screen": "~0.29.21",

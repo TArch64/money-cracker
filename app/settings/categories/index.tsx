@@ -48,35 +48,38 @@ function CategoryListItem(props: ICategoryListItemProps): ReactNode {
     });
   }
 
-  const showActionsSheet = useActionSheet(() => [
-    {
-      text: 'Rename',
-      onPress: () => 0,
-    },
-    {
-      text: 'Delete',
-      style: 'destructive',
+  const showActionsSheet = useActionSheet(() => ({
+    title: `${props.category.name} - Actions`,
 
-      onPress: async () => {
-        if (props.category.budgetExists || props.category.recordExists) {
-          return;
-        }
-
-        if (!await isDeleteConfirmed()) {
-          return;
-        }
-
-        await deleteMutation.mutateAsync({
-          id: props.category.id,
-          type: props.category.type,
-        });
+    actions: [
+      {
+        text: 'Rename',
+        onPress: () => 0,
       },
-    },
-    {
-      text: 'Cancel',
-      style: 'cancel',
-    },
-  ]);
+
+      {
+        text: 'Delete',
+        style: 'destructive',
+        disabled: props.category.budgetExists || props.category.recordExists,
+
+        async onPress() {
+          if (!await isDeleteConfirmed()) {
+            return;
+          }
+
+          await deleteMutation.mutateAsync({
+            id: props.category.id,
+            type: props.category.type,
+          });
+        },
+      },
+
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+    ]
+  }));
 
   return (
     <ListItem
@@ -154,7 +157,7 @@ export default function Index(): ReactNode {
 const styles = StyleSheet.create({
   typeSelector: {
     marginVertical: 16,
-    marginHorizontal: 24,
+    marginHorizontal: 16,
   } satisfies ViewStyle,
 
   listEmpty: {
@@ -166,7 +169,8 @@ const styles = StyleSheet.create({
   } satisfies ViewStyle,
 
   listItem: {
-    marginHorizontal: 12,
+    paddingHorizontal: 4,
+    marginHorizontal: 8,
     borderRadius: 4,
   } satisfies ViewStyle,
 });

@@ -18,13 +18,19 @@ function getButtonIndexes(actions: SheetAction[], check: (action: IPlainSheetAct
   return actions.map((action, index) => check(action as IPlainSheetAction) ? index : -1).filter((index) => index >= 0);
 }
 
-export function useActionSheet(makeActions: () => SheetAction[]): () => void {
+export interface IActionSheetOptions {
+  title?: string;
+  actions: SheetAction[];
+}
+
+export function useActionSheet(options: () => IActionSheetOptions): () => void {
   const { showActionSheetWithOptions } = useActionSheet_();
 
   return () => {
-    const actions = makeActions();
+    const { title, actions } = options();
 
     showActionSheetWithOptions({
+      title,
       options: actions.map((action) => action.text),
       destructiveButtonIndex: getButtonIndexes(actions, (action) => action.style === 'destructive'),
       disabledButtonIndices: getButtonIndexes(actions, (action) => !!action.disabled),

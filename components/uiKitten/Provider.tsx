@@ -3,6 +3,7 @@ import * as eva from '@eva-design/eva';
 import { ApplicationProvider, IconRegistry, type Theme, type ThemeType } from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { useColorScheme } from 'react-native';
+import customMapping from './mapping.json';
 
 type ColorScheme = 'light' | 'dark';
 
@@ -35,7 +36,11 @@ export function UiKittenProvider(props: PropsWithChildren): ReactNode {
       <>
         <IconRegistry icons={EvaIconsPack} />
 
-        <ApplicationProvider {...eva} theme={theme as ThemeType}>
+        <ApplicationProvider
+          {...eva}
+          theme={theme as ThemeType}
+          customMapping={customMapping as any}
+        >
           {props.children}
         </ApplicationProvider>
       </>

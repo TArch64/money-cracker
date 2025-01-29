@@ -1,0 +1,13 @@
+{
+  "components": {
+    "ListItem": {
+      "appearances": {
+        "default": {
+          "mapping": {
+            "backgroundColor": "transparent"
+          }
+        }
+      }
+    }
+  }
+}

@@ -41,9 +41,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: 16,
     paddingVertical: 4,
-    paddingHorizontal: 8,
+    paddingHorizontal: 16,
   } satisfies ViewStyle,
 
   divider: {

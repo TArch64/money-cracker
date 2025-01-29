@@ -1,14 +1,13 @@
 import type { ReactNode } from 'react';
 import type { RecordWithCategory } from '@/db';
 import { StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
-import { Text, useTheme } from '@ui-kitten/components';
+import { ListItem, Text, useTheme } from '@ui-kitten/components';
 import { useMoneyFormatter } from '@/hooks/formatters';
 import { showConfirm } from '@/helpers/showConfirm';
 import { useRecordDeleteMutation } from '@/hooks/queries';
 import { useRouter } from 'expo-router';
 import { getRecordTypeTitle, isExpenseRecord } from '@/enums';
-import { IconName } from '@/components/uiKitten';
-import { SwipeActionView } from '@/components/SwipeActionView';
+import { useActionSheet } from '@/hooks/useActionSheet';
 
 export interface IMonthRecordProps {
   record: RecordWithCategory;
@@ -39,60 +38,77 @@ export function MonthRecord(props: IMonthRecordProps): ReactNode {
     });
   }
 
-  return (
-    <SwipeActionView
-      rowStyle={styles.row}
+  const showActionsSheet = useActionSheet(() => ({
+    title: `${props.record.category.name} ${value} - Actions`,
 
-      left={{
-        icon: IconName.EDIT_OUTLINE,
-        status: 'info',
+    actions: [
+      {
+        text: 'Edit',
 
-        onAction: () => router.push({
+        onPress: () => router.push({
           pathname: '/records/[recordId]/edit',
           params: { recordId: props.record.id },
-        }),
-      }}
+        })
+      },
 
-      right={{
-        icon: IconName.TRASH_OUTLINE,
-        status: 'danger',
+      {
+        text: 'Delete',
+        style: 'destructive',
 
-        async onAction() {
+        async onPress() {
           if (await isDeleteConfirmed()) deleteMutation.mutate();
-        },
-      }}
-    >
-      <View
-        style={[
-          styles.label,
-          { backgroundColor: theme[`color-${status}-500`] },
-        ]}
-      />
+        }
+      },
 
-      <Text style={styles.categoryName}>
-        {props.record.category.name}
-      </Text>
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+    ]
+  }));
 
-      <Text
-        style={[
-          styles.value,
-          { color: theme[`color-${status}-500`] },
-        ]}
-      >
-        {value}
-      </Text>
-    </SwipeActionView>
+  return (
+    <ListItem
+      style={styles.row}
+
+      accessoryLeft={() => (
+        <View
+          style={[
+            styles.label,
+            { backgroundColor: theme[`color-${status}-500`] },
+          ]}
+        />
+      )}
+
+      title={(txtProps) => (
+        <Text {...txtProps} style={[txtProps?.style, styles.categoryName]}>
+          {props.record.category.name}
+        </Text>
+      )}
+
+      accessoryRight={() => (
+        <Text
+          style={[
+            styles.value,
+            { color: theme[`color-${status}-500`] },
+          ]}
+        >
+          {value}
+        </Text>
+      )}
+
+      onPress={showActionsSheet}
+    />
   );
 }
 
 const styles = StyleSheet.create({
   row: {
     paddingLeft: 8,
-    paddingRight: 12,
+    paddingRight: 8,
     paddingVertical: 8,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
+    marginHorizontal: 6,
+    borderRadius: 4,
   } satisfies ViewStyle,
 
   label: {
@@ -100,7 +116,6 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: 4,
     marginRight: 8,
-    position: 'relative',
   } satisfies ViewStyle,
 
   categoryName: {
