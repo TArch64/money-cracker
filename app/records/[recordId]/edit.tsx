@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
 import { FormScreenLayout } from '@/components/layout';
-import { Button, Text } from '@ui-kitten/components';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useCategoriesListQuery, useRecordDetailsSuspenseQuery, useRecordUpdateMutation } from '@/hooks/queries';
 import { getRecordTypeTitle, isIncomeRecord } from '@/enums';
@@ -28,6 +27,7 @@ export default function Edit(): ReactNode {
   });
 
   const isIncome = isIncomeRecord(recordQuery.data.type);
+  const typeTitle = getRecordTypeTitle(recordQuery.data.type);
   const valueLabel = isIncome ? 'Money received' : 'Money spent';
 
   const onSubmit: FormSubmitHandler<Schema> = async (event) => {
@@ -38,7 +38,7 @@ export default function Edit(): ReactNode {
   return (
     <FormScreenLayout
       fullScreen
-      title={`Edit ${getRecordTypeTitle(recordQuery.data.type)}`}
+      title={`Edit ${typeTitle}`}
       schema={schema}
       onSubmit={onSubmit}
 
@@ -48,11 +48,7 @@ export default function Edit(): ReactNode {
         date: recordQuery.data.date,
       }}
 
-      submit={({ submit, disabled }) => (
-        <Button disabled={disabled} onPress={submit}>
-          {textProps => <Text {...textProps}>Update</Text>}
-        </Button>
-      )}
+      submit={`Save ${typeTitle}`}
     >
       {({ f }) => (
         <>

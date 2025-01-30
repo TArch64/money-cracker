@@ -1,7 +1,11 @@
 import { type ReactNode, useMemo } from 'react';
 import { FormScreenLayout } from '@/components/layout';
-import { Button, Text } from '@ui-kitten/components';
-import { useBudgetIdSuspenseQuery, useBudgetUpdateMutation, useCategoriesListSuspenseQuery } from '@/hooks/queries';
+import { Text } from '@ui-kitten/components';
+import {
+  useBudgetDetailsSuspenseQuery,
+  useBudgetUpdateMutation,
+  useCategoriesListSuspenseQuery,
+} from '@/hooks/queries';
 import { RecordType } from '@/enums';
 import { ScrollView, StyleSheet, type ViewStyle } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -12,7 +16,7 @@ const schema = budgetSchema();
 export default function Edit(): ReactNode {
   const searchParams = useLocalSearchParams<{ budgetId: string }>();
   const router = useRouter();
-  const budget = useBudgetIdSuspenseQuery(Number(searchParams.budgetId));
+  const budget = useBudgetDetailsSuspenseQuery(Number(searchParams.budgetId));
   const updateMutation = useBudgetUpdateMutation();
 
   const categoriesQuery = useCategoriesListSuspenseQuery({
@@ -46,13 +50,7 @@ export default function Edit(): ReactNode {
       schema={schema}
       title="Edit Budget"
       initialValues={{ categories: initialCategories }}
-
-      submit={({ submit, disabled }) => (
-        <Button disabled={disabled} onPress={submit}>
-          {textProps => <Text {...textProps}>Save Budget</Text>}
-        </Button>
-      )}
-
+      submit="Save Budget"
       onSubmit={onSubmit}
     >
       {() => (

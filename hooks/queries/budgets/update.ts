@@ -9,7 +9,7 @@ import {
   useDatabase,
 } from '@/db';
 import { and, eq, inArray } from 'drizzle-orm';
-import { BUDGET_ID_QUERY, BUDGET_MONTH_QUERY } from '../keys';
+import { BUDGET_DETAILS_QUERY, BUDGET_MONTH_QUERY } from '../keys';
 
 export interface IBudgetUpdateInput {
   id: number;
@@ -109,7 +109,7 @@ export function useBudgetUpdateMutation() {
     async onSuccess({ budget }) {
       await Promise.all([
         queryClient.invalidateQueries({
-          queryKey: BUDGET_ID_QUERY(budget.id),
+          queryKey: BUDGET_DETAILS_QUERY(budget.id),
         }),
 
         queryClient.invalidateQueries({

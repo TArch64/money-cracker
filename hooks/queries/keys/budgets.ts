@@ -1,4 +1,4 @@
-export const BUDGET_ID_QUERY = (id: number) => ['budgets', id] as const;
+export const BUDGET_DETAILS_QUERY = (id: number) => ['budgets', id] as const;
 
 type MonthKey = [string, string, year: number, string, month: number];
 

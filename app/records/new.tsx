@@ -1,6 +1,5 @@
 import { type ReactNode, useMemo, useState } from 'react';
 import { FormScreenLayout } from '@/components/layout';
-import { Button, Text } from '@ui-kitten/components';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { getRecordTypeTitle, IntroState, isIncomeRecord, RecordType } from '@/enums';
 import {
@@ -96,11 +95,7 @@ export default function New(): ReactNode {
         date: initialDate,
       }}
 
-      submit={({ submit, disabled }) => (
-        <Button disabled={disabled} onPress={submit}>
-          {textProps => <Text {...textProps}>Add {screenTitle}</Text>}
-        </Button>
-      )}
+      submit={`Add ${screenTitle}`}
     >
       {({ f }) => (
         <>

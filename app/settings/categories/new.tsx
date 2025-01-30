@@ -1,7 +1,6 @@
 import { type ReactNode, useMemo } from 'react';
 import { FormScreenLayout } from '@/components/layout';
 import { checkAsync, minLength, objectAsync, pipeAsync, string, trim } from 'valibot';
-import { Button, Text } from '@ui-kitten/components';
 import { FormInput, type FormSubmitHandler } from '@/components/form';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { getRecordTypeTitle, RecordType } from '@/enums';
@@ -42,13 +41,7 @@ export default function New(): ReactNode {
       title={`New ${typeTitle} Category`}
       schema={schema}
       initialValues={{ name: '' }}
-
-      submit={({ submit, disabled }) => (
-        <Button disabled={disabled} onPress={submit}>
-          {textProps => <Text {...textProps}>Add Category</Text>}
-        </Button>
-      )}
-
+      submit="Add Category"
       onSubmit={onSubmit}
     >
       {({ f }) => (

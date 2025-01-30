@@ -1,13 +1,13 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { BUDGET_ID_QUERY } from '../keys';
+import { BUDGET_DETAILS_QUERY } from '../keys';
 import { budgetCategories, budgets, categories, useDatabase } from '@/db';
 import { eq } from 'drizzle-orm';
 
-export function useBudgetIdSuspenseQuery(id: number) {
+export function useBudgetDetailsSuspenseQuery(budgetId: number) {
   const db = useDatabase();
 
   return useSuspenseQuery({
-    queryKey: BUDGET_ID_QUERY(id),
+    queryKey: BUDGET_DETAILS_QUERY(budgetId),
 
     async queryFn(args) {
       const [, id] = args.queryKey;

@@ -1,6 +1,6 @@
 import { type ReactNode, useMemo } from 'react';
 import { FormScreenLayout } from '@/components/layout';
-import { Button, Text } from '@ui-kitten/components';
+import { Text } from '@ui-kitten/components';
 import { useBudgetCreateMutation, useCategoriesListSuspenseQuery } from '@/hooks/queries';
 import { RecordType } from '@/enums';
 import { ScrollView, StyleSheet, type ViewStyle } from 'react-native';
@@ -42,13 +42,7 @@ export default function New(): ReactNode {
       schema={schema}
       title="New Budget"
       initialValues={{ categories: initialCategories }}
-
-      submit={({ submit, disabled }) => (
-        <Button disabled={disabled} onPress={submit}>
-          {textProps => <Text {...textProps}>Add Budget</Text>}
-        </Button>
-      )}
-
+      submit="Add Budget"
       onSubmit={onSubmit}
     >
       {() => (
