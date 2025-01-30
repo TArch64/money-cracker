@@ -1,5 +1,5 @@
 import { type PropsWithChildren, type ReactElement, type ReactNode } from 'react';
-import { useRouter } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
 import type { IPropsWithStyle } from '@/types';
 import { type TextProps, TopNavigation, TopNavigationAction, useTheme } from '@ui-kitten/components';
@@ -28,25 +28,33 @@ export function FullScreenLayout(props: IFullScreenLayoutProps): ReactNode {
   )) : undefined);
 
   return (
-    <SafeAreaView
-      style={[
-        styles.wrapper,
-        { backgroundColor: theme['background-basic-color-1'] },
-      ]}
-    >
-      {props.title && (
-        <TopNavigation
-          title={props.title}
-          alignment="center"
-          accessoryLeft={headerLeft}
-          accessoryRight={props.headerRight}
-        />
-      )}
+    <>
+      <Stack.Screen
+        options={{
+          gestureEnabled: props.canGoBack !== false,
+        }}
+      />
 
-      <View style={[props.style, styles.wrapper]}>
-        {props.children}
-      </View>
-    </SafeAreaView>
+      <SafeAreaView
+        style={[
+          styles.wrapper,
+          { backgroundColor: theme['background-basic-color-1'] },
+        ]}
+      >
+        {props.title && (
+          <TopNavigation
+            title={props.title}
+            alignment="center"
+            accessoryLeft={headerLeft}
+            accessoryRight={props.headerRight}
+          />
+        )}
+
+        <View style={[props.style, styles.wrapper]}>
+          {props.children}
+        </View>
+      </SafeAreaView>
+    </>
   );
 }
 

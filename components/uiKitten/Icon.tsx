@@ -1,7 +1,8 @@
-import type { ImageProps, ImageStyle, StyleProp } from 'react-native';
+import type { ImageProps, ViewStyle } from 'react-native';
 import type { RenderProp } from '@ui-kitten/components/devsupport';
 import { Icon as Icon_, type IconProps } from '@ui-kitten/components';
 import type { ReactNode } from 'react';
+import type { SvgProps } from 'react-native-svg';
 
 export const enum IconName {
   ARROW_BACK = 'arrow-back',
@@ -15,12 +16,20 @@ export const enum IconName {
   TRASH_OUTLINE = 'trash-outline',
   EDIT_OUTLINE = 'edit-outline',
   SETTINGS_OUTLINE = 'settings-2-outline',
-  FOLDER_OUTLINE = 'folder-outline'
+  FOLDER_OUTLINE = 'folder-outline',
+  ALERT_TRIANGLE_OUTLINE = 'alert-triangle-outline',
 }
 
-export const Icon = (props: Omit<IconProps, 'name'> & { name: IconName }): ReactNode => (
+export const Icon = (props: Omit<IconProps<SvgProps>, 'name'> & { name: IconName }): ReactNode => (
   <Icon_ {...props} />
 );
 
-export const iconRenderer = (name: IconName, style?: StyleProp<ImageStyle>): RenderProp<Partial<ImageProps>> =>
-  (iconProps) => <Icon {...iconProps} name={name} style={[iconProps?.style, style]} />;
+export const iconRenderer = (name: IconName, props?: Partial<IconProps<SvgProps>>): RenderProp<Partial<ImageProps>> =>
+  (iconProps) => (
+    <Icon
+      {...iconProps}
+      {...props}
+      name={name}
+      style={[iconProps?.style as ViewStyle, props?.style]}
+    />
+  );

@@ -7,9 +7,11 @@ import customMapping from './mapping.json';
 
 type ColorScheme = 'light' | 'dark';
 
+// Colors: https://developer.apple.com/design/human-interface-guidelines/color#iOS-iPadOS-system-colors
 const COMMON_THEME: Partial<Theme> = {
-  'color-success-500': '#22c55e',
-  'color-danger-500': '#ef4444',
+  'color-success-500': '#34c759',
+  'color-primary-500': '#007aff',
+  'color-danger-500': '#ff3b30',
   'box-shadow-1': '0 0 5px rgba(0, 0, 0, 0.1)',
   'box-shadow-2': '0 0 10px rgba(0, 0, 0, 0.1)',
 };
@@ -17,10 +19,18 @@ const COMMON_THEME: Partial<Theme> = {
 const themes: Record<ColorScheme, () => Theme> = {
   light: () => ({
     ...eva.light,
+    'color-success-600': '#248a3d',
+    'color-primary-600': '#0040dd',
+    'color-danger-600': '#d70015',
     'background-basic-color-2': '#f8fafc',
   }),
 
-  dark: () => eva.dark,
+  dark: () => ({
+    ...eva.dark,
+    'color-success-600': '#30db5b',
+    'color-primary-600': '#409cff',
+    'color-danger-600': '#ff6961',
+  }),
 };
 
 

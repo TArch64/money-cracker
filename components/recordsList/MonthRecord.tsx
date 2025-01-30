@@ -8,6 +8,7 @@ import { useRecordDeleteMutation } from '@/hooks/queries';
 import { useRouter } from 'expo-router';
 import { getRecordTypeTitle, isExpenseRecord } from '@/enums';
 import { useActionSheet } from '@/hooks/useActionSheet';
+import { textRenderer } from '@/components/uiKitten';
 
 export interface IMonthRecordProps {
   record: RecordWithCategory;
@@ -26,17 +27,15 @@ export function MonthRecord(props: IMonthRecordProps): ReactNode {
   const title = getRecordTypeTitle(props.record.type);
   const status = isExpense ? 'danger' : 'success';
 
-  function isDeleteConfirmed(): Promise<boolean> {
-    return showConfirm({
-      title: `Delete ${title}`,
-      message: `Are you sure you want to delete this ${title.toLowerCase()}?`,
+  const isDeleteConfirmed = () => showConfirm({
+    title: `Delete ${title}`,
+    message: `Are you sure you want to delete this ${title.toLowerCase()}?`,
 
-      accept: {
-        text: 'Delete',
-        style: 'destructive',
-      },
-    });
-  }
+    accept: {
+      text: 'Delete',
+      style: 'destructive',
+    },
+  });
 
   const showActionsSheet = useActionSheet(() => ({
     title: `${props.record.category.name} ${value} - Actions`,
@@ -80,11 +79,7 @@ export function MonthRecord(props: IMonthRecordProps): ReactNode {
         />
       )}
 
-      title={(txtProps) => (
-        <Text {...txtProps} style={[txtProps?.style, styles.categoryName]}>
-          {props.record.category.name}
-        </Text>
-      )}
+      title={textRenderer(props.record.category.name, { style: styles.categoryName })}
 
       accessoryRight={() => (
         <Text

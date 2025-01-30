@@ -1,7 +1,8 @@
 import type { IPropsWithStyle } from '@/types';
 import { StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
 import type { ReactNode } from 'react';
-import { Button, Text, useTheme } from '@ui-kitten/components';
+import { Button, useTheme } from '@ui-kitten/components';
+import { textRenderer } from '@/components/uiKitten';
 
 export type ButtonSelectValue = string | number;
 
@@ -48,20 +49,12 @@ export function ButtonSelect<V extends ButtonSelectValue>(props: IButtonSelectPr
           status={props.value === option.value ? 'primary' : 'basic'}
           onPress={() => onChange(option)}
         >
-          {(txtProps) => (
-            <Text
-              {...txtProps}
-              style={[txtProps?.style, styles.optionText]}
-            >
-              {option.label}
-            </Text>
-          )}
+          {textRenderer(option.label, { style: styles.optionText })}
         </Button>
       ))}
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   row: {

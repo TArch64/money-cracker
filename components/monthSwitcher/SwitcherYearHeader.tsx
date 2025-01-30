@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
-import { ListItem, Text } from '@ui-kitten/components';
+import { ListItem } from '@ui-kitten/components';
 import { StyleSheet, type TextStyle } from 'react-native';
+import { textRenderer } from '@/components/uiKitten';
 
 export interface ISwitcherYearListProps {
   year: string;
@@ -9,12 +10,7 @@ export interface ISwitcherYearListProps {
 export const SwitcherYearHeader = (props: ISwitcherYearListProps): ReactNode => (
   <ListItem
     disabled
-
-    title={(txtProps) => (
-      <Text {...txtProps} style={[txtProps?.style, styles.yearTitle]}>
-        {props.year}
-      </Text>
-    )}
+    title={textRenderer(props.year, { style: styles.yearTitle })}
   />
 );
 

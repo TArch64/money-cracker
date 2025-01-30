@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { StyleSheet, type TextStyle, View } from 'react-native';
 import { Button, Text } from '@ui-kitten/components';
 import { Link } from 'expo-router';
+import { textRenderer } from '@/components/uiKitten';
 
 export const BudgetEmpty = (): ReactNode => (
   <View style={styles.empty}>
@@ -11,7 +12,7 @@ export const BudgetEmpty = (): ReactNode => (
 
     <Link href="/budgets/new" asChild>
       <Button appearance="ghost">
-        {(txtProps) => <Text {...txtProps}>Add Budget</Text>}
+        {textRenderer('Add Budget')}
       </Button>
     </Link>
   </View>

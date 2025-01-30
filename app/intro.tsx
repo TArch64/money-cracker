@@ -4,6 +4,7 @@ import { Button, Text } from '@ui-kitten/components';
 import { FullScreenLayout } from '@/components/layout';
 import { StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
 import { getRecordTypeTitle, RecordType } from '@/enums';
+import { textRenderer } from '@/components/uiKitten';
 
 interface IntroLinkProps {
   type: RecordType;
@@ -27,11 +28,7 @@ function IntroLink(props: IntroLinkProps): ReactNode {
 
   return (
     <Button appearance="ghost" size="small" onPress={open}>
-      {(textProps) => (
-        <Text {...textProps} style={[textProps?.style, styles.rowText]}>
-          {text}
-        </Text>
-      )}
+      {textRenderer(text, { style: styles.rowText })}
     </Button>
   );
 }

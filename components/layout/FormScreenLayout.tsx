@@ -1,10 +1,11 @@
 import type { ReactNode } from 'react';
 import type { RenderProp } from '@ui-kitten/components/devsupport';
-import { Button, Text, type TextProps } from '@ui-kitten/components';
+import { Button, type TextProps } from '@ui-kitten/components';
 import { FullScreenLayout } from './FullScreenLayout';
 import { MainScreenLayout } from './MainScreenLayout';
 import { KeyboardAvoidingView, StyleSheet, View, type ViewStyle } from 'react-native';
 import { Form, type FormSchema, FormSubmit, type IFormProps, type IFormSubmitProps } from '../form';
+import { textRenderer } from '@/components/uiKitten';
 
 export interface IFormScreenLayoutProps<S extends FormSchema> extends IFormProps<S> {
   fullScreen?: boolean;
@@ -34,7 +35,7 @@ export function FormScreenLayout<S extends FormSchema>(props: IFormScreenLayoutP
               <FormSubmit>
                 {typeof props.submit !== 'string' ? props.submit : ({ submit, disabled }) => (
                   <Button disabled={disabled} onPress={submit}>
-                    {textProps => <Text {...textProps}>{props.submit as string}</Text>}
+                    {textRenderer(props.submit as string)}
                   </Button>
                 )}
               </FormSubmit>

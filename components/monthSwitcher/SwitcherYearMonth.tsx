@@ -1,9 +1,10 @@
 import { MonthIdx, useMonthStore } from '@/stores';
 import { type ReactNode, useMemo } from 'react';
 import { useDateFormatter } from '@/hooks/formatters';
-import { ListItem, Text, useTheme } from '@ui-kitten/components';
-import { type StyleProp, StyleSheet, type TextStyle, type ViewStyle } from 'react-native';
+import { ListItem, useTheme } from '@ui-kitten/components';
+import { StyleSheet, type ViewStyle } from 'react-native';
 import { useRouter } from 'expo-router';
+import { textRenderer } from '@/components/uiKitten';
 
 export interface ISwitcherMonthYearProps {
   monthIdx: MonthIdx;
@@ -32,18 +33,9 @@ export function SwitcherYearMonth(props: ISwitcherMonthYearProps): ReactNode {
         },
       ]}
 
-      title={(txtProps) => (
-        <Text
-          {...txtProps}
-
-          style={[
-            txtProps?.style,
-            isCurrentMonth && { color: theme['color-primary-500'] },
-          ] satisfies StyleProp<TextStyle>}
-        >
-          {dateFormatter.format(props.monthIdx.date)}
-        </Text>
-      )}
+      title={textRenderer(dateFormatter.format(props.monthIdx.date), {
+        style: isCurrentMonth && { color: theme['color-primary-500'] },
+      })}
 
       onPress={onPress}
     />
