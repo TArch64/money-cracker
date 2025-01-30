@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { type AppDatabase, categories, records, useDatabase } from '@/db';
 import { eq } from 'drizzle-orm';
-import { CATEGORIES_LIST_QUERY } from '../keys';
+import { CATEGORIES_DETAILS_QUERY, CATEGORIES_LIST_QUERY } from '../keys';
 import { RecordType } from '@/enums';
 
 export interface ICategoryDeleteInput {
@@ -33,9 +33,15 @@ export function useCategoryDeleteMutation() {
     },
 
     onSuccess(data) {
-      return queryClient.invalidateQueries({
-        queryKey: CATEGORIES_LIST_QUERY(data.type),
-      });
+      return Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: CATEGORIES_LIST_QUERY(data.type),
+        }),
+
+        queryClient.invalidateQueries({
+          queryKey: CATEGORIES_DETAILS_QUERY(data.id),
+        }),
+      ]);
     },
   });
 }

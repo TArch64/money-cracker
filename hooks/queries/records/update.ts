@@ -24,14 +24,14 @@ export function useRecordUpdateMutation(record: RecordWithCategory) {
         .update(records)
         .set({
           value: input.value,
-          categoryId: categoryMutation.id,
+          categoryId: categoryMutation.category.id,
           date: input.date,
         })
         .where(eq(records.id, record.id));
 
       return {
         newDate: input.date,
-        categoryId: categoryMutation.id,
+        categoryId: categoryMutation.category.id,
       };
     },
 

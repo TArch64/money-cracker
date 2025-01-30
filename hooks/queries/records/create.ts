@@ -25,7 +25,7 @@ export function useRecordCreateMutation() {
           type: input.type,
           value: input.value,
           date: input.date,
-          categoryId: categoryMutation.id,
+          categoryId: categoryMutation.category.id,
         });
 
       return { type: input.type };

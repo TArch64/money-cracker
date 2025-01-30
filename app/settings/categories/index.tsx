@@ -34,6 +34,7 @@ interface ICategoryListItemProps {
 }
 
 function CategoryListItem(props: ICategoryListItemProps): ReactNode {
+  const router = useRouter();
   const deleteMutation = useCategoryDeleteMutation();
 
   function isDeleteConfirmed() {
@@ -54,7 +55,11 @@ function CategoryListItem(props: ICategoryListItemProps): ReactNode {
     actions: [
       {
         text: 'Rename',
-        onPress: () => 0,
+
+        onPress: () => router.push({
+          pathname: '/settings/categories/[categoryId]/edit',
+          params: { categoryId: props.category.id },
+        }),
       },
 
       {

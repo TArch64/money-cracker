@@ -37,13 +37,6 @@ export function Form<S extends FormSchema>(props: IFormProps<S>): ReactNode {
 
   return (
     <FormProvider form={form}>
-      <form.Subscribe selector={(state: any) => [state.errors]}>
-        {(data) => {
-          console.log(data);
-          return null;
-        }}
-      </form.Subscribe>
-
       {props.children({ f: (path) => path })}
     </FormProvider>
   );
