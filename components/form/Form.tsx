@@ -11,6 +11,7 @@ export type FormPathGet<S extends FormSchema> = (path: FormKey<S>) => FormKey<S>
 
 export interface IFormContext<S extends FormSchema> {
   f: FormPathGet<S>;
+  form: FormApi<S>;
 }
 
 export interface FormSubmitEvent<S extends FormSchema> {
@@ -37,7 +38,10 @@ export function Form<S extends FormSchema>(props: IFormProps<S>): ReactNode {
 
   return (
     <FormProvider form={form}>
-      {props.children({ f: (path) => path })}
+      {props.children({
+        f: (path) => path,
+        form,
+      })}
     </FormProvider>
   );
 }

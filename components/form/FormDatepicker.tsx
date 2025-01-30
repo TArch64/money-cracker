@@ -54,6 +54,11 @@ export function FormDatepicker(props: IFormDatepickerProps): ReactNode {
 
   const close = () => setOpened(false);
 
+  function onChange(date?: Date) {
+    field.handleChange(date);
+    close();
+  }
+
   return (
     <DropdownView
       isOpened={isOpened}
@@ -104,7 +109,7 @@ export function FormDatepicker(props: IFormDatepickerProps): ReactNode {
         <DateTimePicker
           display="inline"
           value={field.state.value}
-          onChange={(_, date) => field.handleChange(date)}
+          onChange={(_, date) => onChange(date)}
         />
       )}
     </DropdownView>

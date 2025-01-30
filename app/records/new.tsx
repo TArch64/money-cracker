@@ -97,12 +97,16 @@ export default function New(): ReactNode {
 
       submit={`Add ${screenTitle}`}
     >
-      {({ f }) => (
+      {({ f, form }) => (
         <>
           <FormButtonSelect
             name={f('type')}
             options={recordTypeOptions}
-            onChange={setType}
+
+            onChange={(type) => {
+              form.setFieldValue(f('category'), '');
+              setType(type);
+            }}
           />
 
           <FormAutocomplete
