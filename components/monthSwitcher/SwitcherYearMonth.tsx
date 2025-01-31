@@ -44,8 +44,9 @@ export function SwitcherYearMonth(props: ISwitcherMonthYearProps): ReactNode {
 
 const styles = StyleSheet.create({
   month: {
-    paddingLeft: 16,
-    marginHorizontal: 4,
+    paddingLeft: 8,
+    marginHorizontal: 12,
+    marginBottom: 4,
     borderRadius: 8,
     overflow: 'hidden',
   } satisfies ViewStyle,

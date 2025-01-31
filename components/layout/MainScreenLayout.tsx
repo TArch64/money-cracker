@@ -1,4 +1,4 @@
-import type { PropsWithChildren, ReactElement, ReactNode } from 'react';
+import { type PropsWithChildren, type ReactElement, type ReactNode, Suspense } from 'react';
 import { useRouter } from 'expo-router';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
 import { Divider, type TextProps, TopNavigation, TopNavigationAction, useTheme } from '@ui-kitten/components';
@@ -50,7 +50,9 @@ export function MainScreenLayout(props: IMainScreenLayoutProps): ReactNode {
           { backgroundColor: theme['background-basic-color-2'] },
         ]}
       >
-        {props.children}
+        <Suspense>
+          {props.children}
+        </Suspense>
       </View>
     </SafeAreaView>
   );

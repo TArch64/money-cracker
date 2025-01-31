@@ -1,4 +1,4 @@
-import { type PropsWithChildren, type ReactElement, type ReactNode } from 'react';
+import { type PropsWithChildren, type ReactElement, type ReactNode, Suspense } from 'react';
 import { Stack, useRouter } from 'expo-router';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
 import type { IPropsWithStyle } from '@/types';
@@ -50,9 +50,11 @@ export function FullScreenLayout(props: IFullScreenLayoutProps): ReactNode {
           />
         )}
 
-        <View style={[props.style, styles.wrapper]}>
-          {props.children}
-        </View>
+        <Suspense>
+          <View style={[props.style, styles.wrapper]}>
+            {props.children}
+          </View>
+        </Suspense>
       </SafeAreaView>
     </>
   );

@@ -1,4 +1,4 @@
-import { type PropsWithChildren, type ReactNode, Suspense } from 'react';
+import { type PropsWithChildren, type ReactNode } from 'react';
 import { type IMainScreenLayoutProps, MainScreenLayout } from '../MainScreenLayout';
 import { TabHeaderTitle } from './TabHeaderTitle';
 
@@ -15,8 +15,6 @@ export const TabScreenLayout = (props: ITabScreenLayoutProps): ReactNode => (
     headerRight={props.headerRight}
     title={(txtProps) => <TabHeaderTitle {...txtProps} />}
   >
-    <Suspense>
-      {props.children}
-    </Suspense>
+    {props.children}
   </MainScreenLayout>
 );
