@@ -12,7 +12,7 @@ export function TabHeaderTitle(props: TextProps): ReactNode {
   const monthTitle = dateFormatter.format(activeIdx.date);
 
   return (
-    <Link href="/modals/switch-month">
+    <Link href="/month/switcher">
       <View style={styles.titlePressable}>
         <Text style={props.style}>
           {monthTitle}

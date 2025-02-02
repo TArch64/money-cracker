@@ -6,6 +6,7 @@ import { useRecordsMonthStatisticsSuspenseQuery } from '@/hooks/queries';
 import { useMonthStore } from '@/stores';
 import { getRecordTypeTitle, RecordType } from '@/enums';
 import { useMoneyFormatter } from '@/hooks/formatters';
+import { Icon, IconName } from '@/components/uiKitten';
 
 interface IStatisticColumnProps {
   type: RecordType,
@@ -19,9 +20,11 @@ function StatisticColumn(props: IStatisticColumnProps): ReactNode {
   const value = moneyFormatter.format(props.total);
 
   return (
-    <View style={styles.rowColumn}>
+    <View style={styles.dataColumn}>
       <Text status={status}>
-        {title}: <Text category="s1" status={status}>{value}</Text>
+        {title}
+        {': '}
+        <Text category="s1" status={status}>{value}</Text>
       </Text>
     </View>
   );
@@ -39,13 +42,22 @@ export function HomeMonthStatistic(): ReactNode {
   const hasData = data.some((item) => item.total > 0);
 
   return (
-    <HomeCard>
-      <Text category="h3" style={styles.title}>
-        Month Statistics
-      </Text>
+    <HomeCard disabled={!hasData} href="/month/statistics">
+      <View style={styles.titleRow}>
+        <Text category="h3">
+          Month Statistics
+        </Text>
+
+        {hasData && (
+          <Icon
+            name={IconName.CHEVRON_RIGHT}
+            style={styles.titleIcon}
+          />
+        )}
+      </View>
 
       {hasData ? (
-        <View style={styles.row}>
+        <View style={styles.dataRow}>
           {data.map((item) => (
             <StatisticColumn key={item.type} type={item.type} total={item.total} />
           ))}
@@ -60,16 +72,24 @@ export function HomeMonthStatistic(): ReactNode {
 }
 
 const styles = StyleSheet.create({
-  title: {
-    marginBottom: 8,
+  titleRow: {
+    marginBottom: 12,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-end',
   } satisfies TextStyle,
 
-  row: {
+  titleIcon: {
+    width: 22,
+    height: 22,
+  } satisfies ViewStyle,
+
+  dataRow: {
     display: 'flex',
     flexDirection: 'row',
   } satisfies ViewStyle,
 
-  rowColumn: {
+  dataColumn: {
     flexBasis: 0,
     flexGrow: 1,
   } satisfies ViewStyle,

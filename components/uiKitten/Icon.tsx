@@ -13,6 +13,7 @@ export const enum IconName {
   CALENDAR_OUTLINE = 'calendar-outline',
   PIE_CHART_OUTLINE = 'pie-chart-outline',
   CHEVRON_DOWN = 'chevron-down',
+  CHEVRON_RIGHT = 'chevron-right',
   TRASH_OUTLINE = 'trash-outline',
   EDIT_OUTLINE = 'edit-outline',
   SETTINGS_OUTLINE = 'settings-2-outline',

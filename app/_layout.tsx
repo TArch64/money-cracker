@@ -42,7 +42,7 @@ function StackRoot(): ReactNode {
       })}
     >
       <Stack.Screen
-        name="modals/switch-month"
+        name="month/switcher"
         options={{ presentation: 'modal' }}
       />
     </Stack>
