@@ -42,7 +42,7 @@ export default function New(): ReactNode {
       schema={schema}
       title="New Budget"
       initialValues={{ categories: initialCategories }}
-      submit="Add Budget"
+      submit={initialCategories.length ? 'Add Budget' : undefined}
       onSubmit={onSubmit}
     >
       {() => (

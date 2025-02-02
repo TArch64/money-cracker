@@ -10,7 +10,7 @@ import { textRenderer } from '@/components/uiKitten';
 export interface IFormScreenLayoutProps<S extends FormSchema> extends IFormProps<S> {
   fullScreen?: boolean;
   title?: string | RenderProp<TextProps>;
-  submit: IFormSubmitProps['children'] | string;
+  submit?: IFormSubmitProps['children'] | string;
 }
 
 export function FormScreenLayout<S extends FormSchema>(props: IFormScreenLayoutProps<S>): ReactNode {
@@ -31,15 +31,17 @@ export function FormScreenLayout<S extends FormSchema>(props: IFormScreenLayoutP
           >
             {props.children(formCtx)}
 
-            <View style={styles.formSubmit}>
-              <FormSubmit>
-                {typeof props.submit !== 'string' ? props.submit : ({ submit, disabled }) => (
-                  <Button disabled={disabled} onPress={submit}>
-                    {textRenderer(props.submit as string)}
-                  </Button>
-                )}
-              </FormSubmit>
-            </View>
+            {props.submit && (
+              <View style={styles.formSubmit}>
+                <FormSubmit>
+                  {typeof props.submit !== 'string' ? props.submit : ({ submit, disabled }) => (
+                    <Button disabled={disabled} onPress={submit}>
+                      {textRenderer(props.submit as string)}
+                    </Button>
+                  )}
+                </FormSubmit>
+              </View>
+            )}
           </KeyboardAvoidingView>
         )}
       </Form>
