@@ -54,6 +54,7 @@ const COMMON_THEME: Partial<Theme> = {
   'color-danger-700': '#B7182A',
   'color-danger-800': '#930F29',
   'color-danger-900': '#7A0929',
+  'color-basic-600': '#7A86A1',
   'box-shadow-1': '0 0 5px rgba(0, 0, 0, 0.1)',
   'box-shadow-2': '0 0 10px rgba(0, 0, 0, 0.1)',
 };

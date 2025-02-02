@@ -1,5 +1,5 @@
 import { type FC, type ReactNode, Suspense } from 'react';
-import { type StyleProp, type ViewStyle } from 'react-native';
+import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native';
 import { useTheme } from '@ui-kitten/components';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { HOME_TITLE_HEIGHT, HomeAddRecord, HomeBalance, HomeMonthStatistic, HomeTitle } from '@/components/home';
@@ -36,10 +36,7 @@ export default function Home(): ReactNode {
         paddingRight: insets.right + 12,
       } satisfies StyleProp<ViewStyle>}
 
-      contentContainerStyle={{
-        gap: 20,
-      } satisfies StyleProp<ViewStyle>}
-
+      contentContainerStyle={styles.scrollContent}
       onScroll={scrollHandler}
     >
       <HomeTitle stickyProgress={stickyProgress} />
@@ -53,4 +50,8 @@ export default function Home(): ReactNode {
   );
 }
 
-
+const styles = StyleSheet.create({
+  scrollContent: {
+    gap: 16,
+  } satisfies ViewStyle,
+});

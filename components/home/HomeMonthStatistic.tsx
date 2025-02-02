@@ -79,8 +79,9 @@ const styles = StyleSheet.create({
   } satisfies TextStyle,
 
   titleIcon: {
-    width: 22,
-    height: 22,
+    width: 24,
+    height: 24,
+    marginBottom: -1,
   } satisfies ViewStyle,
 
   emptyText: {
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
   } satisfies TextStyle,
 
   dataRow: {
-    marginTop: 12,
+    marginTop: 8,
     display: 'flex',
     flexDirection: 'row',
   } satisfies ViewStyle,

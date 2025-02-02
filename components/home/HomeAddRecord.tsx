@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   row: {
     display: 'flex',
     flexDirection: 'row',
-    gap: 12,
+    gap: 16,
   } satisfies ViewStyle,
 
   card: {
