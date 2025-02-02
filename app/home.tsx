@@ -2,10 +2,11 @@ import { type FC, type ReactNode, Suspense } from 'react';
 import { ScrollView, type StyleProp, type ViewStyle } from 'react-native';
 import { useTheme } from '@ui-kitten/components';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { HomeBalance, HomeTitle } from '@/components/home';
+import { HomeBalance, HomeMonthStatistic, HomeTitle } from '@/components/home';
 
 const sections: FC[] = [
   HomeBalance,
+  HomeMonthStatistic,
 ];
 
 export default function Home(): ReactNode {

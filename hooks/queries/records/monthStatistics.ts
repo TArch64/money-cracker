@@ -1,51 +1,32 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { RECORDS_MONTH_STATISTICS_QUERY } from '../keys';
-import { categories, eqDate, records, sum, useDatabase } from '@/db';
-import { and, eq } from 'drizzle-orm';
+import { eqDate, records, sum, useDatabase } from '@/db';
 import { RecordType } from '@/enums';
-import { useIsFocused } from '@react-navigation/core';
-
-export interface IRecordCategoryStatistics {
-  id: number;
-  name: string;
-  total: number;
-}
-
-export interface IRecordMonthStatistics {
-  hasExpenses: boolean;
-  expenseCategories: IRecordCategoryStatistics[];
-  expenseTotal: number;
-}
 
 export function useRecordsMonthStatisticsSuspenseQuery(year: number, month: number) {
   const db = useDatabase();
-  const isFocused = useIsFocused();
 
   return useSuspenseQuery({
-    subscribed: isFocused,
     queryKey: RECORDS_MONTH_STATISTICS_QUERY(year, month),
 
-    async queryFn(args): Promise<IRecordMonthStatistics> {
+    async queryFn(args) {
       const [, , year, , month] = args.queryKey;
 
-      const expenseCategories = await db
+      const [row1, row2] = await db
         .select({
-          id: categories.id,
-          name: categories.name,
+          type: records.type,
           total: sum(records.value).as('total'),
         })
         .from(records)
-        .innerJoin(categories, eq(categories.id, records.categoryId))
-        .where(and(
-          eqDate(records.date, { year, month }),
-          eq(records.type, RecordType.EXPENSE),
-        ))
-        .groupBy(records.categoryId);
+        .where(eqDate(records.date, { year, month }))
+        .groupBy(records.type);
+
+      const incomeTotal = row1?.type === RecordType.INCOME ? row1.total : row2?.total;
+      const expenseTotal = row1?.type === RecordType.EXPENSE ? row1.total : row2?.total;
 
       return {
-        hasExpenses: !!expenseCategories.length,
-        expenseCategories,
-        expenseTotal: expenseCategories.reduce((acc, row) => acc + row.total, 0),
+        expenseTotal: expenseTotal ?? 0,
+        incomeTotal: incomeTotal ?? 0,
       };
     },
   });

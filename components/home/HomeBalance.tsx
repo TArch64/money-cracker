@@ -1,8 +1,9 @@
 import type { ReactNode } from 'react';
-import { Card, Text } from '@ui-kitten/components';
+import { Text } from '@ui-kitten/components';
 import { useBalanceSuspenseQuery } from '@/hooks/queries';
 import { useMoneyFormatter } from '@/hooks/formatters';
-import { StyleSheet, type TextStyle, type ViewStyle } from 'react-native';
+import { StyleSheet, type TextStyle } from 'react-native';
+import { HomeCard } from './HomeCard';
 
 export function HomeBalance(): ReactNode {
   const balanceQuery = useBalanceSuspenseQuery();
@@ -11,25 +12,20 @@ export function HomeBalance(): ReactNode {
   const value = moneyFormatter.format(balanceQuery.data.balance);
 
   return (
-    <Card disabled style={styles.card}>
+    <HomeCard>
       <Text style={styles.title}>
         Total Balance
       </Text>
 
-      <Text category="h2" status={status}>
+      <Text category="h3" status={status}>
         {value}
       </Text>
-    </Card>
+    </HomeCard>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-  } satisfies ViewStyle,
-
   title: {
-    marginBottom: 4,
+    marginBottom: 6,
   } satisfies TextStyle,
 });
