@@ -58,10 +58,13 @@ export default function New(): ReactNode {
       await updateUserMutation.mutateAsync({
         intro: IntroState.COMPLETED,
       });
+
+      router.dismissAll();
+      router.replace('/');
+      return;
     }
 
-    router.dismissAll();
-    router.replace('/records');
+    router.back();
   };
 
   return (

@@ -23,17 +23,32 @@ interface IMonthListItem {
 
 type ListItem = IYearHeaderListItem | IMonthListItem;
 
+function formatSections(months: MonthIdx[]): ListItem[] {
+  return Object.entries(groupBy(months, 'year'))
+    .sort(([a], [b]) => Number(b) - Number(a))
+    .flatMap(([year, months]): ListItem[] => [
+      { type: ListItemType.YEAR_HEADER, year },
+      ...months.map((month) => ({ type: ListItemType.MONTH as const, month })),
+    ]);
+}
+
 export function SwitcherYearList(): ReactNode {
   const monthsQuery = useMonthsSuspenseQuery((input) => {
     const currentMonth = MonthIdx.current();
-    const months = input.length ? [currentMonth.next, ...input] : [currentMonth.next, currentMonth];
 
-    return Object.entries(groupBy(months, 'year'))
-      .sort(([a], [b]) => Number(b) - Number(a))
-      .flatMap(([year, months]): ListItem[] => [
-        { type: ListItemType.YEAR_HEADER, year },
-        ...months.map((month) => ({ type: ListItemType.MONTH as const, month })),
-      ]);
+    if (!input.length) {
+      return formatSections([currentMonth.next, currentMonth]);
+    }
+
+    const months = [...input];
+
+    if (months[0].id !== currentMonth.id) {
+      months.unshift(currentMonth);
+    }
+
+    months.unshift(currentMonth.next);
+
+    return formatSections(months);
   });
 
   return (

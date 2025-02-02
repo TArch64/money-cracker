@@ -17,12 +17,14 @@ function useContainerStyle(isOpened: boolean, isError: boolean): ViewStyle {
 
   if (isOpened) {
     return {
+      borderRadius: 8,
       borderColor: theme['color-primary-500'],
       backgroundColor: theme['background-basic-color-1'],
     };
   }
 
   return {
+    borderRadius: 8,
     borderColor: isError ? theme['color-danger-500'] : theme['color-basic-400'],
     backgroundColor: theme['color-basic-200'],
   };
@@ -130,9 +132,8 @@ const styles = StyleSheet.create({
   } satisfies TextStyle,
 
   container: {
-    borderWidth: Math.max(StyleSheet.hairlineWidth, 1),
+    borderWidth: 1,
     borderStyle: 'solid',
-    borderRadius: 4,
     paddingHorizontal: 8,
     paddingVertical: 7,
     minHeight: 40,
