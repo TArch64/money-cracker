@@ -18,10 +18,8 @@ export default function Home(): ReactNode {
 
   const scrollHandler = useAnimatedScrollHandler((event) => {
     const value = event.contentOffset.y;
-
-    if (stickyProgress.value !== HOME_TITLE_HEIGHT) {
-      stickyProgress.value = value <= 0 ? 0 : Math.min(value, HOME_TITLE_HEIGHT) / HOME_TITLE_HEIGHT;
-    }
+    const progress = value / HOME_TITLE_HEIGHT;
+    stickyProgress.value = Math.min(1, Math.max(-1, progress));
   });
 
   return (

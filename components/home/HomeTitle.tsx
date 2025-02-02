@@ -20,7 +20,12 @@ export function HomeTitle(props: IHomeTitleProps): ReactNode {
   const dateFormatter = useDateFormatter({ year: 'numeric', month: 'long' });
   const monthTitle = dateFormatter.format(activeIdx.date);
 
-  const animatedStyle = useAnimatedStyle((): ViewStyle => ({
+  const animatedStyle = useAnimatedStyle((): ViewStyle => props.stickyProgress.value < 0 ? {
+    transform: [
+      { translateX: -6 },
+      { scale: interpolate(props.stickyProgress.value, [0, -1], [1, 1.1]) },
+    ],
+  } : {
     backgroundColor: interpolateColor(
       props.stickyProgress.value,
       [0, 1],
@@ -33,7 +38,7 @@ export function HomeTitle(props: IHomeTitleProps): ReactNode {
       { translateX: -6 - props.stickyProgress.value },
       { scale: interpolate(props.stickyProgress.value, [0, 1], [1, 0.8]) },
     ],
-  }));
+  });
 
   return (
     <Link href="/month/switcher">
