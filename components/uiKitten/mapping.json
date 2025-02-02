@@ -1,4 +1,14 @@
 {
+  "strict": {
+    "text-heading-1-font-size": 24,
+    "text-heading-1-font-weight": "800",
+    "text-heading-2-font-size": 24,
+    "text-heading-2-font-weight": "600",
+    "text-heading-3-font-size": 20,
+    "text-heading-3-font-weight": "600",
+    "text-heading-4-font-size": 20,
+    "text-heading-4-font-weight": "500"
+  },
   "components": {
     "ListItem": {
       "appearances": {

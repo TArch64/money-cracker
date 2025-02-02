@@ -65,7 +65,6 @@ const styles = StyleSheet.create({
   } satisfies ViewStyle,
 
   heading: {
-    fontSize: 24,
     marginBottom: 16,
   } satisfies TextStyle,
 

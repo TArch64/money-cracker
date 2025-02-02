@@ -6,6 +6,6 @@ import { IntroState } from '@/enums';
 export default function Index(): ReactNode {
   const userQuery = useUserSuspenseQuery();
 
-  const href: Href = userQuery.data.intro === IntroState.PENDING ? '/intro' : '/records';
+  const href: Href = userQuery.data.intro === IntroState.PENDING ? '/intro' : '/home';
   return <Redirect href={href} />;
 }
