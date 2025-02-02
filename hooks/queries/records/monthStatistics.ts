@@ -32,7 +32,7 @@ export function useRecordsMonthStatisticsSuspenseQuery(year: number, month: numb
         .select({
           id: categories.id,
           name: categories.name,
-          total: sum(records.value, 'total'),
+          total: sum(records.value).as('total'),
         })
         .from(records)
         .innerJoin(categories, eq(categories.id, records.categoryId))

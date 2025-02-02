@@ -1,5 +1,6 @@
 {
   "strict": {
+    "border-radius": 8,
     "text-heading-1-font-size": 24,
     "text-heading-1-font-weight": "800",
     "text-heading-2-font-size": 24,
@@ -15,6 +16,20 @@
         "default": {
           "mapping": {
             "backgroundColor": "transparent"
+          }
+        }
+      }
+    },
+    "Card": {
+      "appearances": {
+        "outline": {
+          "mapping": {
+            "bodyPaddingHorizontal": 0,
+            "bodyPaddingVertical": 0,
+            "headerPaddingHorizontal": 0,
+            "headerPaddingVertical": 0,
+            "footerPaddingHorizontal": 0,
+            "footerPaddingVertical": 0
           }
         }
       }

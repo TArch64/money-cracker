@@ -3,11 +3,10 @@ import type { ReactNode } from 'react';
 import { StyleSheet, type TextStyle, View } from 'react-native';
 import { useMonthStore } from '@/stores';
 import { useDateFormatter } from '@/hooks/formatters';
-import { Text, useTheme } from '@ui-kitten/components';
+import { Text } from '@ui-kitten/components';
 import { Icon, IconName } from '@/components/uiKitten';
 
 export function HomeTitle(): ReactNode {
-  const theme = useTheme();
   const activeIdx = useMonthStore((state) => state.activeIdx);
   const dateFormatter = useDateFormatter({ year: 'numeric', month: 'long' });
   const monthTitle = dateFormatter.format(activeIdx.date);

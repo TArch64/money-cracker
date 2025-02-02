@@ -32,7 +32,7 @@ function getBudgetCategories(db: AppDatabase, budget: Budget): Promise<MonthBudg
     .select({
       categoryId: budgetCategories.categoryId,
       goal: budgetCategories.goal,
-      spent: sum(records.value, 'spent'),
+      spent: sum(records.value).as('spent'),
       name: categories.name,
     })
     .from(budgetCategories)
@@ -47,7 +47,7 @@ function getBudgetCategories(db: AppDatabase, budget: Budget): Promise<MonthBudg
 
 async function getBudgetUncategorized(db: AppDatabase, budget: Budget): Promise<number> {
   const rows = await db
-    .select({ spent: sum(records.value, 'spent') })
+    .select({ spent: sum(records.value).as('spent') })
     .from(records)
     .where(and(
       eqDate(records.date, { year: budget.year, month: budget.month }),
@@ -71,7 +71,7 @@ async function getAvailableMoney(
   const spent = categories.reduce((acc, { spent }) => acc + spent, 0) + uncategorized;
 
   const incomeRows = await db
-    .select({ income: sum(records.value, 'income') })
+    .select({ income: sum(records.value).as('income') })
     .from(records)
     .where(and(
       eq(records.type, RecordType.INCOME),
