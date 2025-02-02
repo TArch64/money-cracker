@@ -1,38 +1,19 @@
-import { type ReactNode, useMemo, useState } from 'react';
+import { type ReactNode, useMemo } from 'react';
 import { FormScreenLayout } from '@/components/layout';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { getRecordTypeTitle, IntroState, isIncomeRecord, RecordType } from '@/enums';
-import {
-  FormAutocomplete,
-  FormButtonSelect,
-  FormDatepicker,
-  FormNumericInput,
-  type FormSubmitHandler,
-} from '@/components/form';
-import { date, enum_, minLength, minValue, number, object, pipe, string } from 'valibot';
+import { FormAutocomplete, FormDatepicker, FormNumericInput, type FormSubmitHandler } from '@/components/form';
+import { date, minLength, minValue, number, object, pipe, string } from 'valibot';
 import { useCategoriesListQuery, useRecordCreateMutation, useUserUpdateMutation } from '@/hooks/queries';
 import { useMonthStore } from '@/stores';
-import type { IButtonSelectOption } from '@/components/ButtonSelect';
 
 const schema = object({
-  type: enum_(RecordType),
   category: pipe(string(), minLength(1, 'This field is required')),
   value: pipe(number(), minValue(1, 'This field is required')),
   date: date(),
 });
 
 type Schema = typeof schema;
-
-const recordTypeOptions: IButtonSelectOption<RecordType>[] = [
-  {
-    value: RecordType.EXPENSE,
-    label: 'Expense',
-  },
-  {
-    value: RecordType.INCOME,
-    label: 'Income',
-  },
-];
 
 export default function New(): ReactNode {
   const searchParams = useLocalSearchParams<{
@@ -44,9 +25,8 @@ export default function New(): ReactNode {
   const activeMonthIdx = useMonthStore((state) => state.activeIdx);
   const router = useRouter();
 
-  const [type, setType] = useState(searchParams.type);
-  const isIncome = isIncomeRecord(type);
-  const screenTitle = getRecordTypeTitle(type);
+  const isIncome = isIncomeRecord(searchParams.type);
+  const screenTitle = getRecordTypeTitle(searchParams.type);
   const valueLabel = isIncome ? 'Money received' : 'Money spent';
 
   const initialDate = useMemo(() => {
@@ -60,7 +40,7 @@ export default function New(): ReactNode {
   }, []);
 
   const categoriesQuery = useCategoriesListQuery({
-    type,
+    type: searchParams.type,
     subkey: ['suggestions'],
     select: (categories) => categories.map((category) => category.name),
   });
@@ -69,7 +49,10 @@ export default function New(): ReactNode {
   const updateUserMutation = useUserUpdateMutation();
 
   const onSubmit: FormSubmitHandler<Schema> = async (event) => {
-    await createRecordMutation.mutateAsync(event.value);
+    await createRecordMutation.mutateAsync({
+      ...event.value,
+      type: searchParams.type,
+    });
 
     if (isIntro) {
       await updateUserMutation.mutateAsync({
@@ -89,7 +72,6 @@ export default function New(): ReactNode {
       onSubmit={onSubmit}
 
       initialValues={{
-        type: searchParams.type,
         category: '',
         value: 0,
         date: initialDate,
@@ -97,18 +79,8 @@ export default function New(): ReactNode {
 
       submit={`Add ${screenTitle}`}
     >
-      {({ f, form }) => (
+      {({ f }) => (
         <>
-          <FormButtonSelect
-            name={f('type')}
-            options={recordTypeOptions}
-
-            onChange={(type) => {
-              form.setFieldValue(f('category'), '');
-              setType(type);
-            }}
-          />
-
           <FormAutocomplete
             name={f('category')}
             label="Category"

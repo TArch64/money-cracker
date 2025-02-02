@@ -2,12 +2,13 @@ import { type FC, type ReactNode, Suspense } from 'react';
 import { type StyleProp, type ViewStyle } from 'react-native';
 import { useTheme } from '@ui-kitten/components';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { HOME_TITLE_HEIGHT, HomeBalance, HomeMonthStatistic, HomeTitle } from '@/components/home';
+import { HOME_TITLE_HEIGHT, HomeAddRecord, HomeBalance, HomeMonthStatistic, HomeTitle } from '@/components/home';
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
 
 const sections: FC[] = [
   HomeBalance,
   HomeMonthStatistic,
+  HomeAddRecord,
 ];
 
 export default function Home(): ReactNode {

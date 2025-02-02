@@ -7,6 +7,7 @@ import type { SvgProps } from 'react-native-svg';
 export const enum IconName {
   ARROW_BACK = 'arrow-back',
   ARROW_UPWARD = 'arrow-upward',
+  ARROW_DOWNWARD = 'arrow-downward',
   PLUS = 'plus',
   LIST = 'list',
   BRIEFCASE_OUTLINE = 'briefcase-outline',

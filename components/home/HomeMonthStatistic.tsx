@@ -63,7 +63,7 @@ export function HomeMonthStatistic(): ReactNode {
           ))}
         </View>
       ) : (
-        <Text category="c1">
+        <Text category="c1" style={styles.emptyText}>
           No records for this month
         </Text>
       )}
@@ -73,7 +73,6 @@ export function HomeMonthStatistic(): ReactNode {
 
 const styles = StyleSheet.create({
   titleRow: {
-    marginBottom: 12,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'flex-end',
@@ -84,7 +83,12 @@ const styles = StyleSheet.create({
     height: 22,
   } satisfies ViewStyle,
 
+  emptyText: {
+    marginTop: 4,
+  } satisfies TextStyle,
+
   dataRow: {
+    marginTop: 12,
     display: 'flex',
     flexDirection: 'row',
   } satisfies ViewStyle,
