@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { type Record, records, type RecordWithCategory, useDatabase } from '@/db';
-import { MONTHS_QUERY, RECORDS_DETAILS_QUERY, RECORDS_MONTH_LIST_QUERY } from '../keys';
+import { BALANCE_QUERY, MONTHS_QUERY, RECORDS_DETAILS_QUERY, RECORDS_MONTH_LIST_QUERY } from '../keys';
 import { useCategoryFindOrCreateMutation } from '../categories';
 import { eq } from 'drizzle-orm';
 
@@ -46,7 +46,7 @@ export function useRecordUpdateMutation(record: RecordWithCategory) {
         }),
 
         queryClient.invalidateQueries({
-          queryKey: MONTHS_QUERY,
+          queryKey: BALANCE_QUERY,
         }),
       ];
 
@@ -57,9 +57,7 @@ export function useRecordUpdateMutation(record: RecordWithCategory) {
         promises.push(queryClient.invalidateQueries({
           queryKey: RECORDS_MONTH_LIST_QUERY(data.newDate),
         }));
-      }
 
-      if (data.categoryId !== record.categoryId) {
         promises.push(queryClient.invalidateQueries({
           queryKey: MONTHS_QUERY,
         }));

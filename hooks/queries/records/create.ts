@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { type RecordInsert, records, useDatabase } from '@/db';
 import { useCategoryFindOrCreateMutation } from '../categories';
-import { CATEGORIES_LIST_WITH_USAGE_QUERY, MONTHS_QUERY } from '../keys';
+import { BALANCE_QUERY, CATEGORIES_LIST_WITH_USAGE_QUERY, MONTHS_QUERY } from '../keys';
 
 export interface IRecordCreateInput extends Omit<RecordInsert, 'categoryId'> {
   category: string;
@@ -35,6 +35,10 @@ export function useRecordCreateMutation() {
       return Promise.all([
         queryClient.invalidateQueries({
           queryKey: MONTHS_QUERY,
+        }),
+
+        queryClient.invalidateQueries({
+          queryKey: BALANCE_QUERY,
         }),
 
         queryClient.invalidateQueries({
