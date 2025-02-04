@@ -13,7 +13,7 @@ import {
 } from '@/db';
 import { and, eq } from 'drizzle-orm';
 
-export type MonthBudgetCategory = Omit<BudgetCategory, 'budgetId'> & {
+export type MonthBudgetGoal = Omit<BudgetCategory, 'budgetId'> & {
   name: Category['name'];
   spent: number;
 };
@@ -24,7 +24,7 @@ export function useBudgetMonthSuspenseQuery(year: number, month: number) {
   return useSuspenseQuery({
     queryKey: BUDGET_MONTH_GOALS_QUERY(year, month),
 
-    async queryFn(args): Promise<MonthBudgetCategory[]> {
+    async queryFn(args): Promise<MonthBudgetGoal[]> {
       const [, , year, , month] = args.queryKey;
 
       return db

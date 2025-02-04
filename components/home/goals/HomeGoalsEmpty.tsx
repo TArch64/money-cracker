@@ -4,9 +4,11 @@ import { HomeCardTitle } from '@/components/home/HomeCardTitle';
 import { Text } from '@ui-kitten/components';
 import { useMonthStore } from '@/stores';
 import { StyleSheet, type ViewStyle } from 'react-native';
+import { useBudgetPreviousMonthGoalsSuspenseQuery } from '@/hooks/queries';
 
 export function HomeGoalsEmpty(): ReactNode {
   const activeMonthIdx = useMonthStore((state) => state.activeIdx);
+  const previousMonthGoals = useBudgetPreviousMonthGoalsSuspenseQuery(activeMonthIdx.year, activeMonthIdx.month);
 
   return (
     <HomeCard>

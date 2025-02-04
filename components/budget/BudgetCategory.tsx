@@ -1,4 +1,4 @@
-import type { MonthBudgetCategory } from '@/hooks/queries';
+import type { MonthBudgetGoal } from '@/hooks/queries';
 import type { ReactNode } from 'react';
 import { ProgressBar, Text, useTheme } from '@ui-kitten/components';
 import { useNumberFormatter } from '@/hooks/formatters';
@@ -6,7 +6,7 @@ import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native';
 import { BudgetCard } from './BudgetCard';
 
 export interface IBudgetCategoryProps {
-  category: MonthBudgetCategory;
+  category: MonthBudgetGoal;
   dayProgress: number;
 }
 
