@@ -4,9 +4,9 @@ import { HomeCard } from './HomeCard';
 import { StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
 import { useRecordsMonthStatisticsSuspenseQuery } from '@/hooks/queries';
 import { useMonthStore } from '@/stores';
-import { getRecordTypeTitle, RecordType } from '@/enums';
+import { getRecordTypeTitle, isExpenseRecord, RecordType } from '@/enums';
 import { useMoneyFormatter } from '@/hooks/formatters';
-import { Icon, IconName } from '@/components/uiKitten';
+import { HomeCardTitle } from '@/components/home/HomeCardTitle';
 
 interface IStatisticColumnProps {
   type: RecordType,
@@ -20,7 +20,12 @@ function StatisticColumn(props: IStatisticColumnProps): ReactNode {
   const value = moneyFormatter.format(props.total);
 
   return (
-    <View style={styles.dataColumn}>
+    <View
+      style={[
+        styles.dataColumn,
+        isExpenseRecord(props.type) && styles.dataColumnRight,
+      ]}
+    >
       <Text status={status}>
         {title}
         {': '}
@@ -43,18 +48,10 @@ export function HomeMonthStatistic(): ReactNode {
 
   return (
     <HomeCard disabled={!hasData} href="/month/statistics">
-      <View style={styles.titleRow}>
-        <Text category="h4">
-          Month Statistics
-        </Text>
-
-        {hasData && (
-          <Icon
-            name={IconName.CHEVRON_RIGHT}
-            style={styles.titleIcon}
-          />
-        )}
-      </View>
+      <HomeCardTitle
+        linked={hasData}
+        title="Month Statistics"
+      />
 
       {hasData ? (
         <View style={styles.dataRow}>
@@ -72,18 +69,6 @@ export function HomeMonthStatistic(): ReactNode {
 }
 
 const styles = StyleSheet.create({
-  titleRow: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-  } satisfies TextStyle,
-
-  titleIcon: {
-    width: 24,
-    height: 24,
-    marginBottom: -1,
-  } satisfies ViewStyle,
-
   emptyText: {
     marginTop: 4,
   } satisfies TextStyle,
@@ -97,5 +82,11 @@ const styles = StyleSheet.create({
   dataColumn: {
     flexBasis: 0,
     flexGrow: 1,
+  } satisfies ViewStyle,
+
+  dataColumnRight: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   } satisfies ViewStyle,
 });
