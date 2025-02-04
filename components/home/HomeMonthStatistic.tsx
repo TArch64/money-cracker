@@ -44,7 +44,7 @@ export function HomeMonthStatistic(): ReactNode {
   return (
     <HomeCard disabled={!hasData} href="/month/statistics">
       <View style={styles.titleRow}>
-        <Text category="h3">
+        <Text category="h4">
           Month Statistics
         </Text>
 

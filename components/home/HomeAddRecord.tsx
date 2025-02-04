@@ -91,12 +91,12 @@ const styles = StyleSheet.create({
   cardIconContainer: {
     borderRadius: '100%',
     marginBottom: 8,
-    padding: 8,
+    padding: 10,
   } satisfies ViewStyle,
 
   cardIcon: {
-    width: 28,
-    height: 28,
+    width: 24,
+    height: 24,
   } satisfies ViewStyle,
 
   cardTitle: {

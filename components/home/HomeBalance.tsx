@@ -14,7 +14,7 @@ export function HomeBalance(): ReactNode {
   return (
     <HomeCard>
       <Text style={styles.title}>
-        Total Balance
+        Current Balance
       </Text>
 
       <Text category="h3" status={status}>
