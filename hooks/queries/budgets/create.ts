@@ -1,7 +1,7 @@
 import { budgetCategories, budgets, useDatabase } from '@/db';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { MonthIdx } from '@/stores';
-import { BUDGET_MONTH_QUERY, CATEGORIES_LIST_WITH_USAGE_QUERY, MONTHS_QUERY } from '../keys';
+import { BUDGET_MONTH_GOALS_QUERY, CATEGORIES_LIST_WITH_USAGE_QUERY, MONTHS_QUERY } from '../keys';
 import { type BudgetInputCategory, budgetInputCategoryToInsert } from './helpers';
 import { RecordType } from '@/enums';
 
@@ -40,7 +40,7 @@ export function useBudgetCreateMutation() {
     onSuccess(result) {
       return Promise.all([
         queryClient.invalidateQueries({
-          queryKey: BUDGET_MONTH_QUERY(result.monthIdx.year, result.monthIdx.month),
+          queryKey: BUDGET_MONTH_GOALS_QUERY(result.monthIdx.year, result.monthIdx.month),
         }),
 
         queryClient.invalidateQueries({

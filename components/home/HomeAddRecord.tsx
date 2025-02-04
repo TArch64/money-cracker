@@ -48,7 +48,7 @@ function AddRecordCard(props: IAddRecordCardProps): ReactNode {
         >
           <Icon
             name={config.icon}
-            fill={theme[`color-${config.status}-500`]}
+            fill={theme[`color-${config.status}-600`]}
             style={styles.cardIcon}
           />
         </View>

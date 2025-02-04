@@ -2,4 +2,4 @@ export * from './HomeTitle';
 export * from './HomeBalance';
 export * from './HomeMonthStatistic';
 export * from './HomeAddRecord';
-export * from './HomeGoals';
+export * from './goals';

@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Text } from '@ui-kitten/components';
+import { Text, useTheme } from '@ui-kitten/components';
 import { HomeCard } from './HomeCard';
 import { StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
 import { useRecordsMonthStatisticsSuspenseQuery } from '@/hooks/queries';
@@ -14,10 +14,15 @@ interface IStatisticColumnProps {
 }
 
 function StatisticColumn(props: IStatisticColumnProps): ReactNode {
+  const theme = useTheme();
   const moneyFormatter = useMoneyFormatter();
   const status = props.type === RecordType.INCOME ? 'success' : 'danger';
   const title = getRecordTypeTitle(props.type);
   const value = moneyFormatter.format(props.total);
+
+  const textStyle: TextStyle = {
+    color: theme[`color-${status}-600`],
+  };
 
   return (
     <View
@@ -26,10 +31,12 @@ function StatisticColumn(props: IStatisticColumnProps): ReactNode {
         isExpenseRecord(props.type) && styles.dataColumnRight,
       ]}
     >
-      <Text status={status}>
-        {title}
-        {': '}
-        <Text category="s1" status={status}>{value}</Text>
+      <Text style={textStyle}>
+        {`${title}: `}
+
+        <Text category="s1" style={textStyle}>
+          {value}
+        </Text>
       </Text>
     </View>
   );
