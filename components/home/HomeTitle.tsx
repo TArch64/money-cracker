@@ -23,6 +23,7 @@ export function HomeTitle(props: IHomeTitleProps): ReactNode {
   const animatedStyle = useAnimatedStyle((): ViewStyle => props.stickyProgress.value < 0 ? {
     transform: [
       { translateX: -6 },
+      { translateY: interpolate(props.stickyProgress.value, [0, -1], [0, -12]) },
       { scale: interpolate(props.stickyProgress.value, [0, -1], [1, 1.1]) },
     ],
   } : {
