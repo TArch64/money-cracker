@@ -32,7 +32,11 @@ export function HomeGoalsList(): ReactNode {
         params: { budgetId: budgetQuery.data!.id },
       })}
     >
-      <HomeCardTitle title="Spending Goals" style={styles.title} />
+      <HomeCardTitle
+        linked
+        title="Spending Goals"
+        style={styles.title}
+      />
 
       <View style={styles.list}>
         {budgetQuery.data!.categories.map((category) => (

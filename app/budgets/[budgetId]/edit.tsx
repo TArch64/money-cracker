@@ -1,6 +1,6 @@
 import { type ReactNode, useMemo } from 'react';
 import { FormScreenLayout } from '@/components/layout';
-import { Text } from '@ui-kitten/components';
+import { Button } from '@ui-kitten/components';
 import {
   useBudgetDetailsSuspenseQuery,
   useBudgetUpdateMutation,
@@ -8,8 +8,14 @@ import {
 } from '@/hooks/queries';
 import { RecordType } from '@/enums';
 import { ScrollView, StyleSheet, type ViewStyle } from 'react-native';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { BudgetForm, budgetSchema, type FormBudgetCategory, useBudgetFormSubmit } from '@/components/budgetForm';
+import { Link, useLocalSearchParams, useRouter } from 'expo-router';
+import {
+  BudgetForm,
+  budgetSchema,
+  type FormBudgetCategory,
+  useBudgetFormSubmit,
+  useBudgetInitialValuesChange,
+} from '@/components/budgetForm';
 
 export default function Edit(): ReactNode {
   const searchParams = useLocalSearchParams<{ budgetId: string }>();
@@ -34,6 +40,8 @@ export default function Edit(): ReactNode {
     }));
   }, [categoriesQuery.data]);
 
+  const onInitialValuesChange = useBudgetInitialValuesChange();
+
   const onSubmit = useBudgetFormSubmit(async (categories) => {
     await updateMutation.mutateAsync({
       id: budget.data.id,
@@ -47,16 +55,29 @@ export default function Edit(): ReactNode {
     <FormScreenLayout
       fullScreen
       schema={schema}
-      title="Edit Budget"
+      title="Edit Spending Goals"
       initialValues={{ categories: initialCategories }}
-      submit="Save Budget"
+      submit="Save Goals"
+      onInitialValuesChange={onInitialValuesChange}
       onSubmit={onSubmit}
     >
       {() => (
         <ScrollView contentContainerStyle={styles.list}>
-          <Text category="p1">
-            Select Categories
-          </Text>
+          <Link
+            asChild
+            href={{
+              pathname: '/categories/new',
+              params: { type: RecordType.EXPENSE },
+            }}
+          >
+            <Button
+              size="inline"
+              appearance="link"
+              style={styles.addNewCategory}
+            >
+              Add New Category
+            </Button>
+          </Link>
 
           <BudgetForm />
         </ScrollView>
@@ -68,5 +89,9 @@ export default function Edit(): ReactNode {
 const styles = StyleSheet.create({
   list: {
     gap: 16,
+  } satisfies ViewStyle,
+
+  addNewCategory: {
+    alignSelf: 'flex-start',
   } satisfies ViewStyle,
 });

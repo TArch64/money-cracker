@@ -9,12 +9,10 @@ import { Link, useRouter } from 'expo-router';
 import {
   BudgetForm,
   budgetSchema,
-  type BudgetSchema,
   type FormBudgetCategory,
   useBudgetFormSubmit,
+  useBudgetInitialValuesChange,
 } from '@/components/budgetForm';
-import type { FormInitialValuesHandler } from '@/components/form';
-import { keyBy } from 'lodash-es';
 
 export default function New(): ReactNode {
   const router = useRouter();
@@ -34,21 +32,7 @@ export default function New(): ReactNode {
     }))
   ), [categoriesQuery.data]);
 
-  const onInitialValuesChange: FormInitialValuesHandler<BudgetSchema> = (form, newValues) => {
-    const existingCategoryMap = keyBy(form.state.values.categories, 'id');
-
-    const newCategories = newValues.categories.map((category) => {
-      const existing = existingCategoryMap[category.id];
-
-      return existing ? {
-        ...category,
-        added: existing.added,
-        goal: existing.goal,
-      } : category;
-    });
-
-    form.reset({ categories: newCategories });
-  };
+  const onInitialValuesChange = useBudgetInitialValuesChange();
 
   const onSubmit = useBudgetFormSubmit(async (categories) => {
     await createMutation.mutateAsync({
@@ -65,8 +49,8 @@ export default function New(): ReactNode {
       schema={schema}
       title="New Spending Goals"
       initialValues={{ categories: initialCategories }}
-      onInitialValuesChange={onInitialValuesChange}
       submit={initialCategories.length ? 'Add Goals' : undefined}
+      onInitialValuesChange={onInitialValuesChange}
       onSubmit={onSubmit}
     >
       {() => (
