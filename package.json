@@ -35,7 +35,7 @@
     "expo-localization": "~16.0.1",
     "expo-router": "~4.0.17",
     "expo-splash-screen": "~0.29.21",
-    "expo-sqlite": "~15.1.1",
+    "expo-sqlite": "~15.1.2",
     "expo-status-bar": "~2.0.1",
     "expo-system-ui": "~4.0.7",
     "lodash-es": "^4.17.21",
