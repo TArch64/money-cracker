@@ -4,12 +4,25 @@ import { HomeCardTitle } from '@/components/home/HomeCardTitle';
 import { Button, Text } from '@ui-kitten/components';
 import { useMonthStore } from '@/stores';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
-import { useBudgetPreviousMonthGoalsSuspenseQuery } from '@/hooks/queries';
+import { useBudgetCreateMutation, useBudgetPreviousMonthGoalsSuspenseQuery } from '@/hooks/queries';
 import { Link } from 'expo-router';
 
 export function HomeGoalsEmpty(): ReactNode {
   const activeMonthIdx = useMonthStore((state) => state.activeIdx);
   const previousMonthGoals = useBudgetPreviousMonthGoalsSuspenseQuery(activeMonthIdx.year, activeMonthIdx.month);
+  const createMutation = useBudgetCreateMutation();
+
+  function copyBudget() {
+    createMutation.mutate({
+      monthIdx: activeMonthIdx,
+
+      categories: previousMonthGoals.data.map((category) => ({
+        categoryId: category.categoryId,
+        goal: category.goal,
+        added: true,
+      })),
+    });
+  }
 
   return (
     <HomeCard>
@@ -25,7 +38,12 @@ export function HomeGoalsEmpty(): ReactNode {
       <View style={styles.actionRow}>
         {previousMonthGoals.data.length ? (
           <>
-            <Button appearance="link" size="inline">
+            <Button
+              appearance="link"
+              size="inline"
+              disabled={createMutation.isPending}
+              onPress={copyBudget}
+            >
               Copy
             </Button>
 
