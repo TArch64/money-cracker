@@ -7,19 +7,19 @@ import { date, minLength, minValue, number, object, pipe, string } from 'valibot
 import { useCategoriesListQuery, useRecordCreateMutation, useUserUpdateMutation } from '@/hooks/queries';
 import { useMonthStore } from '@/stores';
 
-const schema = object({
-  category: pipe(string(), minLength(1, 'This field is required')),
-  value: pipe(number(), minValue(1, 'This field is required')),
-  date: date(),
-});
-
-type Schema = typeof schema;
-
 export default function New(): ReactNode {
   const searchParams = useLocalSearchParams<{
     type: RecordType;
     intro?: 'yes'
   }>();
+
+  const schema = useMemo(() => object({
+    category: pipe(string(), minLength(1, 'This field is required')),
+    value: pipe(number(), minValue(1, 'This field is required')),
+    date: date(),
+  }), []);
+
+  type Schema = typeof schema;
 
   const isIntro = searchParams.intro === 'yes';
   const activeMonthIdx = useMonthStore((state) => state.activeIdx);

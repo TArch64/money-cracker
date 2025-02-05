@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { type ReactNode, useMemo } from 'react';
 import { FormScreenLayout } from '@/components/layout';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useCategoriesListQuery, useRecordDetailsSuspenseQuery, useRecordUpdateMutation } from '@/hooks/queries';
@@ -6,19 +6,19 @@ import { getRecordTypeTitle, isIncomeRecord } from '@/enums';
 import { date, minLength, minValue, number, object, pipe, string } from 'valibot';
 import { FormAutocomplete, FormDatepicker, FormNumericInput, type FormSubmitHandler } from '@/components/form';
 
-const schema = object({
-  category: pipe(string(), minLength(1, 'This field is required')),
-  value: pipe(number(), minValue(1, 'This field is required')),
-  date: date(),
-});
-
-type Schema = typeof schema;
-
 export default function Edit(): ReactNode {
   const router = useRouter();
   const searchParams = useLocalSearchParams<{ recordId: string }>();
   const recordQuery = useRecordDetailsSuspenseQuery(+searchParams.recordId);
   const updateMutation = useRecordUpdateMutation(recordQuery.data);
+
+  const schema = useMemo(() => object({
+    category: pipe(string(), minLength(1, 'This field is required')),
+    value: pipe(number(), minValue(1, 'This field is required')),
+    date: date(),
+  }), []);
+
+  type Schema = typeof schema;
 
   const categoriesQuery = useCategoriesListQuery({
     type: recordQuery.data.type,

@@ -21,6 +21,7 @@ export function FormScreenLayout<S extends FormSchema>(props: IFormScreenLayoutP
       <Form
         schema={props.schema}
         initialValues={props.initialValues}
+        onInitialValuesChange={props.onInitialValuesChange}
         onSubmit={props.onSubmit}
       >
         {(formCtx) => (
@@ -51,7 +52,7 @@ export function FormScreenLayout<S extends FormSchema>(props: IFormScreenLayoutP
 
 const styles = StyleSheet.create({
   root: {
-    paddingHorizontal: 24,
+    paddingHorizontal: 16,
     paddingTop: 16,
     paddingBottom: 104,
   } satisfies ViewStyle,

@@ -11,13 +11,12 @@ import { ScrollView, StyleSheet, type ViewStyle } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { BudgetForm, budgetSchema, type FormBudgetCategory, useBudgetFormSubmit } from '@/components/budgetForm';
 
-const schema = budgetSchema();
-
 export default function Edit(): ReactNode {
   const searchParams = useLocalSearchParams<{ budgetId: string }>();
   const router = useRouter();
   const budget = useBudgetDetailsSuspenseQuery(Number(searchParams.budgetId));
   const updateMutation = useBudgetUpdateMutation();
+  const schema = useMemo(() => budgetSchema(), []);
 
   const categoriesQuery = useCategoriesListSuspenseQuery({
     type: RecordType.EXPENSE,

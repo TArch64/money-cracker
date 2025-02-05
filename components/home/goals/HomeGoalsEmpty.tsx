@@ -5,6 +5,7 @@ import { Button, Text } from '@ui-kitten/components';
 import { useMonthStore } from '@/stores';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
 import { useBudgetPreviousMonthGoalsSuspenseQuery } from '@/hooks/queries';
+import { Link } from 'expo-router';
 
 export function HomeGoalsEmpty(): ReactNode {
   const activeMonthIdx = useMonthStore((state) => state.activeIdx);
@@ -32,14 +33,18 @@ export function HomeGoalsEmpty(): ReactNode {
               from previous month or
             </Text>
 
-            <Button appearance="link" size="inline">
-              Add New Goals
-            </Button>
+            <Link asChild href="/budgets/new">
+              <Button appearance="link" size="inline">
+                Add New Goals
+              </Button>
+            </Link>
           </>
         ) : (
-          <Button appearance="link" size="inline">
-            Add Goals
-          </Button>
+          <Link asChild href="/budgets/new">
+            <Button appearance="link" size="inline">
+              Add Goals
+            </Button>
+          </Link>
         )}
       </View>
     </HomeCard>

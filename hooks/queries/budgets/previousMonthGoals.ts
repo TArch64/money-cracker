@@ -16,31 +16,26 @@ export function useBudgetPreviousMonthGoalsSuspenseQuery(year: number, month: nu
     async queryFn(args): Promise<MonthBudgetPreviousGoal[]> {
       const [, , year, , month] = args.queryKey;
 
-      const budgetQuery = db.$with('previous_budget').as(
-        db.select({ id: budgets.id })
-          .from(budgets)
-          .where(or(
-            lt(budgets.year, year),
-            and(eq(budgets.year, year), lt(budgets.month, month)),
-          ))
-          .orderBy(
-            desc(budgets.year),
-            desc(budgets.month),
-          )
-          .limit(1),
-      );
-
       return db
-        .with(budgetQuery)
         .select({
           categoryId: budgetCategories.categoryId,
           goal: budgetCategories.goal,
           name: categories.name,
         })
-        .from(budgetQuery)
-        .innerJoin(budgetCategories, eq(budgetCategories.budgetId, budgetQuery.id))
+        .from(budgetCategories)
         .innerJoin(categories, eq(budgetCategories.categoryId, categories.id))
-        .where(eq(budgetCategories.budgetId, budgetQuery.id));
+        .where(
+          eq(budgetCategories.budgetId, db
+            .select({ id: budgets.id })
+            .from(budgets)
+            .where(or(
+              lt(budgets.year, year),
+              and(eq(budgets.year, year), lt(budgets.month, month)),
+            ))
+            .orderBy(desc(budgets.year), desc(budgets.month))
+            .limit(1),
+          ),
+        );
     },
   });
 }

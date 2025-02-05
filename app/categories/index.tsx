@@ -12,7 +12,7 @@ export default function Index(): ReactNode {
 
   function openCreate() {
     router.push({
-      pathname: '/settings/categories/new',
+      pathname: '/categories/new',
       params: { type },
     });
   }

@@ -39,8 +39,9 @@ export function BudgetFormCategory(props: IBudgetFormCategoryProps): ReactNode {
 
 const styles = StyleSheet.create({
   cardInner: {
-    marginVertical: -6,
-    marginHorizontal: -10,
+    marginTop: 10,
+    marginBottom: 12,
+    marginHorizontal: 12,
   } satisfies ViewStyle,
 
   cardGoal: {

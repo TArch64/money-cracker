@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { type ReactNode, useEffect, useRef } from 'react';
 import { type DeepKeys, type ReactFormExtendedApi, standardSchemaValidator, useForm } from '@tanstack/react-form';
 import type { InferOutput, MaybePromise, ObjectSchema, ObjectSchemaAsync } from 'valibot';
 import { FormProvider } from './FormProvider';
@@ -19,11 +19,13 @@ export interface FormSubmitEvent<S extends FormSchema> {
   formApi: FormApi<S>
 }
 
-export type FormSubmitHandler<S extends FormSchema> = (event: FormSubmitEvent<S>) => MaybePromise<void>
+export type FormSubmitHandler<S extends FormSchema> = (event: FormSubmitEvent<S>) => MaybePromise<void>;
+export type FormInitialValuesHandler<S extends FormSchema> = (form: FormApi<S>, newValues: InferOutput<S>) => void;
 
 export interface IFormProps<S extends FormSchema> extends IPropsWithChildrenFn<[formCtx: IFormContext<S>]> {
   schema: S;
   initialValues: InferOutput<S>;
+  onInitialValuesChange?: FormInitialValuesHandler<S>;
   onSubmit?: FormSubmitHandler<S>;
 }
 
@@ -35,6 +37,17 @@ export function Form<S extends FormSchema>(props: IFormProps<S>): ReactNode {
     validators: props.schema.async ? { onSubmitAsync: props.schema } : { onSubmit: props.schema },
     onSubmit: props.onSubmit,
   });
+
+  const isInitialRender = useRef(true);
+
+  useEffect(() => {
+    if (isInitialRender.current) {
+      isInitialRender.current = false;
+      return;
+    }
+
+    props.onInitialValuesChange?.(form, props.initialValues);
+  }, [props.initialValues]);
 
   return (
     <FormProvider form={form}>
