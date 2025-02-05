@@ -17,7 +17,7 @@ export function HomeCategoryGoal(props: IHomeGoalProps): ReactNode {
   const spent = numberFormatter.format(props.category.spent);
   const goal = moneyFormatter.format(props.category.goal);
   const progress = props.category.spent / props.category.goal;
-  const status = progress > 1 ? 'danger' : progress > 0.8 ? 'warning' : 'primary';
+  const status = progress >= 1 ? 'danger' : progress > 0.8 ? 'warning' : 'primary';
 
   return (
     <View>
