@@ -35,19 +35,15 @@ function formatSections(months: MonthIdx[]): ListItem[] {
 export function SwitcherYearList(): ReactNode {
   const monthsQuery = useMonthsSuspenseQuery((input) => {
     const currentMonth = MonthIdx.current();
+    const nextMonth = currentMonth.next;
 
     if (!input.length) {
       return formatSections([currentMonth.next, currentMonth]);
     }
 
     const months = [...input];
-
-    if (months[0].id !== currentMonth.id) {
-      months.unshift(currentMonth);
-    }
-
-    months.unshift(currentMonth.next);
-
+    if (months[0].id !== nextMonth.id) months.unshift(nextMonth);
+    if (months[1].id !== currentMonth.id) months.unshift(currentMonth);
     return formatSections(months);
   });
 
