@@ -1,7 +1,7 @@
-import type { ReactNode } from 'react';
+import { type ReactNode, useMemo } from 'react';
 import { HomeCard } from '../HomeCard';
 import { HomeCardTitle } from '../HomeCardTitle';
-import { useMonthStore } from '@/stores';
+import { MonthIdx, useMonthStore } from '@/stores';
 import { useBudgetMonthSuspenseQuery } from '@/hooks/queries';
 import { HomeCategoryGoal } from './HomeCategoryGoal';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
@@ -9,15 +9,33 @@ import { StyleSheet, View, type ViewStyle } from 'react-native';
 export function HomeGoalsList(): ReactNode {
   const activeMonthIdx = useMonthStore((state) => state.activeIdx);
   const goalsQuery = useBudgetMonthSuspenseQuery(activeMonthIdx.year, activeMonthIdx.month);
-  const visibleGoals = goalsQuery.data.slice(0, 5);
+
+  const dayProgress = useMemo(() => {
+    const now = new Date();
+    const currentMonthIdx = MonthIdx.fromDate(now);
+
+    if (activeMonthIdx.isBefore(currentMonthIdx)) {
+      return 1;
+    }
+
+    if (activeMonthIdx.isAfter(currentMonthIdx)) {
+      return 0;
+    }
+
+    return now.getDate() / new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+  }, [activeMonthIdx.id]);
 
   return (
     <HomeCard>
       <HomeCardTitle title="Spending Goals" style={styles.title} />
 
       <View style={styles.list}>
-        {visibleGoals.map((category) => (
-          <HomeCategoryGoal key={category.categoryId} category={category} />
+        {goalsQuery.data.map((category) => (
+          <HomeCategoryGoal
+            key={category.categoryId}
+            category={category}
+            dayProgress={dayProgress}
+          />
         ))}
       </View>
     </HomeCard>
