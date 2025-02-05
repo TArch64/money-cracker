@@ -299,6 +299,37 @@
           }
         }
       }
+    },
+    "ProgressBar": {
+      "appearances": {
+        "default": {
+          "variantGroups": {
+            "status": {
+              "basic": {
+                "trackColor": "color-basic-transparent-default"
+              },
+              "primary": {
+                "trackColor": "color-basic-default"
+              },
+              "success": {
+                "trackColor": "color-basic-default"
+              },
+              "info": {
+                "trackColor": "color-basic-default"
+              },
+              "warning": {
+                "trackColor": "color-basic-default"
+              },
+              "danger": {
+                "trackColor": "color-basic-default"
+              },
+              "control": {
+                "trackColor": "color-basic-default"
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

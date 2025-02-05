@@ -1,9 +1,9 @@
 import { useLocales } from 'expo-localization';
-import { useNumberFormatter } from './number';
+import { type INumberFormatter, useNumberFormatter } from './number';
 
 export type MoneyFormatOptions = Omit<Intl.NumberFormatOptions, 'style' | 'currency'>;
 
-export function useMoneyFormatter(options: MoneyFormatOptions = {}): Intl.NumberFormat {
+export function useMoneyFormatter(options: MoneyFormatOptions = {}): INumberFormatter {
   const [locale] = useLocales();
 
   return useNumberFormatter({
