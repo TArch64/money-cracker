@@ -4,6 +4,7 @@ import { useBalanceSuspenseQuery } from '@/hooks/queries';
 import { useMoneyFormatter } from '@/hooks/formatters';
 import { StyleSheet, type TextStyle } from 'react-native';
 import { HomeCard } from './HomeCard';
+import { HomeCardTitle } from '@/components/home/HomeCardTitle';
 
 export function HomeBalance(): ReactNode {
   const balanceQuery = useBalanceSuspenseQuery();
@@ -17,9 +18,7 @@ export function HomeBalance(): ReactNode {
         Current Balance
       </Text>
 
-      <Text category="h3" status={status}>
-        {value}
-      </Text>
+      <HomeCardTitle title={value} />
     </HomeCard>
   );
 }

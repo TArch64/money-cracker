@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   } satisfies TextStyle,
 
   dataRow: {
-    marginTop: 8,
+    marginTop: 6,
     display: 'flex',
     flexDirection: 'row',
   } satisfies ViewStyle,
