@@ -6,6 +6,6 @@ import { HomeGoalsEmpty } from './HomeGoalsEmpty';
 
 export function HomeGoals(): ReactNode {
   const activeMonthIdx = useMonthStore((state) => state.activeIdx);
-  const goalsQuery = useBudgetMonthSuspenseQuery(activeMonthIdx.year, activeMonthIdx.month);
-  return goalsQuery.data.length ? <HomeGoalsList /> : <HomeGoalsEmpty />;
+  const budgetQuery = useBudgetMonthSuspenseQuery(activeMonthIdx.year, activeMonthIdx.month);
+  return budgetQuery.data ? <HomeGoalsList /> : <HomeGoalsEmpty />;
 }

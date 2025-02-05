@@ -8,7 +8,7 @@ import { StyleSheet, View, type ViewStyle } from 'react-native';
 
 export function HomeGoalsList(): ReactNode {
   const activeMonthIdx = useMonthStore((state) => state.activeIdx);
-  const goalsQuery = useBudgetMonthSuspenseQuery(activeMonthIdx.year, activeMonthIdx.month);
+  const budgetQuery = useBudgetMonthSuspenseQuery(activeMonthIdx.year, activeMonthIdx.month);
 
   const dayProgress = useMemo(() => {
     const now = new Date();
@@ -26,11 +26,16 @@ export function HomeGoalsList(): ReactNode {
   }, [activeMonthIdx.id]);
 
   return (
-    <HomeCard>
+    <HomeCard
+      href={() => ({
+        pathname: '/budgets/[budgetId]/edit',
+        params: { budgetId: budgetQuery.data!.id },
+      })}
+    >
       <HomeCardTitle title="Spending Goals" style={styles.title} />
 
       <View style={styles.list}>
-        {goalsQuery.data.map((category) => (
+        {budgetQuery.data!.categories.map((category) => (
           <HomeCategoryGoal
             key={category.categoryId}
             category={category}

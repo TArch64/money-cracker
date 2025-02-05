@@ -9,7 +9,7 @@ import {
   useDatabase,
 } from '@/db';
 import { and, eq, inArray } from 'drizzle-orm';
-import { BUDGET_DETAILS_QUERY, BUDGET_MONTH_GOALS_QUERY } from '../keys';
+import { BUDGET_DETAILS_QUERY, BUDGET_MONTH_QUERY } from '../keys';
 
 export interface IBudgetUpdateInput {
   id: number;
@@ -113,7 +113,7 @@ export function useBudgetUpdateMutation() {
         }),
 
         queryClient.invalidateQueries({
-          queryKey: BUDGET_MONTH_GOALS_QUERY(budget.year, budget.month),
+          queryKey: BUDGET_MONTH_QUERY(budget.year, budget.month),
         }),
       ]);
     },
