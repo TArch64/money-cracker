@@ -12,7 +12,12 @@ import {
   HomeSettings,
   HomeTitle,
 } from '@/components/home';
-import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
+import Animated, {
+  interpolate,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  useSharedValue,
+} from 'react-native-reanimated';
 
 const sections: FC[] = [
   HomeBalance,
@@ -34,6 +39,10 @@ export default function Home(): ReactNode {
     stickyProgress.value = Math.min(1, Math.max(-1, progress));
   });
 
+  const listAnimatedStyle = useAnimatedStyle((): ViewStyle => ({
+    gap: 16 + (stickyProgress.value >= 0 ? 0 : interpolate(stickyProgress.value, [0, -1], [0, 8])),
+  }));
+
   return (
     <Animated.ScrollView
       removeClippedSubviews
@@ -49,7 +58,6 @@ export default function Home(): ReactNode {
       } satisfies StyleProp<ViewStyle>}
 
       contentContainerStyle={[
-        styles.scrollContent,
         { paddingBottom: 80 },
       ] satisfies StyleProp<ViewStyle>}
 
@@ -57,17 +65,22 @@ export default function Home(): ReactNode {
     >
       <HomeTitle stickyProgress={stickyProgress} />
 
-      {sections.map((Section, idx) => (
-        <Suspense key={idx}>
-          <Section />
-        </Suspense>
-      ))}
+      <Animated.View style={[styles.list, listAnimatedStyle]}>
+        {sections.map((Section, idx) => (
+          <Suspense key={idx}>
+            <Section />
+          </Suspense>
+        ))}
+      </Animated.View>
     </Animated.ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  scrollContent: {
+  list: {
+    display: 'flex',
+    flexDirection: 'column',
     gap: 16,
+    paddingTop: 16,
   } satisfies ViewStyle,
 });
