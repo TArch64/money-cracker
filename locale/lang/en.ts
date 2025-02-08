@@ -24,6 +24,45 @@ export const en: Lang = {
     },
   },
 
+  home: {
+    sections: {
+      balance: {
+        title: 'Current Balance',
+      },
+
+      addRecord: {
+        add: 'Add',
+      },
+
+      goals: {
+        title: 'Spending Goals',
+
+        empty: {
+          description: 'There are no goals for this month yet',
+          new: 'Add Goals',
+
+          copy: {
+            copy: 'Copy',
+            decision: 'from previous month or',
+            new: 'Add New Goals',
+          },
+        },
+      },
+
+      recentRecords: {
+        title: 'Recent Transactions',
+      },
+
+      monthStatistics: {
+        title: 'Month Statistics',
+      },
+
+      settings: {
+        title: 'Settings',
+      },
+    },
+  },
+
   settings: {
     index: {
       heading: 'Settings',
@@ -54,5 +93,27 @@ export const en: Lang = {
         accept: 'Yes, I\'m Sure',
       },
     },
+  },
+
+  records: {
+    type: {
+      income: 'Income',
+      expense: 'Expense',
+    },
+  },
+
+  confirm: {
+    delete: {
+      title: 'Delete {entity}',
+      message: 'Are you sure you want to delete {entity}',
+      accept: 'Delete',
+    },
+  },
+
+  actionsSheet: {
+    title: '{entity} - Actions',
+    edit: 'Edit',
+    delete: 'Delete',
+    cancel: 'Cancel',
   },
 };

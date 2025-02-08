@@ -5,6 +5,7 @@ import { MonthIdx } from '@/stores';
 import { type IMonthBudget } from '@/hooks/queries';
 import { HomeCategoryGoal } from './HomeCategoryGoal';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 export interface IHomeGoalsListProps {
   budget: IMonthBudget;
@@ -12,6 +13,8 @@ export interface IHomeGoalsListProps {
 }
 
 export function HomeGoalsList(props: IHomeGoalsListProps): ReactNode {
+  const { t } = useTranslation();
+
   const dayProgress = useMemo(() => {
     const now = new Date();
     const currentMonthIdx = MonthIdx.fromDate(now);
@@ -36,7 +39,7 @@ export function HomeGoalsList(props: IHomeGoalsListProps): ReactNode {
     >
       <HomeCardTitle
         linked
-        title="Spending Goals"
+        title={t('home.sections.goals.title')}
         style={styles.title}
       />
 

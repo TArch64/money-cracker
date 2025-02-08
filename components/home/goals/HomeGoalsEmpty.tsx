@@ -6,8 +6,10 @@ import { useMonthStore } from '@/stores';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
 import { useBudgetCopyMutation, useBudgetPreviousMonthSuspenseQuery } from '@/hooks/queries';
 import { Link } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 export function HomeGoalsEmpty(): ReactNode {
+  const { t } = useTranslation();
   const activeMonthIdx = useMonthStore((state) => state.activeIdx);
   const previousMonthGoals = useBudgetPreviousMonthSuspenseQuery(activeMonthIdx.year, activeMonthIdx.month);
   const copyMutation = useBudgetCopyMutation();
@@ -22,12 +24,12 @@ export function HomeGoalsEmpty(): ReactNode {
   return (
     <HomeCard>
       <HomeCardTitle
-        title="Spending Goals"
+        title={t('home.sections.goals.title')}
         style={styles.title}
       />
 
       <Text>
-        There are no goals for this month yet
+        {t('home.sections.goals.empty.description')}
       </Text>
 
       <View style={styles.actionRow}>
@@ -39,23 +41,23 @@ export function HomeGoalsEmpty(): ReactNode {
               disabled={copyMutation.isPending}
               onPress={copyBudget}
             >
-              Copy
+              {t('home.sections.goals.empty.copy.copy')}
             </Button>
 
             <Text>
-              from previous month or
+              {t('home.sections.goals.empty.copy.decision')}
             </Text>
 
             <Link asChild href="/budgets/new">
               <Button appearance="link" size="inline">
-                Add New Goals
+                {t('home.sections.goals.empty.copy.new')}
               </Button>
             </Link>
           </>
         ) : (
           <Link asChild href="/budgets/new">
             <Button appearance="link" size="inline">
-              Add Goals
+              {t('home.sections.goals.empty.new')}
             </Button>
           </Link>
         )}

@@ -7,6 +7,7 @@ import { useMonthStore } from '@/stores';
 import { getRecordTypeTitle, isExpenseRecord, RecordType } from '@/enums';
 import { useMoneyFormatter } from '@/hooks/formatters';
 import { HomeCardTitle } from '@/components/home/HomeCardTitle';
+import { useTranslation } from 'react-i18next';
 
 interface IStatisticColumnProps {
   type: RecordType,
@@ -14,10 +15,11 @@ interface IStatisticColumnProps {
 }
 
 function StatisticColumn(props: IStatisticColumnProps): ReactNode {
+  const { t } = useTranslation();
   const theme = useTheme();
   const moneyFormatter = useMoneyFormatter();
   const status = props.type === RecordType.INCOME ? 'success' : 'danger';
-  const title = getRecordTypeTitle(props.type);
+  const title = getRecordTypeTitle(t, props.type);
   const value = moneyFormatter.format(props.total);
 
   const textStyle: TextStyle = {
@@ -43,6 +45,7 @@ function StatisticColumn(props: IStatisticColumnProps): ReactNode {
 }
 
 export function HomeMonthStatistic(): ReactNode {
+  const { t } = useTranslation();
   const activeMonthIdx = useMonthStore((state) => state.activeIdx);
   const statisticsQuery = useRecordsMonthSummarySuspenseQuery(activeMonthIdx.year, activeMonthIdx.month);
 
@@ -60,12 +63,16 @@ export function HomeMonthStatistic(): ReactNode {
       <HomeCardTitle
         linked
         style={styles.title}
-        title="Month Statistics"
+        title={t('home.sections.monthStatistics.title')}
       />
 
       <View style={styles.dataRow}>
         {data.map((item) => (
-          <StatisticColumn key={item.type} type={item.type} total={item.total} />
+          <StatisticColumn
+            key={item.type}
+            type={item.type}
+            total={item.total}
+          />
         ))}
       </View>
     </HomeCard>

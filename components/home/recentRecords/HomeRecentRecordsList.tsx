@@ -4,18 +4,21 @@ import { HomeCard } from '../HomeCard';
 import { HomeCardTitle } from '../HomeCardTitle';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
 import { HomeRecentRecord } from './HomeRecentRecord';
+import { useTranslation } from 'react-i18next';
 
 export interface IHomeRecentRecordsListProps {
   records: RecordWithCategory[];
 }
 
 export function HomeRecentRecordsList(props: IHomeRecentRecordsListProps): ReactNode {
+  const { t } = useTranslation();
+
   return (
     <HomeCard padding={false} href="/records">
       <HomeCardTitle
         padding
         linked
-        title="Recent Transactions"
+        title={t('home.sections.recentRecords.title')}
         style={styles.title}
       />
 

@@ -1,4 +1,5 @@
 import { maybeFn, type MaybeFn } from '@/helpers/maybeFn';
+import type { i18n } from 'i18next';
 
 export enum RecordType {
   INCOME = 'income',
@@ -17,7 +18,6 @@ export function isIncomeRecord(type: RecordType): boolean {
   return type === RecordType.INCOME;
 }
 
-export const getRecordTypeTitle = (type: RecordType) => getRecordTypeValue(type, {
-  [RecordType.INCOME]: 'Income',
-  [RecordType.EXPENSE]: 'Expense',
-});
+export function getRecordTypeTitle(t: i18n['t'], type: RecordType): string {
+  return t(`records.type.${type}`);
+}

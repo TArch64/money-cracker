@@ -5,8 +5,10 @@ import { useMoneyFormatter } from '@/hooks/formatters';
 import { StyleSheet, type TextStyle } from 'react-native';
 import { HomeCard } from './HomeCard';
 import { HomeCardTitle } from '@/components/home/HomeCardTitle';
+import { useTranslation } from 'react-i18next';
 
 export function HomeBalance(): ReactNode {
+  const { t } = useTranslation();
   const balanceQuery = useBalanceSuspenseQuery();
   const moneyFormatter = useMoneyFormatter();
   const status = balanceQuery.data.balance >= 0 ? 'basic' : 'danger';
@@ -15,7 +17,7 @@ export function HomeBalance(): ReactNode {
   return (
     <HomeCard>
       <Text style={styles.title}>
-        Current Balance
+        {t('home.sections.balance.title')}
       </Text>
 
       <HomeCardTitle

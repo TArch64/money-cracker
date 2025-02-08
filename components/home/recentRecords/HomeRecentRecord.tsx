@@ -9,12 +9,14 @@ import { useRouter } from 'expo-router';
 import { getRecordTypeTitle, isExpenseRecord } from '@/enums';
 import { useActionSheet } from '@/hooks/useActionSheet';
 import { textRenderer } from '@/components/uiKitten';
+import { useTranslation } from 'react-i18next';
 
 export interface IHomeRecentRecordProps {
   record: RecordWithCategory;
 }
 
 export function HomeRecentRecord(props: IHomeRecentRecordProps): ReactNode {
+  const { t } = useTranslation();
   const router = useRouter();
   const deleteMutation = useRecordDeleteMutation(props.record);
 
@@ -38,25 +40,27 @@ export function HomeRecentRecord(props: IHomeRecentRecordProps): ReactNode {
   const moneyFormatter = useMoneyFormatter();
   const value = moneyFormatter.format(isExpense ? -props.record.value : props.record.value);
 
-  const title = getRecordTypeTitle(props.record.type);
+  const title = getRecordTypeTitle(t, props.record.type);
   const status = isExpense ? 'danger' : 'success';
 
   const isDeleteConfirmed = () => showConfirm({
-    title: `Delete ${title}`,
-    message: `Are you sure you want to delete this ${title.toLowerCase()}?`,
+    title: t('confirm.delete.title', { entity: title }),
+    message: t('confirm.delete.message', { entity: title.toLowerCase() }),
 
     accept: {
-      text: 'Delete',
+      text: t('confirm.delete.accept'),
       style: 'destructive',
     },
   });
 
   const showActionsSheet = useActionSheet(() => ({
-    title: `${props.record.category.name} ${value} - Actions`,
+    title: t('actionsSheet.title', {
+      entity: `${props.record.category.name} ${value}`,
+    }),
 
     actions: [
       {
-        text: 'Edit',
+        text: t('actionsSheet.edit'),
 
         onPress: () => router.push({
           pathname: '/records/[recordId]/edit',
@@ -65,7 +69,7 @@ export function HomeRecentRecord(props: IHomeRecentRecordProps): ReactNode {
       },
 
       {
-        text: 'Delete',
+        text: t('actionsSheet.delete'),
         style: 'destructive',
 
         async onPress() {
@@ -74,7 +78,7 @@ export function HomeRecentRecord(props: IHomeRecentRecordProps): ReactNode {
       },
 
       {
-        text: 'Cancel',
+        text: t('actionsSheet.cancel'),
         style: 'cancel',
       },
     ],

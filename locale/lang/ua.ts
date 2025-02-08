@@ -24,6 +24,45 @@ export const ua: Lang = {
     },
   },
 
+  home: {
+    sections: {
+      balance: {
+        title: 'Ваш Баланс',
+      },
+
+      addRecord: {
+        add: 'Додати',
+      },
+
+      goals: {
+        title: 'Цілі Витрат',
+
+        empty: {
+          description: 'Поки що не додано жодної цілі на цей місяць',
+          new: 'Додати Цілі',
+
+          copy: {
+            copy: 'Скопіювати',
+            decision: 'з минулого місяця або',
+            new: 'Додани Нові',
+          },
+        },
+      },
+
+      recentRecords: {
+        title: 'Останні Операції',
+      },
+
+      monthStatistics: {
+        title: 'Статистика Місяця',
+      },
+
+      settings: {
+        title: 'Налаштування',
+      },
+    },
+  },
+
   settings: {
     index: {
       heading: 'Налаштування',
@@ -54,5 +93,27 @@ export const ua: Lang = {
         accept: 'Так, Точно',
       },
     },
+  },
+
+  records: {
+    type: {
+      income: 'Дохід',
+      expense: 'Витрати',
+    },
+  },
+
+  confirm: {
+    delete: {
+      title: 'Видалити {entity}',
+      message: 'Ви впевнені що хочете видалити {entity}',
+      accept: 'Видалити',
+    },
+  },
+
+  actionsSheet: {
+    title: '{entity} - Дії',
+    edit: 'Редагувати',
+    delete: 'Видалити',
+    cancel: 'Відмінити',
   },
 };
