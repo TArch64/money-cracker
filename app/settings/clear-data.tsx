@@ -7,15 +7,12 @@ import { showConfirm } from '@/helpers/showConfirm';
 import { useMutation } from '@tanstack/react-query';
 import { budgetCategories, budgets, categories, records, useDatabase, USER_ID, users } from '@/db';
 import { useRouter } from 'expo-router';
-
-const configs = [
-  { message: 'Are you sure?', accept: 'Yes, Delete' },
-  { message: 'Are you really sure?', accept: 'Yes, I\'m Sure' },
-] as const;
+import { useTranslation } from 'react-i18next';
 
 export default function ClearData(): ReactNode {
   const db = useDatabase();
   const router = useRouter();
+  const { t } = useTranslation();
 
   const mutation = useMutation({
     mutationFn() {
@@ -35,17 +32,17 @@ export default function ClearData(): ReactNode {
     },
   });
 
-  const isConfirmed = (index: 0 | 1) => showConfirm({
-    title: 'Clear Data',
-    message: configs[index].message,
+  const isConfirmed = (index: 1 | 2) => showConfirm({
+    title: t('settings.clearData.confirm.title'),
+    message: t(`settings.clearData.confirm${index}.message`),
 
     accept: {
-      text: configs[index].accept,
+      text: t(`settings.clearData.confirm${index}.accept`),
       style: 'destructive',
     },
 
     decline: {
-      text: 'Cancel',
+      text: t('settings.clearData.confirm.cancel'),
       style: 'cancel',
       isPreferred: true,
     },
@@ -53,12 +50,12 @@ export default function ClearData(): ReactNode {
 
   return (
     <FullScreenLayout
-      title="Clear Data"
+      title={t('settings.clearData.heading')}
       canGoBack={!mutation.isPending}
     >
       <View style={styles.root}>
         <Text>
-          Are you sure you want to delete all your data? This action cannot be undone.
+          {t('settings.clearData.description')}
         </Text>
 
         <Button
@@ -66,12 +63,12 @@ export default function ClearData(): ReactNode {
           style={styles.button}
 
           onPress={async () => {
-            if (!await isConfirmed(0)) return;
             if (!await isConfirmed(1)) return;
+            if (!await isConfirmed(2)) return;
             mutation.mutate();
           }}
         >
-          {textRenderer('Clear Data')}
+          {textRenderer(t('settings.clearData.clear'))}
         </Button>
       </View>
     </FullScreenLayout>

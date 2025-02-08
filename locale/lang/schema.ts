@@ -28,5 +28,26 @@ export interface Lang {
         clearData: string;
       };
     };
+
+    clearData: {
+      heading: string;
+      description: string;
+      clear: string;
+
+      confirm: {
+        title: string;
+        cancel: string;
+      },
+
+      confirm1: {
+        message: string;
+        accept: string;
+      },
+
+      confirm2: {
+        message: string;
+        accept: string;
+      }
+    }
   };
 }
