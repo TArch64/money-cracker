@@ -1,21 +1,9 @@
-import { ButtonSelect, type IButtonSelectOption } from '@/components/ButtonSelect';
 import { RecordType } from '@/enums';
-import type { ReactNode } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
-import { List, Text, useTheme } from '@ui-kitten/components';
+import { List, Text } from '@ui-kitten/components';
 import { useCategoriesListWithUsageQuery } from '@/hooks/queries';
 import { CategoryListItem } from './CategoryListItem';
-
-const recordTypeOptions: IButtonSelectOption<RecordType>[] = [
-  {
-    value: RecordType.EXPENSE,
-    label: 'Expense',
-  },
-  {
-    value: RecordType.INCOME,
-    label: 'Income',
-  },
-];
 
 const ListEmpty = (): ReactNode => (
   <View style={styles.listEmpty}>
@@ -27,16 +15,11 @@ const ListEmpty = (): ReactNode => (
 
 interface ICategoriesListProps {
   type: RecordType;
-  onTypeChange: (type: RecordType) => void;
+  header: ReactElement;
 }
 
 export function CategoriesList(props: ICategoriesListProps): ReactNode {
-  const theme = useTheme();
   const categoriesQuery = useCategoriesListWithUsageQuery(props.type);
-
-  if (categoriesQuery.isLoading) {
-    return null;
-  }
 
   return (
     <List
@@ -44,27 +27,13 @@ export function CategoriesList(props: ICategoriesListProps): ReactNode {
       showsVerticalScrollIndicator={false}
       data={categoriesQuery.data}
       renderItem={({ item }) => <CategoryListItem category={item} />}
-
-      ListHeaderComponent={
-        <ButtonSelect
-          value={props.type}
-          onChange={props.onTypeChange}
-          options={recordTypeOptions}
-          style={styles.typeSelector}
-        />
-      }
-
-      ListEmptyComponent={ListEmpty}
+      ListHeaderComponent={props.header}
+      ListEmptyComponent={categoriesQuery.isLoading ? undefined : ListEmpty}
     />
   );
 }
 
 const styles = StyleSheet.create({
-  typeSelector: {
-    marginVertical: 16,
-    marginHorizontal: 16,
-  } satisfies ViewStyle,
-
   listEmpty: {
     height: '100%',
     display: 'flex',
