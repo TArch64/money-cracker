@@ -20,26 +20,21 @@ export function HomeTitle(props: IHomeTitleProps): ReactNode {
   const dateFormatter = useDateFormatter({ year: 'numeric', month: 'long' });
   const monthTitle = dateFormatter.format(activeIdx.date);
 
-  const animatedStyle = useAnimatedStyle((): ViewStyle => props.stickyProgress.value < 0 ? {
+  const animatedStyle = useAnimatedStyle((): ViewStyle => ({
     transform: [
-      { translateX: -6 },
-      { translateY: interpolate(props.stickyProgress.value, [0, -1], [0, -12]) },
-      { scale: interpolate(props.stickyProgress.value, [0, -1], [1, 1.1]) },
+      { translateX: -6 - Math.max(props.stickyProgress.value, 0) },
+      { translateY: interpolate(Math.min(props.stickyProgress.value, 0), [0, -1], [0, -12]) },
+      { scale: interpolate(props.stickyProgress.value, [-1, 0, 1], [1.1, 1, 0.8]) },
     ],
-  } : {
+
+    borderWidth: interpolate(Math.max(props.stickyProgress.value, 0), [0, 1], [0, 1]),
+
     backgroundColor: interpolateColor(
-      props.stickyProgress.value,
+      Math.max(props.stickyProgress.value, 0),
       [0, 1],
       [theme['background-basic-color-2'], theme['background-basic-color-1']],
     ),
-
-    borderWidth: interpolate(props.stickyProgress.value, [0, 1], [0, 1]),
-
-    transform: [
-      { translateX: -6 - props.stickyProgress.value },
-      { scale: interpolate(props.stickyProgress.value, [0, 1], [1, 0.8]) },
-    ],
-  });
+  }))
 
   return (
     <Link href="/month/switcher">
