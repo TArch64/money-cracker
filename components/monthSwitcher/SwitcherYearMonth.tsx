@@ -2,7 +2,7 @@ import { MonthIdx, useMonthStore } from '@/stores';
 import { type ReactNode, useMemo } from 'react';
 import { useDateFormatter } from '@/hooks/formatters';
 import { ListItem, useTheme } from '@ui-kitten/components';
-import { StyleSheet, type ViewStyle } from 'react-native';
+import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native';
 import { useRouter } from 'expo-router';
 import { textRenderer } from '@/components/uiKitten';
 
@@ -16,6 +16,7 @@ export function SwitcherYearMonth(props: ISwitcherMonthYearProps): ReactNode {
   const dateFormatter = useDateFormatter({ month: 'long' });
   const activeMonthIdx = useMonthStore((state) => state.activeIdx);
   const activateMonthIdx = useMonthStore((state) => state.activateIdx);
+  const isActiveMonth = useMemo(() => props.monthIdx.isEqual(activeMonthIdx), [props.monthIdx.id, activeMonthIdx.id]);
   const isCurrentMonth = useMemo(() => props.monthIdx.isEqual(MonthIdx.current()), [props.monthIdx.id]);
 
   function onPress(): void {
@@ -27,11 +28,8 @@ export function SwitcherYearMonth(props: ISwitcherMonthYearProps): ReactNode {
     <ListItem
       style={[
         styles.month,
-
-        props.monthIdx.isEqual(activeMonthIdx) && {
-          backgroundColor: theme['background-basic-color-3'],
-        },
-      ]}
+        isActiveMonth && { backgroundColor: theme['background-basic-color-3'] },
+      ] satisfies StyleProp<ViewStyle>}
 
       title={textRenderer(dateFormatter.format(props.monthIdx.date), {
         style: isCurrentMonth && { color: theme['color-primary-500'] },

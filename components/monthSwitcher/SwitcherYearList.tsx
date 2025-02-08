@@ -52,7 +52,13 @@ export function SwitcherYearList(): ReactNode {
       removeClippedSubviews
       data={monthsQuery.data}
       getItemType={(item) => item.type}
-      estimatedItemSize={39.7}
+      estimatedItemSize={43.7}
+
+      overrideItemLayout={(layout, item) => {
+        if (item.type === ListItemType.YEAR_HEADER) {
+          layout.size = 39.7;
+        }
+      }}
 
       renderItem={({ item }) => (
         item.type === ListItemType.YEAR_HEADER
