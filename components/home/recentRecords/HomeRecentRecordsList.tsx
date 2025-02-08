@@ -11,9 +11,10 @@ export interface IHomeRecentRecordsListProps {
 
 export function HomeRecentRecordsList(props: IHomeRecentRecordsListProps): ReactNode {
   return (
-    <HomeCard padding={false}>
+    <HomeCard padding={false} href="/records">
       <HomeCardTitle
         padding
+        linked
         title="Recent Transactions"
         style={styles.title}
       />

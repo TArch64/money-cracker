@@ -1,12 +1,12 @@
 import { type ReactNode } from 'react';
 import { useRouter } from 'expo-router';
-import { TabScreenLayout } from '@/components/layout';
+import { FullScreenLayout } from '@/components/layout';
 import { TopNavigationAction } from '@ui-kitten/components';
 import { RecordType } from '@/enums';
 import { IconName, iconRenderer } from '@/components/uiKitten';
 import { MonthRecords } from '@/components/recordsList';
 
-export default function Records(): ReactNode {
+export default function Index(): ReactNode {
   const router = useRouter();
 
   function openNewRecord(): void {
@@ -17,7 +17,7 @@ export default function Records(): ReactNode {
   }
 
   return (
-    <TabScreenLayout
+    <FullScreenLayout
       title="Records"
 
       headerRight={() =>
@@ -28,6 +28,6 @@ export default function Records(): ReactNode {
       }
     >
       <MonthRecords />
-    </TabScreenLayout>
+    </FullScreenLayout>
   )
 }

@@ -26,7 +26,7 @@ function SettingsItem(props: ISettingsItemProps): ReactNode {
   );
 }
 
-export default function Settings(): ReactNode {
+export default function Index(): ReactNode {
   const theme = useTheme();
 
   return (
@@ -44,7 +44,7 @@ export default function Settings(): ReactNode {
         <SettingsItem
           title="Categories"
           icon={IconName.FOLDER_OUTLINE}
-          href={() => '/settings/categories'}
+          href={() => '/categories'}
         />
 
         <SettingsItem
