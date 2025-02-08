@@ -1,8 +1,8 @@
-import type { ReactNode } from 'react';
+import { type ReactNode, useMemo } from 'react';
 import type { RecordWithCategory } from '@/db';
 import { StyleSheet, type TextStyle, type ViewStyle } from 'react-native';
 import { ListItem, Text } from '@ui-kitten/components';
-import { useMoneyFormatter } from '@/hooks/formatters';
+import { useDateFormatter, useMoneyFormatter } from '@/hooks/formatters';
 import { showConfirm } from '@/helpers/showConfirm';
 import { useRecordDeleteMutation } from '@/hooks/queries';
 import { useRouter } from 'expo-router';
@@ -19,6 +19,21 @@ export function HomeRecentRecord(props: IHomeRecentRecordProps): ReactNode {
   const deleteMutation = useRecordDeleteMutation(props.record);
 
   const isExpense = isExpenseRecord(props.record.type);
+
+  const dateFormatter = useDateFormatter({ month: 'long', day: 'numeric' });
+
+  const date = useMemo(() => {
+    const now = new Date();
+
+    if (
+      now.getFullYear() === props.record.date.getFullYear()
+      && now.getMonth() === props.record.date.getMonth()
+      && now.getDate() === props.record.date.getDate()
+    ) {
+      return 'Today';
+    }
+    return dateFormatter.format(props.record.date);
+  }, [props.record.dateUnix]);
 
   const moneyFormatter = useMoneyFormatter();
   const value = moneyFormatter.format(isExpense ? -props.record.value : props.record.value);
@@ -68,7 +83,14 @@ export function HomeRecentRecord(props: IHomeRecentRecordProps): ReactNode {
   return (
     <ListItem
       style={styles.row}
-      title={textRenderer(props.record.category.name, { style: styles.categoryName })}
+
+      title={textRenderer(props.record.category.name, {
+        style: styles.categoryName,
+      })}
+
+      description={textRenderer(date, {
+        style: styles.date,
+      })}
 
       accessoryRight={() => (
         <Text status={status} style={styles.value}>
@@ -93,6 +115,11 @@ const styles = StyleSheet.create({
     fontWeight: 500,
     paddingVertical: 4,
     marginLeft: 0,
+  } satisfies TextStyle,
+
+  date: {
+    marginLeft: 0,
+    fontSize: 10,
   } satisfies TextStyle,
 
   value: {
