@@ -15,6 +15,7 @@ import { useInitialScreen } from '@/hooks/useInitialScreen';
 import { Stack } from 'expo-router';
 import type { ViewStyle } from 'react-native';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
+import { I18NProvider } from '@/locale';
 
 if (__DEV__) {
   console.log('SQLite database path:');
@@ -63,16 +64,20 @@ export default function Layout() {
       {() => (
         <UiKittenProvider>
           <QueryProvider>
-            <SafeAreaProvider>
-              <GestureHandlerRootView>
-                <ActionSheetProvider>
-                  <>
-                    <StatusBar style="auto" />
-                    <StackRoot />
-                  </>
-                </ActionSheetProvider>
-              </GestureHandlerRootView>
-            </SafeAreaProvider>
+            <I18NProvider>
+              {() => (
+                <SafeAreaProvider>
+                  <GestureHandlerRootView>
+                    <ActionSheetProvider>
+                      <>
+                        <StatusBar style="auto" />
+                        <StackRoot />
+                      </>
+                    </ActionSheetProvider>
+                  </GestureHandlerRootView>
+                </SafeAreaProvider>
+              )}
+            </I18NProvider>
           </QueryProvider>
         </UiKittenProvider>
       )}

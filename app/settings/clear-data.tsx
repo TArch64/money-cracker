@@ -31,7 +31,7 @@ export default function ClearData(): ReactNode {
 
     onSuccess() {
       router.dismissAll();
-      router.push('/');
+      router.replace('/');
     },
   });
 

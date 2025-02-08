@@ -6,6 +6,7 @@ import { type StyleProp, StyleSheet, type TextStyle, View, type ViewStyle } from
 import { Link, useRouter } from 'expo-router';
 import { Icon, IconName } from '@/components/uiKitten';
 import { useUserUpdateMutation } from '@/hooks/queries';
+import { useTranslation } from 'react-i18next';
 
 interface ITermsSectionProps {
   title: string;
@@ -45,6 +46,7 @@ function TermsSection(props: ITermsSectionProps): ReactNode {
 }
 
 export default function Intro(): ReactNode {
+  const { t } = useTranslation();
   const router = useRouter();
   const updateUserMutation = useUserUpdateMutation();
 
@@ -57,7 +59,7 @@ export default function Intro(): ReactNode {
     <FullScreenLayout canGoBack={false} style={styles.layout}>
       <View style={styles.innerColumn}>
         <Text category="h1" style={styles.heading}>
-          Welcome!
+          {t('intro.heading')}
         </Text>
 
         <Text>

@@ -15,6 +15,13 @@
       "when": 1738092836261,
       "tag": "0001_elite_valeria_richards",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1739037452468,
+      "tag": "0002_black_marten_broadcloak",
+      "breakpoints": true
     }
   ]
 }
