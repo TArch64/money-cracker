@@ -1,6 +1,6 @@
 import type { AppDatabase } from '@/db/Provider';
-import { categories, type RecordInsert, records } from './schema';
-import { RecordType } from '@/enums';
+import { categories, type RecordInsert, records, users } from './schema';
+import { IntroState, RecordType } from '@/enums';
 import { MonthIdx } from '@/stores';
 
 function getDateRange(): MonthIdx[] {
@@ -48,12 +48,12 @@ export async function runSeeds(db: AppDatabase): Promise<void> {
       ])
       .returning({ id: categories.id });
 
-    return tx.insert(records).values([
+    await tx.insert(records).values([
       ...monthIdxes.map((idx): RecordInsert => ({
         categoryId: incomeCategory.id,
         type: RecordType.INCOME,
         date: idx.date,
-        value: 100_000,
+        value: 350_000,
       })),
 
       ...monthIdxes.flatMap((idx) =>
@@ -65,5 +65,9 @@ export async function runSeeds(db: AppDatabase): Promise<void> {
             value,
           })))),
     ]);
+
+    await tx
+      .update(users)
+      .set({ intro: IntroState.COMPLETED });
   });
 }

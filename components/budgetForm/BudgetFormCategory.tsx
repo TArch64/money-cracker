@@ -27,6 +27,7 @@ export function BudgetFormCategory(props: IBudgetFormCategoryProps): ReactNode {
 
         {isAdded && (
           <FormNumericInput
+            autoFocus
             name={`${props.formPath}.goal`}
             style={styles.cardGoal}
             placeholder="Spending Goal"

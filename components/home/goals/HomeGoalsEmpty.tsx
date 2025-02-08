@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { type ReactNode, useCallback } from 'react';
 import { HomeCard } from '@/components/home/HomeCard';
 import { HomeCardTitle } from '@/components/home/HomeCardTitle';
 import { Button, Text } from '@ui-kitten/components';
@@ -12,12 +12,12 @@ export function HomeGoalsEmpty(): ReactNode {
   const previousMonthGoals = useBudgetPreviousMonthSuspenseQuery(activeMonthIdx.year, activeMonthIdx.month);
   const copyMutation = useBudgetCopyMutation();
 
-  function copyBudget() {
+  const copyBudget = useCallback(() => {
     copyMutation.mutate({
       monthIdx: activeMonthIdx,
       sourceId: previousMonthGoals.data!.id,
     });
-  }
+  }, []);
 
   return (
     <HomeCard>
