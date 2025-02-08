@@ -8,6 +8,7 @@ import {
   HomeBalance,
   HomeGoals,
   HomeMonthStatistic,
+  HomeRecentRecords,
   HomeTitle,
 } from '@/components/home';
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
@@ -17,6 +18,7 @@ const sections: FC[] = [
   HomeMonthStatistic,
   HomeAddRecord,
   HomeGoals,
+  HomeRecentRecords,
 ];
 
 export default function Home(): ReactNode {
@@ -44,7 +46,11 @@ export default function Home(): ReactNode {
         paddingRight: insets.right + 12,
       } satisfies StyleProp<ViewStyle>}
 
-      contentContainerStyle={styles.scrollContent}
+      contentContainerStyle={[
+        styles.scrollContent,
+        { paddingBottom: 80 },
+      ] satisfies StyleProp<ViewStyle>}
+
       onScroll={scrollHandler}
     >
       <HomeTitle stickyProgress={stickyProgress} />

@@ -7,6 +7,7 @@ export interface IHomeCardTitleProps extends IPropsWithStyle<ViewStyle> {
   title: string;
   status?: 'basic' | 'danger';
   linked?: boolean;
+  padding?: boolean;
 }
 
 export function HomeCardTitle(props: IHomeCardTitleProps) {
@@ -14,7 +15,13 @@ export function HomeCardTitle(props: IHomeCardTitleProps) {
   const color = props.status === 'danger' ? theme['color-danger-600'] : undefined;
 
   return (
-    <View style={[styles.row, props.style]}>
+    <View
+      style={[
+        styles.row,
+        props.padding && styles.rowPadding,
+        props.style,
+      ]}
+    >
       <Text
         category="h4"
         style={{ color } satisfies StyleProp<TextStyle>}
@@ -39,6 +46,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
   } satisfies TextStyle,
+
+  rowPadding: {
+    paddingTop: 16,
+    paddingHorizontal: 16,
+  },
 
   icon: {
     width: 24,

@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import type { RecordWithCategory } from '@/db';
-import { StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
-import { ListItem, Text, useTheme } from '@ui-kitten/components';
+import { StyleSheet, type TextStyle, type ViewStyle } from 'react-native';
+import { ListItem, Text } from '@ui-kitten/components';
 import { useMoneyFormatter } from '@/hooks/formatters';
 import { showConfirm } from '@/helpers/showConfirm';
 import { useRecordDeleteMutation } from '@/hooks/queries';
@@ -10,12 +10,11 @@ import { getRecordTypeTitle, isExpenseRecord } from '@/enums';
 import { useActionSheet } from '@/hooks/useActionSheet';
 import { textRenderer } from '@/components/uiKitten';
 
-export interface IMonthRecordProps {
+export interface IHomeRecentRecordProps {
   record: RecordWithCategory;
 }
 
-export function MonthRecord(props: IMonthRecordProps): ReactNode {
-  const theme = useTheme();
+export function HomeRecentRecord(props: IHomeRecentRecordProps): ReactNode {
   const router = useRouter();
   const deleteMutation = useRecordDeleteMutation(props.record);
 
@@ -47,7 +46,7 @@ export function MonthRecord(props: IMonthRecordProps): ReactNode {
         onPress: () => router.push({
           pathname: '/records/[recordId]/edit',
           params: { recordId: props.record.id },
-        })
+        }),
       },
 
       {
@@ -56,38 +55,23 @@ export function MonthRecord(props: IMonthRecordProps): ReactNode {
 
         async onPress() {
           if (await isDeleteConfirmed()) deleteMutation.mutate();
-        }
+        },
       },
 
       {
         text: 'Cancel',
         style: 'cancel',
       },
-    ]
+    ],
   }));
 
   return (
     <ListItem
       style={styles.row}
-
-      accessoryLeft={() => (
-        <View
-          style={[
-            styles.label,
-            { backgroundColor: theme[`color-${status}-500`] },
-          ]}
-        />
-      )}
-
       title={textRenderer(props.record.category.name, { style: styles.categoryName })}
 
       accessoryRight={() => (
-        <Text
-          style={[
-            styles.value,
-            { color: theme[`color-${status}-500`] },
-          ]}
-        >
+        <Text status={status} style={styles.value}>
           {value}
         </Text>
       )}
@@ -99,28 +83,21 @@ export function MonthRecord(props: IMonthRecordProps): ReactNode {
 
 const styles = StyleSheet.create({
   row: {
-    paddingLeft: 8,
-    paddingRight: 8,
-    paddingVertical: 8,
-    marginHorizontal: 6,
+    paddingHorizontal: 12,
+    paddingVertical: 4,
     borderRadius: 4,
-  } satisfies ViewStyle,
-
-  label: {
-    width: 6,
-    height: '100%',
-    borderRadius: 4,
-    marginRight: 8,
   } satisfies ViewStyle,
 
   categoryName: {
-    fontSize: 16,
-    fontWeight: 600,
+    fontSize: 14,
+    fontWeight: 500,
     paddingVertical: 4,
+    marginLeft: 0,
   } satisfies TextStyle,
 
   value: {
+    fontSize: 14,
     marginLeft: 'auto',
-    alignSelf: 'center'
+    alignSelf: 'center',
   } satisfies TextStyle,
 });

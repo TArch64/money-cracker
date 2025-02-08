@@ -3,3 +3,4 @@ export * from './HomeBalance';
 export * from './HomeMonthStatistic';
 export * from './HomeAddRecord';
 export * from './goals';
+export * from './recentRecords';

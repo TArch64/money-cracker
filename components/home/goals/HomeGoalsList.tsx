@@ -1,35 +1,37 @@
 import { type ReactNode, useMemo } from 'react';
 import { HomeCard } from '../HomeCard';
 import { HomeCardTitle } from '../HomeCardTitle';
-import { MonthIdx, useMonthStore } from '@/stores';
-import { useBudgetMonthSuspenseQuery } from '@/hooks/queries';
+import { MonthIdx } from '@/stores';
+import { type IMonthBudget } from '@/hooks/queries';
 import { HomeCategoryGoal } from './HomeCategoryGoal';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
 
-export function HomeGoalsList(): ReactNode {
-  const activeMonthIdx = useMonthStore((state) => state.activeIdx);
-  const budgetQuery = useBudgetMonthSuspenseQuery(activeMonthIdx.year, activeMonthIdx.month);
+export interface IHomeGoalsListProps {
+  budget: IMonthBudget;
+  monthIdx: MonthIdx;
+}
 
+export function HomeGoalsList(props: IHomeGoalsListProps): ReactNode {
   const dayProgress = useMemo(() => {
     const now = new Date();
     const currentMonthIdx = MonthIdx.fromDate(now);
 
-    if (activeMonthIdx.isBefore(currentMonthIdx)) {
+    if (props.monthIdx.isBefore(currentMonthIdx)) {
       return 1;
     }
 
-    if (activeMonthIdx.isAfter(currentMonthIdx)) {
+    if (props.monthIdx.isAfter(currentMonthIdx)) {
       return 0;
     }
 
     return now.getDate() / new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-  }, [activeMonthIdx.id]);
+  }, [props.monthIdx.id]);
 
   return (
     <HomeCard
       href={() => ({
         pathname: '/budgets/[budgetId]/edit',
-        params: { budgetId: budgetQuery.data!.id },
+        params: { budgetId: props.budget.id },
       })}
     >
       <HomeCardTitle
@@ -39,7 +41,7 @@ export function HomeGoalsList(): ReactNode {
       />
 
       <View style={styles.list}>
-        {budgetQuery.data!.categories.map((category) => (
+        {props.budget.categories.map((category) => (
           <HomeCategoryGoal
             key={category.categoryId}
             category={category}
