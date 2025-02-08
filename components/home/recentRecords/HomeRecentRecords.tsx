@@ -2,7 +2,6 @@ import type { ReactNode } from 'react';
 import { useMonthStore } from '@/stores';
 import { useRecordsMonthSuspenseQuery } from '@/hooks/queries';
 import { HomeRecentRecordsList } from './HomeRecentRecordsList';
-import { HomeRecentRecordsEmpty } from './HomeRecentRecordsEmpty';
 
 export function HomeRecentRecords(): ReactNode {
   const activeMonthIdx = useMonthStore((state) => state.activeIdx);
@@ -14,11 +13,13 @@ export function HomeRecentRecords(): ReactNode {
     limit: 4,
   });
 
-  return recordsQuery.data.length ? (
+  if (!recordsQuery.data.length) {
+    return null;
+  }
+
+  return (
     <HomeRecentRecordsList
       records={recordsQuery.data}
     />
-  ) : (
-    <HomeRecentRecordsEmpty />
   );
 }

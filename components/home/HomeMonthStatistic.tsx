@@ -51,27 +51,23 @@ export function HomeMonthStatistic(): ReactNode {
     { type: RecordType.EXPENSE, total: statisticsQuery.data.expenseTotal },
   ];
 
-  const hasData = data.some((item) => item.total > 0);
+  if (!data.some((item) => item.total > 0)) {
+    return null;
+  }
 
   return (
-    <HomeCard disabled={!hasData} href="/month/statistics">
+    <HomeCard href="/month/statistics">
       <HomeCardTitle
+        linked
         style={styles.title}
-        linked={hasData}
         title="Month Statistics"
       />
 
-      {hasData ? (
-        <View style={styles.dataRow}>
-          {data.map((item) => (
-            <StatisticColumn key={item.type} type={item.type} total={item.total} />
-          ))}
-        </View>
-      ) : (
-        <Text category="c1">
-          No records for this month
-        </Text>
-      )}
+      <View style={styles.dataRow}>
+        {data.map((item) => (
+          <StatisticColumn key={item.type} type={item.type} total={item.total} />
+        ))}
+      </View>
     </HomeCard>
   );
 }
