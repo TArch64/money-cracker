@@ -1,13 +1,13 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { RECORDS_MONTH_STATISTICS_QUERY } from '../keys';
+import { RECORDS_MONTH_SUMMARY_QUERY } from '../keys';
 import { eqDate, records, sum, useDatabase } from '@/db';
 import { RecordType } from '@/enums';
 
-export function useRecordsMonthStatisticsSuspenseQuery(year: number, month: number) {
+export function useRecordsMonthSummarySuspenseQuery(year: number, month: number) {
   const db = useDatabase();
 
   return useSuspenseQuery({
-    queryKey: RECORDS_MONTH_STATISTICS_QUERY(year, month),
+    queryKey: RECORDS_MONTH_SUMMARY_QUERY(year, month),
 
     async queryFn(args) {
       const [, , year, , month] = args.queryKey;

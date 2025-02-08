@@ -20,6 +20,6 @@ export function RECORDS_MONTH_LIST_QUERY(yearOrDate: number | Date, month?: numb
 
 type MonthStatisticsQuery = [...MonthListKey, string];
 
-export function RECORDS_MONTH_STATISTICS_QUERY(year: number, month: number): MonthStatisticsQuery {
+export function RECORDS_MONTH_SUMMARY_QUERY(year: number, month: number): MonthStatisticsQuery {
   return [...RECORDS_MONTH_LIST_QUERY(year, month), 'statistics'];
 }

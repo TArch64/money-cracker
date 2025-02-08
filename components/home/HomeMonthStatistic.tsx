@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { Text, useTheme } from '@ui-kitten/components';
 import { HomeCard } from './HomeCard';
 import { StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
-import { useRecordsMonthStatisticsSuspenseQuery } from '@/hooks/queries';
+import { useRecordsMonthSummarySuspenseQuery } from '@/hooks/queries';
 import { useMonthStore } from '@/stores';
 import { getRecordTypeTitle, isExpenseRecord, RecordType } from '@/enums';
 import { useMoneyFormatter } from '@/hooks/formatters';
@@ -44,7 +44,7 @@ function StatisticColumn(props: IStatisticColumnProps): ReactNode {
 
 export function HomeMonthStatistic(): ReactNode {
   const activeMonthIdx = useMonthStore((state) => state.activeIdx);
-  const statisticsQuery = useRecordsMonthStatisticsSuspenseQuery(activeMonthIdx.year, activeMonthIdx.month);
+  const statisticsQuery = useRecordsMonthSummarySuspenseQuery(activeMonthIdx.year, activeMonthIdx.month);
 
   const data = [
     { type: RecordType.INCOME, total: statisticsQuery.data.incomeTotal },
