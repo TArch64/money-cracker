@@ -38,7 +38,7 @@ export function useRecordUpdateMutation(record: RecordWithCategory) {
     async onSuccess(data): Promise<void> {
       const promises: Promise<any>[] = [
         queryClient.invalidateQueries({
-          queryKey: RECORDS_MONTH_LIST_QUERY(record.date),
+          queryKey: RECORDS_MONTH_LIST_QUERY(record.date.getFullYear(), record.date.getMonth()),
         }),
 
         queryClient.invalidateQueries({
@@ -55,7 +55,7 @@ export function useRecordUpdateMutation(record: RecordWithCategory) {
         data.newDate.getMonth() !== record.date.getMonth()
       ) {
         promises.push(queryClient.invalidateQueries({
-          queryKey: RECORDS_MONTH_LIST_QUERY(data.newDate),
+          queryKey: RECORDS_MONTH_LIST_QUERY(data.newDate.getFullYear(), data.newDate.getMonth()),
         }));
 
         promises.push(queryClient.invalidateQueries({

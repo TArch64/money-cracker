@@ -15,7 +15,7 @@ export function useRecordDeleteMutation(record: Record) {
     onSuccess() {
       return Promise.all([
         queryClient.invalidateQueries({
-          queryKey: RECORDS_MONTH_LIST_QUERY(record.date),
+          queryKey: RECORDS_MONTH_LIST_QUERY(record.date.getFullYear(), record.date.getMonth()),
         }),
 
         queryClient.invalidateQueries({

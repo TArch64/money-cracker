@@ -1,7 +1,7 @@
 import { ButtonSelect, type IButtonSelectOption } from '@/components/ButtonSelect';
 import { RecordType } from '@/enums';
 import type { ReactNode } from 'react';
-import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native';
+import { StyleSheet, View, type ViewStyle } from 'react-native';
 import { List, Text, useTheme } from '@ui-kitten/components';
 import { useCategoriesListWithUsageQuery } from '@/hooks/queries';
 import { CategoryListItem } from './CategoryListItem';
@@ -43,11 +43,6 @@ export function CategoriesList(props: ICategoriesListProps): ReactNode {
       removeClippedSubviews
       showsVerticalScrollIndicator={false}
       data={categoriesQuery.data}
-
-      style={[
-        { backgroundColor: theme['background-basic-color-1'] },
-      ] satisfies StyleProp<ViewStyle>}
-
       renderItem={({ item }) => <CategoryListItem category={item} />}
 
       ListHeaderComponent={

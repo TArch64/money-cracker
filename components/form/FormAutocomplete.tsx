@@ -22,8 +22,12 @@ function AutocompleteMenu(props: IAutocompleteMenuProps) {
         <Menu onContentSizeChange={ctx.update}>
           {props.suggestions.map((suggestion) => (
             <MenuItem
-              style={{ backgroundColor: theme['background-basic-color-1'] } satisfies ViewStyle}
               key={suggestion}
+
+              style={{
+                backgroundColor: theme['background-basic-color-1'],
+              } satisfies ViewStyle}
+
               title={(txtProps) => (
                 <HighlightText
                   {...txtProps}

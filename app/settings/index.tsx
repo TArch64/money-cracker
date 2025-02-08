@@ -1,7 +1,7 @@
 import { FullScreenLayout } from '@/components/layout';
 import type { ReactNode } from 'react';
 import { Divider, Menu, MenuItem, useTheme } from '@ui-kitten/components';
-import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native';
+import { StyleSheet, type ViewStyle } from 'react-native';
 import { IconName, iconRenderer, textRenderer } from '@/components/uiKitten';
 import { type Href, useRouter } from 'expo-router';
 
@@ -32,10 +32,7 @@ export default function Index(): ReactNode {
   return (
     <FullScreenLayout title="Settings">
       <Menu
-        style={[
-          styles.menu,
-          { backgroundColor: theme['background-basic-color-1'] },
-        ] satisfies StyleProp<ViewStyle>}
+        style={styles.menu}
 
         ItemSeparatorComponent={() => (
           <Divider style={styles.menuDivider} />

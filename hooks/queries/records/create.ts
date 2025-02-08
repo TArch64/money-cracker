@@ -46,7 +46,7 @@ export function useRecordCreateMutation() {
         }),
 
         queryClient.invalidateQueries({
-          queryKey: RECORDS_MONTH_LIST_QUERY(data.date),
+          queryKey: RECORDS_MONTH_LIST_QUERY(data.date.getFullYear(), data.date.getMonth()),
         }),
       ]);
     },
