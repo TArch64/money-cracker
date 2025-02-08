@@ -4,6 +4,7 @@ import { Divider, Menu, MenuItem, useTheme } from '@ui-kitten/components';
 import { StyleSheet, type ViewStyle } from 'react-native';
 import { IconName, iconRenderer, textRenderer } from '@/components/uiKitten';
 import { type Href, useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 interface ISettingsItemProps {
   title: string;
@@ -27,10 +28,10 @@ function SettingsItem(props: ISettingsItemProps): ReactNode {
 }
 
 export default function Index(): ReactNode {
-  const theme = useTheme();
+  const { t } = useTranslation();
 
   return (
-    <FullScreenLayout title="Settings">
+    <FullScreenLayout title={t('settings.index.heading')}>
       <Menu
         style={styles.menu}
 
@@ -39,14 +40,14 @@ export default function Index(): ReactNode {
         )}
       >
         <SettingsItem
-          title="Categories"
+          title={t('settings.index.menu.categories')}
           icon={IconName.FOLDER_OUTLINE}
           href={() => '/categories'}
         />
 
         <SettingsItem
           danger
-          title="Clear Data"
+          title={t('settings.index.menu.clearData')}
           icon={IconName.ALERT_TRIANGLE_OUTLINE}
           href={() => '/settings/clear-data'}
         />

@@ -19,4 +19,14 @@ export interface Lang {
       };
     };
   };
+  settings: {
+    index: {
+      heading: string;
+
+      menu: {
+        categories: string;
+        clearData: string;
+      };
+    };
+  };
 }

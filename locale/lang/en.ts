@@ -20,4 +20,13 @@ export const en: Lang = {
       },
     },
   },
+  settings: {
+    index: {
+      heading: 'Settings',
+      menu: {
+        categories: 'Categories',
+        clearData: 'Clear Data',
+      },
+    },
+  },
 };

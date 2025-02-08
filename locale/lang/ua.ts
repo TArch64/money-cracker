@@ -3,11 +3,11 @@ import type { Lang } from './schema';
 export const ua: Lang = {
   intro: {
     heading: 'Привіт!',
-    description: 'Візьми фінанси у свої руки сьогодні',
+    description: 'Візьми фінанси у свої руки',
     start: 'Почати',
     sections: {
       free: {
-        title: '100% Безкоштовно Назавжди',
+        title: '100% Безкоштовно',
         description: 'Без реклами та преміума',
       },
       privacy: {
@@ -17,6 +17,15 @@ export const ua: Lang = {
       openSource: {
         title: 'Відкритий Код',
         description: 'Шукай допомогу або допомагай на',
+      },
+    },
+  },
+  settings: {
+    index: {
+      heading: 'Налаштування',
+      menu: {
+        categories: 'Категорії',
+        clearData: 'Очистити Дані',
       },
     },
   },
