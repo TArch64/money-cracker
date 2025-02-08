@@ -1,27 +1,37 @@
-import { StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
-import { Text } from '@ui-kitten/components';
+import { type StyleProp, StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
+import { Text, useTheme } from '@ui-kitten/components';
 import { Icon, IconName } from '@/components/uiKitten';
 import type { IPropsWithStyle } from '@/types';
 
 export interface IHomeCardTitleProps extends IPropsWithStyle<ViewStyle> {
   title: string;
+  status?: 'basic' | 'danger';
   linked?: boolean;
 }
 
-export const HomeCardTitle = (props: IHomeCardTitleProps) => (
-  <View style={[styles.row, props.style]}>
-    <Text category="h4">
-      {props.title}
-    </Text>
+export function HomeCardTitle(props: IHomeCardTitleProps) {
+  const theme = useTheme();
+  const color = props.status === 'danger' ? theme['color-danger-600'] : undefined;
 
-    {props.linked && (
-      <Icon
-        name={IconName.CHEVRON_RIGHT}
-        style={styles.icon}
-      />
-    )}
-  </View>
-);
+  return (
+    <View style={[styles.row, props.style]}>
+      <Text
+        category="h4"
+        style={{ color } satisfies StyleProp<TextStyle>}
+      >
+        {props.title}
+      </Text>
+
+      {props.linked && (
+        <Icon
+          name={IconName.CHEVRON_RIGHT}
+          fill={color}
+          style={styles.icon}
+        />
+      )}
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
   row: {

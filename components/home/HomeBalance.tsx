@@ -18,7 +18,10 @@ export function HomeBalance(): ReactNode {
         Current Balance
       </Text>
 
-      <HomeCardTitle title={value} />
+      <HomeCardTitle
+        status={status}
+        title={value}
+      />
     </HomeCard>
   );
 }

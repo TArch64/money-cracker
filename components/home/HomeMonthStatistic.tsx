@@ -56,6 +56,7 @@ export function HomeMonthStatistic(): ReactNode {
   return (
     <HomeCard disabled={!hasData} href="/month/statistics">
       <HomeCardTitle
+        style={styles.title}
         linked={hasData}
         title="Month Statistics"
       />
@@ -67,7 +68,7 @@ export function HomeMonthStatistic(): ReactNode {
           ))}
         </View>
       ) : (
-        <Text category="c1" style={styles.emptyText}>
+        <Text category="c1">
           No records for this month
         </Text>
       )}
@@ -76,12 +77,11 @@ export function HomeMonthStatistic(): ReactNode {
 }
 
 const styles = StyleSheet.create({
-  emptyText: {
-    marginTop: 4,
-  } satisfies TextStyle,
+  title: {
+    marginBottom: 6,
+  } satisfies ViewStyle,
 
   dataRow: {
-    marginTop: 6,
     display: 'flex',
     flexDirection: 'row',
   } satisfies ViewStyle,
