@@ -54,7 +54,10 @@ export default function New(): ReactNode {
       onSubmit={onSubmit}
     >
       {() => (
-        <ScrollView contentContainerStyle={styles.list}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.list}
+        >
           <Link
             asChild
             href={{

@@ -34,9 +34,14 @@ export function CategoriesList(props: ICategoriesListProps): ReactNode {
   const theme = useTheme();
   const categoriesQuery = useCategoriesListWithUsageQuery(props.type);
 
+  if (categoriesQuery.isLoading) {
+    return null;
+  }
+
   return (
     <List
       removeClippedSubviews
+      showsVerticalScrollIndicator={false}
       data={categoriesQuery.data}
 
       style={[

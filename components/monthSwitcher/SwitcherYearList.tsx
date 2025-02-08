@@ -50,6 +50,7 @@ export function SwitcherYearList(): ReactNode {
   return (
     <FlashList
       removeClippedSubviews
+      showsVerticalScrollIndicator={false}
       data={monthsQuery.data}
       getItemType={(item) => item.type}
       estimatedItemSize={43.7}

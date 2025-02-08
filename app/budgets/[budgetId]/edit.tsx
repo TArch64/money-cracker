@@ -62,7 +62,10 @@ export default function Edit(): ReactNode {
       onSubmit={onSubmit}
     >
       {() => (
-        <ScrollView contentContainerStyle={styles.list}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.list}
+        >
           <Link
             asChild
             href={{
