@@ -1,6 +1,6 @@
 import { type AppDatabase, categories, type Category, useDatabase } from '@/db';
 import { type QueryKey, useQuery, useSuspenseQuery } from '@tanstack/react-query';
-import { eq } from 'drizzle-orm';
+import { asc, eq } from 'drizzle-orm';
 import { CATEGORIES_LIST_QUERY } from '../keys';
 import { RecordType } from '@/enums';
 
@@ -8,7 +8,8 @@ async function getCategories(db: AppDatabase, type: RecordType): Promise<Categor
   return db
     .select()
     .from(categories)
-    .where(eq(categories.type, type));
+    .where(eq(categories.type, type))
+    .orderBy(asc(categories.name));
 }
 
 export interface ICategoriesListOptions<D = Category[]> {

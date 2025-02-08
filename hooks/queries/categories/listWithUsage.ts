@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { RecordType } from '@/enums';
 import { CATEGORIES_LIST_WITH_USAGE_QUERY } from '../keys';
 import { budgetCategories, categories, type Category, records, useDatabase } from '@/db';
-import { eq, exists, getTableColumns } from 'drizzle-orm';
+import { asc, eq, exists, getTableColumns } from 'drizzle-orm';
 
 export type CategoryWithUsage = Category & {
   recordExists: boolean;
@@ -25,7 +25,8 @@ export function useCategoriesListWithUsageQuery(type: RecordType) {
           budgetExists: exists(db.select().from(budgetCategories).where(eq(categories.id, budgetCategories.categoryId))).mapWith(Boolean).as('budget_exists'),
         })
         .from(categories)
-        .where(eq(categories.type, type));
+        .where(eq(categories.type, type))
+        .orderBy(asc(categories.name));
     },
   });
 }

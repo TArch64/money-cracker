@@ -11,7 +11,7 @@ import {
   sum,
   useDatabase,
 } from '@/db';
-import { and, eq } from 'drizzle-orm';
+import { and, asc, eq } from 'drizzle-orm';
 import { RecordType } from '@/enums';
 
 export type MonthBudgetCategory = Omit<BudgetCategory, 'budgetId'> & {
@@ -57,7 +57,8 @@ export function useBudgetMonthSuspenseQuery(year: number, month: number) {
           eqDate(records.date, { year, month }),
         ))
         .where(eq(budgetCategories.budgetId, budget.id))
-        .groupBy(budgetCategories.categoryId);
+        .groupBy(budgetCategories.categoryId)
+        .orderBy(asc(categories.name));
 
       return {
         id: budget.id,
