@@ -1,81 +1,146 @@
-import { type ReactNode } from 'react';
-import { useRouter } from 'expo-router';
-import { Button, Text } from '@ui-kitten/components';
+import type { ReactNode } from 'react';
 import { FullScreenLayout } from '@/components/layout';
-import { StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
-import { getRecordTypeTitle, RecordType } from '@/enums';
-import { textRenderer } from '@/components/uiKitten';
+import { IntroState } from '@/enums';
+import { Button, Text, type TextProps, useTheme } from '@ui-kitten/components';
+import { type StyleProp, StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
+import { Link, useRouter } from 'expo-router';
+import { Icon, IconName } from '@/components/uiKitten';
+import { useUserUpdateMutation } from '@/hooks/queries';
 
-interface IntroLinkProps {
-  type: RecordType;
+interface ITermsSectionProps {
+  title: string;
+  icon: IconName;
+  children: TextProps['children'];
 }
 
-function IntroLink(props: IntroLinkProps): ReactNode {
-  const router = useRouter();
-
-  function open() {
-    router.push({
-      pathname: '/records/new',
-
-      params: {
-        type: props.type,
-        intro: 'yes',
-      },
-    });
-  }
-
-  const text = getRecordTypeTitle(props.type);
+function TermsSection(props: ITermsSectionProps): ReactNode {
+  const theme = useTheme();
 
   return (
-    <Button appearance="ghost" size="small" onPress={open}>
-      {textRenderer(text, { style: styles.rowText })}
-    </Button>
+    <View style={styles.section}>
+      <View
+        style={[
+          styles.sectionIconContainer,
+          { backgroundColor: theme['color-primary-100'] },
+        ] satisfies StyleProp<ViewStyle>}
+      >
+        <Icon
+          name={props.icon}
+          fill={theme['color-primary-600']}
+          style={styles.sectionIcon}
+        />
+      </View>
+
+      <View>
+        <Text category="s1" style={styles.sectionTitle}>
+          {props.title}
+        </Text>
+
+        <Text>
+          {props.children}
+        </Text>
+      </View>
+    </View>
   );
 }
 
 export default function Intro(): ReactNode {
+  const router = useRouter();
+  const updateUserMutation = useUserUpdateMutation();
+
+  async function start() {
+    await updateUserMutation.mutateAsync({ intro: IntroState.COMPLETED });
+    router.replace('/home');
+  }
+
   return (
-    <FullScreenLayout>
-      <View style={styles.column}>
+    <FullScreenLayout canGoBack={false} style={styles.layout}>
+      <View style={styles.innerColumn}>
         <Text category="h1" style={styles.heading}>
-          Add your first
+          Welcome!
         </Text>
 
-        <View style={styles.row}>
-          <IntroLink type={RecordType.INCOME} />
+        <Text>
+          Take control of your finances today
+        </Text>
 
-          <Text category="p1" style={styles.rowText}>
-            or
-          </Text>
+        <View style={styles.sectionList}>
+          <TermsSection title="100% Free, Forever" icon={IconName.HEART_OUTLINE}>
+            No ads, no premium, no data selling
+          </TermsSection>
 
-          <IntroLink type={RecordType.EXPENSE} />
+          <TermsSection title="Privacy First" icon={IconName.LOCK_OUTLINE}>
+            All your data stays on your device
+          </TermsSection>
+
+          <TermsSection title="Open Source" icon={IconName.GITHUB_OUTLINE}>
+            Report issues & contribute on
+
+            <Link asChild href="https://github.com/TArch64/money-cracker">
+              <Text status="primary"> GitHub</Text>
+            </Link>
+          </TermsSection>
         </View>
+
+        <Button style={styles.nextButton} onPress={start}>
+          Start
+        </Button>
       </View>
     </FullScreenLayout>
   );
 }
 
 const styles = StyleSheet.create({
-  column: {
+  layout: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    height: '100%',
+    paddingVertical: 40,
   } satisfies ViewStyle,
 
+  innerColumn: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
   heading: {
-    marginBottom: 16,
+    marginBottom: 8,
   } satisfies TextStyle,
 
-  row: {
+  sectionList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 24,
+    marginTop: 40,
+    marginBottom: 64,
+  } satisfies ViewStyle,
+
+  section: {
+    paddingHorizontal: 12,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
   } satisfies ViewStyle,
 
-  rowText: {
-    fontSize: 16,
+  sectionTitle: {
+    marginBottom: 4,
   } satisfies TextStyle,
+
+  sectionIconContainer: {
+    padding: 8,
+    borderRadius: '100%',
+    marginRight: 12,
+  } satisfies ViewStyle,
+
+  sectionIcon: {
+    width: 24,
+    height: 24,
+  } satisfies ViewStyle,
+
+  nextButton: {
+    alignSelf: 'stretch',
+  },
 });

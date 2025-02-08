@@ -33,7 +33,7 @@ function StackRoot(): ReactNode {
       screenOptions={() => ({
         headerShown: false,
         animation: isInitialScreen.current ? 'fade' : 'default',
-        animationDuration: 200,
+        animationDuration: 100,
         freezeOnBlur: true,
 
         contentStyle: {

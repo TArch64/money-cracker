@@ -1,17 +1,14 @@
 import { type ReactNode, useMemo } from 'react';
 import { FormScreenLayout } from '@/components/layout';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { getRecordTypeTitle, IntroState, isIncomeRecord, RecordType } from '@/enums';
+import { getRecordTypeTitle, isIncomeRecord, RecordType } from '@/enums';
 import { FormAutocomplete, FormDatepicker, FormNumericInput, type FormSubmitHandler } from '@/components/form';
 import { date, minLength, minValue, number, object, pipe, string } from 'valibot';
-import { useCategoriesListQuery, useRecordCreateMutation, useUserUpdateMutation } from '@/hooks/queries';
+import { useCategoriesListQuery, useRecordCreateMutation } from '@/hooks/queries';
 import { useMonthStore } from '@/stores';
 
 export default function New(): ReactNode {
-  const searchParams = useLocalSearchParams<{
-    type: RecordType;
-    intro?: 'yes'
-  }>();
+  const searchParams = useLocalSearchParams<{ type: RecordType }>();
 
   const schema = useMemo(() => object({
     category: pipe(string(), minLength(1, 'This field is required')),
@@ -21,7 +18,6 @@ export default function New(): ReactNode {
 
   type Schema = typeof schema;
 
-  const isIntro = searchParams.intro === 'yes';
   const activeMonthIdx = useMonthStore((state) => state.activeIdx);
   const router = useRouter();
 
@@ -46,23 +42,12 @@ export default function New(): ReactNode {
   });
 
   const createRecordMutation = useRecordCreateMutation();
-  const updateUserMutation = useUserUpdateMutation();
 
   const onSubmit: FormSubmitHandler<Schema> = async (event) => {
     await createRecordMutation.mutateAsync({
       ...event.value,
       type: searchParams.type,
     });
-
-    if (isIntro) {
-      await updateUserMutation.mutateAsync({
-        intro: IntroState.COMPLETED,
-      });
-
-      router.dismissAll();
-      router.replace('/');
-      return;
-    }
 
     router.back();
   };
