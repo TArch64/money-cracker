@@ -9,6 +9,7 @@ import {
   HomeGoals,
   HomeMonthStatistic,
   HomeRecentRecords,
+  HomeSettings,
   HomeTitle,
 } from '@/components/home';
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
@@ -19,6 +20,7 @@ const sections: FC[] = [
   HomeAddRecord,
   HomeGoals,
   HomeRecentRecords,
+  HomeSettings,
 ];
 
 export default function Home(): ReactNode {

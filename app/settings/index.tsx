@@ -30,7 +30,7 @@ export default function Index(): ReactNode {
   const theme = useTheme();
 
   return (
-    <FullScreenLayout canGoBack={false} title="Settings">
+    <FullScreenLayout title="Settings">
       <Menu
         style={[
           styles.menu,
