@@ -32,7 +32,7 @@ function TermsSection(props: ITermsSectionProps): ReactNode {
         />
       </View>
 
-      <View>
+      <View style={styles.sectionContent}>
         <Text category="s1" style={styles.sectionTitle}>
           {props.title}
         </Text>
@@ -63,20 +63,20 @@ export default function Intro(): ReactNode {
         </Text>
 
         <Text>
-          Take control of your finances today
+          {t('intro.description')}
         </Text>
 
         <View style={styles.sectionList}>
-          <TermsSection title="100% Free, Forever" icon={IconName.HEART_OUTLINE}>
-            No ads, no premium, no data selling
+          <TermsSection title={t('intro.sections.free.title')} icon={IconName.HEART_OUTLINE}>
+            {t('intro.sections.free.description')}
           </TermsSection>
 
-          <TermsSection title="Privacy First" icon={IconName.LOCK_OUTLINE}>
-            All your data stays on your device
+          <TermsSection title={t('intro.sections.privacy.title')} icon={IconName.LOCK_OUTLINE}>
+            {t('intro.sections.privacy.description')}
           </TermsSection>
 
-          <TermsSection title="Open Source" icon={IconName.GITHUB_OUTLINE}>
-            Report issues & contribute on
+          <TermsSection title={t('intro.sections.openSource.title')} icon={IconName.GITHUB_OUTLINE}>
+            {t('intro.sections.openSource.description')}
 
             <Link asChild href="https://github.com/TArch64/money-cracker">
               <Text status="primary"> GitHub</Text>
@@ -85,7 +85,7 @@ export default function Intro(): ReactNode {
         </View>
 
         <Button style={styles.nextButton} onPress={start}>
-          Start
+          {t('intro.start')}
         </Button>
       </View>
     </FullScreenLayout>
@@ -106,6 +106,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    maxWidth: '80%',
   },
 
   heading: {
@@ -127,10 +128,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   } satisfies ViewStyle,
 
-  sectionTitle: {
-    marginBottom: 4,
-  } satisfies TextStyle,
-
   sectionIconContainer: {
     padding: 8,
     borderRadius: '100%',
@@ -141,6 +138,14 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
   } satisfies ViewStyle,
+
+  sectionContent: {
+    flexShrink: 1,
+  } satisfies TextStyle,
+
+  sectionTitle: {
+    marginBottom: 4,
+  } satisfies TextStyle,
 
   nextButton: {
     alignSelf: 'stretch',
