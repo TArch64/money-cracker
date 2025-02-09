@@ -9,6 +9,7 @@ import { FlashList } from '@shopify/flash-list';
 import { MonthDayHeader } from './MonthDayHeader';
 import { MonthRecord } from './MonthRecord';
 import { MonthBackToTop } from './MonthBackToTop';
+import { useTranslation } from 'react-i18next';
 
 const enum ListItemType {
   DAY_HEADER = 'day-header',
@@ -28,6 +29,7 @@ interface IRecordListItem {
 type ListItem = IDayHeaderListItem | IRecordListItem;
 
 export function MonthRecords(): ReactNode {
+  const { t } = useTranslation();
   const listRef = useRef<FlatList<ListItem>>(null);
   const monthIdx = useMonthStore((state) => state.activeIdx);
   const isScrollingToTop = useRef(false);
@@ -50,7 +52,7 @@ export function MonthRecords(): ReactNode {
     return (
       <View style={[styles.empty]}>
         <Text>
-          No records for this month
+          {t('records.index.empty')}
         </Text>
       </View>
     );

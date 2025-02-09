@@ -116,6 +116,11 @@ export const en: Lang = {
       date: 'Date',
     },
 
+    index: {
+      title: 'Records',
+      empty: 'No records for this month',
+    },
+
     new: {
       title: {
         income: `New ${recordTypeTitleSet.income}`,
@@ -143,14 +148,13 @@ export const en: Lang = {
 
   confirm: {
     delete: {
-      title: 'Delete {entity}',
-      message: 'Are you sure you want to delete {entity}',
+      title: 'Delete {{entity}}',
+      message: 'Are you sure you want to delete {{entity}}',
       accept: 'Delete',
     },
   },
 
   actionsSheet: {
-    title: '{entity} - Actions',
     edit: 'Edit',
     delete: 'Delete',
     cancel: 'Cancel',
@@ -164,5 +168,6 @@ export const en: Lang = {
 
   date: {
     today: 'Today',
+    yesterday: 'Yesterday',
   },
 };

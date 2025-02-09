@@ -1,8 +1,8 @@
-import { type ReactNode, useMemo } from 'react';
+import type { ReactNode } from 'react';
 import type { RecordWithCategory } from '@/db';
 import { StyleSheet, type TextStyle, type ViewStyle } from 'react-native';
 import { ListItem, Text } from '@ui-kitten/components';
-import { useDateFormatter, useMoneyFormatter } from '@/hooks/formatters';
+import { useDistanceDayFormatter, useMoneyFormatter } from '@/hooks/formatters';
 import { showConfirm } from '@/helpers/showConfirm';
 import { useRecordDeleteMutation } from '@/hooks/queries';
 import { useRouter } from 'expo-router';
@@ -21,22 +21,7 @@ export function HomeRecentRecord(props: IHomeRecentRecordProps): ReactNode {
   const deleteMutation = useRecordDeleteMutation(props.record);
 
   const isExpense = isExpenseRecord(props.record.type);
-
-  const dateFormatter = useDateFormatter({ month: 'long', day: 'numeric' });
-
-  const date = useMemo(() => {
-    const now = new Date();
-
-    if (
-      now.getFullYear() === props.record.date.getFullYear()
-      && now.getMonth() === props.record.date.getMonth()
-      && now.getDate() === props.record.date.getDate()
-    ) {
-      return t('date.today');
-    }
-
-    return dateFormatter.format(props.record.date);
-  }, [props.record.dateUnix]);
+  const date = useDistanceDayFormatter(props.record.date);
 
   const moneyFormatter = useMoneyFormatter();
   const value = moneyFormatter.format(isExpense ? -props.record.value : props.record.value);
@@ -55,9 +40,7 @@ export function HomeRecentRecord(props: IHomeRecentRecordProps): ReactNode {
   });
 
   const showActionsSheet = useActionSheet(() => ({
-    title: t('actionsSheet.title', {
-      entity: `${props.record.category.name} ${value}`,
-    }),
+    title: `${props.record.category.name} ${value}`,
 
     actions: [
       {

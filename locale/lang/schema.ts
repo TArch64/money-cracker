@@ -107,6 +107,11 @@ export interface Lang {
       date: string;
     };
 
+    index: {
+      title: string;
+      empty: string;
+    };
+
     new: {
       title: LangRecordTypeSet;
       add: LangRecordTypeSet;
@@ -127,7 +132,6 @@ export interface Lang {
   };
 
   actionsSheet: {
-    title: string;
     edit: string;
     delete: string;
     cancel: string;
@@ -141,5 +145,6 @@ export interface Lang {
 
   date: {
     today: string;
+    yesterday: string;
   };
 }

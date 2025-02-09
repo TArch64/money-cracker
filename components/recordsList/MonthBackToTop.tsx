@@ -9,8 +9,6 @@ export interface IMonthBackToTopProps {
   onPress: () => void;
 }
 
-const AnimatedButton = Animated.createAnimatedComponent(Button);
-
 export const MonthBackToTop = (props: IMonthBackToTopProps): ReactNode => {
   const theme = useTheme();
   const progress = useSharedValue(0);
@@ -36,12 +34,14 @@ export const MonthBackToTop = (props: IMonthBackToTopProps): ReactNode => {
 
   return (
     <Animated.View style={[styles.container, containerAnimatedStyle]}>
-      <AnimatedButton
+      <Button
         status="control"
+
         style={[
           styles.button,
           { boxShadow: theme['box-shadow-2'] },
-        ]  satisfies StyleProp<ViewStyle>}
+        ] satisfies StyleProp<ViewStyle>}
+
         accessoryLeft={iconRenderer(IconName.ARROW_UPWARD)}
         onPress={props.onPress}
       />

@@ -27,6 +27,7 @@
     "@ui-kitten/metro-config": "^5.3.1",
     "babel-plugin-inline-import": "^3.0.0",
     "babel-plugin-react-compiler": "^19.0.0-beta-714736e-20250131",
+    "date-fns": "^4.1.0",
     "drizzle-kit": "^0.30.4",
     "drizzle-orm": "^0.39.2",
     "eas-cli": "^15.0.6",

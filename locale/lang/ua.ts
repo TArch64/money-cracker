@@ -27,13 +27,13 @@ export const ua: Lang = {
   home: {
     sections: {
       balance: {
-        title: 'Ваш Баланс',
+        title: 'Баланс',
       },
 
       addRecord: {
         add: {
-          income: 'Додати Дохід',
-          expense: 'Додати Витрати',
+          income: 'Новий Дохід',
+          expense: 'Нові Витрати',
         },
       },
 
@@ -114,6 +114,11 @@ export const ua: Lang = {
       date: 'Дата',
     },
 
+    index: {
+      title: 'Операції',
+      empty: 'Немає операцій за цей місяць',
+    },
+
     new: {
       title: {
         income: 'Новий Дохід',
@@ -141,14 +146,13 @@ export const ua: Lang = {
 
   confirm: {
     delete: {
-      title: 'Видалити {entity}',
-      message: 'Ви впевнені що хочете видалити {entity}',
+      title: 'Видалити {{entity}}',
+      message: 'Ви впевнені що хочете видалити {{entity}}',
       accept: 'Видалити',
     },
   },
 
   actionsSheet: {
-    title: '{entity} - Дії',
     edit: 'Редагувати',
     delete: 'Видалити',
     cancel: 'Відмінити',
@@ -162,5 +166,6 @@ export const ua: Lang = {
 
   date: {
     today: 'Сьогодні',
+    yesterday: 'Вчора',
   },
 };

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { Divider, Text, useTheme } from '@ui-kitten/components';
-import { useDateFormatter } from '@/hooks/formatters';
+import { useDistanceDayFormatter } from '@/hooks/formatters';
 import { type StyleProp, StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
 
 interface IMonthDayHeaderProps {
@@ -9,8 +9,7 @@ interface IMonthDayHeaderProps {
 
 export function MonthDayHeader(props: IMonthDayHeaderProps): ReactNode {
   const theme = useTheme();
-  const dateFormatter = useDateFormatter({ month: 'long', day: 'numeric' });
-  const date = dateFormatter.format(props.date);
+  const date = useDistanceDayFormatter(props.date);
 
   const dividerStyle: ViewStyle = {
     backgroundColor: theme['color-basic-500'],
@@ -53,5 +52,6 @@ const styles = StyleSheet.create({
 
   title: {
     fontWeight: 600,
+    textTransform: 'capitalize',
   } satisfies TextStyle,
 });
