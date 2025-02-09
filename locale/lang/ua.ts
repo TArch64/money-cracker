@@ -31,7 +31,10 @@ export const ua: Lang = {
       },
 
       addRecord: {
-        add: 'Додати',
+        add: {
+          income: 'Додати Дохід',
+          expense: 'Додати Витрати',
+        },
       },
 
       goals: {
@@ -112,8 +115,27 @@ export const ua: Lang = {
     },
 
     new: {
-      title: 'Додати',
-      add: 'Додати',
+      title: {
+        income: 'Новий Дохід',
+        expense: 'Нові Витрати',
+      },
+
+      add: {
+        income: 'Додати',
+        expense: 'Додати',
+      },
+    },
+
+    edit: {
+      title: {
+        income: 'Редагувати Дохід',
+        expense: 'Редагувати Витрати',
+      },
+
+      save: {
+        income: 'Зберегти',
+        expense: 'Зберегти',
+      },
     },
   },
 

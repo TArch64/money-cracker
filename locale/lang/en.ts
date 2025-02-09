@@ -31,7 +31,10 @@ export const en: Lang = {
       },
 
       addRecord: {
-        add: 'Add',
+        add: {
+          income: 'Add Income',
+          expense: 'Add Expense',
+        },
       },
 
       goals: {
@@ -112,8 +115,27 @@ export const en: Lang = {
     },
 
     new: {
-      title: 'New',
-      add: 'Add',
+      title: {
+        income: 'New Income',
+        expense: 'New Expense',
+      },
+
+      add: {
+        income: 'Add Income',
+        expense: 'Add Expense',
+      },
+    },
+
+    edit: {
+      title: {
+        income: 'Edit Income',
+        expense: 'Edit Expense',
+      },
+
+      save: {
+        income: 'Save Income',
+        expense: 'Save Expense',
+      },
     },
   },
 

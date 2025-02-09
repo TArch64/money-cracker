@@ -54,7 +54,7 @@ export default function New(): ReactNode {
   return (
     <FormScreenLayout
       fullScreen
-      title={`${t('records.new.title')} ${screenTitle}`}
+      title={t(`records.new.title.${searchParams.type}`)}
       schema={schema}
       onSubmit={onSubmit}
 
@@ -64,7 +64,7 @@ export default function New(): ReactNode {
         date: initialDate,
       }}
 
-      submit={`${t('records.new.add')} ${screenTitle}`}
+      submit={t(`records.new.add.${searchParams.type}`)}
     >
       {({ f }) => (
         <>

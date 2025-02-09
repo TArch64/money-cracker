@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { type StyleProp, StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
-import { getRecordTypeTitle, getRecordTypeValue, RecordType } from '@/enums';
+import { getRecordTypeValue, RecordType } from '@/enums';
 import { Text, useTheme } from '@ui-kitten/components';
 import { Icon, IconName } from '@/components/uiKitten';
 import { HomeCard } from './HomeCard';
@@ -18,7 +18,6 @@ interface IRecordCardConfig {
 function AddRecordCard(props: IAddRecordCardProps): ReactNode {
   const { t } = useTranslation();
   const theme = useTheme();
-  const title = getRecordTypeTitle(t, props.type);
 
   const config = getRecordTypeValue<IRecordCardConfig>(props.type, {
     [RecordType.INCOME]: () => ({
@@ -56,7 +55,7 @@ function AddRecordCard(props: IAddRecordCardProps): ReactNode {
         </View>
 
         <Text style={styles.cardTitle}>
-          {t('home.sections.addRecord.add')} {title}
+          {t(`home.sections.addRecord.add.${props.type}`)}
         </Text>
       </View>
     </HomeCard>

@@ -2,19 +2,21 @@ import { type ReactNode, useMemo } from 'react';
 import { FormScreenLayout } from '@/components/layout';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useCategoriesListQuery, useRecordDetailsSuspenseQuery, useRecordUpdateMutation } from '@/hooks/queries';
-import { getRecordTypeTitle, isIncomeRecord } from '@/enums';
+import { getRecordTypeTitle } from '@/enums';
 import { date, minLength, minValue, number, object, pipe, string } from 'valibot';
 import { FormAutocomplete, FormDatepicker, FormNumericInput, type FormSubmitHandler } from '@/components/form';
+import { useTranslation } from 'react-i18next';
 
 export default function Edit(): ReactNode {
+  const { t } = useTranslation();
   const router = useRouter();
   const searchParams = useLocalSearchParams<{ recordId: string }>();
   const recordQuery = useRecordDetailsSuspenseQuery(+searchParams.recordId);
   const updateMutation = useRecordUpdateMutation(recordQuery.data);
 
   const schema = useMemo(() => object({
-    category: pipe(string(), minLength(1, 'This field is required')),
-    value: pipe(number(), minValue(1, 'This field is required')),
+    category: pipe(string(), minLength(1, t('form.errors.required'))),
+    value: pipe(number(), minValue(1, t('form.errors.required'))),
     date: date(),
   }), []);
 
@@ -26,9 +28,7 @@ export default function Edit(): ReactNode {
     select: (categories) => categories.map((category) => category.name),
   });
 
-  const isIncome = isIncomeRecord(recordQuery.data.type);
-  const typeTitle = getRecordTypeTitle(recordQuery.data.type);
-  const valueLabel = isIncome ? 'Money received' : 'Money spent';
+  const screenTitle = getRecordTypeTitle(t, recordQuery.data.type);
 
   const onSubmit: FormSubmitHandler<Schema> = async (event) => {
     updateMutation.mutate(event.value);
@@ -38,7 +38,7 @@ export default function Edit(): ReactNode {
   return (
     <FormScreenLayout
       fullScreen
-      title={`Edit ${typeTitle}`}
+      title={t(`records.edit.title.${recordQuery.data.type}`)}
       schema={schema}
       onSubmit={onSubmit}
 
@@ -48,27 +48,27 @@ export default function Edit(): ReactNode {
         date: recordQuery.data.date,
       }}
 
-      submit={`Save ${typeTitle}`}
+      submit={t(`records.edit.save.${recordQuery.data.type}`)}
     >
       {({ f }) => (
         <>
           <FormAutocomplete
             name={f('category')}
-            label="Category"
-            placeholder="Category"
+            label={t('records.form.category')}
+            placeholder={t('records.form.category')}
             suggestions={categoriesQuery.data}
           />
 
           <FormNumericInput
             name={f('value')}
-            label={valueLabel}
-            placeholder={valueLabel}
+            label={t(`records.form.value.${recordQuery.data.type}`)}
+            placeholder={t(`records.form.value.${recordQuery.data.type}`)}
           />
 
           <FormDatepicker
             name={f('date')}
-            label="Date"
-            placeholder="Date"
+            label={t('records.form.date')}
+            placeholder={t('records.form.date')}
           />
         </>
       )}
