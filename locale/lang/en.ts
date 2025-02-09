@@ -100,6 +100,21 @@ export const en: Lang = {
       income: 'Income',
       expense: 'Expense',
     },
+
+    form: {
+      value: {
+        income: 'Money received',
+        expense: 'Money spent',
+      },
+
+      category: 'Category',
+      date: 'Date',
+    },
+
+    new: {
+      title: 'New',
+      add: 'Add',
+    },
   },
 
   confirm: {
@@ -115,5 +130,11 @@ export const en: Lang = {
     edit: 'Edit',
     delete: 'Delete',
     cancel: 'Cancel',
+  },
+
+  form: {
+    errors: {
+      required: 'This field is required',
+    },
   },
 };

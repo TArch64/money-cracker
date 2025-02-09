@@ -1,5 +1,3 @@
-import { RecordType } from '@/enums';
-
 export interface Lang {
   intro: {
     heading: string;
@@ -96,7 +94,25 @@ export interface Lang {
   };
 
   records: {
-    type: Record<RecordType, string>;
+    type: {
+      income: string;
+      expense: string;
+    },
+
+    form: {
+      value: {
+        income: string;
+        expense: string;
+      },
+
+      category: string;
+      date: string;
+    },
+
+    new: {
+      title: string;
+      add: string;
+    }
   };
 
   confirm: {
@@ -112,5 +128,11 @@ export interface Lang {
     edit: string;
     delete: string;
     cancel: string;
+  };
+
+  form: {
+    errors: {
+      required: string;
+    }
   };
 }

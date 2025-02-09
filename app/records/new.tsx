@@ -1,29 +1,28 @@
 import { type ReactNode, useMemo } from 'react';
 import { FormScreenLayout } from '@/components/layout';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { getRecordTypeTitle, isIncomeRecord, RecordType } from '@/enums';
+import { getRecordTypeTitle, RecordType } from '@/enums';
 import { FormAutocomplete, FormDatepicker, FormNumericInput, type FormSubmitHandler } from '@/components/form';
 import { date, minLength, minValue, number, object, pipe, string } from 'valibot';
 import { useCategoriesListQuery, useRecordCreateMutation } from '@/hooks/queries';
 import { useMonthStore } from '@/stores';
+import { useTranslation } from 'react-i18next';
 
 export default function New(): ReactNode {
+  const router = useRouter();
+  const { t } = useTranslation();
   const searchParams = useLocalSearchParams<{ type: RecordType }>();
 
   const schema = useMemo(() => object({
-    category: pipe(string(), minLength(1, 'This field is required')),
-    value: pipe(number(), minValue(1, 'This field is required')),
+    category: pipe(string(), minLength(1, t('form.errors.required'))),
+    value: pipe(number(), minValue(1, t('form.errors.required'))),
     date: date(),
   }), []);
 
   type Schema = typeof schema;
 
   const activeMonthIdx = useMonthStore((state) => state.activeIdx);
-  const router = useRouter();
-
-  const isIncome = isIncomeRecord(searchParams.type);
-  const screenTitle = getRecordTypeTitle(searchParams.type);
-  const valueLabel = isIncome ? 'Money received' : 'Money spent';
+  const screenTitle = getRecordTypeTitle(t, searchParams.type);
 
   const initialDate = useMemo(() => {
     const now = new Date();
@@ -55,7 +54,7 @@ export default function New(): ReactNode {
   return (
     <FormScreenLayout
       fullScreen
-      title={`New ${screenTitle}`}
+      title={`${t('records.new.title')} ${screenTitle}`}
       schema={schema}
       onSubmit={onSubmit}
 
@@ -65,27 +64,27 @@ export default function New(): ReactNode {
         date: initialDate,
       }}
 
-      submit={`Add ${screenTitle}`}
+      submit={`${t('records.new.add')} ${screenTitle}`}
     >
       {({ f }) => (
         <>
           <FormAutocomplete
             name={f('category')}
-            label="Category"
-            placeholder="Category"
+            label={t('records.form.category')}
+            placeholder={t('records.form.category')}
             suggestions={categoriesQuery.data}
           />
 
           <FormNumericInput
             name={f('value')}
-            label={valueLabel}
-            placeholder={valueLabel}
+            label={t(`records.form.value.${searchParams.type}`)}
+            placeholder={t(`records.form.value.${searchParams.type}`)}
           />
 
           <FormDatepicker
             name={f('date')}
-            label="Date"
-            placeholder="Date"
+            label={t('records.form.date')}
+            placeholder={t('records.form.date')}
           />
         </>
       )}

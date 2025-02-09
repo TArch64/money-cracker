@@ -100,6 +100,21 @@ export const ua: Lang = {
       income: 'Дохід',
       expense: 'Витрати',
     },
+
+    form: {
+      value: {
+        income: 'Зароблено',
+        expense: 'Витрачено',
+      },
+
+      category: 'Категорія',
+      date: 'Дата',
+    },
+
+    new: {
+      title: 'Додати',
+      add: 'Додати',
+    },
   },
 
   confirm: {
@@ -115,5 +130,11 @@ export const ua: Lang = {
     edit: 'Редагувати',
     delete: 'Видалити',
     cancel: 'Відмінити',
+  },
+
+  form: {
+    errors: {
+      required: 'Це поле обовʼязкове',
+    },
   },
 };
