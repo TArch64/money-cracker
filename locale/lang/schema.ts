@@ -1,4 +1,4 @@
-type RecordTypeSet = {
+export type LangRecordTypeSet = {
   income: string;
   expense: string;
 }
@@ -38,7 +38,7 @@ export interface Lang {
       };
 
       addRecord: {
-        add: RecordTypeSet;
+        add: LangRecordTypeSet;
       };
 
       goals: {
@@ -99,22 +99,22 @@ export interface Lang {
   };
 
   records: {
-    type: RecordTypeSet;
+    type: LangRecordTypeSet;
 
     form: {
-      value: RecordTypeSet;
+      value: LangRecordTypeSet;
       category: string;
       date: string;
     };
 
     new: {
-      title: RecordTypeSet;
-      add: RecordTypeSet;
+      title: LangRecordTypeSet;
+      add: LangRecordTypeSet;
     };
 
     edit: {
-      title: RecordTypeSet;
-      save: RecordTypeSet;
+      title: LangRecordTypeSet;
+      save: LangRecordTypeSet;
     };
   };
 
@@ -137,5 +137,9 @@ export interface Lang {
     errors: {
       required: string;
     };
+  };
+
+  date: {
+    today: string;
   };
 }

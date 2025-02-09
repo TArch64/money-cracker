@@ -32,8 +32,9 @@ export function HomeRecentRecord(props: IHomeRecentRecordProps): ReactNode {
       && now.getMonth() === props.record.date.getMonth()
       && now.getDate() === props.record.date.getDate()
     ) {
-      return 'Today';
+      return t('date.today');
     }
+
     return dateFormatter.format(props.record.date);
   }, [props.record.dateUnix]);
 

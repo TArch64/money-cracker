@@ -45,7 +45,7 @@ export function HomeTitle(props: IHomeTitleProps): ReactNode {
           { borderColor: theme['color-basic-500'] },
         ] satisfies StyleProp<ViewStyle>}
       >
-        <Text category="h1">
+        <Text category="h1" style={styles.title}>
           {monthTitle}
         </Text>
 
@@ -69,5 +69,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderStyle: 'solid',
     transformOrigin: 'left',
+  } satisfies ViewStyle,
+
+  title: {
+    textTransform: 'capitalize',
   } satisfies TextStyle,
 });

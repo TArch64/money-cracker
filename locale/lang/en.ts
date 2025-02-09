@@ -1,4 +1,9 @@
-import type { Lang } from './schema';
+import type { Lang, LangRecordTypeSet } from './schema';
+
+const recordTypeTitleSet: LangRecordTypeSet = {
+  income: 'Income',
+  expense: 'Expense',
+};
 
 export const en: Lang = {
   intro: {
@@ -32,8 +37,8 @@ export const en: Lang = {
 
       addRecord: {
         add: {
-          income: 'Add Income',
-          expense: 'Add Expense',
+          income: `Add ${recordTypeTitleSet.income}`,
+          expense: `Add ${recordTypeTitleSet.expense}`,
         },
       },
 
@@ -99,10 +104,7 @@ export const en: Lang = {
   },
 
   records: {
-    type: {
-      income: 'Income',
-      expense: 'Expense',
-    },
+    type: recordTypeTitleSet,
 
     form: {
       value: {
@@ -116,25 +118,25 @@ export const en: Lang = {
 
     new: {
       title: {
-        income: 'New Income',
-        expense: 'New Expense',
+        income: `New ${recordTypeTitleSet.income}`,
+        expense: `New ${recordTypeTitleSet.expense}`,
       },
 
       add: {
-        income: 'Add Income',
-        expense: 'Add Expense',
+        income: `Add ${recordTypeTitleSet.income}`,
+        expense: `Add ${recordTypeTitleSet.expense}`,
       },
     },
 
     edit: {
       title: {
-        income: 'Edit Income',
-        expense: 'Edit Expense',
+        income: `Edit ${recordTypeTitleSet.income}`,
+        expense: `Edit ${recordTypeTitleSet.expense}`,
       },
 
       save: {
-        income: 'Save Income',
-        expense: 'Save Expense',
+        income: `Save ${recordTypeTitleSet.income}`,
+        expense: `Save ${recordTypeTitleSet.expense}`,
       },
     },
   },
@@ -158,5 +160,9 @@ export const en: Lang = {
     errors: {
       required: 'This field is required',
     },
+  },
+
+  date: {
+    today: 'Today',
   },
 };

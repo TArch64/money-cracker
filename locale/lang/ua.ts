@@ -159,4 +159,8 @@ export const ua: Lang = {
       required: 'Це поле обовʼязкове',
     },
   },
+
+  date: {
+    today: 'Сьогодні',
+  },
 };
