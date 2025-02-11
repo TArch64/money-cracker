@@ -34,7 +34,7 @@ export function HomeTitle(props: IHomeTitleProps): ReactNode {
       [0, 1],
       [theme['background-basic-color-2'], theme['background-basic-color-1']],
     ),
-  }))
+  }));
 
   return (
     <Link href="/month/switcher">

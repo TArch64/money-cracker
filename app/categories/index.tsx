@@ -42,14 +42,14 @@ export default function Index(): ReactNode {
       <CategoriesList
         type={type}
 
-        header={
+        header={(
           <ButtonSelect
             value={type}
             onChange={setType}
             options={recordTypeOptions}
             style={styles.typeSelector}
           />
-        }
+        )}
       />
     </FullScreenLayout>
   );

@@ -15,8 +15,8 @@ export interface IFormContext<S extends FormSchema> {
 }
 
 export interface FormSubmitEvent<S extends FormSchema> {
-  value: InferOutput<S>,
-  formApi: FormApi<S>
+  value: InferOutput<S>;
+  formApi: FormApi<S>;
 }
 
 export type FormSubmitHandler<S extends FormSchema> = (event: FormSubmitEvent<S>) => MaybePromise<void>;
@@ -30,7 +30,7 @@ export interface IFormProps<S extends FormSchema> extends IPropsWithChildrenFn<[
 }
 
 export function Form<S extends FormSchema>(props: IFormProps<S>): ReactNode {
-  // @ts-expect-error
+  // @ts-expect-error ts cannot resolve type due recursion
   const form = useForm({
     defaultValues: props.initialValues,
     validatorAdapter: standardSchemaValidator(),

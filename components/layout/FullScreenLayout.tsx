@@ -20,12 +20,14 @@ export function FullScreenLayout(props: IFullScreenLayoutProps): ReactNode {
   const theme = useTheme();
   const canGoBack = props.canGoBack ?? router.canGoBack();
 
-  const headerLeft = props.headerLeft ?? (canGoBack ? (() => (
-    <TopNavigationAction
-      icon={iconRenderer(IconName.ARROW_BACK)}
-      onPress={router.back}
-    />
-  )) : undefined);
+  const headerLeft = props.headerLeft ?? (canGoBack
+    ? () => (
+      <TopNavigationAction
+        icon={iconRenderer(IconName.ARROW_BACK)}
+        onPress={router.back}
+      />
+    )
+    : undefined);
 
   return (
     <>
@@ -63,5 +65,5 @@ export function FullScreenLayout(props: IFullScreenLayoutProps): ReactNode {
 const styles = StyleSheet.create({
   wrapper: {
     height: '100%',
-  }
+  },
 });

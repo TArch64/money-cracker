@@ -25,7 +25,7 @@ export function useRecordsMonthSuspenseQuery<D = RecordWithCategory[]>(options: 
     ],
 
     async queryFn(args): Promise<RecordWithCategory[]> {
-      const [, , year, , month] = args.queryKey as ReturnType<typeof RECORDS_MONTH_LIST_QUERY>;
+      const [, , year, , month] = args.queryKey as unknown as ReturnType<typeof RECORDS_MONTH_LIST_QUERY>;
 
       let query = db
         .select({ ...getTableColumns(records), category: categories })
@@ -35,7 +35,7 @@ export function useRecordsMonthSuspenseQuery<D = RecordWithCategory[]>(options: 
         .orderBy(desc(records.date));
 
       if (options.limit) {
-        // @ts-expect-error
+        // @ts-expect-error drizzle only supports statically defined limit
         query = query.limit(options.limit);
       }
 

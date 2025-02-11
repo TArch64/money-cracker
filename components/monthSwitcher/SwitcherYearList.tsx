@@ -67,5 +67,5 @@ export function SwitcherYearList(): ReactNode {
           : <SwitcherYearMonth monthIdx={item.month} />
       )}
     />
-  )
+  );
 }

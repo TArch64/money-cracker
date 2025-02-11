@@ -139,5 +139,5 @@ const styles = StyleSheet.create({
     minHeight: 40,
     display: 'flex',
     justifyContent: 'center',
-  } satisfies ViewStyle
+  } satisfies ViewStyle,
 });

@@ -18,5 +18,5 @@ export function useMoneyFormatter(options: MoneyFormatOptions = {}): INumberForm
     style: 'currency',
     minimumFractionDigits: 0,
     ...options,
-  })
+  });
 }

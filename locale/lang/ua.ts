@@ -113,7 +113,7 @@ export const ua: Lang = {
 
         category: 'Категорія',
         date: 'Дата',
-      }
+      },
     },
 
     index: {

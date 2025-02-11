@@ -36,7 +36,7 @@ export function useBudgetMonthSuspenseQuery(year: number, month: number) {
       const [budget] = await db
         .select({ id: budgets.id })
         .from(budgets)
-        .where(and(eq(budgets.year, year), eq(budgets.month, month)))
+        .where(and(eq(budgets.year, year), eq(budgets.month, month)));
 
       if (!budget) {
         return null;

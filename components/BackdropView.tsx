@@ -21,7 +21,7 @@ export function BackdropView(props: IBackdropViewProps): ReactNode {
   return (
     <TouchableWithoutFeedback onPress={props.onPress}>
       <View
-        ref={view => view?.measureInWindow(onMeasure)}
+        ref={(view) => view?.measureInWindow(onMeasure)}
         style={[style, { position: 'absolute' }]}
       />
     </TouchableWithoutFeedback>

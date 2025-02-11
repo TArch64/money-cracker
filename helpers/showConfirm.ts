@@ -10,17 +10,21 @@ export interface IConfirmProps {
   accept?: string | IConfirmButton;
 }
 
-export function showConfirm(props: IConfirmProps): Promise<boolean> {
-  const decline: IConfirmButton = typeof props.decline === 'object' ? props.decline : {
-    style: 'cancel',
-    text: props.decline || 'Cancel',
-  };
+function normalizeButton(button: string | IConfirmButton, convert: (text?: string) => IConfirmButton): IConfirmButton {
+  return typeof button === 'object' ? button : convert(button);
+}
 
-  const accept: IConfirmButton = typeof props.accept === 'object' ? props.accept : {
+export function showConfirm(props: IConfirmProps): Promise<boolean> {
+  const decline = normalizeButton(props.decline || 'Cancel', (text) => ({
+    style: 'cancel',
+    text: text || 'Cancel',
+  }));
+
+  const accept = normalizeButton(props.accept || 'Confirm', (text) => ({
     style: 'default',
-    text: props.accept || 'Confirm',
+    text: text || 'Confirm',
     isPreferred: true,
-  };
+  }));
 
   return new Promise((resolve) => {
     Alert.alert(props.title, props.message, [

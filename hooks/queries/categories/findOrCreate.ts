@@ -43,6 +43,6 @@ export function useCategoryFindOrCreateMutation() {
           queryKey: CATEGORIES_LIST_QUERY(data.category.type),
         });
       }
-    }
+    },
   });
 }

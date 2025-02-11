@@ -1,7 +1,7 @@
 export type LangRecordTypeSet = {
   income: string;
   expense: string;
-}
+};
 
 export interface Lang {
   intro: {
@@ -52,8 +52,8 @@ export interface Lang {
             copy: string;
             decision: string;
             new: string;
-          }
-        }
+          };
+        };
       };
 
       recentRecords: {
@@ -141,8 +141,8 @@ export interface Lang {
       empty: string;
 
       delete: {
-        entity: string
-      }
+        entity: string;
+      };
     };
 
     new: {
@@ -162,8 +162,8 @@ export interface Lang {
     form: {
       labels: {
         spendingGoal: string;
-      }
-    },
+      };
+    };
 
     new: {
       title: string;
@@ -173,7 +173,7 @@ export interface Lang {
     edit: {
       title: string;
       save: string;
-    }
+    };
   };
 
   monthSwitcher: {
@@ -182,7 +182,7 @@ export interface Lang {
 
   monthStatistics: {
     title: string;
-  },
+  };
 
   confirm: {
     delete: {

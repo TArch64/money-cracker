@@ -28,7 +28,7 @@ function getMonthDays(idx: MonthIdx): Date[] {
 }
 
 export async function runSeeds(db: AppDatabase): Promise<void> {
-  if (!!await db.$count(categories)) {
+  if (await db.$count(categories)) {
     return;
   }
 

@@ -33,7 +33,7 @@ export const records = sqliteTable('records', {
   value: integer().notNull(),
   date: date().notNull(),
   dateUnix: dateUnix('date').notNull(),
-  categoryId: integer().references(() => categories.id, { onDelete: 'restrict' }).notNull()
+  categoryId: integer().references(() => categories.id, { onDelete: 'restrict' }).notNull(),
 }, (t) => [
   index('records_type_idx').on(t.type),
 ]);
@@ -42,7 +42,7 @@ export const recordsRelations = relations(records, ({ one }) => ({
   category: one(categories, {
     fields: [records.categoryId],
     references: [categories.id],
-  })
+  }),
 }));
 
 export type Record = InferSelectModel<typeof records>;

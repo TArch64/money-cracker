@@ -19,5 +19,5 @@ export function QueryProvider(props: PropsWithChildren): ReactNode {
     <QueryClientProvider client={client}>
       {props.children}
     </QueryClientProvider>
-  )
+  );
 }

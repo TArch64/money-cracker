@@ -11,5 +11,5 @@ export default {
     m0000,
     m0001,
     m0002
-  }
+  },
 };

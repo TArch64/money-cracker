@@ -10,8 +10,8 @@ import { HomeCardTitle } from '@/components/home/HomeCardTitle';
 import { useTranslation } from 'react-i18next';
 
 interface IStatisticColumnProps {
-  type: RecordType,
-  total: number,
+  type: RecordType;
+  total: number;
 }
 
 function StatisticColumn(props: IStatisticColumnProps): ReactNode {

@@ -19,6 +19,6 @@ export function useRecordDetailsSuspenseQuery(recordId: number) {
         .innerJoin(categories, eq(categories.id, records.categoryId));
 
       return record;
-    }
+    },
   });
 }

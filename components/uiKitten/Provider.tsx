@@ -68,7 +68,6 @@ const themes: Record<ColorScheme, () => Theme> = {
   dark: () => eva.dark,
 };
 
-
 export function UiKittenProvider(props: PropsWithChildren): ReactNode {
   const colorScheme = useColorScheme() ?? 'light';
 

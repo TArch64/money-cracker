@@ -51,8 +51,8 @@ export function useRecordUpdateMutation(record: RecordWithCategory) {
       ];
 
       if (
-        data.newDate.getFullYear() !== record.date.getFullYear() ||
-        data.newDate.getMonth() !== record.date.getMonth()
+        data.newDate.getFullYear() !== record.date.getFullYear()
+        || data.newDate.getMonth() !== record.date.getMonth()
       ) {
         promises.push(queryClient.invalidateQueries({
           queryKey: RECORDS_MONTH_LIST_QUERY(data.newDate.getFullYear(), data.newDate.getMonth()),

@@ -9,9 +9,9 @@ export function FormError(props: TextProps): ReactNode {
       status="danger"
       style={[props?.style, { marginTop: 4 }]}
     />
-  )
+  );
 }
 
 export function formErrorRenderer(error?: string): RenderProp<TextProps> | undefined {
-  return error ? (txtProps) => <FormError {...txtProps} children={error} /> : undefined;
+  return error ? (txtProps) => <FormError {...txtProps}>{error}</FormError> : undefined;
 }

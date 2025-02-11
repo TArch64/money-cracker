@@ -14,11 +14,13 @@ function SelectValue(props: ISelectValueProps): ReactNode {
   const theme = useTheme();
 
   return (
-    <Text {...textProps} style={[
-      textProps.style,
-      styles.selectValue,
-      !props.value && { color: theme['color-basic-800'] },
-    ]}
+    <Text
+      {...textProps}
+      style={[
+        textProps.style,
+        styles.selectValue,
+        !props.value && { color: theme['color-basic-800'] },
+      ]}
     >
       {props.value ?? props.placeholder}
     </Text>
@@ -44,7 +46,7 @@ export function FormSelect(props: IFormSelectProps): ReactNode {
   const selectedPath = selectedIndex === -1 ? undefined : new IndexPath(selectedIndex);
 
   function selectItem(path: IndexPath | IndexPath[]): void {
-    const { row } = (path as IndexPath);
+    const { row } = path as IndexPath;
     field.handleChange(items[row].value);
   }
 
@@ -75,5 +77,5 @@ export function FormSelect(props: IFormSelectProps): ReactNode {
 const styles = StyleSheet.create({
   selectValue: {
     fontWeight: 400,
-  } satisfies TextStyle
+  } satisfies TextStyle,
 });

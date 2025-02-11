@@ -24,8 +24,8 @@ function DatabaseSeeds(props: IDatabaseInnerProviderProps): ReactNode {
     if (__DEV__) {
       // import('./seeds').then(async ({ runSeeds }) => {
       //   await runSeeds(props.client);
-        setReady(true);
-        props.onReady();
+      setReady(true);
+      props.onReady();
       // });
     }
   }, []);
@@ -50,6 +50,7 @@ export function DatabaseProvider(props: IDatabaseProviderProps): ReactNode {
     try {
       database.closeSync();
     } catch {
+      // ignore
     }
   }, []);
 

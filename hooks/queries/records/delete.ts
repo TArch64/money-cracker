@@ -30,6 +30,6 @@ export function useRecordDeleteMutation(record: Record) {
           queryKey: BALANCE_QUERY,
         }),
       ]);
-    }
-  })
+    },
+  });
 }

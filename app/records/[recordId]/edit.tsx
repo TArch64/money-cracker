@@ -33,7 +33,7 @@ export default function Edit(): ReactNode {
   const onSubmit: FormSubmitHandler<Schema> = async (event) => {
     updateMutation.mutate(event.value);
     router.back();
-  }
+  };
 
   return (
     <FormScreenLayout
@@ -73,5 +73,5 @@ export default function Edit(): ReactNode {
         </>
       )}
     </FormScreenLayout>
-  )
+  );
 }

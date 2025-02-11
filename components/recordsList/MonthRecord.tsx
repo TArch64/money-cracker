@@ -59,7 +59,7 @@ export function MonthRecord(props: IMonthRecordProps): ReactNode {
         }),
 
       CancelSheetAction.named(t('actionsSheet.cancel')),
-    ]
+    ],
   }));
 
   return (
@@ -119,6 +119,6 @@ const styles = StyleSheet.create({
 
   value: {
     marginLeft: 'auto',
-    alignSelf: 'center'
+    alignSelf: 'center',
   } satisfies TextStyle,
 });

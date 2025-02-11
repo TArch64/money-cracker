@@ -115,7 +115,7 @@ export const en: Lang = {
 
         category: 'Category',
         date: 'Date',
-      }
+      },
     },
 
     index: {

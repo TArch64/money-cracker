@@ -22,14 +22,14 @@ export default function Index(): ReactNode {
     <FullScreenLayout
       title={t('records.index.title')}
 
-      headerRight={() =>
+      headerRight={() => (
         <TopNavigationAction
           icon={iconRenderer(IconName.PLUS)}
           onPress={openNewRecord}
         />
-      }
+      )}
     >
       <MonthRecords />
     </FullScreenLayout>
-  )
+  );
 }
