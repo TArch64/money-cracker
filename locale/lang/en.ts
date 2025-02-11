@@ -146,6 +146,10 @@ export const en: Lang = {
     },
   },
 
+  monthSwitcher: {
+    title: 'Select Month',
+  },
+
   confirm: {
     delete: {
       title: 'Delete {{entity}}',

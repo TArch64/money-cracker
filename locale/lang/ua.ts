@@ -144,6 +144,10 @@ export const ua: Lang = {
     },
   },
 
+  monthSwitcher: {
+    title: 'Активний Місяць',
+  },
+
   confirm: {
     delete: {
       title: 'Видалити {{entity}}',

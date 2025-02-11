@@ -123,6 +123,10 @@ export interface Lang {
     };
   };
 
+  monthSwitcher: {
+    title: string;
+  };
+
   confirm: {
     delete: {
       title: string;
