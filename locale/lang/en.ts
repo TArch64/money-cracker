@@ -150,6 +150,10 @@ export const en: Lang = {
     title: 'Select Month',
   },
 
+  monthStatistics: {
+    title: 'Statistics',
+  },
+
   confirm: {
     delete: {
       title: 'Delete {{entity}}',

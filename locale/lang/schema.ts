@@ -127,6 +127,10 @@ export interface Lang {
     title: string;
   };
 
+  monthStatistics: {
+    title: string;
+  },
+
   confirm: {
     delete: {
       title: string;

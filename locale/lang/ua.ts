@@ -148,6 +148,10 @@ export const ua: Lang = {
     title: 'Активний Місяць',
   },
 
+  monthStatistics: {
+    title: 'Статистика',
+  },
+
   confirm: {
     delete: {
       title: 'Видалити {{entity}}',

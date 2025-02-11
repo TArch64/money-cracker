@@ -5,6 +5,7 @@ import { useMonthStore } from '@/stores';
 import { Divider, List, ListItem, Text } from '@ui-kitten/components';
 import { useMoneyFormatter } from '@/hooks/formatters';
 import { StyleSheet, type ViewStyle } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 interface IMonthCategoryStatisticsProps {
   category: IRecordMonthStatistics;
@@ -45,8 +46,10 @@ function MonthStatistics(): ReactNode {
 }
 
 export default function Statistics(): ReactNode {
+  const { t } = useTranslation();
+
   return (
-    <FullScreenLayout title="Statistics">
+    <FullScreenLayout title={t('monthStatistics.title')}>
       <MonthStatistics />
     </FullScreenLayout>
   );
