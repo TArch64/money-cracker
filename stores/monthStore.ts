@@ -6,7 +6,7 @@ interface IStore {
   activateIdx: (idx: MonthIdx) => void;
 }
 
-export const useMonthStore = create<IStore>(set => ({
+export const useMonthStore = create<IStore>((set) => ({
   activeIdx: MonthIdx.current(),
   activateIdx: (idx: MonthIdx) => set({ activeIdx: idx }),
 }));

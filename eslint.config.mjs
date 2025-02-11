@@ -12,8 +12,8 @@ export default [
     languageOptions: {
       globals: {
         ...globals.node
-      }
-    }
+      },
+    },
   },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
@@ -35,6 +35,6 @@ export default [
       '@typescript-eslint/no-unused-vars': 'off',
       '@stylistic/multiline-ternary': 'off',
       '@stylistic/jsx-one-expression-per-line': 'off'
-    }
-  }
+    },
+  },
 ];
