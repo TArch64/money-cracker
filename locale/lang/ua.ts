@@ -174,6 +174,11 @@ export const ua: Lang = {
 
       add: 'Додати',
     },
+
+    edit: {
+      title: '{{name}}',
+      save: 'Зберегти',
+    },
   },
 
   monthSwitcher: {

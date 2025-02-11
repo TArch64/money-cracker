@@ -149,6 +149,11 @@ export interface Lang {
       title: LangRecordTypeSet;
       add: string;
     };
+
+    edit: {
+      title: string;
+      save: string;
+    };
   };
 
   monthSwitcher: {

@@ -1,29 +1,26 @@
 import { type ReactNode, useMemo } from 'react';
 import { FormScreenLayout } from '@/components/layout';
-import { checkAsync, minLength, objectAsync, pipeAsync, string, trim } from 'valibot';
+import { minLength, objectAsync, pipeAsync, string, trim } from 'valibot';
 import { FormInput, type FormSubmitHandler } from '@/components/form';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { RecordType } from '@/enums';
-import { useCategoryCheckUniqueness, useCategoryCreateMutation } from '@/hooks/queries';
+import { useCategoryCreateMutation } from '@/hooks/queries';
 import { useTranslation } from 'react-i18next';
+import { useCategoryNameUniquenessCheck } from '@/hooks/categories';
 
 export default function New(): ReactNode {
   const { t } = useTranslation();
   const router = useRouter();
   const searchParams = useLocalSearchParams<{ type: RecordType }>();
   const createMutation = useCategoryCreateMutation();
-  const checkUniqueness = useCategoryCheckUniqueness();
+  const nameUniquenessCheck = useCategoryNameUniquenessCheck();
 
   const schema = useMemo(() => objectAsync({
     name: pipeAsync(
       string(),
       trim(),
       minLength(3, t('form.errors.minLength', { length: 3 })),
-
-      checkAsync(async (name) => {
-        const { isUnique } = await checkUniqueness.mutateAsync({ name });
-        return isUnique;
-      }, t('categories.form.errors.uniqueName')),
+      nameUniquenessCheck,
     ),
   }), []);
 

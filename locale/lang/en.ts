@@ -176,6 +176,11 @@ export const en: Lang = {
 
       add: 'Add Category',
     },
+
+    edit: {
+      title: 'Edit {{name}}',
+      save: 'Update Category',
+    },
   },
 
   monthSwitcher: {
