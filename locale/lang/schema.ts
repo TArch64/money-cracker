@@ -102,9 +102,11 @@ export interface Lang {
     type: LangRecordTypeSet;
 
     form: {
-      value: LangRecordTypeSet;
-      category: string;
-      date: string;
+      labels: {
+        value: LangRecordTypeSet;
+        category: string;
+        date: string;
+      };
     };
 
     index: {
@@ -120,6 +122,23 @@ export interface Lang {
     edit: {
       title: LangRecordTypeSet;
       save: LangRecordTypeSet;
+    };
+  };
+
+  categories: {
+    form: {
+      labels: {
+        name: string;
+      };
+
+      errors: {
+        uniqueName: string;
+      };
+    };
+
+    new: {
+      title: LangRecordTypeSet;
+      add: string;
     };
   };
 
@@ -148,6 +167,7 @@ export interface Lang {
   form: {
     errors: {
       required: string;
+      minLength: string;
     };
   };
 

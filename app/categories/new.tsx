@@ -3,13 +3,14 @@ import { FormScreenLayout } from '@/components/layout';
 import { checkAsync, minLength, objectAsync, pipeAsync, string, trim } from 'valibot';
 import { FormInput, type FormSubmitHandler } from '@/components/form';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { getRecordTypeTitle, RecordType } from '@/enums';
+import { RecordType } from '@/enums';
 import { useCategoryCheckUniqueness, useCategoryCreateMutation } from '@/hooks/queries';
+import { useTranslation } from 'react-i18next';
 
 export default function New(): ReactNode {
+  const { t } = useTranslation();
   const router = useRouter();
   const searchParams = useLocalSearchParams<{ type: RecordType }>();
-  const typeTitle = getRecordTypeTitle(searchParams.type);
   const createMutation = useCategoryCreateMutation();
   const checkUniqueness = useCategoryCheckUniqueness();
 
@@ -17,12 +18,12 @@ export default function New(): ReactNode {
     name: pipeAsync(
       string(),
       trim(),
-      minLength(3, 'Name must be at least 3 characters long'),
+      minLength(3, t('form.errors.minLength', { length: 3 })),
 
       checkAsync(async (name) => {
         const { isUnique } = await checkUniqueness.mutateAsync({ name });
         return isUnique;
-      }, 'Category with this name already exists'),
+      }, t('categories.form.errors.uniqueName')),
     ),
   }), []);
 
@@ -38,17 +39,17 @@ export default function New(): ReactNode {
   return (
     <FormScreenLayout
       fullScreen
-      title={`New ${typeTitle} Category`}
+      title={t(`categories.new.title.${searchParams.type}`)}
       schema={schema}
       initialValues={{ name: '' }}
-      submit="Add Category"
+      submit={t('categories.new.add')}
       onSubmit={onSubmit}
     >
       {({ f }) => (
         <FormInput
           name={f('name')}
-          label="Name"
-          placeholder="Category Name"
+          label={t('categories.form.labels.name')}
+          placeholder={t('categories.form.labels.name')}
         />
       )}
     </FormScreenLayout>

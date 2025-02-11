@@ -105,13 +105,15 @@ export const ua: Lang = {
     },
 
     form: {
-      value: {
-        income: 'Зароблено',
-        expense: 'Витрачено',
-      },
+      labels: {
+        value: {
+          income: 'Зароблено',
+          expense: 'Витрачено',
+        },
 
-      category: 'Категорія',
-      date: 'Дата',
+        category: 'Категорія',
+        date: 'Дата',
+      }
     },
 
     index: {
@@ -144,6 +146,27 @@ export const ua: Lang = {
     },
   },
 
+  categories: {
+    form: {
+      labels: {
+        name: 'Назва',
+      },
+
+      errors: {
+        uniqueName: 'Категорія з такою назвою вже існує',
+      },
+    },
+
+    new: {
+      title: {
+        income: 'Нова Категорія Доходу',
+        expense: 'Нова Категорія Витрат',
+      },
+
+      add: 'Додати',
+    },
+  },
+
   monthSwitcher: {
     title: 'Активний Місяць',
   },
@@ -169,6 +192,7 @@ export const ua: Lang = {
   form: {
     errors: {
       required: 'Це поле обовʼязкове',
+      minLength: 'Мінімальна довжина {{length}} символів',
     },
   },
 

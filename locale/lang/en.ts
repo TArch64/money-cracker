@@ -107,13 +107,15 @@ export const en: Lang = {
     type: recordTypeTitleSet,
 
     form: {
-      value: {
-        income: 'Money received',
-        expense: 'Money spent',
-      },
+      labels: {
+        value: {
+          income: 'Money received',
+          expense: 'Money spent',
+        },
 
-      category: 'Category',
-      date: 'Date',
+        category: 'Category',
+        date: 'Date',
+      }
     },
 
     index: {
@@ -146,6 +148,27 @@ export const en: Lang = {
     },
   },
 
+  categories: {
+    form: {
+      labels: {
+        name: 'Name',
+      },
+
+      errors: {
+        uniqueName: 'Category with this name already exists',
+      },
+    },
+
+    new: {
+      title: {
+        income: `New ${recordTypeTitleSet.income} Category`,
+        expense: `New ${recordTypeTitleSet.expense} Category`,
+      },
+
+      add: 'Add Category',
+    },
+  },
+
   monthSwitcher: {
     title: 'Select Month',
   },
@@ -171,6 +194,7 @@ export const en: Lang = {
   form: {
     errors: {
       required: 'This field is required',
+      minLength: 'Must be at least {{length}} characters long',
     },
   },
 

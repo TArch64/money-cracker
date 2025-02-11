@@ -70,21 +70,21 @@ export default function New(): ReactNode {
         <>
           <FormAutocomplete
             name={f('category')}
-            label={t('records.form.category')}
-            placeholder={t('records.form.category')}
+            label={t('records.form.labels.category')}
+            placeholder={t('records.form.labels.category')}
             suggestions={categoriesQuery.data}
           />
 
           <FormNumericInput
             name={f('value')}
-            label={t(`records.form.value.${searchParams.type}`)}
-            placeholder={t(`records.form.value.${searchParams.type}`)}
+            label={t(`records.form.labels.value.${searchParams.type}`)}
+            placeholder={t(`records.form.labels.value.${searchParams.type}`)}
           />
 
           <FormDatepicker
             name={f('date')}
-            label={t('records.form.date')}
-            placeholder={t('records.form.date')}
+            label={t('records.form.labels.date')}
+            placeholder={t('records.form.labels.date')}
           />
         </>
       )}
