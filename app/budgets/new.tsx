@@ -13,9 +13,11 @@ import {
   useBudgetFormSubmit,
   useBudgetInitialValuesChange,
 } from '@/components/budgetForm';
+import { useTranslation } from 'react-i18next';
 
 export default function New(): ReactNode {
   const router = useRouter();
+  const { t } = useTranslation();
   const activeMonthIdx = useMonthStore((state) => state.activeIdx);
   const createMutation = useBudgetCreateMutation();
   const schema = useMemo(() => budgetSchema(), []);
@@ -47,9 +49,9 @@ export default function New(): ReactNode {
     <FormScreenLayout
       fullScreen
       schema={schema}
-      title="New Spending Goals"
+      title={t('budgets.new.title')}
       initialValues={{ categories: initialCategories }}
-      submit={initialCategories.length ? 'Add Goals' : undefined}
+      submit={initialCategories.length ? t('budgets.new.add') : undefined}
       onInitialValuesChange={onInitialValuesChange}
       onSubmit={onSubmit}
     >
@@ -70,7 +72,7 @@ export default function New(): ReactNode {
               appearance="link"
               style={styles.addNewCategory}
             >
-              Add New Category
+              {t('budgets.newCategory')}
             </Button>
           </Link>
 

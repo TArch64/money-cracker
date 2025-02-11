@@ -16,9 +16,11 @@ import {
   useBudgetFormSubmit,
   useBudgetInitialValuesChange,
 } from '@/components/budgetForm';
+import { useTranslation } from 'react-i18next';
 
 export default function Edit(): ReactNode {
   const searchParams = useLocalSearchParams<{ budgetId: string }>();
+  const { t } = useTranslation();
   const router = useRouter();
   const budget = useBudgetDetailsSuspenseQuery(Number(searchParams.budgetId));
   const updateMutation = useBudgetUpdateMutation();
@@ -55,9 +57,9 @@ export default function Edit(): ReactNode {
     <FormScreenLayout
       fullScreen
       schema={schema}
-      title="Edit Spending Goals"
+      title={t('budgets.edit.title')}
       initialValues={{ categories: initialCategories }}
-      submit="Save Goals"
+      submit={t('budgets.edit.save')}
       onInitialValuesChange={onInitialValuesChange}
       onSubmit={onSubmit}
     >
@@ -78,7 +80,7 @@ export default function Edit(): ReactNode {
               appearance="link"
               style={styles.addNewCategory}
             >
-              Add New Category
+              {t('budgets.newCategory')}
             </Button>
           </Link>
 

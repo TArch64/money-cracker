@@ -181,6 +181,26 @@ export const ua: Lang = {
     },
   },
 
+  budgets: {
+    newCategory: 'Додати Категорію',
+
+    form: {
+      labels: {
+        spendingGoal: 'Ціль витрат',
+      },
+    },
+
+    new: {
+      title: 'Нові Цілі Витрат',
+      add: 'Додати Цілі',
+    },
+
+    edit: {
+      title: 'Редагувати Цілі',
+      save: 'Зберегти',
+    },
+  },
+
   monthSwitcher: {
     title: 'Активний Місяць',
   },

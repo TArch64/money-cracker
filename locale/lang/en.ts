@@ -183,6 +183,26 @@ export const en: Lang = {
     },
   },
 
+  budgets: {
+    newCategory: 'Add New Category',
+
+    form: {
+      labels: {
+        spendingGoal: 'Spending Goal',
+      },
+    },
+
+    new: {
+      title: 'New Spending Goals',
+      add: 'Add Goals',
+    },
+
+    edit: {
+      title: 'Edit Spending Goals',
+      save: 'Save Goals',
+    },
+  },
+
   monthSwitcher: {
     title: 'Select Month',
   },

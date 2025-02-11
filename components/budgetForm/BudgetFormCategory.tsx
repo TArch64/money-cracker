@@ -5,6 +5,7 @@ import type { ReactNode } from 'react';
 import { FormNumericInput, useFormCheckable } from '../form';
 import { StyleSheet, type TextStyle, type ViewStyle } from 'react-native';
 import { AnimatedHeight } from '../AnimatedHeight';
+import { useTranslation } from 'react-i18next';
 
 export interface IBudgetFormCategoryProps {
   formCategory: FormBudgetCategory;
@@ -13,6 +14,7 @@ export interface IBudgetFormCategoryProps {
 }
 
 export function BudgetFormCategory(props: IBudgetFormCategoryProps): ReactNode {
+  const { t } = useTranslation();
   const [isAdded, setAdded] = useFormCheckable(`${props.formPath}.added`);
 
   return (
@@ -30,7 +32,7 @@ export function BudgetFormCategory(props: IBudgetFormCategoryProps): ReactNode {
             autoFocus
             name={`${props.formPath}.goal`}
             style={styles.cardGoal}
-            placeholder="Spending Goal"
+            placeholder={t('budgets.form.labels.spendingGoal')}
           />
         )}
       </AnimatedHeight>

@@ -156,6 +156,26 @@ export interface Lang {
     };
   };
 
+  budgets: {
+    newCategory: string;
+
+    form: {
+      labels: {
+        spendingGoal: string;
+      }
+    },
+
+    new: {
+      title: string;
+      add: string;
+    };
+
+    edit: {
+      title: string;
+      save: string;
+    }
+  };
+
   monthSwitcher: {
     title: string;
   };
