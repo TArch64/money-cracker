@@ -62,10 +62,10 @@ const styles = StyleSheet.create({
   } satisfies ViewStyle,
 
   menuDivider: {
-    marginHorizontal: 4,
+    marginHorizontal: 6,
   } satisfies ViewStyle,
 
   menuItem: {
-    borderRadius: 4,
+    borderRadius: 6,
   } satisfies ViewStyle,
 });

@@ -4,14 +4,19 @@ import { StyleSheet, View, type ViewStyle } from 'react-native';
 import { List, Text } from '@ui-kitten/components';
 import { useCategoriesListWithUsageQuery } from '@/hooks/queries';
 import { CategoryListItem } from './CategoryListItem';
+import { useTranslation } from 'react-i18next';
 
-const ListEmpty = (): ReactNode => (
-  <View style={styles.listEmpty}>
-    <Text>
-      There is no categories of this type yet
-    </Text>
-  </View>
-);
+function ListEmpty(): ReactNode {
+  const { t } = useTranslation();
+
+  return (
+    <View style={styles.listEmpty}>
+      <Text>
+        {t('categories.index.empty')}
+      </Text>
+    </View>
+  );
+}
 
 interface ICategoriesListProps {
   type: RecordType;

@@ -157,6 +157,15 @@ export const ua: Lang = {
       },
     },
 
+    index: {
+      title: 'Категорії',
+      empty: 'Поки що немає категорій цього типу',
+
+      delete: {
+        entity: 'Категорію',
+      },
+    },
+
     new: {
       title: {
         income: 'Нова Категорія Доходу',
@@ -185,6 +194,7 @@ export const ua: Lang = {
 
   actionsSheet: {
     edit: 'Редагувати',
+    rename: 'Переназвати',
     delete: 'Видалити',
     cancel: 'Відмінити',
   },

@@ -136,6 +136,15 @@ export interface Lang {
       };
     };
 
+    index: {
+      title: string;
+      empty: string;
+
+      delete: {
+        entity: string
+      }
+    };
+
     new: {
       title: LangRecordTypeSet;
       add: string;
@@ -160,6 +169,7 @@ export interface Lang {
 
   actionsSheet: {
     edit: string;
+    rename: string;
     delete: string;
     cancel: string;
   };

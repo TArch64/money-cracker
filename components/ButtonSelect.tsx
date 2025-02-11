@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     gap: 4,
     padding: 3,
-    borderRadius: 4,
+    borderRadius: 8,
     overflow: 'hidden',
     borderWidth: 1,
     borderStyle: 'solid',
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   option: {
     flexBasis: 0,
     flexGrow: 1,
-    borderRadius: 2,
+    borderRadius: 5,
     paddingVertical: 2,
   } satisfies ViewStyle,
 

@@ -159,6 +159,15 @@ export const en: Lang = {
       },
     },
 
+    index: {
+      title: 'Categories',
+      empty: 'No categories of this type yet',
+
+      delete: {
+        entity: 'Category',
+      },
+    },
+
     new: {
       title: {
         income: `New ${recordTypeTitleSet.income} Category`,
@@ -187,6 +196,7 @@ export const en: Lang = {
 
   actionsSheet: {
     edit: 'Edit',
+    rename: 'Rename',
     delete: 'Delete',
     cancel: 'Cancel',
   },

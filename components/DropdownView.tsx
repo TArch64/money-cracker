@@ -70,7 +70,7 @@ export function DropdownView(props: IDropdownViewProps): ReactNode {
 const styles = StyleSheet.create({
   dropdownMenu: {
     zIndex: 1000,
-    borderRadius: 4,
+    borderRadius: 8,
     overflow: 'hidden',
   } satisfies ViewStyle,
 });

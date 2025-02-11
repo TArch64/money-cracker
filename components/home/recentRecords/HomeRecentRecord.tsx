@@ -7,7 +7,7 @@ import { showConfirm } from '@/helpers/showConfirm';
 import { useRecordDeleteMutation } from '@/hooks/queries';
 import { useRouter } from 'expo-router';
 import { getRecordTypeTitle, isExpenseRecord } from '@/enums';
-import { useActionSheet } from '@/hooks/useActionSheet';
+import { CancelSheetAction, PlainSheetAction, useActionSheet } from '@/hooks/actionSheet';
 import { textRenderer } from '@/components/uiKitten';
 import { useTranslation } from 'react-i18next';
 
@@ -43,28 +43,22 @@ export function HomeRecentRecord(props: IHomeRecentRecordProps): ReactNode {
     title: `${props.record.category.name} ${value}`,
 
     actions: [
-      {
-        text: t('actionsSheet.edit'),
+      PlainSheetAction
+        .named(t('actionsSheet.edit'))
 
-        onPress: () => router.push({
+        .onPress(() => router.push({
           pathname: '/records/[recordId]/edit',
           params: { recordId: props.record.id },
-        }),
-      },
+        })),
 
-      {
-        text: t('actionsSheet.delete'),
-        style: 'destructive',
-
-        async onPress() {
+      PlainSheetAction
+        .named(t('actionsSheet.delete'))
+        .asDestructive()
+        .onPress(async () => {
           if (await isDeleteConfirmed()) deleteMutation.mutate();
-        },
-      },
+        }),
 
-      {
-        text: t('actionsSheet.cancel'),
-        style: 'cancel',
-      },
+      CancelSheetAction.named(t('actionsSheet.cancel')),
     ],
   }));
 
@@ -95,7 +89,7 @@ const styles = StyleSheet.create({
   row: {
     paddingHorizontal: 12,
     paddingVertical: 4,
-    borderRadius: 4,
+    borderRadius: 6,
   } satisfies ViewStyle,
 
   categoryName: {

@@ -1,26 +1,17 @@
-import { type ReactNode, useState } from 'react';
+import { type ReactNode, useMemo, useState } from 'react';
 import { FullScreenLayout } from '@/components/layout';
-import { RecordType } from '@/enums';
+import { getRecordTypeTitle, RecordType } from '@/enums';
 import { TopNavigationAction } from '@ui-kitten/components';
 import { useRouter } from 'expo-router';
 import { IconName, iconRenderer } from '@/components/uiKitten';
 import { CategoriesList } from '@/components/categoriesList';
-import { ButtonSelect, type IButtonSelectOption } from '@/components/ButtonSelect';
+import { ButtonSelect } from '@/components/ButtonSelect';
 import { StyleSheet, type ViewStyle } from 'react-native';
-
-const recordTypeOptions: IButtonSelectOption<RecordType>[] = [
-  {
-    value: RecordType.EXPENSE,
-    label: 'Expense',
-  },
-  {
-    value: RecordType.INCOME,
-    label: 'Income',
-  },
-];
+import { useTranslation } from 'react-i18next';
 
 export default function Index(): ReactNode {
   const router = useRouter();
+  const { t } = useTranslation();
   const [type, setType] = useState(RecordType.EXPENSE);
 
   function openCreate() {
@@ -30,9 +21,16 @@ export default function Index(): ReactNode {
     });
   }
 
+  const recordTypeOptions = useMemo(() => {
+    return [RecordType.EXPENSE, RecordType.INCOME].map((value) => ({
+      value,
+      label: getRecordTypeTitle(t, value),
+    }));
+  }, []);
+
   return (
     <FullScreenLayout
-      title="Categories"
+      title={t('categories.index.title')}
 
       headerRight={() => (
         <TopNavigationAction

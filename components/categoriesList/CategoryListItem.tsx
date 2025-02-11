@@ -2,9 +2,10 @@ import { type CategoryWithUsage, useCategoryDeleteMutation } from '@/hooks/queri
 import type { ReactNode } from 'react';
 import { useRouter } from 'expo-router';
 import { showConfirm } from '@/helpers/showConfirm';
-import { useActionSheet } from '@/hooks/useActionSheet';
+import { CancelSheetAction, PlainSheetAction, useActionSheet } from '@/hooks/actionSheet';
 import { ListItem } from '@ui-kitten/components';
 import { StyleSheet, type ViewStyle } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 interface ICategoryListItemProps {
   category: CategoryWithUsage;
@@ -12,37 +13,37 @@ interface ICategoryListItemProps {
 
 export function CategoryListItem(props: ICategoryListItemProps): ReactNode {
   const router = useRouter();
+  const { t } = useTranslation();
   const deleteMutation = useCategoryDeleteMutation();
 
   const isDeleteConfirmed = () => showConfirm({
-    title: 'Delete Category',
-    message: `Are you sure you want to delete "${props.category.name}" category?`,
+    title: t('confirm.delete.title', { entity: t('categories.index.delete.entity') }),
+    message: t('confirm.delete.message', { entity: t('categories.index.delete.entity').toLowerCase() }),
 
     accept: {
-      text: 'Delete',
+      text: t('confirm.delete.accept'),
       style: 'destructive',
     },
   });
 
   const showActionsSheet = useActionSheet(() => ({
-    title: `${props.category.name} - Actions`,
+    title: props.category.name,
 
     actions: [
-      {
-        text: 'Rename',
+      PlainSheetAction
+        .named(t('actionsSheet.rename'))
 
-        onPress: () => router.push({
-          pathname: '/settings/categories/[categoryId]/edit',
+        .onPress(() => router.push({
+          pathname: '/categories/[categoryId]/edit',
           params: { categoryId: props.category.id },
-        }),
-      },
+        })),
 
-      {
-        text: 'Delete',
-        style: 'destructive',
-        disabled: props.category.budgetExists || props.category.recordExists,
+      PlainSheetAction
+        .named(t('actionsSheet.delete'))
+        .asDestructive()
+        .asDisabled(props.category.budgetExists || props.category.recordExists)
 
-        async onPress() {
+        .onPress(async () => {
           if (!await isDeleteConfirmed()) {
             return;
           }
@@ -51,13 +52,9 @@ export function CategoryListItem(props: ICategoryListItemProps): ReactNode {
             id: props.category.id,
             type: props.category.type,
           });
-        },
-      },
+        }),
 
-      {
-        text: 'Cancel',
-        style: 'cancel',
-      },
+      CancelSheetAction.named(t('actionsSheet.cancel')),
     ],
   }));
 
@@ -74,6 +71,6 @@ const styles = StyleSheet.create({
   listItem: {
     paddingHorizontal: 4,
     marginHorizontal: 8,
-    borderRadius: 4,
+    borderRadius: 8,
   } satisfies ViewStyle,
 });
