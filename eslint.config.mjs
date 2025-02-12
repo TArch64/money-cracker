@@ -7,11 +7,11 @@ import globals from 'globals';
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   {
-    files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'],
+    files: ['**/*.{js,ts,tsx}'],
     ignores: ['ios', 'android', '.expo'],
     languageOptions: {
       globals: {
-        ...globals.node
+        ...globals.node,
       },
     },
   },
@@ -22,7 +22,7 @@ export default [
     flat: true,
     semi: true,
     arrowParens: true,
-    braceStyle: '1tbs'
+    braceStyle: '1tbs',
   }),
   {
     rules: {
@@ -34,7 +34,7 @@ export default [
       'react/display-name': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
       '@stylistic/multiline-ternary': 'off',
-      '@stylistic/jsx-one-expression-per-line': 'off'
+      '@stylistic/jsx-one-expression-per-line': 'off',
     },
   },
 ];
