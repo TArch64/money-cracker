@@ -1,14 +1,14 @@
 {
   "build": {
     "development": {
-      "bun": "1.1.38"
+      "bun": "1.2.2"
     },
     "production": {
-      "bun": "1.1.38"
+      "bun": "1.2.2"
     },
     "preview": {
       "distribution": "internal",
-      "bun": "1.1.38"
+      "bun": "1.2.2"
     }
   }
 }
