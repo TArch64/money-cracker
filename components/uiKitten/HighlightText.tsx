@@ -41,5 +41,5 @@ export function HighlightText(props: IHighlightTextProps): ReactNode {
 
   const suffix = content.slice(startIndex + props.highlight.length);
   const children = [prefix, ...highlightedText, suffix];
-  return <Text {...txtProps}>{...children}</Text>;
+  return <Text {...txtProps}>{children}</Text>;
 }
