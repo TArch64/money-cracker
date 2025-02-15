@@ -1,10 +1,10 @@
 import { type ReactNode, type RefCallback, useState } from 'react';
-import type { IPropsWithChildrenFn } from '@/types';
-import { BackdropView } from '@/components/BackdropView';
 import { type LayoutChangeEvent, type NativeMethods, type StyleProp, StyleSheet, type ViewStyle } from 'react-native';
 import { flip, offset, shift, useFloating } from '@floating-ui/react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import { useTheme } from '@ui-kitten/components';
+import { BackdropView } from '@/components/BackdropView';
+import type { IPropsWithChildrenFn } from '@/types';
 
 export interface IDropdownActivatorProps {
   ref: RefCallback<NativeMethods>;

@@ -1,11 +1,11 @@
 import type { ReactNode } from 'react';
+import { Divider, List, ListItem, Text } from '@ui-kitten/components';
+import { StyleSheet, type ViewStyle } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { FullScreenLayout } from '@/components/layout';
 import { type IRecordMonthStatistics, useRecordsMonthStatisticsSuspenseQuery } from '@/hooks/queries';
 import { useMonthStore } from '@/stores';
-import { Divider, List, ListItem, Text } from '@ui-kitten/components';
 import { useMoneyFormatter } from '@/hooks/formatters';
-import { StyleSheet, type ViewStyle } from 'react-native';
-import { useTranslation } from 'react-i18next';
 
 interface IMonthCategoryStatisticsProps {
   category: IRecordMonthStatistics;

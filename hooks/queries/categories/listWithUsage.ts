@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { RecordType } from '@/enums';
-import { CATEGORIES_LIST_WITH_USAGE_QUERY } from '../keys';
-import { budgetCategories, categories, type Category, records, useDatabase } from '@/db';
 import { asc, eq, exists, getTableColumns } from 'drizzle-orm';
+import { RecordType } from '@/enums';
+import { budgetCategories, categories, type Category, records, useDatabase } from '@/db';
+import { CATEGORIES_LIST_WITH_USAGE_QUERY } from '../keys';
 
 export type CategoryWithUsage = Category & {
   recordExists: boolean;

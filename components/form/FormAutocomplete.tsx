@@ -1,11 +1,11 @@
-import { FormInput, type IFormInputProps, type IFormInputValueController } from './FormInput';
 import { useEffect, useRef, useState } from 'react';
 import { Keyboard, View, type ViewStyle } from 'react-native';
 import { Menu, MenuItem, useTheme } from '@ui-kitten/components';
-import { useFormField } from './useFormField';
 import { HighlightText } from '../uiKitten';
 import { DropdownView } from '../DropdownView';
 import { AnimatedHeight } from '../AnimatedHeight';
+import { useFormField } from './useFormField';
+import { FormInput, type IFormInputProps, type IFormInputValueController } from './FormInput';
 
 interface IAutocompleteMenuProps {
   value: string;

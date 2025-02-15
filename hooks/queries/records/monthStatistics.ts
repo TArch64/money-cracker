@@ -1,8 +1,8 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { RECORDS_MONTH_STATISTICS_QUERY } from '../keys';
-import { categories, eqDate, records, sum, useDatabase } from '@/db';
 import { and, desc, eq, sql } from 'drizzle-orm';
+import { categories, eqDate, records, sum, useDatabase } from '@/db';
 import { RecordType } from '@/enums';
+import { RECORDS_MONTH_STATISTICS_QUERY } from '../keys';
 
 export interface IRecordMonthStatistics {
   categoryId: number;

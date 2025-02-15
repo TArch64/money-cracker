@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react';
 import { type StyleProp, StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
-import { getRecordTypeValue, RecordType } from '@/enums';
 import { Text, useTheme } from '@ui-kitten/components';
+import { useTranslation } from 'react-i18next';
+import { getRecordTypeValue, RecordType } from '@/enums';
 import { Icon, IconName } from '@/components/uiKitten';
 import { HomeCard } from './HomeCard';
-import { useTranslation } from 'react-i18next';
 
 interface IAddRecordCardProps {
   type: RecordType;

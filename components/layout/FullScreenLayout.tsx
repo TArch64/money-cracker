@@ -1,10 +1,10 @@
 import { type PropsWithChildren, type ReactElement, type ReactNode, Suspense } from 'react';
 import { Stack, useRouter } from 'expo-router';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
-import type { IPropsWithStyle } from '@/types';
 import { type TextProps, TopNavigation, TopNavigationAction, useTheme } from '@ui-kitten/components';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { RenderProp } from '@ui-kitten/components/devsupport';
+import type { IPropsWithStyle } from '@/types';
 import { IconName, iconRenderer } from '@/components/uiKitten';
 
 export interface IFullScreenLayoutProps extends PropsWithChildren,

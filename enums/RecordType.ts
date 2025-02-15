@@ -1,5 +1,5 @@
-import { maybeFn, type MaybeFn } from '@/helpers/maybeFn';
 import type { i18n } from 'i18next';
+import { maybeFn, type MaybeFn } from '@/helpers/maybeFn';
 
 export enum RecordType {
   INCOME = 'income',

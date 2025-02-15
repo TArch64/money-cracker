@@ -3,18 +3,18 @@ import 'react-native-reanimated';
 import { type ReactNode, useEffect, useState } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { DatabaseProvider } from '@/db';
-import { UiKittenProvider } from '@/components/uiKitten';
-import { QueryProvider } from '@/hooks/queries';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { documentDirectory } from 'expo-file-system';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { configureReanimatedLogger } from 'react-native-reanimated';
 import { useTheme } from '@ui-kitten/components';
-import { useInitialScreen } from '@/hooks/useInitialScreen';
 import { Stack } from 'expo-router';
 import type { ViewStyle } from 'react-native';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
+import { useInitialScreen } from '@/hooks/useInitialScreen';
+import { QueryProvider } from '@/hooks/queries';
+import { UiKittenProvider } from '@/components/uiKitten';
+import { DatabaseProvider } from '@/db';
 import { I18NProvider } from '@/locale';
 
 if (__DEV__) {

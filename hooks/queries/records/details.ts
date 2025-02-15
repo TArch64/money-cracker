@@ -1,6 +1,6 @@
-import { categories, records, type RecordWithCategory, useDatabase } from '@/db';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { eq, getTableColumns } from 'drizzle-orm';
+import { categories, records, type RecordWithCategory, useDatabase } from '@/db';
 import { RECORDS_DETAILS_QUERY } from '../keys';
 
 export function useRecordDetailsSuspenseQuery(recordId: number) {

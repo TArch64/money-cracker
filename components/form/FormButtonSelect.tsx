@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-import { useFormField } from './useFormField';
 import { ButtonSelect, type ButtonSelectValue, type IButtonSelectProps } from '../ButtonSelect';
+import { useFormField } from './useFormField';
 
 export interface IFormButtonSelectProps<V extends ButtonSelectValue> extends Omit<IButtonSelectProps<V>, 'value' | 'onChange'> {
   name: string;

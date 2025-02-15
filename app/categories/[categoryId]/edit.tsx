@@ -1,11 +1,11 @@
 import { type ReactNode, useMemo } from 'react';
-import { FormScreenLayout } from '@/components/layout';
 import { minLength, objectAsync, pipeAsync, string, trim } from 'valibot';
-import { FormInput, type FormSubmitHandler } from '@/components/form';
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
+import { FormScreenLayout } from '@/components/layout';
+import { FormInput, type FormSubmitHandler } from '@/components/form';
 import { useCategoryDetailsSuspenseQuery, useCategoryUpdateMutation } from '@/hooks/queries';
 import { useCategoryNameUniquenessCheck } from '@/hooks/categories';
-import { useTranslation } from 'react-i18next';
 
 export default function Edit(): ReactNode {
   const router = useRouter();

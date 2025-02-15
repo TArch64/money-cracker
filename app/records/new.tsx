@@ -1,12 +1,12 @@
 import { type ReactNode, useMemo } from 'react';
-import { FormScreenLayout } from '@/components/layout';
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import { date, minLength, minValue, number, object, pipe, string } from 'valibot';
+import { useTranslation } from 'react-i18next';
+import { FormScreenLayout } from '@/components/layout';
 import { getRecordTypeTitle, RecordType } from '@/enums';
 import { FormAutocomplete, FormDatepicker, FormNumericInput, type FormSubmitHandler } from '@/components/form';
-import { date, minLength, minValue, number, object, pipe, string } from 'valibot';
 import { useCategoriesListQuery, useRecordCreateMutation } from '@/hooks/queries';
 import { useMonthStore } from '@/stores';
-import { useTranslation } from 'react-i18next';
 
 export default function New(): ReactNode {
   const router = useRouter();

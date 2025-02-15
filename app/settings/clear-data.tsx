@@ -1,13 +1,13 @@
 import type { ReactNode } from 'react';
-import { FullScreenLayout } from '@/components/layout';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
 import { Button, Text } from '@ui-kitten/components';
-import { textRenderer } from '@/components/uiKitten';
-import { showConfirm } from '@/helpers/showConfirm';
 import { useMutation } from '@tanstack/react-query';
-import { budgetCategories, budgets, categories, records, useDatabase, USER_ID, users } from '@/db';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import { textRenderer } from '@/components/uiKitten';
+import { showConfirm } from '@/helpers/showConfirm';
+import { budgetCategories, budgets, categories, records, useDatabase, USER_ID, users } from '@/db';
+import { FullScreenLayout } from '@/components/layout';
 
 export default function ClearData(): ReactNode {
   const db = useDatabase();

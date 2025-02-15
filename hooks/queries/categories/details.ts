@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { CATEGORIES_DETAILS_QUERY } from '../keys';
-import { categories, useDatabase } from '@/db';
 import { eq } from 'drizzle-orm';
+import { categories, useDatabase } from '@/db';
+import { CATEGORIES_DETAILS_QUERY } from '../keys';
 
 export function useCategoryDetailsSuspenseQuery(categoryId: number) {
   const db = useDatabase();

@@ -1,7 +1,7 @@
 import type { AppDatabase } from '@/db/Provider';
-import { categories, type RecordInsert, records, users } from './schema';
 import { IntroState, RecordType } from '@/enums';
 import { MonthIdx } from '@/stores';
+import { categories, type RecordInsert, records, users } from './schema';
 
 function getDateRange(): MonthIdx[] {
   const currentIdx = MonthIdx.current();

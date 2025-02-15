@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import { checkAsync } from 'valibot';
 import { useTranslation } from 'react-i18next';
-import { categories, useDatabase } from '@/db';
 import { and, eq, not } from 'drizzle-orm';
+import { categories, useDatabase } from '@/db';
 
 export interface ICategoryNameUniquenessCheckProps {
   excludeId?: number;

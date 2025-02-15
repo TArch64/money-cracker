@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { BUDGET_PREVIOUS_MONTH_QUERY } from '../keys';
-import { budgets, useDatabase } from '@/db';
 import { and, desc, eq, lt, or } from 'drizzle-orm';
+import { budgets, useDatabase } from '@/db';
+import { BUDGET_PREVIOUS_MONTH_QUERY } from '../keys';
 
 export interface IMonthBudgetPrevious {
   id: number;

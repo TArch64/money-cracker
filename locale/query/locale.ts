@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { useDatabase, users } from '@/db';
 import { useLocales } from 'expo-localization';
+import { useDatabase, users } from '@/db';
 import { AppLocale, getLocaleCode, type ResolvedLocale } from '@/enums';
 
 export const LOCALE_QUERY = ['app', 'locale'];

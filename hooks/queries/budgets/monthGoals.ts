@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { BUDGET_MONTH_QUERY } from '../keys';
+import { and, asc, eq } from 'drizzle-orm';
 import {
   budgetCategories,
   type BudgetCategory,
@@ -11,8 +11,8 @@ import {
   sum,
   useDatabase,
 } from '@/db';
-import { and, asc, eq } from 'drizzle-orm';
 import { RecordType } from '@/enums';
+import { BUDGET_MONTH_QUERY } from '../keys';
 
 export type MonthBudgetCategory = Omit<BudgetCategory, 'budgetId'> & {
   name: Category['name'];

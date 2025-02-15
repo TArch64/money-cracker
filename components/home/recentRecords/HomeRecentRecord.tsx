@@ -1,15 +1,15 @@
 import type { ReactNode } from 'react';
-import type { RecordWithCategory } from '@/db';
 import { StyleSheet, type TextStyle, type ViewStyle } from 'react-native';
 import { ListItem, Text } from '@ui-kitten/components';
+import { useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
+import type { RecordWithCategory } from '@/db';
 import { useDistanceDayFormatter, useMoneyFormatter } from '@/hooks/formatters';
 import { showConfirm } from '@/helpers/showConfirm';
 import { useRecordDeleteMutation } from '@/hooks/queries';
-import { useRouter } from 'expo-router';
 import { getRecordTypeTitle, isExpenseRecord } from '@/enums';
 import { CancelSheetAction, PlainSheetAction, useActionSheet } from '@/hooks/actionSheet';
 import { textRenderer } from '@/components/uiKitten';
-import { useTranslation } from 'react-i18next';
 
 export interface IHomeRecentRecordProps {
   record: RecordWithCategory;

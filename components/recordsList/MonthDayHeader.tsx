@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { Divider, Text, useTheme } from '@ui-kitten/components';
-import { useDistanceDayFormatter } from '@/hooks/formatters';
 import { type StyleProp, StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
+import { useDistanceDayFormatter } from '@/hooks/formatters';
 
 interface IMonthDayHeaderProps {
   date: Date;

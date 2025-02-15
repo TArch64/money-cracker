@@ -1,12 +1,12 @@
 import { Link } from 'expo-router';
 import type { ReactNode } from 'react';
 import { type StyleProp, StyleSheet, type TextStyle, type ViewStyle } from 'react-native';
-import { useMonthStore } from '@/stores';
-import { useDateFormatter } from '@/hooks/formatters';
 import { Text, useTheme } from '@ui-kitten/components';
-import { Icon, IconName } from '@/components/uiKitten';
 import Animated, { interpolate, type SharedValue, useAnimatedStyle } from 'react-native-reanimated';
 import { interpolateColor } from 'react-native-reanimated/src';
+import { useMonthStore } from '@/stores';
+import { useDateFormatter } from '@/hooks/formatters';
+import { Icon, IconName } from '@/components/uiKitten';
 
 export const HOME_TITLE_HEIGHT = 37;
 

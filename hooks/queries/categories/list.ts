@@ -1,8 +1,8 @@
-import { type AppDatabase, categories, type Category, useDatabase } from '@/db';
 import { type QueryKey, useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { asc, eq } from 'drizzle-orm';
-import { CATEGORIES_LIST_QUERY } from '../keys';
+import { type AppDatabase, categories, type Category, useDatabase } from '@/db';
 import { RecordType } from '@/enums';
+import { CATEGORIES_LIST_QUERY } from '../keys';
 
 async function getCategories(db: AppDatabase, type: RecordType): Promise<Category[]> {
   return db

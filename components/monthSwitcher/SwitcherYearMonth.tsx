@@ -1,9 +1,9 @@
-import { MonthIdx, useMonthStore } from '@/stores';
 import { type ReactNode, useMemo } from 'react';
-import { useDateFormatter } from '@/hooks/formatters';
 import { ListItem, useTheme } from '@ui-kitten/components';
 import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native';
 import { useRouter } from 'expo-router';
+import { useDateFormatter } from '@/hooks/formatters';
+import { MonthIdx, useMonthStore } from '@/stores';
 import { textRenderer } from '@/components/uiKitten';
 
 export interface ISwitcherMonthYearProps {

@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { BUDGET_DETAILS_QUERY } from '../keys';
-import { budgetCategories, budgets, categories, useDatabase } from '@/db';
 import { eq } from 'drizzle-orm';
+import { budgetCategories, budgets, categories, useDatabase } from '@/db';
+import { BUDGET_DETAILS_QUERY } from '../keys';
 
 export function useBudgetDetailsSuspenseQuery(budgetId: number) {
   const db = useDatabase();

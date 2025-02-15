@@ -1,11 +1,11 @@
-import { type CategoryWithUsage, useCategoryDeleteMutation } from '@/hooks/queries';
 import type { ReactNode } from 'react';
 import { useRouter } from 'expo-router';
-import { showConfirm } from '@/helpers/showConfirm';
-import { CancelSheetAction, PlainSheetAction, useActionSheet } from '@/hooks/actionSheet';
 import { ListItem } from '@ui-kitten/components';
 import { StyleSheet, type ViewStyle } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { CancelSheetAction, PlainSheetAction, useActionSheet } from '@/hooks/actionSheet';
+import { showConfirm } from '@/helpers/showConfirm';
+import { type CategoryWithUsage, useCategoryDeleteMutation } from '@/hooks/queries';
 
 interface ICategoryListItemProps {
   category: CategoryWithUsage;

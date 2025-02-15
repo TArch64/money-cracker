@@ -1,11 +1,11 @@
 import { type ReactNode, useMemo } from 'react';
-import { FormScreenLayout } from '@/components/layout';
 import { minLength, objectAsync, pipeAsync, string, trim } from 'valibot';
-import { FormInput, type FormSubmitHandler } from '@/components/form';
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
+import { FormScreenLayout } from '@/components/layout';
+import { FormInput, type FormSubmitHandler } from '@/components/form';
 import { RecordType } from '@/enums';
 import { useCategoryCreateMutation } from '@/hooks/queries';
-import { useTranslation } from 'react-i18next';
 import { useCategoryNameUniquenessCheck } from '@/hooks/categories';
 
 export default function New(): ReactNode {

@@ -1,8 +1,8 @@
 import { type ReactNode, useMemo } from 'react';
-import { FormArray } from '../form';
-import type { FormBudgetCategory } from './schema';
 import { useCategoriesListSuspenseQuery } from '@/hooks/queries';
 import { RecordType } from '@/enums';
+import { FormArray } from '../form';
+import type { FormBudgetCategory } from './schema';
 import { BudgetFormCategory } from './BudgetFormCategory';
 
 export function BudgetForm(): ReactNode {

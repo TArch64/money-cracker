@@ -1,11 +1,11 @@
 import { type ReactNode, useMemo } from 'react';
-import { FormScreenLayout } from '@/components/layout';
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import { date, minLength, minValue, number, object, pipe, string } from 'valibot';
+import { useTranslation } from 'react-i18next';
+import { FormScreenLayout } from '@/components/layout';
 import { useCategoriesListQuery, useRecordDetailsSuspenseQuery, useRecordUpdateMutation } from '@/hooks/queries';
 import { getRecordTypeTitle } from '@/enums';
-import { date, minLength, minValue, number, object, pipe, string } from 'valibot';
 import { FormAutocomplete, FormDatepicker, FormNumericInput, type FormSubmitHandler } from '@/components/form';
-import { useTranslation } from 'react-i18next';
 
 export default function Edit(): ReactNode {
   const { t } = useTranslation();

@@ -1,13 +1,13 @@
 import type { ReactNode } from 'react';
 import { Text, useTheme } from '@ui-kitten/components';
-import { HomeCard } from './HomeCard';
 import { StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { useRecordsMonthSummarySuspenseQuery } from '@/hooks/queries';
 import { useMonthStore } from '@/stores';
 import { getRecordTypeTitle, isExpenseRecord, RecordType } from '@/enums';
 import { useMoneyFormatter } from '@/hooks/formatters';
 import { HomeCardTitle } from '@/components/home/HomeCardTitle';
-import { useTranslation } from 'react-i18next';
+import { HomeCard } from './HomeCard';
 
 interface IStatisticColumnProps {
   type: RecordType;

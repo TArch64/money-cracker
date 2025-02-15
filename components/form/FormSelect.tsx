@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react';
 import { IndexPath, Select, SelectItem, type SelectProps, Text, type TextProps, useTheme } from '@ui-kitten/components';
-import { useFormField } from './useFormField';
 import { StyleSheet, type TextStyle } from 'react-native';
+import { useFormField } from './useFormField';
 import { formErrorRenderer } from './FormError';
 
 interface ISelectValueProps extends Omit<TextProps, 'children'> {

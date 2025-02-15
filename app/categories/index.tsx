@@ -1,13 +1,13 @@
 import { type ReactNode, useMemo, useState } from 'react';
-import { FullScreenLayout } from '@/components/layout';
-import { getRecordTypeTitle, RecordType } from '@/enums';
 import { TopNavigationAction } from '@ui-kitten/components';
 import { useRouter } from 'expo-router';
+import { StyleSheet, type ViewStyle } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { FullScreenLayout } from '@/components/layout';
+import { getRecordTypeTitle, RecordType } from '@/enums';
 import { IconName, iconRenderer } from '@/components/uiKitten';
 import { CategoriesList } from '@/components/categoriesList';
 import { ButtonSelect } from '@/components/ButtonSelect';
-import { StyleSheet, type ViewStyle } from 'react-native';
-import { useTranslation } from 'react-i18next';
 
 export default function Index(): ReactNode {
   const router = useRouter();

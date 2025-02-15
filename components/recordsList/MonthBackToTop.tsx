@@ -1,8 +1,8 @@
 import { type ReactNode, useLayoutEffect, useRef } from 'react';
-import { IconName, iconRenderer } from '@/components/uiKitten';
 import { Button, useTheme } from '@ui-kitten/components';
 import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
+import { IconName, iconRenderer } from '@/components/uiKitten';
 
 export interface IMonthBackToTopProps {
   visible: boolean;

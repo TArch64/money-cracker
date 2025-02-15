@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { USER_QUERY } from '../keys';
-import { useDatabase, USER_ID, users } from '@/db';
 import { eq } from 'drizzle-orm';
+import { useDatabase, USER_ID, users } from '@/db';
+import { USER_QUERY } from '../keys';
 
 export function useUserSuspenseQuery() {
   const db = useDatabase();

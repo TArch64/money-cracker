@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
+import { useField } from '@tanstack/react-form';
 import type { IPropsWithChildrenFn } from '@/types';
 import { useFormContext } from './FormProvider';
-import { useField } from '@tanstack/react-form';
 
 export interface IFormArrayContext<I> {
   index: number;

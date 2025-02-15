@@ -1,9 +1,9 @@
-import { budgetCategories, budgets, useDatabase } from '@/db';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { budgetCategories, budgets, useDatabase } from '@/db';
 import { MonthIdx } from '@/stores';
+import { RecordType } from '@/enums';
 import { BUDGET_MONTH_QUERY, CATEGORIES_LIST_WITH_USAGE_QUERY, MONTHS_QUERY } from '../keys';
 import { type BudgetInputCategory, budgetInputCategoryToInsert } from './helpers';
-import { RecordType } from '@/enums';
 
 export interface IBudgetCreateInput {
   monthIdx: MonthIdx;

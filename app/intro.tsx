@@ -1,12 +1,12 @@
 import type { ReactNode } from 'react';
-import { FullScreenLayout } from '@/components/layout';
-import { IntroState } from '@/enums';
 import { Button, Text, type TextProps, useTheme } from '@ui-kitten/components';
 import { type StyleProp, StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
 import { Link, useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
+import { FullScreenLayout } from '@/components/layout';
+import { IntroState } from '@/enums';
 import { Icon, IconName } from '@/components/uiKitten';
 import { useUserUpdateMutation } from '@/hooks/queries';
-import { useTranslation } from 'react-i18next';
 
 interface ITermsSectionProps {
   title: string;

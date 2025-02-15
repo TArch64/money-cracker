@@ -1,11 +1,11 @@
-import type { FormBudgetCategory } from './schema';
-import type { Category } from '@/db';
 import { Card, Text } from '@ui-kitten/components';
 import type { ReactNode } from 'react';
-import { FormNumericInput, useFormCheckable } from '../form';
 import { StyleSheet, type TextStyle, type ViewStyle } from 'react-native';
-import { AnimatedHeight } from '../AnimatedHeight';
 import { useTranslation } from 'react-i18next';
+import type { Category } from '@/db';
+import { AnimatedHeight } from '../AnimatedHeight';
+import { FormNumericInput, useFormCheckable } from '../form';
+import type { FormBudgetCategory } from './schema';
 
 export interface IBudgetFormCategoryProps {
   formCategory: FormBudgetCategory;

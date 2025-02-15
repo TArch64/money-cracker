@@ -1,11 +1,11 @@
 import type { ReactNode } from 'react';
 import type { RenderProp } from '@ui-kitten/components/devsupport';
 import { Button, type TextProps } from '@ui-kitten/components';
+import { KeyboardAvoidingView, StyleSheet, View, type ViewStyle } from 'react-native';
+import { textRenderer } from '@/components/uiKitten';
+import { Form, type FormSchema, FormSubmit, type IFormProps, type IFormSubmitProps } from '../form';
 import { FullScreenLayout } from './FullScreenLayout';
 import { MainScreenLayout } from './MainScreenLayout';
-import { KeyboardAvoidingView, StyleSheet, View, type ViewStyle } from 'react-native';
-import { Form, type FormSchema, FormSubmit, type IFormProps, type IFormSubmitProps } from '../form';
-import { textRenderer } from '@/components/uiKitten';
 
 export interface IFormScreenLayoutProps<S extends FormSchema> extends IFormProps<S> {
   fullScreen?: boolean;

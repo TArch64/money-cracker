@@ -1,8 +1,9 @@
 import pluginJs from '@eslint/js';
-import tseslint from 'typescript-eslint';
+import pluginTseslint from 'typescript-eslint';
 import pluginReact from 'eslint-plugin-react';
-import stylistic from '@stylistic/eslint-plugin';
+import pluginStylistic from '@stylistic/eslint-plugin';
 import globals from 'globals';
+import pluginImport from 'eslint-plugin-import';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
@@ -16,25 +17,54 @@ export default [
     },
   },
   pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
+  ...pluginTseslint.configs.recommended,
   pluginReact.configs.flat.recommended,
-  stylistic.configs.customize({
+  pluginStylistic.configs.customize({
     flat: true,
     semi: true,
     arrowParens: true,
     braceStyle: '1tbs',
   }),
   {
+    plugins: {
+      ...pluginImport.flatConfigs.recommended.plugins,
+    },
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
     rules: {
-      '@typescript-eslint/no-require-imports': 'off',
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-empty-object-type': 'off',
-      'react/react-in-jsx-scope': 'off',
-      'react/prop-types': 'off',
-      'react/display-name': 'off',
-      '@typescript-eslint/no-unused-vars': 'off',
-      '@stylistic/multiline-ternary': 'off',
       '@stylistic/jsx-one-expression-per-line': 'off',
+      '@stylistic/multiline-ternary': 'off',
+      '@typescript-eslint/no-empty-object-type': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-require-imports': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      'import/order': [
+        'error',
+        {
+          pathGroups: [
+            {
+              pattern: '@/**',
+              group: 'internal',
+              position: 'after',
+            },
+          ],
+          groups: [
+            'builtin',
+            'external',
+            'internal',
+            'parent',
+            'sibling',
+            'index',
+            'object',
+          ],
+        },
+      ],
+      'react/display-name': 'off',
+      'react/prop-types': 'off',
+      'react/react-in-jsx-scope': 'off',
     },
   },
 ];

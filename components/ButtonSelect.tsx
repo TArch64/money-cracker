@@ -1,7 +1,7 @@
-import type { IPropsWithStyle } from '@/types';
 import { StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
 import type { ReactNode } from 'react';
 import { Button, useTheme } from '@ui-kitten/components';
+import type { IPropsWithStyle } from '@/types';
 import { textRenderer } from '@/components/uiKitten';
 
 export type ButtonSelectValue = string | number;

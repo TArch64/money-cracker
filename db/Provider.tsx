@@ -1,10 +1,10 @@
 import { createContext, type ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 import { openDatabaseSync, SQLiteDatabase } from 'expo-sqlite';
 import { drizzle, ExpoSQLiteDatabase } from 'drizzle-orm/expo-sqlite';
-import * as schema from './schema';
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
-import migrations from './migrations/migrations';
 import type { IPropsWithChildrenFn } from '@/types';
+import * as schema from './schema';
+import migrations from './migrations/migrations';
 
 export type AppDatabase = ExpoSQLiteDatabase<typeof schema> & { $client: SQLiteDatabase };
 

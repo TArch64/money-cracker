@@ -1,7 +1,7 @@
-import { type INumberFormatter, useNumberFormatter } from './number';
-import { useLocaleQuery } from '@/locale';
 import { useMemo } from 'react';
+import { useLocaleQuery } from '@/locale';
 import { AppLocale, getLocaleValue } from '@/enums';
+import { type INumberFormatter, useNumberFormatter } from './number';
 
 export type MoneyFormatOptions = Omit<Intl.NumberFormatOptions, 'style' | 'currency'>;
 

@@ -1,12 +1,12 @@
 import { type ReactNode, useCallback } from 'react';
-import { HomeCard } from '@/components/home/HomeCard';
-import { HomeCardTitle } from '@/components/home/HomeCardTitle';
 import { Button, Text } from '@ui-kitten/components';
-import { useMonthStore } from '@/stores';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
-import { useBudgetCopyMutation, useBudgetPreviousMonthSuspenseQuery } from '@/hooks/queries';
 import { Link } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import { HomeCard } from '@/components/home/HomeCard';
+import { HomeCardTitle } from '@/components/home/HomeCardTitle';
+import { useMonthStore } from '@/stores';
+import { useBudgetCopyMutation, useBudgetPreviousMonthSuspenseQuery } from '@/hooks/queries';
 
 export function HomeGoalsEmpty(): ReactNode {
   const { t } = useTranslation();

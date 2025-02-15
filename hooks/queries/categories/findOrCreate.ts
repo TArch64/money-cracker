@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { eq } from 'drizzle-orm';
 import { RecordType } from '@/enums';
 import { categories, type Category, useDatabase } from '@/db';
-import { eq } from 'drizzle-orm';
-import { useCategoryCreateMutation } from './create';
 import { CATEGORIES_LIST_QUERY } from '@/hooks/queries/keys';
+import { useCategoryCreateMutation } from './create';
 
 export interface ICategoryFindOrCreateInput {
   type: RecordType;

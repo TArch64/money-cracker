@@ -1,15 +1,15 @@
-import type { RecordWithCategory } from '@/db';
 import { type ReactNode, useRef, useState } from 'react';
-import { useMonthStore } from '@/stores';
-import { useRecordsMonthSuspenseQuery } from '@/hooks/queries';
 import { groupBy } from 'lodash-es';
 import { FlatList, StyleSheet, View, type ViewStyle } from 'react-native';
 import { Text } from '@ui-kitten/components';
 import { FlashList } from '@shopify/flash-list';
+import { useTranslation } from 'react-i18next';
+import type { RecordWithCategory } from '@/db';
+import { useMonthStore } from '@/stores';
+import { useRecordsMonthSuspenseQuery } from '@/hooks/queries';
 import { MonthDayHeader } from './MonthDayHeader';
 import { MonthRecord } from './MonthRecord';
 import { MonthBackToTop } from './MonthBackToTop';
-import { useTranslation } from 'react-i18next';
 
 const enum ListItemType {
   DAY_HEADER = 'day-header',

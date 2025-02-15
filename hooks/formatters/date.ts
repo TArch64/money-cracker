@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
-import { useLocaleCodeQuery } from '@/locale';
 import { useTranslation } from 'react-i18next';
 import { differenceInCalendarDays } from 'date-fns';
+import { useLocaleCodeQuery } from '@/locale';
 
 export function useDateFormatter(options: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
   const localeQuery = useLocaleCodeQuery();

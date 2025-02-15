@@ -1,11 +1,11 @@
 import type { ReactNode } from 'react';
 import { Text } from '@ui-kitten/components';
+import { StyleSheet, type TextStyle } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { useBalanceSuspenseQuery } from '@/hooks/queries';
 import { useMoneyFormatter } from '@/hooks/formatters';
-import { StyleSheet, type TextStyle } from 'react-native';
-import { HomeCard } from './HomeCard';
 import { HomeCardTitle } from '@/components/home/HomeCardTitle';
-import { useTranslation } from 'react-i18next';
+import { HomeCard } from './HomeCard';
 
 export function HomeBalance(): ReactNode {
   const { t } = useTranslation();

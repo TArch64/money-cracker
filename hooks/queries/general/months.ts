@@ -1,8 +1,8 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { MONTHS_QUERY } from '../keys';
-import { budgets, records, useDatabase } from '@/db';
 import { desc, sql } from 'drizzle-orm';
+import { budgets, records, useDatabase } from '@/db';
 import { MonthIdx } from '@/stores';
+import { MONTHS_QUERY } from '../keys';
 
 export function useMonthsSuspenseQuery<D = MonthIdx[]>(select?: (months: MonthIdx[]) => D) {
   const db = useDatabase();

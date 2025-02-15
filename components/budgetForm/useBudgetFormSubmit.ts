@@ -1,7 +1,7 @@
-import type { FormSubmitHandler } from '../form';
-import type { BudgetSchema } from './schema';
 import { showAlert } from '@/helpers/showAlert';
 import type { BudgetInputCategory } from '@/hooks/queries';
+import type { FormSubmitHandler } from '../form';
+import type { BudgetSchema } from './schema';
 
 export function useBudgetFormSubmit(onSubmit: (categories: BudgetInputCategory[]) => void): FormSubmitHandler<BudgetSchema> {
   return (event) => {

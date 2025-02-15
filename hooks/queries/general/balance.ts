@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { BALANCE_QUERY } from '../keys';
 import { records, sum, useDatabase } from '@/db';
 import { RecordType } from '@/enums';
+import { BALANCE_QUERY } from '../keys';
 
 export function useBalanceSuspenseQuery() {
   const db = useDatabase();

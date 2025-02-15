@@ -1,10 +1,10 @@
-import { RecordType } from '@/enums';
 import type { ReactElement, ReactNode } from 'react';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
 import { List, Text } from '@ui-kitten/components';
-import { useCategoriesListWithUsageQuery } from '@/hooks/queries';
-import { CategoryListItem } from './CategoryListItem';
 import { useTranslation } from 'react-i18next';
+import { useCategoriesListWithUsageQuery } from '@/hooks/queries';
+import { RecordType } from '@/enums';
+import { CategoryListItem } from './CategoryListItem';
 
 function ListEmpty(): ReactNode {
   const { t } = useTranslation();

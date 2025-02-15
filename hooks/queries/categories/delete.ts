@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { type AppDatabase, categories, records, useDatabase } from '@/db';
 import { eq } from 'drizzle-orm';
-import { CATEGORIES_DETAILS_QUERY, CATEGORIES_LIST_QUERY } from '../keys';
+import { type AppDatabase, categories, records, useDatabase } from '@/db';
 import { RecordType } from '@/enums';
+import { CATEGORIES_DETAILS_QUERY, CATEGORIES_LIST_QUERY } from '../keys';
 
 export interface ICategoryDeleteInput {
   id: number;

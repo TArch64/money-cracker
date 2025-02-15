@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
 import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native';
-import type { MonthBudgetCategory } from '@/hooks/queries';
 import { ProgressBar, Text, useTheme } from '@ui-kitten/components';
-import { useMoneyFormatter, useNumberFormatter } from '@/hooks/formatters';
 import Svg, { Polygon } from 'react-native-svg';
+import type { MonthBudgetCategory } from '@/hooks/queries';
+import { useMoneyFormatter, useNumberFormatter } from '@/hooks/formatters';
 
 export interface IHomeGoalProps {
   category: MonthBudgetCategory;

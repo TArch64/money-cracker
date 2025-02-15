@@ -1,10 +1,10 @@
-import { FullScreenLayout } from '@/components/layout';
 import type { ReactNode } from 'react';
 import { Divider, Menu, MenuItem, useTheme } from '@ui-kitten/components';
 import { StyleSheet, type ViewStyle } from 'react-native';
-import { IconName, iconRenderer, textRenderer } from '@/components/uiKitten';
 import { type Href, useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import { IconName, iconRenderer, textRenderer } from '@/components/uiKitten';
+import { FullScreenLayout } from '@/components/layout';
 
 interface ISettingsItemProps {
   title: string;

@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
-import { useMonthsSuspenseQuery } from '@/hooks/queries';
 import { groupBy } from 'lodash-es';
-import { MonthIdx } from '@/stores';
 import { FlashList } from '@shopify/flash-list';
+import { useMonthsSuspenseQuery } from '@/hooks/queries';
+import { MonthIdx } from '@/stores';
 import { SwitcherYearHeader } from './SwitcherYearHeader';
 import { SwitcherYearMonth } from './SwitcherYearMonth';
 
