@@ -1,0 +1,1418 @@
+{
+  "goals": [
+    {
+      "category": "Їжа",
+      "goal": 23000
+    },
+    {
+      "category": "Здоровʼя",
+      "goal": 15000
+    },
+    {
+      "category": "Донати",
+      "goal": 10000
+    },
+    {
+      "category": "Розваги",
+      "goal": 20000
+    }
+  ],
+  "expenses": [
+    [
+      {
+        "category": "Їжа",
+        "value": 850,
+        "day": 1
+      },
+      {
+        "category": "Транспорт",
+        "value": 600,
+        "day": 1
+      },
+      {
+        "category": "Їжа",
+        "value": 350,
+        "day": 1
+      },
+      {
+        "category": "Здоровʼя",
+        "value": 2500,
+        "day": 2
+      },
+      {
+        "category": "Їжа",
+        "value": 450,
+        "day": 2
+      },
+      {
+        "category": "Розваги",
+        "value": 1200,
+        "day": 2
+      },
+      {
+        "category": "Їжа",
+        "value": 800,
+        "day": 3
+      },
+      {
+        "category": "Транспорт",
+        "value": 250,
+        "day": 3
+      },
+      {
+        "category": "Інше",
+        "value": 750,
+        "day": 3
+      },
+      {
+        "category": "Розваги",
+        "value": 1500,
+        "day": 4
+      },
+      {
+        "category": "Їжа",
+        "value": 600,
+        "day": 4
+      },
+      {
+        "category": "Житло",
+        "value": 8000,
+        "day": 4
+      },
+      {
+        "category": "Кредити",
+        "value": 15000,
+        "day": 5
+      },
+      {
+        "category": "Їжа",
+        "value": 750,
+        "day": 5
+      },
+      {
+        "category": "Транспорт",
+        "value": 300,
+        "day": 5
+      },
+      {
+        "category": "Одяг",
+        "value": 2500,
+        "day": 6
+      },
+      {
+        "category": "Їжа",
+        "value": 450,
+        "day": 6
+      },
+      {
+        "category": "Розваги",
+        "value": 800,
+        "day": 6
+      },
+      {
+        "category": "Житло",
+        "value": 1200,
+        "day": 7
+      },
+      {
+        "category": "Їжа",
+        "value": 900,
+        "day": 7
+      },
+      {
+        "category": "Здоровʼя",
+        "value": 1200,
+        "day": 7
+      },
+      {
+        "category": "Їжа",
+        "value": 1200,
+        "day": 8
+      },
+      {
+        "category": "Донати",
+        "value": 2000,
+        "day": 8
+      },
+      {
+        "category": "Транспорт",
+        "value": 400,
+        "day": 8
+      },
+      {
+        "category": "Їжа",
+        "value": 550,
+        "day": 9
+      },
+      {
+        "category": "Розваги",
+        "value": 1800,
+        "day": 9
+      },
+      {
+        "category": "Інше",
+        "value": 600,
+        "day": 9
+      },
+      {
+        "category": "Транспорт",
+        "value": 300,
+        "day": 10
+      },
+      {
+        "category": "Їжа",
+        "value": 750,
+        "day": 10
+      },
+      {
+        "category": "Житло",
+        "value": 900,
+        "day": 10
+      },
+      {
+        "category": "Їжа",
+        "value": 850,
+        "day": 11
+      },
+      {
+        "category": "Здоровʼя",
+        "value": 1500,
+        "day": 11
+      },
+      {
+        "category": "Розваги",
+        "value": 900,
+        "day": 11
+      },
+      {
+        "category": "Інше",
+        "value": 800,
+        "day": 12
+      },
+      {
+        "category": "Їжа",
+        "value": 600,
+        "day": 12
+      },
+      {
+        "category": "Транспорт",
+        "value": 250,
+        "day": 12
+      },
+      {
+        "category": "Здоровʼя",
+        "value": 2200,
+        "day": 13
+      },
+      {
+        "category": "Їжа",
+        "value": 700,
+        "day": 13
+      },
+      {
+        "category": "Одяг",
+        "value": 1800,
+        "day": 13
+      },
+      {
+        "category": "Їжа",
+        "value": 900,
+        "day": 14
+      },
+      {
+        "category": "Розваги",
+        "value": 2500,
+        "day": 14
+      },
+      {
+        "category": "Житло",
+        "value": 1500,
+        "day": 14
+      },
+      {
+        "category": "Кредити",
+        "value": 15000,
+        "day": 15
+      },
+      {
+        "category": "Їжа",
+        "value": 800,
+        "day": 15
+      },
+      {
+        "category": "Донати",
+        "value": 1500,
+        "day": 15
+      },
+      {
+        "category": "Їжа",
+        "value": 650,
+        "day": 16
+      },
+      {
+        "category": "Транспорт",
+        "value": 350,
+        "day": 16
+      },
+      {
+        "category": "Розваги",
+        "value": 1200,
+        "day": 16
+      },
+      {
+        "category": "Одяг",
+        "value": 3500,
+        "day": 17
+      },
+      {
+        "category": "Їжа",
+        "value": 750,
+        "day": 17
+      },
+      {
+        "category": "Здоровʼя",
+        "value": 900,
+        "day": 17
+      },
+      {
+        "category": "Житло",
+        "value": 2100,
+        "day": 18
+      },
+      {
+        "category": "Їжа",
+        "value": 800,
+        "day": 18
+      },
+      {
+        "category": "Інше",
+        "value": 450,
+        "day": 18
+      },
+      {
+        "category": "Їжа",
+        "value": 900,
+        "day": 19
+      },
+      {
+        "category": "Транспорт",
+        "value": 300,
+        "day": 19
+      },
+      {
+        "category": "Розваги",
+        "value": 1500,
+        "day": 19
+      },
+      {
+        "category": "Донати",
+        "value": 2000,
+        "day": 20
+      },
+      {
+        "category": "Їжа",
+        "value": 600,
+        "day": 20
+      },
+      {
+        "category": "Здоровʼя",
+        "value": 1800,
+        "day": 20
+      },
+      {
+        "category": "Транспорт",
+        "value": 400,
+        "day": 21
+      },
+      {
+        "category": "Їжа",
+        "value": 750,
+        "day": 21
+      },
+      {
+        "category": "Одяг",
+        "value": 2200,
+        "day": 21
+      },
+      {
+        "category": "Їжа",
+        "value": 850,
+        "day": 22
+      },
+      {
+        "category": "Розваги",
+        "value": 1600,
+        "day": 22
+      },
+      {
+        "category": "Житло",
+        "value": 1100,
+        "day": 22
+      },
+      {
+        "category": "Їжа",
+        "value": 700,
+        "day": 23
+      },
+      {
+        "category": "Інше",
+        "value": 900,
+        "day": 23
+      },
+      {
+        "category": "Здоровʼя",
+        "value": 1500,
+        "day": 23
+      },
+      {
+        "category": "Їжа",
+        "value": 600,
+        "day": 24
+      },
+      {
+        "category": "Транспорт",
+        "value": 350,
+        "day": 24
+      },
+      {
+        "category": "Розваги",
+        "value": 1300,
+        "day": 24
+      },
+      {
+        "category": "Їжа",
+        "value": 800,
+        "day": 25
+      },
+      {
+        "category": "Житло",
+        "value": 1400,
+        "day": 25
+      },
+      {
+        "category": "Донати",
+        "value": 1500,
+        "day": 25
+      },
+      {
+        "category": "Розваги",
+        "value": 1800,
+        "day": 26
+      },
+      {
+        "category": "Їжа",
+        "value": 650,
+        "day": 26
+      },
+      {
+        "category": "Здоровʼя",
+        "value": 1200,
+        "day": 26
+      },
+      {
+        "category": "Їжа",
+        "value": 750,
+        "day": 27
+      },
+      {
+        "category": "Транспорт",
+        "value": 300,
+        "day": 27
+      },
+      {
+        "category": "Одяг",
+        "value": 1600,
+        "day": 27
+      },
+      {
+        "category": "Житло",
+        "value": 1700,
+        "day": 28
+      },
+      {
+        "category": "Їжа",
+        "value": 900,
+        "day": 28
+      },
+      {
+        "category": "Інше",
+        "value": 500,
+        "day": 28
+      },
+      {
+        "category": "Їжа",
+        "value": 800,
+        "day": 29
+      },
+      {
+        "category": "Донати",
+        "value": 1000,
+        "day": 29
+      },
+      {
+        "category": "Розваги",
+        "value": 1200,
+        "day": 29
+      },
+      {
+        "category": "Їжа",
+        "value": 750,
+        "day": 30
+      },
+      {
+        "category": "Транспорт",
+        "value": 400,
+        "day": 30
+      },
+      {
+        "category": "Здоровʼя",
+        "value": 1600,
+        "day": 30
+      },
+      {
+        "category": "Житло",
+        "value": 950,
+        "day": 31
+      },
+      {
+        "category": "Їжа",
+        "value": 850,
+        "day": 31
+      },
+      {
+        "category": "Розваги",
+        "value": 1300,
+        "day": 31
+      }
+    ],
+    [
+      {
+        "category": "Житло",
+        "value": 12000,
+        "day": 1
+      },
+      {
+        "category": "Їжа",
+        "value": 1200,
+        "day": 1
+      },
+      {
+        "category": "Транспорт",
+        "value": 500,
+        "day": 1
+      },
+      {
+        "category": "Їжа",
+        "value": 450,
+        "day": 2
+      },
+      {
+        "category": "Розваги",
+        "value": 800,
+        "day": 2
+      },
+      {
+        "category": "Транспорт",
+        "value": 250,
+        "day": 2
+      },
+      {
+        "category": "Їжа",
+        "value": 650,
+        "day": 3
+      },
+      {
+        "category": "Здоровʼя",
+        "value": 2400,
+        "day": 3
+      },
+      {
+        "category": "Їжа",
+        "value": 550,
+        "day": 4
+      },
+      {
+        "category": "Розваги",
+        "value": 1500,
+        "day": 4
+      },
+      {
+        "category": "Транспорт",
+        "value": 300,
+        "day": 4
+      },
+      {
+        "category": "Кредити",
+        "value": 15000,
+        "day": 5
+      },
+      {
+        "category": "Їжа",
+        "value": 800,
+        "day": 5
+      },
+      {
+        "category": "Інше",
+        "value": 450,
+        "day": 5
+      },
+      {
+        "category": "Їжа",
+        "value": 600,
+        "day": 6
+      },
+      {
+        "category": "Одяг",
+        "value": 2800,
+        "day": 6
+      },
+      {
+        "category": "Транспорт",
+        "value": 250,
+        "day": 6
+      },
+      {
+        "category": "Їжа",
+        "value": 750,
+        "day": 7
+      },
+      {
+        "category": "Розваги",
+        "value": 1200,
+        "day": 7
+      },
+      {
+        "category": "Здоровʼя",
+        "value": 1800,
+        "day": 7
+      },
+      {
+        "category": "Їжа",
+        "value": 900,
+        "day": 8
+      },
+      {
+        "category": "Транспорт",
+        "value": 300,
+        "day": 8
+      },
+      {
+        "category": "Донати",
+        "value": 1000,
+        "day": 8
+      },
+      {
+        "category": "Їжа",
+        "value": 550,
+        "day": 9
+      },
+      {
+        "category": "Розваги",
+        "value": 2000,
+        "day": 9
+      },
+      {
+        "category": "Житло",
+        "value": 1500,
+        "day": 9
+      },
+      {
+        "category": "Їжа",
+        "value": 650,
+        "day": 10
+      },
+      {
+        "category": "Транспорт",
+        "value": 250,
+        "day": 10
+      },
+      {
+        "category": "Інше",
+        "value": 800,
+        "day": 10
+      },
+      {
+        "category": "Їжа",
+        "value": 750,
+        "day": 11
+      },
+      {
+        "category": "Одяг",
+        "value": 1600,
+        "day": 11
+      },
+      {
+        "category": "Здоровʼя",
+        "value": 900,
+        "day": 11
+      },
+      {
+        "category": "Їжа",
+        "value": 850,
+        "day": 12
+      },
+      {
+        "category": "Розваги",
+        "value": 1300,
+        "day": 12
+      },
+      {
+        "category": "Транспорт",
+        "value": 300,
+        "day": 12
+      },
+      {
+        "category": "Їжа",
+        "value": 600,
+        "day": 13
+      },
+      {
+        "category": "Донати",
+        "value": 2000,
+        "day": 13
+      },
+      {
+        "category": "Житло",
+        "value": 900,
+        "day": 13
+      },
+      {
+        "category": "Їжа",
+        "value": 700,
+        "day": 14
+      },
+      {
+        "category": "Розваги",
+        "value": 1800,
+        "day": 14
+      },
+      {
+        "category": "Транспорт",
+        "value": 250,
+        "day": 14
+      },
+      {
+        "category": "Кредити",
+        "value": 15000,
+        "day": 15
+      },
+      {
+        "category": "Їжа",
+        "value": 900,
+        "day": 15
+      },
+      {
+        "category": "Здоровʼя",
+        "value": 1200,
+        "day": 15
+      },
+      {
+        "category": "Їжа",
+        "value": 600,
+        "day": 16
+      },
+      {
+        "category": "Розваги",
+        "value": 1500,
+        "day": 16
+      },
+      {
+        "category": "Транспорт",
+        "value": 300,
+        "day": 16
+      },
+      {
+        "category": "Їжа",
+        "value": 800,
+        "day": 17
+      },
+      {
+        "category": "Одяг",
+        "value": 3500,
+        "day": 17
+      },
+      {
+        "category": "Інше",
+        "value": 600,
+        "day": 17
+      },
+      {
+        "category": "Їжа",
+        "value": 550,
+        "day": 18
+      },
+      {
+        "category": "Розваги",
+        "value": 1200,
+        "day": 18
+      },
+      {
+        "category": "Житло",
+        "value": 1100,
+        "day": 18
+      },
+      {
+        "category": "Їжа",
+        "value": 750,
+        "day": 19
+      },
+      {
+        "category": "Транспорт",
+        "value": 250,
+        "day": 19
+      },
+      {
+        "category": "Донати",
+        "value": 1500,
+        "day": 19
+      },
+      {
+        "category": "Їжа",
+        "value": 850,
+        "day": 20
+      },
+      {
+        "category": "Розваги",
+        "value": 2200,
+        "day": 20
+      },
+      {
+        "category": "Здоровʼя",
+        "value": 1600,
+        "day": 20
+      },
+      {
+        "category": "Їжа",
+        "value": 600,
+        "day": 21
+      },
+      {
+        "category": "Транспорт",
+        "value": 300,
+        "day": 21
+      },
+      {
+        "category": "Інше",
+        "value": 750,
+        "day": 21
+      },
+      {
+        "category": "Їжа",
+        "value": 700,
+        "day": 22
+      },
+      {
+        "category": "Одяг",
+        "value": 2500,
+        "day": 22
+      },
+      {
+        "category": "Житло",
+        "value": 1300,
+        "day": 22
+      },
+      {
+        "category": "Їжа",
+        "value": 850,
+        "day": 23
+      },
+      {
+        "category": "Розваги",
+        "value": 1400,
+        "day": 23
+      },
+      {
+        "category": "Транспорт",
+        "value": 250,
+        "day": 23
+      },
+      {
+        "category": "Їжа",
+        "value": 600,
+        "day": 24
+      },
+      {
+        "category": "Донати",
+        "value": 1000,
+        "day": 24
+      },
+      {
+        "category": "Здоровʼя",
+        "value": 2000,
+        "day": 24
+      },
+      {
+        "category": "Їжа",
+        "value": 750,
+        "day": 25
+      },
+      {
+        "category": "Розваги",
+        "value": 1600,
+        "day": 25
+      },
+      {
+        "category": "Транспорт",
+        "value": 300,
+        "day": 25
+      },
+      {
+        "category": "Їжа",
+        "value": 900,
+        "day": 26
+      },
+      {
+        "category": "Одяг",
+        "value": 1800,
+        "day": 26
+      },
+      {
+        "category": "Житло",
+        "value": 1400,
+        "day": 26
+      },
+      {
+        "category": "Їжа",
+        "value": 550,
+        "day": 27
+      },
+      {
+        "category": "Розваги",
+        "value": 1300,
+        "day": 27
+      },
+      {
+        "category": "Інше",
+        "value": 500,
+        "day": 27
+      },
+      {
+        "category": "Їжа",
+        "value": 800,
+        "day": 28
+      },
+      {
+        "category": "Транспорт",
+        "value": 250,
+        "day": 28
+      },
+      {
+        "category": "Здоровʼя",
+        "value": 1100,
+        "day": 28
+      },
+      {
+        "category": "Їжа",
+        "value": 650,
+        "day": 29
+      },
+      {
+        "category": "Розваги",
+        "value": 1800,
+        "day": 29
+      },
+      {
+        "category": "Донати",
+        "value": 1500,
+        "day": 29
+      },
+      {
+        "category": "Їжа",
+        "value": 700,
+        "day": 30
+      },
+      {
+        "category": "Транспорт",
+        "value": 300,
+        "day": 30
+      },
+      {
+        "category": "Житло",
+        "value": 1200,
+        "day": 30
+      },
+      {
+        "category": "Їжа",
+        "value": 850,
+        "day": 31
+      },
+      {
+        "category": "Розваги",
+        "value": 1600,
+        "day": 31
+      },
+      {
+        "category": "Інше",
+        "value": 700,
+        "day": 31
+      }
+    ],
+    [
+      {
+        "category": "Житло",
+        "value": 14000,
+        "day": 1
+      },
+      {
+        "category": "Їжа",
+        "value": 980,
+        "day": 1
+      },
+      {
+        "category": "Інше",
+        "value": 340,
+        "day": 1
+      },
+      {
+        "category": "Їжа",
+        "value": 520,
+        "day": 2
+      },
+      {
+        "category": "Транспорт",
+        "value": 280,
+        "day": 2
+      },
+      {
+        "category": "Розваги",
+        "value": 1200,
+        "day": 2
+      },
+      {
+        "category": "Їжа",
+        "value": 750,
+        "day": 3
+      },
+      {
+        "category": "Здоровʼя",
+        "value": 1800,
+        "day": 3
+      },
+      {
+        "category": "Транспорт",
+        "value": 260,
+        "day": 3
+      },
+      {
+        "category": "Їжа",
+        "value": 680,
+        "day": 4
+      },
+      {
+        "category": "Розваги",
+        "value": 920,
+        "day": 4
+      },
+      {
+        "category": "Одяг",
+        "value": 2400,
+        "day": 4
+      },
+      {
+        "category": "Кредити",
+        "value": 15000,
+        "day": 5
+      },
+      {
+        "category": "Їжа",
+        "value": 540,
+        "day": 5
+      },
+      {
+        "category": "Транспорт",
+        "value": 300,
+        "day": 5
+      },
+      {
+        "category": "Їжа",
+        "value": 890,
+        "day": 6
+      },
+      {
+        "category": "Інше",
+        "value": 460,
+        "day": 6
+      },
+      {
+        "category": "Здоровʼя",
+        "value": 1200,
+        "day": 6
+      },
+      {
+        "category": "Їжа",
+        "value": 630,
+        "day": 7
+      },
+      {
+        "category": "Розваги",
+        "value": 1500,
+        "day": 7
+      },
+      {
+        "category": "Транспорт",
+        "value": 290,
+        "day": 7
+      },
+      {
+        "category": "Їжа",
+        "value": 720,
+        "day": 8
+      },
+      {
+        "category": "Донати",
+        "value": 2500,
+        "day": 8
+      },
+      {
+        "category": "Житло",
+        "value": 1100,
+        "day": 8
+      },
+      {
+        "category": "Їжа",
+        "value": 850,
+        "day": 9
+      },
+      {
+        "category": "Розваги",
+        "value": 1800,
+        "day": 9
+      },
+      {
+        "category": "Транспорт",
+        "value": 270,
+        "day": 9
+      },
+      {
+        "category": "Їжа",
+        "value": 590,
+        "day": 10
+      },
+      {
+        "category": "Одяг",
+        "value": 3200,
+        "day": 10
+      },
+      {
+        "category": "Інше",
+        "value": 420,
+        "day": 10
+      },
+      {
+        "category": "Їжа",
+        "value": 780,
+        "day": 11
+      },
+      {
+        "category": "Здоровʼя",
+        "value": 2200,
+        "day": 11
+      },
+      {
+        "category": "Транспорт",
+        "value": 310,
+        "day": 11
+      },
+      {
+        "category": "Їжа",
+        "value": 690,
+        "day": 12
+      },
+      {
+        "category": "Розваги",
+        "value": 1100,
+        "day": 12
+      },
+      {
+        "category": "Житло",
+        "value": 900,
+        "day": 12
+      },
+      {
+        "category": "Їжа",
+        "value": 560,
+        "day": 13
+      },
+      {
+        "category": "Донати",
+        "value": 1000,
+        "day": 13
+      },
+      {
+        "category": "Транспорт",
+        "value": 280,
+        "day": 13
+      },
+      {
+        "category": "Їжа",
+        "value": 820,
+        "day": 14
+      },
+      {
+        "category": "Розваги",
+        "value": 1600,
+        "day": 14
+      },
+      {
+        "category": "Інше",
+        "value": 380,
+        "day": 14
+      },
+      {
+        "category": "Кредити",
+        "value": 15000,
+        "day": 15
+      },
+      {
+        "category": "Їжа",
+        "value": 710,
+        "day": 15
+      },
+      {
+        "category": "Здоровʼя",
+        "value": 1500,
+        "day": 15
+      },
+      {
+        "category": "Їжа",
+        "value": 640,
+        "day": 16
+      },
+      {
+        "category": "Одяг",
+        "value": 2800,
+        "day": 16
+      },
+      {
+        "category": "Транспорт",
+        "value": 300,
+        "day": 16
+      },
+      {
+        "category": "Їжа",
+        "value": 930,
+        "day": 17
+      },
+      {
+        "category": "Розваги",
+        "value": 1300,
+        "day": 17
+      },
+      {
+        "category": "Житло",
+        "value": 1300,
+        "day": 17
+      },
+      {
+        "category": "Їжа",
+        "value": 580,
+        "day": 18
+      },
+      {
+        "category": "Інше",
+        "value": 440,
+        "day": 18
+      },
+      {
+        "category": "Транспорт",
+        "value": 270,
+        "day": 18
+      },
+      {
+        "category": "Їжа",
+        "value": 670,
+        "day": 19
+      },
+      {
+        "category": "Розваги",
+        "value": 1700,
+        "day": 19
+      },
+      {
+        "category": "Здоровʼя",
+        "value": 1900,
+        "day": 19
+      },
+      {
+        "category": "Їжа",
+        "value": 790,
+        "day": 20
+      },
+      {
+        "category": "Донати",
+        "value": 1500,
+        "day": 20
+      },
+      {
+        "category": "Транспорт",
+        "value": 290,
+        "day": 20
+      },
+      {
+        "category": "Їжа",
+        "value": 620,
+        "day": 21
+      },
+      {
+        "category": "Одяг",
+        "value": 2600,
+        "day": 21
+      },
+      {
+        "category": "Інше",
+        "value": 350,
+        "day": 21
+      },
+      {
+        "category": "Їжа",
+        "value": 840,
+        "day": 22
+      },
+      {
+        "category": "Розваги",
+        "value": 1400,
+        "day": 22
+      },
+      {
+        "category": "Житло",
+        "value": 950,
+        "day": 22
+      },
+      {
+        "category": "Їжа",
+        "value": 730,
+        "day": 23
+      },
+      {
+        "category": "Здоровʼя",
+        "value": 1600,
+        "day": 23
+      },
+      {
+        "category": "Транспорт",
+        "value": 320,
+        "day": 23
+      },
+      {
+        "category": "Їжа",
+        "value": 680,
+        "day": 24
+      },
+      {
+        "category": "Розваги",
+        "value": 1900,
+        "day": 24
+      },
+      {
+        "category": "Інше",
+        "value": 410,
+        "day": 24
+      },
+      {
+        "category": "Їжа",
+        "value": 570,
+        "day": 25
+      },
+      {
+        "category": "Одяг",
+        "value": 2900,
+        "day": 25
+      },
+      {
+        "category": "Транспорт",
+        "value": 280,
+        "day": 25
+      },
+      {
+        "category": "Їжа",
+        "value": 810,
+        "day": 26
+      },
+      {
+        "category": "Донати",
+        "value": 2000,
+        "day": 26
+      },
+      {
+        "category": "Житло",
+        "value": 1200,
+        "day": 26
+      },
+      {
+        "category": "Їжа",
+        "value": 650,
+        "day": 27
+      },
+      {
+        "category": "Розваги",
+        "value": 1200,
+        "day": 27
+      },
+      {
+        "category": "Здоровʼя",
+        "value": 1700,
+        "day": 27
+      },
+      {
+        "category": "Їжа",
+        "value": 740,
+        "day": 28
+      },
+      {
+        "category": "Інше",
+        "value": 390,
+        "day": 28
+      },
+      {
+        "category": "Транспорт",
+        "value": 310,
+        "day": 28
+      },
+      {
+        "category": "Їжа",
+        "value": 860,
+        "day": 29
+      },
+      {
+        "category": "Розваги",
+        "value": 1500,
+        "day": 29
+      },
+      {
+        "category": "Одяг",
+        "value": 2300,
+        "day": 29
+      },
+      {
+        "category": "Їжа",
+        "value": 590,
+        "day": 30
+      },
+      {
+        "category": "Донати",
+        "value": 1200,
+        "day": 30
+      },
+      {
+        "category": "Житло",
+        "value": 1000,
+        "day": 30
+      },
+      {
+        "category": "Їжа",
+        "value": 770,
+        "day": 31
+      },
+      {
+        "category": "Розваги",
+        "value": 1300,
+        "day": 31
+      },
+      {
+        "category": "Транспорт",
+        "value": 290,
+        "day": 31
+      }
+    ]
+  ]
+}
