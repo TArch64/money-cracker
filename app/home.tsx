@@ -46,7 +46,6 @@ export default function Home(): ReactNode {
   return (
     <Animated.ScrollView
       removeClippedSubviews
-      showsVerticalScrollIndicator={false}
       stickyHeaderIndices={[0]}
 
       style={{

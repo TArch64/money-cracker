@@ -49,28 +49,40 @@ export function HomeMonthStatistic(): ReactNode {
   const activeMonthIdx = useMonthStore((state) => state.activeIdx);
   const statisticsQuery = useRecordsMonthSummarySuspenseQuery(activeMonthIdx.year, activeMonthIdx.month);
 
-  if (!statisticsQuery.data.expenseTotal) {
+  const data = [
+    {
+      type: RecordType.INCOME,
+      total: statisticsQuery.data.incomeTotal,
+    },
+    {
+      type: RecordType.EXPENSE,
+      total: statisticsQuery.data.expenseTotal,
+    },
+  ];
+
+  if (!data.some((item) => item.total > 0)) {
     return null;
   }
 
   return (
-    <HomeCard href="/month/statistics">
+    <HomeCard
+      href="/month/statistics"
+      disabled={!statisticsQuery.data.expenseTotal}
+    >
       <HomeCardTitle
-        linked
+        linked={!!statisticsQuery.data.expenseTotal}
         style={styles.title}
         title={t('home.sections.monthStatistics.title')}
       />
 
       <View style={styles.dataRow}>
-        <StatisticColumn
-          type={RecordType.INCOME}
-          total={statisticsQuery.data.incomeTotal}
-        />
-
-        <StatisticColumn
-          type={RecordType.EXPENSE}
-          total={statisticsQuery.data.expenseTotal}
-        />
+        {data.map((item) => !!item.total && (
+          <StatisticColumn
+            key={item.type}
+            total={item.total}
+            type={item.type}
+          />
+        ))}
       </View>
     </HomeCard>
   );
