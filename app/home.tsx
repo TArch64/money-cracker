@@ -40,7 +40,7 @@ export default function Home(): ReactNode {
   });
 
   const listAnimatedStyle = useAnimatedStyle((): ViewStyle => ({
-    gap: 16 + (stickyProgress.value >= 0 ? 0 : interpolate(stickyProgress.value, [0, -1], [0, 8])),
+    gap: 16 + (stickyProgress.value >= 0 ? 0 : interpolate(stickyProgress.value, [0, -1], [0, 4])),
   }));
 
   return (
