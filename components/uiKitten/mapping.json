@@ -12,15 +12,6 @@
     "text-label-font-weight": "500"
   },
   "components": {
-    "Menu": {
-      "appearances": {
-        "default": {
-          "mapping": {
-            "backgroundColor": "transparent"
-          }
-        }
-      }
-    },
     "MenuItem": {
       "appearances": {
         "default": {
