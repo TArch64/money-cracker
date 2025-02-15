@@ -29,7 +29,6 @@ export function CategoriesList(props: ICategoriesListProps): ReactNode {
   return (
     <List
       removeClippedSubviews
-      showsVerticalScrollIndicator={false}
       data={categoriesQuery.data}
       renderItem={({ item }) => <CategoryListItem category={item} />}
       ListHeaderComponent={props.header}

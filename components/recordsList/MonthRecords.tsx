@@ -63,7 +63,6 @@ export function MonthRecords(): ReactNode {
       <FlashList
         ref={listRef as any}
         removeClippedSubviews
-        showsVerticalScrollIndicator={false}
         data={recordsQuery.data}
         estimatedItemSize={43.3}
         scrollEventThrottle={16}
