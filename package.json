@@ -6,6 +6,7 @@
     "start": "expo start --ios --offline",
     "start:online": "expo start --ios",
     "build:ios": "eas build --local --platform ios",
+    "build:ios-simulator": "NODE_ENV=development bun eas build -p ios --profile development --local",
     "db:new-migration": "drizzle-kit generate",
     "android": "expo run:android",
     "ios": "expo run:ios",
@@ -33,9 +34,12 @@
     "drizzle-orm": "^0.39.3",
     "eas-cli": "^15.0.10",
     "expo": "^52.0.35",
+    "expo-crypto": "~14.0.2",
+    "expo-dev-client": "~5.0.12",
     "expo-file-system": "~18.0.10",
     "expo-localization": "~16.0.1",
     "expo-router": "~4.0.17",
+    "expo-secure-store": "~14.0.1",
     "expo-splash-screen": "~0.29.22",
     "expo-sqlite": "~15.1.2",
     "expo-status-bar": "~2.0.1",
@@ -49,6 +53,7 @@
     "react-native-gesture-handler": "~2.20.2",
     "react-native-reanimated": "~3.16.7",
     "react-native-safe-area-context": "4.12.0",
+    "react-native-screens": "~4.4.0",
     "react-native-svg": "15.8.0",
     "typescript": "^5.7.3",
     "valibot": "^1.0.0-rc.0",
@@ -64,5 +69,12 @@
     "lint-staged": "^15.4.3",
     "npm-check-updates": "^17.1.14",
     "typescript-eslint": "^8.24.0"
+  },
+  "expo": {
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "listUnknownPackages": false
+      }
+    }
   }
 }
