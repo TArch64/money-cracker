@@ -21,7 +21,7 @@ extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
   }
 }
 
-rootProject.name = 'money-cracker'
+rootProject.name = 'Money Cracker'
 
 dependencyResolutionManagement {
   versionCatalogs {
