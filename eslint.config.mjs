@@ -4,12 +4,18 @@ import pluginReact from 'eslint-plugin-react';
 import pluginStylistic from '@stylistic/eslint-plugin';
 import globals from 'globals';
 import pluginImport from 'eslint-plugin-import';
+import pluginReactCompiler from 'eslint-plugin-react-compiler';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   {
     files: ['**/*.{js,ts,tsx}'],
-    ignores: ['ios', 'android', '.expo'],
+    ignores: [
+      './ios',
+      './android',
+      './.expo',
+      './expo-env.d.ts',
+    ],
     languageOptions: {
       globals: {
         ...globals.node,
@@ -19,6 +25,7 @@ export default [
   pluginJs.configs.recommended,
   ...pluginTseslint.configs.recommended,
   pluginReact.configs.flat.recommended,
+  pluginReactCompiler.configs.recommended,
   pluginStylistic.configs.customize({
     flat: true,
     semi: true,

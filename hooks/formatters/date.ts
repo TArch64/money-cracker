@@ -11,6 +11,7 @@ export function useDateFormatter(options: Intl.DateTimeFormatOptions): Intl.Date
 export function useDistanceDayFormatter(date: Date): string {
   const { t } = useTranslation();
   const formatter = useDateFormatter({ month: 'long', day: 'numeric' });
+  const dateKey = date.getTime();
 
   return useMemo(() => {
     const now = new Date();
@@ -25,5 +26,5 @@ export function useDistanceDayFormatter(date: Date): string {
     }
 
     return formatter.format(date);
-  }, [date.getTime()]);
+  }, [dateKey]);
 }

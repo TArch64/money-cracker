@@ -33,6 +33,7 @@
     "drizzle-kit": "^0.30.4",
     "drizzle-orm": "^0.39.3",
     "eas-cli": "^15.0.10",
+    "eslint-plugin-react-compiler": "^19.0.0-beta-30d8a17-20250209",
     "expo": "^52.0.35",
     "expo-crypto": "~14.0.2",
     "expo-dev-client": "~5.0.12",
