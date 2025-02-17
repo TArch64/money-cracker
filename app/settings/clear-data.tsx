@@ -60,6 +60,7 @@ export default function ClearData(): ReactNode {
 
         <Button
           status="danger"
+          disabled={mutation.isPending}
           style={styles.button}
 
           onPress={async () => {
