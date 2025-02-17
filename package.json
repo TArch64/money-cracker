@@ -3,8 +3,8 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
-    "start": "expo start --ios --offline",
-    "start:online": "expo start --ios",
+    "start": "expo start --ios --offline --go",
+    "start:online": "expo start --ios --go",
     "build:ios": "eas build --local --platform ios",
     "build:ios-simulator": "eas build:dev -p ios --profile development",
     "db:new-migration": "drizzle-kit generate",
