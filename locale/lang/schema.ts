@@ -72,8 +72,13 @@ export interface Lang {
 
       menu: {
         categories: string;
+        language: string;
         clearData: string;
       };
+    };
+
+    language: {
+      heading: string;
     };
 
     clearData: {

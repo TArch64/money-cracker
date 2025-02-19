@@ -46,6 +46,12 @@ export default function Index(): ReactNode {
         />
 
         <SettingsItem
+          title={t('settings.index.menu.language')}
+          icon={IconName.SETTINGS_OUTLINE}
+          href={() => '/settings/language'}
+        />
+
+        <SettingsItem
           danger
           title={t('settings.index.menu.clearData')}
           icon={IconName.ALERT_TRIANGLE_OUTLINE}

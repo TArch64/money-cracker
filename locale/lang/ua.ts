@@ -72,8 +72,13 @@ export const ua: Lang = {
 
       menu: {
         categories: 'Категорії',
+        language: 'Мова',
         clearData: 'Очистити Дані',
       },
+    },
+
+    language: {
+      heading: 'Мова',
     },
 
     clearData: {

@@ -3,7 +3,7 @@ import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import type { IPropsWithChildrenFn } from '@/types';
 import { en, type Lang, ua } from './lang';
-import { useLocaleQuery } from './query';
+import { useLocaleResolvedQuery } from './query';
 
 declare module 'i18next' {
   interface CustomTypeOptions {
@@ -17,23 +17,23 @@ export interface I18NProviderProps extends IPropsWithChildrenFn {
 }
 
 export function I18NProvider(props: I18NProviderProps) {
-  const localeQuery = useLocaleQuery();
+  const resolvedLocaleQuery = useLocaleResolvedQuery();
   const [instance, setInstance] = useState<i18n | null>(null);
 
   useEffect(() => {
-    if (!localeQuery.data) {
+    if (!resolvedLocaleQuery.data) {
       return;
     }
 
     if (instance) {
-      instance.changeLanguage(localeQuery.data);
+      instance.changeLanguage(resolvedLocaleQuery.data);
       return;
     }
 
     i18next
       .use(initReactI18next)
       .init({
-        lng: localeQuery.data,
+        lng: resolvedLocaleQuery.data,
 
         resources: {
           en: { translation: en },
@@ -45,7 +45,7 @@ export function I18NProvider(props: I18NProviderProps) {
         },
       })
       .then(() => setInstance(i18next));
-  }, [localeQuery.data]);
+  }, [resolvedLocaleQuery.data]);
 
   if (!instance) {
     return null;

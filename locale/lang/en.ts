@@ -77,8 +77,13 @@ export const en: Lang = {
 
       menu: {
         categories: 'Categories',
+        language: 'Language',
         clearData: 'Clear Data',
       },
+    },
+
+    language: {
+      heading: 'Language',
     },
 
     clearData: {
