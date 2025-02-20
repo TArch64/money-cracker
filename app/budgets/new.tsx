@@ -56,7 +56,10 @@ export default function New(): ReactNode {
       onSubmit={onSubmit}
     >
       {() => (
-        <ScrollView contentContainerStyle={styles.list}>
+        <ScrollView
+          style={styles.list}
+          contentContainerStyle={styles.listContent}
+        >
           <Link
             asChild
             href={{
@@ -82,7 +85,12 @@ export default function New(): ReactNode {
 
 const styles = StyleSheet.create({
   list: {
+    marginHorizontal: -16,
+  } satisfies ViewStyle,
+
+  listContent: {
     gap: 16,
+    paddingHorizontal: 16,
   } satisfies ViewStyle,
 
   addNewCategory: {
