@@ -31,7 +31,6 @@ export default function Edit(): ReactNode {
 
   return (
     <FormScreenLayout
-      fullScreen
       title={t('categories.edit.title', { name: categoryQuery.data.name })}
       schema={schema}
       initialValues={{ name: categoryQuery.data.name }}

@@ -37,7 +37,6 @@ export default function Edit(): ReactNode {
 
   return (
     <FormScreenLayout
-      fullScreen
       title={t(`records.edit.title.${recordQuery.data.type}`)}
       schema={schema}
       onSubmit={onSubmit}

@@ -53,7 +53,6 @@ export default function New(): ReactNode {
 
   return (
     <FormScreenLayout
-      fullScreen
       title={t(`records.new.title.${searchParams.type}`)}
       schema={schema}
       onSubmit={onSubmit}

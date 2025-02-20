@@ -45,7 +45,13 @@
           "useSQLCipher": true
         }
       ],
-      "expo-secure-store"
+      "expo-secure-store",
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Allow $(PRODUCT_NAME) to secure your data"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

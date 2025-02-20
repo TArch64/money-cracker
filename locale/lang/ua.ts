@@ -2,25 +2,36 @@ import type { Lang } from './schema';
 
 export const ua: Lang = {
   intro: {
-    heading: 'Привіт!',
-    description: 'Візьми фінанси у свої руки',
+    next: 'Далі',
     start: 'Почати',
+    enable: 'Увімкнути',
+    skip: 'Пропустити',
 
-    sections: {
-      free: {
-        title: '100% Безкоштовно',
-        description: 'Без реклами та преміума',
-      },
+    terms: {
+      heading: 'Привіт!',
+      description: 'Візьми фінанси у свої руки',
 
-      privacy: {
-        title: 'Приватність',
-        description: 'Всі дані зберігаються на пристрої',
-      },
+      sections: {
+        free: {
+          title: '100% Безкоштовно',
+          description: 'Без реклами та преміума',
+        },
 
-      openSource: {
-        title: 'Відкритий Код',
-        description: 'Шукай допомогу або допомагай на',
+        privacy: {
+          title: 'Приватність',
+          description: 'Всі дані зберігаються на пристрої',
+        },
+
+        openSource: {
+          title: 'Відкритий Код',
+          description: 'Шукай допомогу або допомагай на',
+        },
       },
+    },
+
+    enableAuth: {
+      heading: 'Захисти Свої Дані',
+      description: 'Увімкни аутентифікацію для збереження своїх даних',
     },
   },
 

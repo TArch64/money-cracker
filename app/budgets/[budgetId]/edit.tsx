@@ -55,7 +55,6 @@ export default function Edit(): ReactNode {
 
   return (
     <FormScreenLayout
-      fullScreen
       schema={schema}
       title={t('budgets.edit.title')}
       initialValues={{ categories: initialCategories }}

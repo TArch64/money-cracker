@@ -5,25 +5,41 @@ export type LangRecordTypeSet = {
 
 export interface Lang {
   intro: {
-    heading: string;
-    description: string;
+    next: string;
     start: string;
+    enable: string;
+    skip: string;
 
-    sections: {
-      free: {
-        title: string;
-        description: string;
-      };
+    terms: {
+      heading: string;
+      description: string;
 
-      privacy: {
-        title: string;
-        description: string;
-      };
+      sections: {
+        free: {
+          title: string;
+          description: string;
+        };
 
-      openSource: {
-        title: string;
-        description: string;
+        privacy: {
+          title: string;
+          description: string;
+        };
+
+        openSource: {
+          title: string;
+          description: string;
+        };
       };
+    };
+
+    enableAuth: {
+      heading: string;
+      description: string;
+    };
+
+    enterPassword: {
+      heading: string;
+      description: string;
     };
   };
 
@@ -205,9 +221,14 @@ export interface Lang {
   };
 
   form: {
+    labels: {
+      password: string;
+    };
+
     errors: {
       required: string;
       minLength: string;
+      maxLength: string;
     };
   };
 

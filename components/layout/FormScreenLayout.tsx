@@ -5,19 +5,15 @@ import { KeyboardAvoidingView, StyleSheet, View, type ViewStyle } from 'react-na
 import { textRenderer } from '@/components/uiKitten';
 import { Form, type FormSchema, FormSubmit, type IFormProps, type IFormSubmitProps } from '../form';
 import { FullScreenLayout } from './FullScreenLayout';
-import { MainScreenLayout } from './MainScreenLayout';
 
 export interface IFormScreenLayoutProps<S extends FormSchema> extends IFormProps<S> {
-  fullScreen?: boolean;
-  title?: string | RenderProp<TextProps>;
+  title: string | RenderProp<TextProps>;
   submit?: IFormSubmitProps['children'] | string;
 }
 
 export function FormScreenLayout<S extends FormSchema>(props: IFormScreenLayoutProps<S>): ReactNode {
-  const Wrapper = props.fullScreen ? FullScreenLayout : MainScreenLayout;
-
   return (
-    <Wrapper title={props.title!} style={styles.root}>
+    <FullScreenLayout title={props.title} style={styles.root}>
       <Form
         schema={props.schema}
         initialValues={props.initialValues}
@@ -46,7 +42,7 @@ export function FormScreenLayout<S extends FormSchema>(props: IFormScreenLayoutP
           </KeyboardAvoidingView>
         )}
       </Form>
-    </Wrapper>
+    </FullScreenLayout>
   );
 }
 

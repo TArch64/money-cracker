@@ -47,7 +47,6 @@ export default function New(): ReactNode {
 
   return (
     <FormScreenLayout
-      fullScreen
       schema={schema}
       title={t('budgets.new.title')}
       initialValues={{ categories: initialCategories }}

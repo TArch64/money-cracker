@@ -2,9 +2,9 @@ import { createContext, type ReactNode, useContext, useEffect, useState } from '
 import { openDatabaseAsync, SQLiteDatabase } from 'expo-sqlite';
 import { drizzle, ExpoSQLiteDatabase } from 'drizzle-orm/expo-sqlite';
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
-import { getItemAsync, setItemAsync } from 'expo-secure-store';
 import { randomUUID } from 'expo-crypto';
 import type { IPropsWithChildrenFn } from '@/types';
+import { newSecureStoreKey, useSecureStore } from '@/hooks/useSecureStore';
 import * as schema from './schema';
 import migrations from './migrations/migrations';
 
@@ -44,28 +44,19 @@ export interface IDatabaseProviderProps extends IPropsWithChildrenFn {
   onReady: () => void;
 }
 
-const STORE_PRAGMA_KEY = 'db-pragma-key';
-
-async function getPragmaKey(): Promise<string> {
-  let key = await getItemAsync(STORE_PRAGMA_KEY, {
-    requireAuthentication: false,
-  });
-
-  if (key) {
-    return key;
-  }
-
-  key = randomUUID();
-
-  await setItemAsync(STORE_PRAGMA_KEY, key, {
-    requireAuthentication: false,
-  });
-
-  return key;
-}
+const STORE_PRAGMA_KEY = newSecureStoreKey<string>('db-pragma-key');
 
 export function DatabaseProvider(props: IDatabaseProviderProps): ReactNode {
+  const secureStore = useSecureStore();
   const [client, setClient] = useState<AppDatabase | null>(null);
+
+  async function getPragmaKey(): Promise<string> {
+    let key = await secureStore.getItem(STORE_PRAGMA_KEY);
+    if (key) return key;
+    key = randomUUID();
+    await secureStore.setItem(STORE_PRAGMA_KEY, key);
+    return key;
+  }
 
   useEffect(() => {
     let database: SQLiteDatabase;
@@ -84,8 +75,8 @@ export function DatabaseProvider(props: IDatabaseProviderProps): ReactNode {
     return () => {
       try {
         database?.closeSync();
-      } catch {
-        // ignore
+      } catch (error) {
+        console.error('Failed to close database', error);
       }
     };
   }, []);

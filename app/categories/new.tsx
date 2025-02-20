@@ -35,7 +35,6 @@ export default function New(): ReactNode {
 
   return (
     <FormScreenLayout
-      fullScreen
       title={t(`categories.new.title.${searchParams.type}`)}
       schema={schema}
       initialValues={{ name: '' }}

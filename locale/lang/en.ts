@@ -7,25 +7,41 @@ const recordTypeTitleSet: LangRecordTypeSet = {
 
 export const en: Lang = {
   intro: {
-    heading: 'Welcome!',
-    description: 'Take control of your finances today',
+    next: 'Next',
     start: 'Start',
+    enable: 'Enable',
+    skip: 'Skip',
 
-    sections: {
-      free: {
-        title: '100% Free, Forever',
-        description: ' No ads, no premium, no data selling',
-      },
+    terms: {
+      heading: 'Welcome!',
+      description: 'Take control of your finances today',
 
-      privacy: {
-        title: 'Privacy First',
-        description: 'All your data stays on your device',
-      },
+      sections: {
+        free: {
+          title: '100% Free, Forever',
+          description: ' No ads, no premium, no data selling',
+        },
 
-      openSource: {
-        title: 'Open Source',
-        description: 'Report issues & contribute on',
+        privacy: {
+          title: 'Privacy First',
+          description: 'All your data stays on your device',
+        },
+
+        openSource: {
+          title: 'Open Source',
+          description: 'Report issues & contribute on',
+        },
       },
+    },
+
+    enableAuth: {
+      heading: 'Secure Your Data',
+      description: 'Enable authentication to keep your data safe',
+    },
+
+    enterPassword: {
+      heading: 'Secure Your Data',
+      description: 'Password will be used as a backup method',
     },
   },
 
@@ -232,9 +248,14 @@ export const en: Lang = {
   },
 
   form: {
+    labels: {
+      password: 'Password',
+    },
+
     errors: {
       required: 'This field is required',
       minLength: 'Must be at least {{length}} characters long',
+      maxLength: 'Must be at most {{length}} characters long',
     },
   },
 

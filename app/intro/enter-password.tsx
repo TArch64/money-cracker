@@ -1,0 +1,111 @@
+import { type ReactNode, useMemo } from 'react';
+import { StyleSheet, type ViewStyle } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { useRouter } from 'expo-router';
+import { maxLength, minLength, object, pipe, string } from 'valibot';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import {
+  IntroButtonNext,
+  IntroButtonSkip,
+  IntroContainedIcon,
+  IntroDescription,
+  IntroHeading,
+  IntroScreenLayout,
+} from '@/components/layout';
+import { IconName } from '@/components/uiKitten';
+import { useUserUpdateMutation } from '@/hooks/queries';
+import { IntroState } from '@/enums';
+import { Form, FormInput, FormSubmit, type FormSubmitHandler } from '@/components/form';
+import { useAppAuth } from '@/hooks/useAppAuth';
+
+export default function EnterPassword(): ReactNode {
+  const { t } = useTranslation();
+  const router = useRouter();
+  const appAuth = useAppAuth();
+  const updateUserMutation = useUserUpdateMutation();
+
+  const hardwareAuthAvailableQuery = useSuspenseQuery({
+    queryKey: ['auth', 'hardware', 'available'],
+    queryFn: () => appAuth.isHardwareAvailable(),
+  });
+
+  const schema = useMemo(() => object({
+    password: pipe(
+      string(),
+      minLength(4, t('form.errors.minLength', { length: 3 })),
+      maxLength(32, t('form.errors.maxLength', { length: 32 })),
+    ),
+  }), []);
+
+  type Schema = typeof schema;
+
+  async function complete(): Promise<void> {
+    await updateUserMutation.mutateAsync({ intro: IntroState.COMPLETED });
+    router.replace('/home');
+  }
+
+  const onSubmit: FormSubmitHandler<Schema> = async (event) => {
+    await appAuth.enable({ password: event.value.password });
+    await complete();
+  };
+
+  return (
+    <IntroScreenLayout>
+      <IntroContainedIcon
+        size={56}
+        status="primary"
+        style={styles.icon}
+        name={IconName.SHIELD_OUTLINE}
+      />
+
+      <IntroHeading>
+        {t('intro.enterPassword.heading')}
+      </IntroHeading>
+
+      {hardwareAuthAvailableQuery.data && (
+        <IntroDescription>
+          {t('intro.enterPassword.description')}
+        </IntroDescription>
+      )}
+
+      <Form
+        schema={schema}
+        initialValues={{ password: '' }}
+        onSubmit={onSubmit}
+      >
+        {({ f }) => (
+          <>
+            <FormInput
+              name={f('password')}
+              style={styles.field}
+              label={t('form.labels.password')}
+              placeholder={t('form.labels.password')}
+            />
+
+            <FormSubmit>
+              {({ submit, disabled }) => (
+                <IntroButtonNext loading={disabled} onPress={submit}>
+                  {t('intro.enable')}
+                </IntroButtonNext>
+              )}
+            </FormSubmit>
+
+            <IntroButtonSkip onPress={complete}>
+              {t('intro.skip')}
+            </IntroButtonSkip>
+          </>
+        )}
+      </Form>
+    </IntroScreenLayout>
+  );
+}
+
+const styles = StyleSheet.create({
+  icon: {
+    marginBottom: 32,
+  } satisfies ViewStyle,
+
+  field: {
+    marginTop: 24,
+  } satisfies ViewStyle,
+});
