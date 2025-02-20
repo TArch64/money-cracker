@@ -25,6 +25,7 @@ export function useAppAuth(): IAppAuth {
     isHardwareAvailable: hasHardwareAsync,
 
     async isEnabled() {
+      if (__DEV__) return false;
       return (await secureStore.getObject(STORAGE_KEY))?.enabled === true;
     },
 
