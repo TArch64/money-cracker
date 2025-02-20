@@ -1,11 +1,18 @@
-import { type ReactNode, useMemo } from 'react';
+import type { ReactNode } from 'react';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { date, minLength, minValue, number, object, pipe, string } from 'valibot';
 import { useTranslation } from 'react-i18next';
 import { FormScreenLayout } from '@/components/layout';
 import { useCategoriesListQuery, useRecordDetailsSuspenseQuery, useRecordUpdateMutation } from '@/hooks/queries';
-import { getRecordTypeTitle } from '@/enums';
 import { FormAutocomplete, FormDatepicker, FormNumericInput, type FormSubmitHandler } from '@/components/form';
+
+const schema = object({
+  category: pipe(string(), minLength(1)),
+  value: pipe(number(), minValue(1)),
+  date: date(),
+});
+
+type Schema = typeof schema;
 
 export default function Edit(): ReactNode {
   const { t } = useTranslation();
@@ -14,21 +21,11 @@ export default function Edit(): ReactNode {
   const recordQuery = useRecordDetailsSuspenseQuery(+searchParams.recordId);
   const updateMutation = useRecordUpdateMutation(recordQuery.data);
 
-  const schema = useMemo(() => object({
-    category: pipe(string(), minLength(1, t('form.errors.required'))),
-    value: pipe(number(), minValue(1, t('form.errors.required'))),
-    date: date(),
-  }), []);
-
-  type Schema = typeof schema;
-
   const categoriesQuery = useCategoriesListQuery({
     type: recordQuery.data.type,
     subkey: ['suggestions'],
     select: (categories) => categories.map((category) => category.name),
   });
-
-  const screenTitle = getRecordTypeTitle(t, recordQuery.data.type);
 
   const onSubmit: FormSubmitHandler<Schema> = async (event) => {
     updateMutation.mutate(event.value);

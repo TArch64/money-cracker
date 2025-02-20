@@ -19,7 +19,7 @@ export default function Edit(): ReactNode {
     name: pipeAsync(
       string(),
       trim(),
-      minLength(3, t('form.errors.minLength', { length: 3 })),
+      minLength(3),
       nameUniquenessCheck,
     ),
   }), []);

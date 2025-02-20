@@ -229,6 +229,8 @@ export interface Lang {
       required: string;
       minLength: string;
       maxLength: string;
+      minValue: string;
+      positive: string;
     };
   };
 

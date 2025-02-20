@@ -15,12 +15,13 @@ import {
   useBudgetInitialValuesChange,
 } from '@/components/budgetForm';
 
+const schema = budgetSchema();
+
 export default function New(): ReactNode {
   const router = useRouter();
   const { t } = useTranslation();
   const activeMonthIdx = useMonthStore((state) => state.activeIdx);
   const createMutation = useBudgetCreateMutation();
-  const schema = useMemo(() => budgetSchema(), []);
 
   const categoriesQuery = useCategoriesListSuspenseQuery({
     type: RecordType.EXPENSE,

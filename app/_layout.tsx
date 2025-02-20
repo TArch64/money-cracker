@@ -16,6 +16,7 @@ import { QueryProvider } from '@/hooks/queries';
 import { UiKittenProvider } from '@/components/uiKitten';
 import { DatabaseProvider } from '@/db';
 import { I18NProvider } from '@/locale';
+import { ValibotProvider } from '@/components/valibot';
 
 if (__DEV__) {
   console.log('SQLite database path:');
@@ -66,16 +67,18 @@ export default function Layout() {
           <QueryProvider>
             <I18NProvider>
               {() => (
-                <SafeAreaProvider>
-                  <GestureHandlerRootView>
-                    <ActionSheetProvider>
-                      <>
-                        <StatusBar style="auto" />
-                        <StackRoot />
-                      </>
-                    </ActionSheetProvider>
-                  </GestureHandlerRootView>
-                </SafeAreaProvider>
+                <ValibotProvider>
+                  <SafeAreaProvider>
+                    <GestureHandlerRootView>
+                      <ActionSheetProvider>
+                        <>
+                          <StatusBar style="auto" />
+                          <StackRoot />
+                        </>
+                      </ActionSheetProvider>
+                    </GestureHandlerRootView>
+                  </SafeAreaProvider>
+                </ValibotProvider>
               )}
             </I18NProvider>
           </QueryProvider>

@@ -256,6 +256,8 @@ export const en: Lang = {
       required: 'This field is required',
       minLength: 'Must be at least {{length}} characters long',
       maxLength: 'Must be at most {{length}} characters long',
+      minValue: 'Must be at least {{value}}',
+      positive: 'Must be a positive number',
     },
   },
 

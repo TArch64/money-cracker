@@ -1,8 +1,8 @@
-import { type ReactNode, useMemo } from 'react';
+import type { ReactNode } from 'react';
 import { StyleSheet, type ViewStyle } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'expo-router';
-import { maxLength, minLength, object, pipe, string } from 'valibot';
+import { maxLength, minLength, object, pipe, string, trim } from 'valibot';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import {
   IntroButtonNext,
@@ -18,6 +18,17 @@ import { IntroState } from '@/enums';
 import { Form, FormInput, FormSubmit, type FormSubmitHandler } from '@/components/form';
 import { useAppAuth } from '@/hooks/useAppAuth';
 
+const schema = object({
+  password: pipe(
+    string(),
+    trim(),
+    minLength(4),
+    maxLength(32),
+  ),
+});
+
+type Schema = typeof schema;
+
 export default function EnterPassword(): ReactNode {
   const { t } = useTranslation();
   const router = useRouter();
@@ -28,16 +39,6 @@ export default function EnterPassword(): ReactNode {
     queryKey: ['auth', 'hardware', 'available'],
     queryFn: () => appAuth.isHardwareAvailable(),
   });
-
-  const schema = useMemo(() => object({
-    password: pipe(
-      string(),
-      minLength(4, t('form.errors.minLength', { length: 3 })),
-      maxLength(32, t('form.errors.maxLength', { length: 32 })),
-    ),
-  }), []);
-
-  type Schema = typeof schema;
 
   async function complete(): Promise<void> {
     await updateUserMutation.mutateAsync({ intro: IntroState.COMPLETED });

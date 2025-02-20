@@ -3,26 +3,24 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { date, minLength, minValue, number, object, pipe, string } from 'valibot';
 import { useTranslation } from 'react-i18next';
 import { FormScreenLayout } from '@/components/layout';
-import { getRecordTypeTitle, RecordType } from '@/enums';
+import { RecordType } from '@/enums';
 import { FormAutocomplete, FormDatepicker, FormNumericInput, type FormSubmitHandler } from '@/components/form';
 import { useCategoriesListQuery, useRecordCreateMutation } from '@/hooks/queries';
 import { useMonthStore } from '@/stores';
+
+const schema = object({
+  category: pipe(string(), minLength(1)),
+  value: pipe(number(), minValue(1)),
+  date: date(),
+});
+
+type Schema = typeof schema;
 
 export default function New(): ReactNode {
   const router = useRouter();
   const { t } = useTranslation();
   const searchParams = useLocalSearchParams<{ type: RecordType }>();
-
-  const schema = useMemo(() => object({
-    category: pipe(string(), minLength(1, t('form.errors.required'))),
-    value: pipe(number(), minValue(1, t('form.errors.required'))),
-    date: date(),
-  }), []);
-
-  type Schema = typeof schema;
-
   const activeMonthIdx = useMonthStore((state) => state.activeIdx);
-  const screenTitle = getRecordTypeTitle(t, searchParams.type);
 
   const initialDate = useMemo(() => {
     const now = new Date();

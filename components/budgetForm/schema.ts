@@ -3,7 +3,7 @@ import { array, boolean, type InferOutput, minValue, number, object, pipe } from
 export const budgetCategorySchema = () => object({
   id: number(),
   added: boolean(),
-  goal: pipe(number(), minValue(0, 'Goal cannot be negative')),
+  goal: pipe(number(), minValue(0)),
 });
 
 export type BudgetCategorySchema = ReturnType<typeof budgetCategorySchema>;

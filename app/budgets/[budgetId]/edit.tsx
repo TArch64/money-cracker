@@ -18,13 +18,14 @@ import {
   useBudgetInitialValuesChange,
 } from '@/components/budgetForm';
 
+const schema = budgetSchema();
+
 export default function Edit(): ReactNode {
   const searchParams = useLocalSearchParams<{ budgetId: string }>();
   const { t } = useTranslation();
   const router = useRouter();
   const budget = useBudgetDetailsSuspenseQuery(Number(searchParams.budgetId));
   const updateMutation = useBudgetUpdateMutation();
-  const schema = useMemo(() => budgetSchema(), []);
 
   const categoriesQuery = useCategoriesListSuspenseQuery({
     type: RecordType.EXPENSE,

@@ -33,6 +33,11 @@ export const ua: Lang = {
       heading: 'Захисти Свої Дані',
       description: 'Увімкни аутентифікацію для збереження своїх даних',
     },
+
+    enterPassword: {
+      heading: 'Захисти Свої Дані',
+      description: 'Пароль буде використовуватися як резервний метод',
+    },
   },
 
   home: {
@@ -241,9 +246,16 @@ export const ua: Lang = {
   },
 
   form: {
+    labels: {
+      password: 'Пароль',
+    },
+
     errors: {
       required: 'Це поле обовʼязкове',
       minLength: 'Мінімальна довжина {{length}} символів',
+      maxLength: 'Максимальна довжина {{length}} символів',
+      minValue: 'Мінімальне значення {{value}}',
+      positive: 'Повинно бути додатнім числом',
     },
   },
 
