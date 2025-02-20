@@ -1,4 +1,5 @@
-import { type ReactNode, useState } from 'react';
+import { forwardRef, useState } from 'react';
+import type { Input } from '@ui-kitten/components';
 import { FormInput, type IFormInputProps, type IFormInputValueController } from './FormInput';
 import { type FormFieldApi, useFormField } from './useFormField';
 
@@ -33,13 +34,14 @@ function useValueController(field: FormFieldApi): IFormInputValueController {
   };
 }
 
-export function FormNumericInput(props: IFormNumericInputProps): ReactNode {
+export const FormNumericInput = forwardRef<Input, IFormNumericInputProps>((props, ref) => {
   const field = useFormField(props.name);
   const valueController = useValueController(field);
 
   return (
     <FormInput
       {...props}
+      ref={ref}
       keyboardType="numeric"
       autoCapitalize="none"
       autoComplete="off"
@@ -47,4 +49,4 @@ export function FormNumericInput(props: IFormNumericInputProps): ReactNode {
       valueController={valueController}
     />
   );
-}
+});

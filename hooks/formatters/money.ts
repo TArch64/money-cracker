@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { useLocaleResolvedQuery } from '@/locale';
-import { AppLocale, getLocaleValue } from '@/enums';
+import { AppLocale } from '@/enums';
+import { getEnumValue } from '@/helpers/getEnumValue';
 import { type INumberFormatter, useNumberFormatter } from './number';
 
 export type MoneyFormatOptions = Omit<Intl.NumberFormatOptions, 'style' | 'currency'>;
@@ -8,7 +9,7 @@ export type MoneyFormatOptions = Omit<Intl.NumberFormatOptions, 'style' | 'curre
 export function useMoneyFormatter(options: MoneyFormatOptions = {}): INumberFormatter {
   const localeQuery = useLocaleResolvedQuery();
 
-  const currency = useMemo(() => getLocaleValue(localeQuery.data!, {
+  const currency = useMemo(() => getEnumValue(localeQuery.data!, {
     [AppLocale.UA]: 'UAH',
     [AppLocale.EN]: 'USD',
   }), [localeQuery.data]);

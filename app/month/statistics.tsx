@@ -34,6 +34,7 @@ function MonthStatistics(): ReactNode {
 
   return (
     <List
+      style={styles.list}
       data={statisticsQuery.data}
       keyExtractor={(item) => item.categoryId.toString()}
       renderItem={({ item }) => <MonthCategoryStatistics category={item} />}
@@ -56,7 +57,11 @@ export default function Statistics(): ReactNode {
 }
 
 const styles = StyleSheet.create({
+  list: {
+    paddingHorizontal: 8,
+  } satisfies ViewStyle,
+
   listDivider: {
-    marginHorizontal: 4,
+    marginHorizontal: 6,
   } satisfies ViewStyle,
 });

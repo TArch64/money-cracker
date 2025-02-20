@@ -1,4 +1,4 @@
-import { maybeFn, type MaybeFn } from '@/helpers/maybeFn';
+import { getEnumValue } from '@/helpers/getEnumValue';
 
 export enum AppLocale {
   SYSTEM = 'system',
@@ -8,12 +8,8 @@ export enum AppLocale {
 
 export type ResolvedLocale = Exclude<AppLocale, AppLocale.SYSTEM>;
 
-export function getLocaleValue<V>(type: ResolvedLocale, map: Record<ResolvedLocale, MaybeFn<V>>): V {
-  return maybeFn(map[type]);
-}
-
 export function getLocaleCode(locale: ResolvedLocale): string {
-  return getLocaleValue(locale, {
+  return getEnumValue(locale, {
     [AppLocale.EN]: 'en-US',
     [AppLocale.UA]: 'uk-UA',
   });

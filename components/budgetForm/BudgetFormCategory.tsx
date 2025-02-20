@@ -1,5 +1,5 @@
-import { Card, Text } from '@ui-kitten/components';
-import type { ReactNode } from 'react';
+import { Card, type Input, Text } from '@ui-kitten/components';
+import { type ReactNode, useEffect, useRef } from 'react';
 import { StyleSheet, type TextStyle, type ViewStyle } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import type { Category } from '@/db';
@@ -16,6 +16,19 @@ export interface IBudgetFormCategoryProps {
 export function BudgetFormCategory(props: IBudgetFormCategoryProps): ReactNode {
   const { t } = useTranslation();
   const [isAdded, setAdded] = useFormCheckable(`${props.formPath}.added`);
+  const isInitial = useRef(true);
+  const inputRef = useRef<Input>(null);
+
+  useEffect(() => {
+    if (!isAdded || isInitial.current) {
+      isInitial.current = false;
+      return;
+    }
+
+    setTimeout(() => {
+      inputRef.current?.focus();
+    });
+  }, [isAdded]);
 
   return (
     <Card
@@ -29,7 +42,7 @@ export function BudgetFormCategory(props: IBudgetFormCategoryProps): ReactNode {
 
         {isAdded && (
           <FormNumericInput
-            autoFocus
+            ref={inputRef}
             name={`${props.formPath}.goal`}
             style={styles.cardGoal}
             placeholder={t('budgets.form.labels.spendingGoal')}

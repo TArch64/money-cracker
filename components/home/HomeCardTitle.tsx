@@ -12,7 +12,7 @@ export interface IHomeCardTitleProps extends IPropsWithStyle<ViewStyle> {
 
 export function HomeCardTitle(props: IHomeCardTitleProps) {
   const theme = useTheme();
-  const color = props.status === 'danger' ? theme['color-danger-600'] : undefined;
+  const color = props.status === 'danger' ? theme['color-danger-600'] : theme['text-basic-color'];
 
   return (
     <View

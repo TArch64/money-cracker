@@ -42,7 +42,7 @@ export function HomeTitle(props: IHomeTitleProps): ReactNode {
         style={[
           styles.row,
           animatedStyle,
-          { borderColor: theme['color-basic-500'] },
+          { borderColor: theme['border-basic-color-4'] },
         ] satisfies StyleProp<ViewStyle>}
       >
         <Text category="h1" style={styles.title}>
@@ -52,6 +52,7 @@ export function HomeTitle(props: IHomeTitleProps): ReactNode {
         <Icon
           name={IconName.CHEVRON_DOWN}
           style={{ width: 28, height: 28 }}
+          fill={theme['text-basic-color']}
         />
       </Animated.View>
     </Link>

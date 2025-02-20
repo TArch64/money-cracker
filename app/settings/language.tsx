@@ -45,10 +45,10 @@ export default function Language(): ReactNode {
     <FullScreenLayout title={(txtProps) => <LayoutTitle {...txtProps} />}>
       <List
         data={languages}
-        style={styles.menu}
+        style={styles.list}
 
         ItemSeparatorComponent={() => (
-          <Divider style={styles.menuDivider} />
+          <Divider style={styles.listDivider} />
         )}
 
         renderItem={({ item }) => (
@@ -57,7 +57,7 @@ export default function Language(): ReactNode {
             title={item.title}
 
             style={[
-              styles.menuItem,
+              styles.listItem,
 
               item.locale === localeQuery.data && {
                 backgroundColor: theme['background-basic-color-3'],
@@ -73,15 +73,15 @@ export default function Language(): ReactNode {
 }
 
 const styles = StyleSheet.create({
-  menu: {
+  list: {
     paddingHorizontal: 12,
   } satisfies ViewStyle,
 
-  menuDivider: {
+  listDivider: {
     marginHorizontal: 6,
   } satisfies ViewStyle,
 
-  menuItem: {
+  listItem: {
     borderRadius: 6,
   } satisfies ViewStyle,
 });

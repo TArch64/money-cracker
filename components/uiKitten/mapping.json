@@ -327,22 +327,22 @@
                 "trackColor": "color-basic-transparent-default"
               },
               "primary": {
-                "trackColor": "color-basic-default"
+                "trackColor": "background-basic-color-2"
               },
               "success": {
-                "trackColor": "color-basic-default"
+                "trackColor": "background-basic-color-2"
               },
               "info": {
-                "trackColor": "color-basic-default"
+                "trackColor": "background-basic-color-2"
               },
               "warning": {
-                "trackColor": "color-basic-default"
+                "trackColor": "background-basic-color-2"
               },
               "danger": {
-                "trackColor": "color-basic-default"
+                "trackColor": "background-basic-color-2"
               },
               "control": {
-                "trackColor": "color-basic-default"
+                "trackColor": "background-basic-color-2"
               }
             }
           }

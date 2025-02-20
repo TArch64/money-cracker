@@ -25,8 +25,8 @@ function useContainerStyle(isOpened: boolean, isError: boolean): ViewStyle {
 
   return {
     borderRadius: 8,
-    borderColor: isError ? theme['color-danger-500'] : theme['color-basic-400'],
-    backgroundColor: theme['color-basic-200'],
+    borderColor: isError ? theme['color-danger-500'] : theme['border-basic-color-4'],
+    backgroundColor: theme['background-basic-color-2'],
   };
 }
 
@@ -85,7 +85,7 @@ export function FormDatepicker(props: IFormDatepickerProps): ReactNode {
                 category="p1"
                 style={[
                   styles.value,
-                  { color: isPlaceholder ? theme['color-basic-600'] : theme['color-basic-800'] },
+                  { color: isPlaceholder ? theme['text-hint-color'] : theme['text-basic-color'] },
                 ] satisfies StyleProp<TextStyle>}
               >
                 {displayingValue}

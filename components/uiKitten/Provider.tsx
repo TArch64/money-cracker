@@ -2,10 +2,10 @@ import { type PropsWithChildren, type ReactNode, useMemo } from 'react';
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider, IconRegistry, type Theme, type ThemeType } from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
-import { useColorScheme } from 'react-native';
+import { ColorScheme } from '@/enums';
+import { getEnumValue } from '@/helpers/getEnumValue';
+import { useColorScheme } from '@/components/uiKitten/useColorScheme';
 import customMapping from './mapping.json';
-
-type ColorScheme = 'light' | 'dark';
 
 // Colors: https://developer.apple.com/design/human-interface-guidelines/color#iOS-iPadOS-system-colors
 const COMMON_THEME: Partial<Theme> = {
@@ -55,26 +55,28 @@ const COMMON_THEME: Partial<Theme> = {
   'color-danger-800': '#930F29',
   'color-danger-900': '#7A0929',
   'color-basic-600': '#7A86A1',
-  'box-shadow-1': '0 0 5px rgba(0, 0, 0, 0.1)',
-  'box-shadow-2': '0 0 10px rgba(0, 0, 0, 0.1)',
 };
 
-const themes: Record<ColorScheme, () => Theme> = {
+const getTheme = (scheme: ColorScheme) => getEnumValue(scheme, {
   light: () => ({
     ...eva.light,
+    ...COMMON_THEME,
     'background-basic-color-2': '#f8fafc',
+    'box-shadow-1': '0 0 5px rgba(0, 0, 0, 0.1)',
+    'box-shadow-2': '0 0 10px rgba(0, 0, 0, 0.1)',
   }),
 
-  dark: () => eva.dark,
-};
+  dark: () => ({
+    ...eva.dark,
+    ...COMMON_THEME,
+    'box-shadow-1': '0 0 5px rgba(255, 255, 255, 0.1)',
+    'box-shadow-2': '0 0 10px rgba(255, 255, 255, 0.1)',
+  }),
+});
 
 export function UiKittenProvider(props: PropsWithChildren): ReactNode {
-  const colorScheme = useColorScheme() ?? 'light';
-
-  const theme = useMemo(() => ({
-    ...themes[colorScheme](),
-    ...COMMON_THEME,
-  }), [colorScheme]);
+  const colorScheme = useColorScheme();
+  const theme = useMemo(() => getTheme(colorScheme), [colorScheme]);
 
   return (
     <>

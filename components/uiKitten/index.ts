@@ -3,3 +3,4 @@ export * from './HighlightText';
 export * from './Icon';
 export type * from './ElementStatus';
 export * from './Text';
+export * from './useColorScheme';

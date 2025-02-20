@@ -1,5 +1,5 @@
 import { Input, type InputProps } from '@ui-kitten/components';
-import { type ReactNode, useMemo } from 'react';
+import { forwardRef, useMemo } from 'react';
 import { useFormField } from './useFormField';
 import { formErrorRenderer } from './FormError';
 
@@ -13,7 +13,7 @@ export interface IFormInputProps extends Omit<InputProps, 'value' | 'onChangeTex
   valueController?: IFormInputValueController;
 }
 
-export function FormInput(props: IFormInputProps): ReactNode {
+export const FormInput = forwardRef<Input, IFormInputProps>((props, ref) => {
   const { name, valueController: valueController_, ...inputProps } = props;
   const field = useFormField(name);
 
@@ -27,10 +27,11 @@ export function FormInput(props: IFormInputProps): ReactNode {
   return (
     <Input
       {...inputProps}
+      ref={ref}
       value={valueController.value}
       onChangeText={valueController.setValue}
       status={error ? 'danger' : 'basic'}
       caption={formErrorRenderer(error)}
     />
   );
-}
+});

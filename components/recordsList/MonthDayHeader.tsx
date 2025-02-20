@@ -12,7 +12,7 @@ export function MonthDayHeader(props: IMonthDayHeaderProps): ReactNode {
   const date = useDistanceDayFormatter(props.date);
 
   const dividerStyle: ViewStyle = {
-    backgroundColor: theme['color-basic-500'],
+    backgroundColor: theme['border-basic-color-4'],
   };
 
   return (
@@ -24,7 +24,7 @@ export function MonthDayHeader(props: IMonthDayHeaderProps): ReactNode {
 
         style={[
           styles.title,
-          { color: theme['color-basic-700'] },
+          { color: theme['text-hint-color'] },
         ] satisfies StyleProp<TextStyle>}
       >
         {date}

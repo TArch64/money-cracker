@@ -2,8 +2,9 @@ import type { ReactNode } from 'react';
 import { type StyleProp, StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
 import { Text, useTheme } from '@ui-kitten/components';
 import { useTranslation } from 'react-i18next';
-import { getRecordTypeValue, RecordType } from '@/enums';
-import { Icon, IconName } from '@/components/uiKitten';
+import { RecordType } from '@/enums';
+import { type ElementStatus, Icon, IconName, useColorScheme } from '@/components/uiKitten';
+import { getEnumValue } from '@/helpers/getEnumValue';
 import { HomeCard } from './HomeCard';
 
 interface IAddRecordCardProps {
@@ -12,22 +13,31 @@ interface IAddRecordCardProps {
 
 interface IRecordCardConfig {
   icon: IconName;
-  status: 'success' | 'danger';
+  iconColor: string;
+  iconBackgroundColor?: string;
 }
 
 function AddRecordCard(props: IAddRecordCardProps): ReactNode {
   const { t } = useTranslation();
   const theme = useTheme();
+  const colorScheme = useColorScheme();
 
-  const config = getRecordTypeValue<IRecordCardConfig>(props.type, {
+  const getIconBackgroundColor = (status: ElementStatus) => getEnumValue(colorScheme, {
+    light: () => theme[`color-${status}-100`],
+    dark: () => theme['background-basic-color-2'],
+  });
+
+  const config = getEnumValue<RecordType, IRecordCardConfig>(props.type, {
     [RecordType.INCOME]: () => ({
       icon: IconName.ARROW_UPWARD,
-      status: 'success',
+      iconColor: theme['color-success-600'],
+      iconBackgroundColor: getIconBackgroundColor('success'),
     }),
 
     [RecordType.EXPENSE]: () => ({
       icon: IconName.ARROW_DOWNWARD,
-      status: 'danger',
+      iconColor: theme['color-danger-600'],
+      iconBackgroundColor: getIconBackgroundColor('danger'),
     }),
   });
 
@@ -44,12 +54,12 @@ function AddRecordCard(props: IAddRecordCardProps): ReactNode {
         <View
           style={[
             styles.cardIconContainer,
-            { backgroundColor: theme[`color-${config.status}-100`] },
+            { backgroundColor: config.iconBackgroundColor },
           ] satisfies StyleProp<ViewStyle>}
         >
           <Icon
             name={config.icon}
-            fill={theme[`color-${config.status}-600`]}
+            fill={config.iconColor}
             style={styles.cardIcon}
           />
         </View>
