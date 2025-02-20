@@ -3,3 +3,4 @@ export * from './categories';
 export * from './general';
 export * from './records';
 export * from './user';
+export * from './auth';

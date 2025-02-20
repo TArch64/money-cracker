@@ -43,6 +43,11 @@ export interface Lang {
     };
   };
 
+  auth: {
+    heading: string;
+    unlock: string;
+  };
+
   home: {
     sections: {
       balance: {

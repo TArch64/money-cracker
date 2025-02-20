@@ -40,6 +40,11 @@ export const ua: Lang = {
     },
   },
 
+  auth: {
+    heading: 'Уведіть Пароль',
+    unlock: 'Розблокувати',
+  },
+
   home: {
     sections: {
       balance: {

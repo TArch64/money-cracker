@@ -45,6 +45,11 @@ export const en: Lang = {
     },
   },
 
+  auth: {
+    heading: 'Password Required',
+    unlock: 'Unlock',
+  },
+
   home: {
     sections: {
       balance: {

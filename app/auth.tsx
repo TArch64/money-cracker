@@ -1,48 +1,41 @@
-import type { ReactNode } from 'react';
+import { type ReactNode, useEffect } from 'react';
 import { StyleSheet, type ViewStyle } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { object, pipe, string, trim } from 'valibot';
 import { useRouter } from 'expo-router';
-import { maxLength, minLength, object, pipe, string, trim } from 'valibot';
-import {
-  IntroButtonNext,
-  IntroButtonSkip,
-  IntroContainedIcon,
-  IntroDescription,
-  IntroHeading,
-  IntroScreenLayout,
-} from '@/components/layout';
+import { IntroButtonNext, IntroContainedIcon, IntroHeading, IntroScreenLayout } from '@/components/layout';
 import { IconName } from '@/components/uiKitten';
-import { useAuthHardwareAvailableSuspenseQuery, useUserUpdateMutation } from '@/hooks/queries';
-import { IntroState } from '@/enums';
 import { Form, FormInput, FormSubmit, type FormSubmitHandler } from '@/components/form';
+import { useAuthHardwareAvailableSuspenseQuery } from '@/hooks/queries';
 import { useAppAuth } from '@/hooks/useAppAuth';
 
 const schema = object({
-  password: pipe(
-    string(),
-    trim(),
-    minLength(4),
-    maxLength(32),
-  ),
+  password: pipe(string(), trim()),
 });
 
 type Schema = typeof schema;
 
-export default function EnterPassword(): ReactNode {
+export default function Auth(): ReactNode {
   const { t } = useTranslation();
   const router = useRouter();
   const appAuth = useAppAuth();
-  const updateUserMutation = useUserUpdateMutation();
   const hardwareAuthAvailableQuery = useAuthHardwareAvailableSuspenseQuery();
 
-  async function complete(): Promise<void> {
-    await updateUserMutation.mutateAsync({ intro: IntroState.COMPLETED });
+  function complete() {
     router.replace('/home');
   }
 
+  useEffect(() => {
+    if (!hardwareAuthAvailableQuery.data) {
+      return;
+    }
+
+    appAuth.authHardware().then((success) => {
+      if (success) complete();
+    });
+  }, []);
+
   const onSubmit: FormSubmitHandler<Schema> = async (event) => {
-    await appAuth.enable({ password: event.value.password });
-    await complete();
   };
 
   return (
@@ -55,14 +48,8 @@ export default function EnterPassword(): ReactNode {
       />
 
       <IntroHeading>
-        {t('intro.enterPassword.heading')}
+        {t('auth.heading')}
       </IntroHeading>
-
-      {hardwareAuthAvailableQuery.data && (
-        <IntroDescription>
-          {t('intro.enterPassword.description')}
-        </IntroDescription>
-      )}
 
       <Form
         schema={schema}
@@ -81,14 +68,10 @@ export default function EnterPassword(): ReactNode {
             <FormSubmit>
               {({ submit, disabled }) => (
                 <IntroButtonNext loading={disabled} onPress={submit}>
-                  {t('intro.enable')}
+                  {t('auth.unlock')}
                 </IntroButtonNext>
               )}
             </FormSubmit>
-
-            <IntroButtonSkip onPress={complete}>
-              {t('intro.skip')}
-            </IntroButtonSkip>
           </>
         )}
       </Form>

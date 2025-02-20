@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { authenticateAsync, hasHardwareAsync } from 'expo-local-authentication';
+import { authenticateAsync, hasHardwareAsync, isEnrolledAsync } from 'expo-local-authentication';
 import { newSecureStoreKey, useSecureStore } from './useSecureStore';
 
 export interface IAppAuthData {
@@ -22,20 +22,18 @@ export function useAppAuth(): IAppAuth {
 
   return useMemo((): IAppAuth => ({
     enable: (data) => secureStore.setObject(STORAGE_KEY, { enabled: true, ...data }),
-    isEnabled: async () => (await secureStore.getObject(STORAGE_KEY))?.enabled === true,
-    isHardwareAvailable: () => hasHardwareAsync(),
+    isHardwareAvailable: hasHardwareAsync,
+
+    async isEnabled() {
+      return (await secureStore.getObject(STORAGE_KEY))?.enabled === true;
+    },
 
     async authHardware() {
-      const data = await secureStore.getObject(STORAGE_KEY);
-      if (!data) return false;
-      const result = await authenticateAsync();
-      return result.success;
+      return await isEnrolledAsync() || (await authenticateAsync()).success;
     },
 
     async authPassword(password) {
-      const data = await secureStore.getObject(STORAGE_KEY);
-      if (!data) return false;
-      return data.password === password;
+      return (await secureStore.getObject(STORAGE_KEY))?.password === password;
     },
   }), []);
 }
