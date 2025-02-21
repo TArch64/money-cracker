@@ -9,8 +9,6 @@
     "build:ios": "eas build --local --platform ios",
     "build:ios-simulator": "eas build -p ios --profile development --local",
     "db:new-migration": "drizzle-kit generate",
-    "android": "expo run:android",
-    "ios": "expo run:ios",
     "check-updates": "npm-check-updates",
     "postinstall": "git config --local core.hooksPath .git-hooks"
   },
