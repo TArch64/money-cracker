@@ -9,7 +9,11 @@ import { isDevice } from 'expo-device';
 import { Platform } from 'react-native';
 import { type NotificationsInit, useNotifications } from './Provider';
 
-export function useNotificationsSetup() {
+export interface INotificationInitContext {
+  isAllowed: boolean;
+}
+
+export function useNotificationsSetup(onInit?: (ctx: INotificationInitContext) => void): void {
   const notifications = useNotifications();
 
   useEffect(() => {
@@ -19,6 +23,7 @@ export function useNotificationsSetup() {
 
     if (!isDevice) {
       notifications.initialize();
+      onInit?.({ isAllowed: false });
       return;
     }
 
@@ -54,6 +59,7 @@ export function useNotificationsSetup() {
 
       init.isAllowed = permissions.granted;
       notifications.initialize(init);
+      onInit?.({ isAllowed: notifications.isAllowed });
     })();
   }, []);
 }

@@ -10,6 +10,7 @@ export type NotificationsInit = Partial<Omit<IContextState, 'isInitialized'>>;
 
 interface INotificationsContext {
   readonly isInitialized: boolean;
+  readonly isAllowed: boolean;
   readonly androidChannelId?: string;
   initialize: (data?: NotificationsInit) => void;
 }
@@ -24,6 +25,10 @@ export function NotificationsProvider(props: PropsWithChildren): ReactNode {
   const context = useMemo((): INotificationsContext => ({
     get isInitialized() {
       return state.current?.isInitialized ?? false;
+    },
+
+    get isAllowed() {
+      return state.current?.isAllowed ?? false;
     },
 
     get androidChannelId() {
