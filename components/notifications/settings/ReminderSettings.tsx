@@ -93,19 +93,21 @@ export function ReminderSettings(): ReactNode {
         />
       </View>
 
-      <Form
-        schema={timeSchema}
-        initialValues={{ time: initialTime }}
-        onChange={onTimeChange}
-      >
-        {({ f }) => (
-          <FormTimepicker
-            label={t('settings.notifications.reminder.form.labels.time')}
-            placeholder={t('settings.notifications.reminder.form.labels.time')}
-            name={f('time')}
-          />
-        )}
-      </Form>
+      {userQuery.data.reminder !== AppReminderState.OFF && (
+        <Form
+          schema={timeSchema}
+          initialValues={{ time: initialTime }}
+          onChange={onTimeChange}
+        >
+          {({ f }) => (
+            <FormTimepicker
+              label={t('settings.notifications.reminder.form.labels.time')}
+              placeholder={t('settings.notifications.reminder.form.labels.time')}
+              name={f('time')}
+            />
+          )}
+        </Form>
+      )}
     </View>
   );
 }
