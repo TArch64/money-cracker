@@ -28,7 +28,7 @@ export default function ClearData(): ReactNode {
 
     onSuccess() {
       router.dismissAll();
-      router.replace('/');
+      router.replace('/intro');
     },
   });
 

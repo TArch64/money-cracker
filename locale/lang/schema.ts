@@ -202,6 +202,12 @@ export interface Lang {
     };
   };
 
+  notifications: {
+    reminder: {
+      body: string;
+    };
+  };
+
   monthSwitcher: {
     title: string;
   };

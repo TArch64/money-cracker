@@ -229,6 +229,12 @@ export const en: Lang = {
     },
   },
 
+  notifications: {
+    reminder: {
+      body: 'Did you add your expenses today?',
+    },
+  },
+
   monthSwitcher: {
     title: 'Select Month',
   },

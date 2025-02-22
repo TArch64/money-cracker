@@ -3,15 +3,15 @@ import { createContext, type PropsWithChildren, type ReactNode, useContext, useM
 interface IContextState {
   isInitialized: boolean;
   isAllowed: boolean;
-  androidChannelId: string | null;
+  androidChannelId?: string;
 }
 
 export type NotificationsInit = Partial<Omit<IContextState, 'isInitialized'>>;
 
 interface INotificationsContext {
   readonly isInitialized: boolean;
-
-  initialize(data?: NotificationsInit): void;
+  readonly androidChannelId?: string;
+  initialize: (data?: NotificationsInit) => void;
 }
 
 const Context = createContext<INotificationsContext>(null!);
@@ -26,11 +26,14 @@ export function NotificationsProvider(props: PropsWithChildren): ReactNode {
       return state.current?.isInitialized ?? false;
     },
 
+    get androidChannelId() {
+      return state.current?.androidChannelId;
+    },
+
     initialize(init = {}) {
       state.current = {
         isInitialized: true,
         isAllowed: false,
-        androidChannelId: null,
         ...init,
       };
     },

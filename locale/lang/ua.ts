@@ -227,6 +227,12 @@ export const ua: Lang = {
     },
   },
 
+  notifications: {
+    reminder: {
+      body: 'Чи не забули ви додати свої витрати сьогодні?',
+    },
+  },
+
   monthSwitcher: {
     title: 'Активний Місяць',
   },
