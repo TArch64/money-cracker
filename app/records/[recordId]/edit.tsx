@@ -4,7 +4,7 @@ import { date, minLength, minValue, number, object, pipe, string } from 'valibot
 import { useTranslation } from 'react-i18next';
 import { FormScreenLayout } from '@/components/layout';
 import { useCategoriesListQuery, useRecordDetailsSuspenseQuery, useRecordUpdateMutation } from '@/hooks/queries';
-import { FormAutocomplete, FormDatepicker, FormNumericInput, type FormSubmitHandler } from '@/components/form';
+import { FormAutocomplete, FormDatepicker, type FormEventHandler, FormNumericInput } from '@/components/form';
 
 const schema = object({
   category: pipe(string(), minLength(1)),
@@ -27,7 +27,7 @@ export default function Edit(): ReactNode {
     select: (categories) => categories.map((category) => category.name),
   });
 
-  const onSubmit: FormSubmitHandler<Schema> = async (event) => {
+  const onSubmit: FormEventHandler<Schema> = async (event) => {
     updateMutation.mutate(event.value);
     router.back();
   };

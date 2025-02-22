@@ -18,16 +18,15 @@ export interface FormEvent<S extends FormSchema> {
   formApi: FormApi<S>;
 }
 
-export type FormSubmitHandler<S extends FormSchema> = (event: FormEvent<S>) => MaybePromise<void>;
-export type FormChangeHandler<S extends FormSchema> = (event: FormEvent<S>) => void;
+export type FormEventHandler<S extends FormSchema> = (event: FormEvent<S>) => MaybePromise<void>;
 export type FormInitialValuesHandler<S extends FormSchema> = (form: FormApi<S>, newValues: InferOutput<S>) => void;
 
 export interface IFormProps<S extends FormSchema> extends IPropsWithChildrenFn<[formCtx: IFormContext<S>]> {
   schema: S;
   initialValues: InferOutput<S>;
   onInitialValuesChange?: FormInitialValuesHandler<S>;
-  onSubmit?: FormSubmitHandler<S>;
-  onChange?: FormChangeHandler<S>;
+  onSubmit?: FormEventHandler<S>;
+  onChange?: FormEventHandler<S>;
 }
 
 export function Form<S extends FormSchema>(props: IFormProps<S>): ReactNode {
@@ -36,7 +35,6 @@ export function Form<S extends FormSchema>(props: IFormProps<S>): ReactNode {
     defaultValues: props.initialValues,
     validators: props.schema.async ? { onSubmitAsync: props.schema } : { onSubmit: props.schema },
     onSubmit: props.onSubmit,
-    onChange: props.onChange,
   });
 
   const isInitialRender = useRef(true);
@@ -49,6 +47,19 @@ export function Form<S extends FormSchema>(props: IFormProps<S>): ReactNode {
 
     props.onInitialValuesChange?.(form, props.initialValues);
   }, [props.initialValues]);
+
+  useEffect(() => {
+    if (!props.onChange) {
+      return;
+    }
+
+    return form.store.subscribe((event) => {
+      props.onChange!({
+        value: event.currentVal.values,
+        formApi: form,
+      });
+    });
+  }, []);
 
   return (
     <FormProvider form={form}>

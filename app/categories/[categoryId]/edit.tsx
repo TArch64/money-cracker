@@ -3,7 +3,7 @@ import { minLength, objectAsync, pipeAsync, string, trim } from 'valibot';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { FormScreenLayout } from '@/components/layout';
-import { FormInput, type FormSubmitHandler } from '@/components/form';
+import { type FormEventHandler, FormInput } from '@/components/form';
 import { useCategoryDetailsSuspenseQuery, useCategoryUpdateMutation } from '@/hooks/queries';
 import { useCategoryNameUniquenessCheck } from '@/hooks/categories';
 
@@ -24,7 +24,7 @@ export default function Edit(): ReactNode {
     ),
   }), []);
 
-  const onSubmit: FormSubmitHandler<typeof schema> = async (event) => {
+  const onSubmit: FormEventHandler<typeof schema> = async (event) => {
     await updateMutation.mutateAsync({ name: event.value.name });
     router.back();
   };

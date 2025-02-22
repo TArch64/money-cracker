@@ -14,7 +14,7 @@ import {
 import { IconName } from '@/components/uiKitten';
 import { useAuthHardwareAvailableSuspenseQuery, useUserUpdateMutation } from '@/hooks/queries';
 import { IntroState } from '@/enums';
-import { Form, FormInput, FormSubmit, type FormSubmitHandler } from '@/components/form';
+import { Form, type FormEventHandler, FormInput, FormSubmit } from '@/components/form';
 import { useAppAuth } from '@/hooks/useAppAuth';
 
 const schema = object({
@@ -40,7 +40,7 @@ export default function EnterPassword(): ReactNode {
     router.replace('/home');
   }
 
-  const onSubmit: FormSubmitHandler<Schema> = async (event) => {
+  const onSubmit: FormEventHandler<Schema> = async (event) => {
     await appAuth.enable({ password: event.value.password });
     await complete();
   };

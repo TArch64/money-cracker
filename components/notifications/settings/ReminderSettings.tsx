@@ -6,7 +6,8 @@ import { date, object } from 'valibot';
 import { set as setDate } from 'date-fns';
 import { AppReminderState } from '@/enums';
 import { useUserSuspenseQuery, useUserUpdateMutation } from '@/hooks/queries';
-import { Form, FormTimepicker } from '@/components/form';
+import { Form, type FormEventHandler, FormTimepicker } from '@/components/form';
+import { useDebounce } from '@/hooks/useDebounce';
 
 interface IReminderStateProps {
   state: AppReminderState;
@@ -41,6 +42,8 @@ const timeSchema = object({
   time: date(),
 });
 
+type TimeSchema = typeof timeSchema;
+
 export function ReminderSettings(): ReactNode {
   const { t } = useTranslation();
   const userQuery = useUserSuspenseQuery();
@@ -56,6 +59,13 @@ export function ReminderSettings(): ReactNode {
       minutes: userQuery.data.reminderMinute,
     });
   }, [userQuery.data.reminderHour, userQuery.data.reminderMinute]);
+
+  const onTimeChange = useDebounce<FormEventHandler<TimeSchema>>((event) => {
+    updateMutation.mutate({
+      reminderHour: event.value.time.getHours(),
+      reminderMinute: event.value.time.getMinutes(),
+    });
+  }, 100, []);
 
   return (
     <View>
@@ -86,9 +96,7 @@ export function ReminderSettings(): ReactNode {
       <Form
         schema={timeSchema}
         initialValues={{ time: initialTime }}
-        onChange={(event) => {
-          console.log(event.value.time);
-        }}
+        onChange={onTimeChange}
       >
         {({ f }) => (
           <FormTimepicker

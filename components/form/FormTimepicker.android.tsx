@@ -3,12 +3,7 @@ import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { useDateFormatter } from '@/hooks/formatters';
 import { useFormField } from './useFormField';
 import { FormFieldContainer } from './FormFieldContainer';
-
-export interface IFormTimepickerProps {
-  label: string;
-  placeholder: string;
-  name: string;
-}
+import type { IFormTimepickerProps } from './FormTimepicker';
 
 export function FormTimepicker(props: IFormTimepickerProps): ReactNode {
   const field = useFormField(props.name);

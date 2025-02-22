@@ -5,12 +5,7 @@ import { useDateFormatter } from '@/hooks/formatters';
 import { DropdownView } from '../DropdownView';
 import { useFormField } from './useFormField';
 import { FormFieldContainer } from './FormFieldContainer';
-
-export interface IFormTimepickerProps {
-  label: string;
-  placeholder: string;
-  name: string;
-}
+import type { IFormTimepickerProps } from './FormTimepicker';
 
 export function FormTimepicker(props: IFormTimepickerProps): ReactNode {
   const field = useFormField(props.name);

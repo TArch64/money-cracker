@@ -4,7 +4,7 @@ import { date, minLength, minValue, number, object, pipe, string } from 'valibot
 import { useTranslation } from 'react-i18next';
 import { FormScreenLayout } from '@/components/layout';
 import { RecordType } from '@/enums';
-import { FormAutocomplete, FormDatepicker, FormNumericInput, type FormSubmitHandler } from '@/components/form';
+import { FormAutocomplete, FormDatepicker, type FormEventHandler, FormNumericInput } from '@/components/form';
 import { useCategoriesListQuery, useRecordCreateMutation } from '@/hooks/queries';
 import { useMonthStore } from '@/stores';
 
@@ -40,7 +40,7 @@ export default function New(): ReactNode {
 
   const createRecordMutation = useRecordCreateMutation();
 
-  const onSubmit: FormSubmitHandler<Schema> = async (event) => {
+  const onSubmit: FormEventHandler<Schema> = async (event) => {
     await createRecordMutation.mutateAsync({
       ...event.value,
       type: searchParams.type,

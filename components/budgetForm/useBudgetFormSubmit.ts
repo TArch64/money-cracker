@@ -1,9 +1,9 @@
 import { showAlert } from '@/helpers/showAlert';
 import type { BudgetInputCategory } from '@/hooks/queries';
-import type { FormSubmitHandler } from '../form';
+import type { FormEventHandler } from '../form';
 import type { BudgetSchema } from './schema';
 
-export function useBudgetFormSubmit(onSubmit: (categories: BudgetInputCategory[]) => void): FormSubmitHandler<BudgetSchema> {
+export function useBudgetFormSubmit(onSubmit: (categories: BudgetInputCategory[]) => void): FormEventHandler<BudgetSchema> {
   return (event) => {
     const isAnyCategoryAdded = event.value.categories.some((category) => category.added);
 

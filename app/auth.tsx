@@ -5,7 +5,7 @@ import { object, pipe, string, trim } from 'valibot';
 import { useRouter } from 'expo-router';
 import { IntroButtonNext, IntroContainedIcon, IntroHeading, IntroScreenLayout } from '@/components/layout';
 import { IconName } from '@/components/uiKitten';
-import { Form, FormInput, FormSubmit, type FormSubmitHandler } from '@/components/form';
+import { Form, type FormEventHandler, FormInput, FormSubmit } from '@/components/form';
 import { useAuthHardwareAvailableSuspenseQuery } from '@/hooks/queries';
 import { useAppAuth } from '@/hooks/useAppAuth';
 
@@ -35,7 +35,7 @@ export default function Auth(): ReactNode {
     });
   }, []);
 
-  const onSubmit: FormSubmitHandler<Schema> = async (event) => {
+  const onSubmit: FormEventHandler<Schema> = async (event) => {
   };
 
   return (
