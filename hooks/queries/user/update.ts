@@ -10,13 +10,12 @@ export function useUserUpdateMutation() {
 
   return useMutation({
     async mutationFn(update: UserUpdate) {
-      await db.update(users).set(update);
+      const [updated] = await db.update(users).set(update).returning();
+      return { updated };
     },
 
-    async onSuccess() {
-      await queryClient.invalidateQueries({
-        queryKey: USER_QUERY,
-      });
+    onSuccess({ updated }) {
+      queryClient.setQueryData(USER_QUERY, updated);
     },
   });
 }

@@ -20,8 +20,16 @@ function SettingsItem(props: ISettingsItemProps): ReactNode {
   return (
     <MenuItem
       style={styles.menuItem}
-      title={textRenderer(props.title, { style: props.danger && { color: theme['color-danger-500'] } })}
-      accessoryLeft={iconRenderer(props.icon, props.danger ? { fill: theme['color-danger-500'] } : undefined)}
+
+      title={textRenderer(props.title, {
+        style: props.danger && { color: theme['color-danger-500'] },
+      })}
+
+      accessoryLeft={iconRenderer(
+        props.icon,
+        props.danger ? { fill: theme['color-danger-500'] } : undefined,
+      )}
+
       onPress={() => router.push(props.href())}
     />
   );
@@ -41,20 +49,26 @@ export default function Index(): ReactNode {
       >
         <SettingsItem
           title={t('settings.index.menu.categories')}
-          icon={IconName.FOLDER_OUTLINE}
+          icon={IconName.FOLDER}
           href={() => '/categories'}
         />
 
         <SettingsItem
+          title={t('settings.index.menu.notifications')}
+          icon={IconName.BELL}
+          href={() => '/settings/notifications'}
+        />
+
+        <SettingsItem
           title={t('settings.index.menu.language')}
-          icon={IconName.SETTINGS_OUTLINE}
+          icon={IconName.SETTINGS}
           href={() => '/settings/language'}
         />
 
         <SettingsItem
           danger
           title={t('settings.index.menu.clearData')}
-          icon={IconName.ALERT_TRIANGLE_OUTLINE}
+          icon={IconName.ALERT_TRIANGLE}
           href={() => '/settings/clear-data'}
         />
       </Menu>

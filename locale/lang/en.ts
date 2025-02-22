@@ -98,8 +98,29 @@ export const en: Lang = {
 
       menu: {
         categories: 'Categories',
+        notifications: 'Notifications',
         language: 'Language',
         clearData: 'Clear Data',
+      },
+    },
+
+    notifications: {
+      heading: 'Notifications',
+
+      reminder: {
+        heading: 'Daily Reminder',
+
+        form: {
+          labels: {
+            time: 'Notification Time',
+          },
+        },
+
+        states: {
+          everyday: 'Everyday',
+          if_no_records: 'If No Records',
+          off: 'Off',
+        },
       },
     },
 

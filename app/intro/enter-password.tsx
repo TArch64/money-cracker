@@ -51,7 +51,7 @@ export default function EnterPassword(): ReactNode {
         size={56}
         status="primary"
         style={styles.icon}
-        name={IconName.SHIELD_OUTLINE}
+        name={IconName.SHIELD}
       />
 
       <IntroHeading>

@@ -69,15 +69,15 @@ export default function Index(): ReactNode {
       </IntroDescription>
 
       <View style={styles.sectionList}>
-        <TermsSection title={t('intro.terms.sections.free.title')} icon={IconName.HEART_OUTLINE}>
+        <TermsSection title={t('intro.terms.sections.free.title')} icon={IconName.HEART}>
           {t('intro.terms.sections.free.description')}
         </TermsSection>
 
-        <TermsSection title={t('intro.terms.sections.privacy.title')} icon={IconName.LOCK_OUTLINE}>
+        <TermsSection title={t('intro.terms.sections.privacy.title')} icon={IconName.LOCK}>
           {t('intro.terms.sections.privacy.description')}
         </TermsSection>
 
-        <TermsSection title={t('intro.terms.sections.openSource.title')} icon={IconName.GITHUB_OUTLINE}>
+        <TermsSection title={t('intro.terms.sections.openSource.title')} icon={IconName.GITHUB}>
           {t('intro.terms.sections.openSource.description')}
 
           <Link asChild href="https://github.com/TArch64/money-cracker">

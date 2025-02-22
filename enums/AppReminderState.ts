@@ -1,5 +1,5 @@
 export enum AppReminderState {
   OFF = 'off',
-  ALWAYS = 'always',
+  EVERYDAY = 'everyday',
   IF_NO_RECORDS = 'if_no_records',
 }

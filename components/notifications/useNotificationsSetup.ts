@@ -9,11 +9,7 @@ import { isDevice } from 'expo-device';
 import { Platform } from 'react-native';
 import { type NotificationsInit, useNotifications } from './Provider';
 
-export interface INotificationSetupContext {
-  androidChannelId?: string;
-}
-
-export function useNotificationsSetup(onInit?: (ctx: INotificationSetupContext) => void) {
+export function useNotificationsSetup() {
   const notifications = useNotifications();
 
   useEffect(() => {
@@ -58,10 +54,6 @@ export function useNotificationsSetup(onInit?: (ctx: INotificationSetupContext) 
 
       init.isAllowed = permissions.granted;
       notifications.initialize(init);
-
-      onInit?.({
-        androidChannelId: init.androidChannelId,
-      });
     })();
   }, []);
 }

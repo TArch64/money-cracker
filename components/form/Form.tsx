@@ -13,12 +13,13 @@ export interface IFormContext<S extends FormSchema> {
   f: FormPathGet<S>;
 }
 
-export interface FormSubmitEvent<S extends FormSchema> {
+export interface FormEvent<S extends FormSchema> {
   value: InferOutput<S>;
   formApi: FormApi<S>;
 }
 
-export type FormSubmitHandler<S extends FormSchema> = (event: FormSubmitEvent<S>) => MaybePromise<void>;
+export type FormSubmitHandler<S extends FormSchema> = (event: FormEvent<S>) => MaybePromise<void>;
+export type FormChangeHandler<S extends FormSchema> = (event: FormEvent<S>) => void;
 export type FormInitialValuesHandler<S extends FormSchema> = (form: FormApi<S>, newValues: InferOutput<S>) => void;
 
 export interface IFormProps<S extends FormSchema> extends IPropsWithChildrenFn<[formCtx: IFormContext<S>]> {
@@ -26,6 +27,7 @@ export interface IFormProps<S extends FormSchema> extends IPropsWithChildrenFn<[
   initialValues: InferOutput<S>;
   onInitialValuesChange?: FormInitialValuesHandler<S>;
   onSubmit?: FormSubmitHandler<S>;
+  onChange?: FormChangeHandler<S>;
 }
 
 export function Form<S extends FormSchema>(props: IFormProps<S>): ReactNode {
@@ -34,6 +36,7 @@ export function Form<S extends FormSchema>(props: IFormProps<S>): ReactNode {
     defaultValues: props.initialValues,
     validators: props.schema.async ? { onSubmitAsync: props.schema } : { onSubmit: props.schema },
     onSubmit: props.onSubmit,
+    onChange: props.onChange,
   });
 
   const isInitialRender = useRef(true);
