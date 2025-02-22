@@ -18,6 +18,7 @@ import {
   HomeSettings,
   HomeTitle,
 } from '@/components/home';
+import { useNotificationsSetup } from '@/components/notifications';
 
 const sections: FC[] = [
   HomeBalance,
@@ -42,6 +43,8 @@ export default function Home(): ReactNode {
   const listAnimatedStyle = useAnimatedStyle((): ViewStyle => ({
     gap: 16 + (stickyProgress.value >= 0 ? 0 : interpolate(stickyProgress.value, [0, -1], [0, 4])),
   }));
+
+  useNotificationsSetup();
 
   return (
     <Animated.ScrollView

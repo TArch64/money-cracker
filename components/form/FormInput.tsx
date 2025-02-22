@@ -1,5 +1,7 @@
 import { Input, type InputProps } from '@ui-kitten/components';
+import { ValiError } from 'valibot';
 import { forwardRef, useMemo } from 'react';
+import type { FormSchema } from '@/components/form/Form';
 import { useFormField } from './useFormField';
 import { formErrorRenderer } from './FormError';
 
@@ -22,7 +24,7 @@ export const FormInput = forwardRef<Input, IFormInputProps>((props, ref) => {
     setValue: (value) => field.handleChange(value),
   }), [field.state.value]);
 
-  const error = field.state.meta.errors?.join(', ');
+  const error = field.state.meta.errors?.map((error: ValiError<FormSchema>) => error.message).join(', ');
 
   return (
     <Input

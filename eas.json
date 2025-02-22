@@ -1,7 +1,14 @@
 {
+  "cli": {
+    "requireCommit": false,
+    "version": ">=15"
+  },
   "build": {
+    "base": {
+      "bun": "1.2.2"
+    },
     "development": {
-      "bun": "1.2.2",
+      "extends": "base",
       "developmentClient": true,
       "distribution": "internal",
       "ios": {
@@ -9,11 +16,11 @@
       }
     },
     "production": {
-      "bun": "1.2.2"
+      "extends": "base"
     },
     "preview": {
-      "distribution": "internal",
-      "bun": "1.2.2"
+      "extends": "base",
+      "distribution": "internal"
     }
   }
 }

@@ -7,10 +7,14 @@
     "start:online": "expo start --ios --go",
     "start:dev-build": "expo start --ios --dev-client",
     "build:ios": "eas build --local --platform ios",
-    "build:ios-simulator": "eas build -p ios --profile development --local",
+    "build:ios-simulator": "bun build:pre && eas build -p ios --profile development --local --output dist/build.tar.gz && bun build:unpack",
+    "build:pre": "rm -rf dist && mkdir dist",
+    "build:unpack": "tar -xzf ./dist/build.tar.gz -C dist/ && rm ./dist/build.tar.gz",
     "db:new-migration": "drizzle-kit generate",
     "check-updates": "npm-check-updates",
-    "postinstall": "git config --local core.hooksPath .git-hooks"
+    "postinstall": "git config --local core.hooksPath .git-hooks",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
   },
   "dependencies": {
     "@babel/core": "^7.26.9",
@@ -36,9 +40,11 @@
     "expo": "^52.0.37",
     "expo-crypto": "~14.0.2",
     "expo-dev-client": "~5.0.12",
+    "expo-device": "~7.0.2",
     "expo-file-system": "~18.0.11",
     "expo-local-authentication": "~15.0.2",
     "expo-localization": "~16.0.1",
+    "expo-notifications": "~0.29.13",
     "expo-router": "~4.0.17",
     "expo-secure-store": "~14.0.1",
     "expo-splash-screen": "~0.29.22",
