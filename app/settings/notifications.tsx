@@ -22,6 +22,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     gap: 16,
-    paddingHorizontal: 12,
+    paddingHorizontal: 16,
   } satisfies ViewStyle,
 });
