@@ -30,11 +30,6 @@ export function FormTimepicker(props: IFormTimepickerProps): ReactNode {
 
   const close = () => setOpened(false);
 
-  function onChange(date?: Date) {
-    field.handleChange(date);
-    close();
-  }
-
   return (
     <DropdownView
       isOpened={isOpened}
@@ -62,7 +57,7 @@ export function FormTimepicker(props: IFormTimepickerProps): ReactNode {
             display="spinner"
             mode="time"
             value={field.state.value}
-            onChange={(_, date) => onChange(date)}
+            onChange={(_, date) => field.handleChange(date)}
           />
         </View>
       )}
