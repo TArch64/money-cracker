@@ -5,3 +5,4 @@ export * from './HomeAddRecord';
 export * from './goals';
 export * from './recentRecords';
 export * from './HomeSettings';
+export * from './HomeImportPhoto';

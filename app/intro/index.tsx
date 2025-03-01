@@ -1,18 +1,12 @@
 import type { ReactNode } from 'react';
-import { Text, type TextProps, useTheme } from '@ui-kitten/components';
+import { Text, type TextProps } from '@ui-kitten/components';
 import { StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from '@tanstack/react-query';
-import {
-  IntroButtonNext,
-  IntroContainedIcon,
-  IntroDescription,
-  IntroHeading,
-  IntroScreenLayout,
-} from '@/components/layout';
+import { IntroButtonNext, IntroDescription, IntroHeading, IntroScreenLayout } from '@/components/layout';
 import { IntroState } from '@/enums';
-import { IconName } from '@/components/uiKitten';
+import { ContainedIcon, IconName } from '@/components/uiKitten';
 import { useUserUpdateMutation } from '@/hooks/queries';
 
 interface ITermsSectionProps {
@@ -22,11 +16,9 @@ interface ITermsSectionProps {
 }
 
 function TermsSection(props: ITermsSectionProps): ReactNode {
-  const theme = useTheme();
-
   return (
     <View style={styles.section}>
-      <IntroContainedIcon
+      <ContainedIcon
         size={40}
         name={props.icon}
         style={styles.sectionIcon}

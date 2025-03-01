@@ -3,8 +3,8 @@ import { StyleSheet, type ViewStyle } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { object, pipe, string, trim } from 'valibot';
 import { useRouter } from 'expo-router';
-import { IntroButtonNext, IntroContainedIcon, IntroHeading, IntroScreenLayout } from '@/components/layout';
-import { IconName } from '@/components/uiKitten';
+import { IntroButtonNext, IntroHeading, IntroScreenLayout } from '@/components/layout';
+import { ContainedIcon, IconName } from '@/components/uiKitten';
 import { Form, type FormEventHandler, FormInput, FormSubmit } from '@/components/form';
 import { useAuthHardwareAvailableSuspenseQuery } from '@/hooks/queries';
 import { useAppAuth } from '@/hooks/useAppAuth';
@@ -40,7 +40,7 @@ export default function Auth(): ReactNode {
 
   return (
     <IntroScreenLayout>
-      <IntroContainedIcon
+      <ContainedIcon
         size={56}
         status="primary"
         style={styles.icon}

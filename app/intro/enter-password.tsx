@@ -6,12 +6,11 @@ import { maxLength, minLength, object, pipe, string, trim } from 'valibot';
 import {
   IntroButtonNext,
   IntroButtonSkip,
-  IntroContainedIcon,
   IntroDescription,
   IntroHeading,
   IntroScreenLayout,
 } from '@/components/layout';
-import { IconName } from '@/components/uiKitten';
+import { ContainedIcon, IconName } from '@/components/uiKitten';
 import { useAuthHardwareAvailableSuspenseQuery, useUserUpdateMutation } from '@/hooks/queries';
 import { IntroState } from '@/enums';
 import { Form, type FormEventHandler, FormInput, FormSubmit } from '@/components/form';
@@ -47,7 +46,7 @@ export default function EnterPassword(): ReactNode {
 
   return (
     <IntroScreenLayout>
-      <IntroContainedIcon
+      <ContainedIcon
         size={56}
         status="primary"
         style={styles.icon}

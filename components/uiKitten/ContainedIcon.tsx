@@ -1,15 +1,16 @@
 import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native';
 import { useTheme } from '@ui-kitten/components';
 import type { IPropsWithStyle } from '@/types';
-import { type ElementStatus, Icon, IconName } from '@/components/uiKitten';
+import { Icon, type IconName } from './Icon';
+import type { ElementStatus } from './ElementStatus';
 
-export interface IIntroContainedIconProps extends IPropsWithStyle<ViewStyle> {
+export interface IContainedIconProps extends IPropsWithStyle<ViewStyle> {
   size: number;
   name: IconName;
   status: ElementStatus;
 }
 
-export function IntroContainedIcon(props: IIntroContainedIconProps) {
+export function ContainedIcon(props: IContainedIconProps) {
   const theme = useTheme();
 
   return (

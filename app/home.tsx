@@ -13,6 +13,7 @@ import {
   HomeAddRecord,
   HomeBalance,
   HomeGoals,
+  HomeImportPhoto,
   HomeMonthStatistic,
   HomeRecentRecords,
   HomeSettings,
@@ -22,6 +23,7 @@ import {
 const sections: FC[] = [
   HomeBalance,
   HomeMonthStatistic,
+  HomeImportPhoto,
   HomeAddRecord,
   HomeGoals,
   HomeRecentRecords,

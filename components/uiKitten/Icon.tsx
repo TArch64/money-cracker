@@ -25,6 +25,7 @@ export const enum IconName {
   GITHUB = 'github-outline',
   SHIELD = 'shield-outline',
   BELL = 'bell-outline',
+  IMAGE = 'image-outline',
 }
 
 export const Icon = (props: Omit<IconProps<SvgProps>, 'name'> & { name: IconName }): ReactNode => (

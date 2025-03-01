@@ -5,12 +5,11 @@ import { useRouter } from 'expo-router';
 import {
   IntroButtonNext,
   IntroButtonSkip,
-  IntroContainedIcon,
   IntroDescription,
   IntroHeading,
   IntroScreenLayout,
 } from '@/components/layout';
-import { IconName } from '@/components/uiKitten';
+import { ContainedIcon, IconName } from '@/components/uiKitten';
 import { useUserUpdateMutation } from '@/hooks/queries';
 import { IntroState } from '@/enums';
 
@@ -30,7 +29,7 @@ export default function EnableAuth(): ReactNode {
 
   return (
     <IntroScreenLayout>
-      <IntroContainedIcon
+      <ContainedIcon
         size={56}
         status="primary"
         style={styles.icon}
