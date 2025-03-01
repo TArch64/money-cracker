@@ -4,7 +4,6 @@ import { type ReactNode, useEffect, useState } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { documentDirectory } from 'expo-file-system';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { configureReanimatedLogger } from 'react-native-reanimated';
 import { useTheme } from '@ui-kitten/components';
@@ -19,11 +18,6 @@ import { DatabaseProvider } from '@/db';
 import { I18NProvider } from '@/locale';
 import { ValibotProvider } from '@/components/valibot';
 import { NotificationsProvider } from '@/components/notifications';
-
-if (__DEV__) {
-  console.log('SQLite database path:');
-  console.log(`${documentDirectory}SQLite/app.db`);
-}
 
 SplashScreen.preventAutoHideAsync();
 configureReanimatedLogger({ strict: false });

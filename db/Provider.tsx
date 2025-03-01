@@ -67,6 +67,11 @@ export function DatabaseProvider(props: IDatabaseProviderProps): ReactNode {
         const key = await getPragmaKey();
         await database.execAsync(`PRAGMA key = '${key}';`);
         setClient(drizzle(database, { schema, logger: __DEV__ }));
+
+        if (__DEV__) {
+          console.log('SQLite database path:');
+          console.log(database.databasePath);
+        }
       } catch (error) {
         console.error('Failed to open database', error);
       }

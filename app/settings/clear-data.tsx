@@ -2,8 +2,8 @@ import type { ReactNode } from 'react';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
 import { Button, Text } from '@ui-kitten/components';
 import { useMutation } from '@tanstack/react-query';
-import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import { reloadAppAsync } from 'expo';
 import { textRenderer } from '@/components/uiKitten';
 import { showConfirm } from '@/helpers/showConfirm';
 import { budgetCategories, budgets, categories, records, useDatabase, USER_ID, users } from '@/db';
@@ -11,7 +11,6 @@ import { FullScreenLayout } from '@/components/layout';
 
 export default function ClearData(): ReactNode {
   const db = useDatabase();
-  const router = useRouter();
   const { t } = useTranslation();
 
   const mutation = useMutation({
@@ -27,8 +26,7 @@ export default function ClearData(): ReactNode {
     },
 
     onSuccess() {
-      router.dismissAll();
-      router.replace('/intro');
+      return reloadAppAsync('App data has been cleared');
     },
   });
 
