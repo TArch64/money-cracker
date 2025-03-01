@@ -1,6 +1,6 @@
 import { index, integer, primaryKey, sqliteTable, text, unique } from 'drizzle-orm/sqlite-core';
 import { type InferInsertModel, type InferSelectModel, relations } from 'drizzle-orm';
-import { AppLocale, AppReminderState, IntroState, RecordType } from '@/enums';
+import { AppLocale, IntroState, RecordType } from '@/enums';
 import { date, dateUnix, enum_ } from './customTypes';
 
 export const USER_ID = 1;
@@ -9,9 +9,6 @@ export const users = sqliteTable('users', {
   id: integer().primaryKey().default(USER_ID),
   intro: enum_(IntroState).notNull().default(IntroState.PENDING),
   locale: enum_(AppLocale).notNull().default(AppLocale.SYSTEM),
-  reminder: enum_(AppReminderState).notNull().default(AppReminderState.IF_NO_RECORDS),
-  reminderHour: integer('reminder_hour').notNull().default(21),
-  reminderMinute: integer('reminder_minute').notNull().default(0),
 });
 
 export type User = InferSelectModel<typeof users>;

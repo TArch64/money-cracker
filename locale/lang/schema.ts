@@ -93,29 +93,8 @@ export interface Lang {
 
       menu: {
         categories: string;
-        notifications: string;
         language: string;
         clearData: string;
-      };
-    };
-
-    notifications: {
-      heading: string;
-
-      reminder: {
-        heading: string;
-
-        form: {
-          labels: {
-            time: string;
-          };
-        };
-
-        states: {
-          off: string;
-          everyday: string;
-          if_no_records: string;
-        };
       };
     };
 
@@ -220,12 +199,6 @@ export interface Lang {
     edit: {
       title: string;
       save: string;
-    };
-  };
-
-  notifications: {
-    reminder: {
-      body: string;
     };
   };
 

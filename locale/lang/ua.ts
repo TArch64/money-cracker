@@ -93,29 +93,8 @@ export const ua: Lang = {
 
       menu: {
         categories: 'Категорії',
-        notifications: 'Сповіщення',
         language: 'Мова',
         clearData: 'Очистити Дані',
-      },
-    },
-
-    notifications: {
-      heading: 'Сповіщення',
-
-      reminder: {
-        heading: 'Нагадування',
-
-        form: {
-          labels: {
-            time: 'Час Сповіщення',
-          },
-        },
-
-        states: {
-          off: 'Вимкнено',
-          if_no_records: 'Якщо немає записів',
-          everyday: 'Щодня',
-        },
       },
     },
 
@@ -245,12 +224,6 @@ export const ua: Lang = {
     edit: {
       title: 'Редагувати Цілі',
       save: 'Зберегти',
-    },
-  },
-
-  notifications: {
-    reminder: {
-      body: 'Чи не забули ви додати свої витрати сьогодні?',
     },
   },
 

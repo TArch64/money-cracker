@@ -18,9 +18,6 @@ import {
   HomeSettings,
   HomeTitle,
 } from '@/components/home';
-import { useNotificationsSetup } from '@/components/notifications';
-import { useUserUpdateMutation } from '@/hooks/queries';
-import { AppReminderState } from '@/enums';
 
 const sections: FC[] = [
   HomeBalance,
@@ -35,7 +32,6 @@ export default function Home(): ReactNode {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const stickyProgress = useSharedValue(0);
-  const userUpdateMutation = useUserUpdateMutation();
 
   const scrollHandler = useAnimatedScrollHandler((event) => {
     const value = event.contentOffset.y;
@@ -46,12 +42,6 @@ export default function Home(): ReactNode {
   const listAnimatedStyle = useAnimatedStyle((): ViewStyle => ({
     gap: 16 + (stickyProgress.value >= 0 ? 0 : interpolate(stickyProgress.value, [0, -1], [0, 4])),
   }));
-
-  useNotificationsSetup((ctx) => {
-    if (!ctx.isAllowed) {
-      userUpdateMutation.mutate({ reminder: AppReminderState.OFF });
-    }
-  });
 
   return (
     <Animated.ScrollView

@@ -10,25 +10,15 @@ import { useTheme } from '@ui-kitten/components';
 import { Stack } from 'expo-router';
 import type { ViewStyle } from 'react-native';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
-import { setNotificationHandler } from 'expo-notifications';
 import { useInitialScreen } from '@/hooks/useInitialScreen';
 import { QueryProvider } from '@/hooks/queries';
 import { UiKittenProvider } from '@/components/uiKitten';
 import { DatabaseProvider } from '@/db';
 import { I18NProvider } from '@/locale';
 import { ValibotProvider } from '@/components/valibot';
-import { NotificationsProvider } from '@/components/notifications';
 
 SplashScreen.preventAutoHideAsync();
 configureReanimatedLogger({ strict: false });
-
-setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: false,
-    shouldSetBadge: false,
-  }),
-});
 
 function StackRoot(): ReactNode {
   const theme = useTheme();
@@ -75,10 +65,10 @@ export default function Layout() {
                   <SafeAreaProvider>
                     <GestureHandlerRootView>
                       <ActionSheetProvider>
-                        <NotificationsProvider>
+                        <>
                           <StatusBar style="auto" />
                           <StackRoot />
-                        </NotificationsProvider>
+                        </>
                       </ActionSheetProvider>
                     </GestureHandlerRootView>
                   </SafeAreaProvider>

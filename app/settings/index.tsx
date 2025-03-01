@@ -54,12 +54,6 @@ export default function Index(): ReactNode {
         />
 
         <SettingsItem
-          title={t('settings.index.menu.notifications')}
-          icon={IconName.BELL}
-          href={() => '/settings/notifications'}
-        />
-
-        <SettingsItem
           title={t('settings.index.menu.language')}
           icon={IconName.SETTINGS}
           href={() => '/settings/language'}
