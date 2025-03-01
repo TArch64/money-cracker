@@ -38,6 +38,8 @@ CREATE TABLE `records`
 CREATE INDEX `records_type_idx` ON `records` (`type`);--> statement-breakpoint
 CREATE TABLE `users`
 (
-  `id`    integer PRIMARY KEY DEFAULT 1         NOT NULL,
-  `intro` text                DEFAULT 'pending' NOT NULL
+  `id`            integer PRIMARY KEY DEFAULT 1         NOT NULL,
+  `intro`         text                DEFAULT 'pending' NOT NULL,
+  `locale`        text                DEFAULT 'system'  NOT NULL,
+  `anthropic_key` text
 );

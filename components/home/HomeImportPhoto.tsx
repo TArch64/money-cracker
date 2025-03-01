@@ -1,20 +1,27 @@
 import type { ReactNode } from 'react';
 import { Text } from '@ui-kitten/components';
 import { StyleSheet, type ViewStyle } from 'react-native';
-import { HomeCard } from '@/components/home/HomeCard';
-import { HomeCardTitle } from '@/components/home/HomeCardTitle';
+import { useTranslation } from 'react-i18next';
+import { useUserSuspenseQuery } from '@/hooks/queries';
+import { HomeCard } from './HomeCard';
+import { HomeCardTitle } from './HomeCardTitle';
 
 export function HomeImportPhoto(): ReactNode {
+  const { t } = useTranslation();
+  const userQuery = useUserSuspenseQuery();
+
   return (
-    <HomeCard>
+    <HomeCard
+      href={() => userQuery.data.anthropicKey ? '/records/import-photo' : '/settings/import-photo'}
+    >
       <HomeCardTitle
         linked
-        title="Import from Photo"
+        title={t('home.sections.importPhoto.title')}
         style={styles.title}
       />
 
       <Text>
-        Use your camera to import your receipts and bills
+        {t('home.sections.importPhoto.description')}
       </Text>
     </HomeCard>
   );

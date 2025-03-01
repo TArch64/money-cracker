@@ -58,6 +58,11 @@ export interface Lang {
         title: string;
       };
 
+      importPhoto: {
+        title: string;
+        description: string;
+      };
+
       addRecord: {
         add: LangRecordTypeSet;
       };
@@ -93,8 +98,21 @@ export interface Lang {
 
       menu: {
         categories: string;
+        importPhoto: string;
         language: string;
         clearData: string;
+      };
+    };
+
+    importPhoto: {
+      heading: string;
+      save: string;
+      saved: string;
+
+      form: {
+        labels: {
+          anthropicKey: string;
+        };
       };
     };
 

@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "d3ad2bcf-f2ad-4437-a6c9-30a04933f66d",
+  "id": "2151a63f-ae09-42e8-bbd6-c507ddedec83",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "budget_categories": {
@@ -245,6 +245,21 @@
           "notNull": true,
           "autoincrement": false,
           "default": "'pending'"
+        },
+        "locale": {
+          "name": "locale",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'system'"
+        },
+        "anthropic_key": {
+          "name": "anthropic_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
         }
       },
       "indexes": {},

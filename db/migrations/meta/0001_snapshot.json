@@ -1,6 +1,6 @@
 {
-  "id": "dd2f18cf-eb39-48e2-820d-aa8e2d69f731",
-  "prevId": "d3ad2bcf-f2ad-4437-a6c9-30a04933f66d",
+  "id": "e3537b6c-f46a-40b7-a974-abd9cfed0dce",
+  "prevId": "2151a63f-ae09-42e8-bbd6-c507ddedec83",
   "version": "6",
   "dialect": "sqlite",
   "tables": {
@@ -245,6 +245,21 @@
           "notNull": true,
           "autoincrement": false,
           "default": "'pending'"
+        },
+        "locale": {
+          "name": "locale",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'system'"
+        },
+        "anthropic_key": {
+          "name": "anthropic_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
         }
       },
       "indexes": {},

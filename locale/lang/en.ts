@@ -56,6 +56,11 @@ export const en: Lang = {
         title: 'Current Balance',
       },
 
+      importPhoto: {
+        title: 'Import from Photo',
+        description: 'Use your camera to import your receipts and bills',
+      },
+
       addRecord: {
         add: {
           income: `Add ${recordTypeTitleSet.income}`,
@@ -98,8 +103,21 @@ export const en: Lang = {
 
       menu: {
         categories: 'Categories',
+        importPhoto: 'Import from Photo',
         language: 'Language',
         clearData: 'Clear Data',
+      },
+    },
+
+    importPhoto: {
+      heading: 'Import from Photo',
+      save: 'Save',
+      saved: 'Saved',
+
+      form: {
+        labels: {
+          anthropicKey: 'Anthropic API Key',
+        },
       },
     },
 

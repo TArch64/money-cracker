@@ -51,6 +51,11 @@ export const ua: Lang = {
         title: 'Баланс',
       },
 
+      importPhoto: {
+        title: 'Імпорт з Фото',
+        description: 'Додайте операції з фото чеку',
+      },
+
       addRecord: {
         add: {
           income: 'Новий Дохід',
@@ -93,8 +98,21 @@ export const ua: Lang = {
 
       menu: {
         categories: 'Категорії',
+        importPhoto: 'Імпорт з Фото',
         language: 'Мова',
         clearData: 'Очистити Дані',
+      },
+    },
+
+    importPhoto: {
+      heading: 'Імпорт з Фото',
+      save: 'Зберегти',
+      saved: 'Збережено',
+
+      form: {
+        labels: {
+          anthropicKey: 'Anthropic API Ключ',
+        },
       },
     },
 

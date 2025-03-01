@@ -54,6 +54,12 @@ export default function Index(): ReactNode {
         />
 
         <SettingsItem
+          title={t('settings.index.menu.importPhoto')}
+          icon={IconName.IMAGE}
+          href={() => '/settings/import-photo'}
+        />
+
+        <SettingsItem
           title={t('settings.index.menu.language')}
           icon={IconName.SETTINGS}
           href={() => '/settings/language'}
