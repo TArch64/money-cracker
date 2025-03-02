@@ -53,7 +53,12 @@ export const ua: Lang = {
 
       importPhoto: {
         title: 'Імпорт з Фото',
-        description: 'Додайте операції з фото чеку',
+        description: 'Додайте покупки з фото чеку',
+
+        options: {
+          photo: 'Нове Фото',
+          gallery: 'З Галереї',
+        },
       },
 
       addRecord: {

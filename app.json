@@ -51,6 +51,14 @@
         {
           "faceIDPermission": "Allow $(PRODUCT_NAME) to secure your data"
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "microphonePermission": false,
+          "photosPermission": "The app accesses your photos to let you import data from them",
+          "cameraPermission": "The app accesses your camera to let you import data from newly taken photos"
+        }
       ]
     ],
     "experiments": {

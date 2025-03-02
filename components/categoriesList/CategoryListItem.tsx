@@ -3,7 +3,7 @@ import { useRouter } from 'expo-router';
 import { ListItem } from '@ui-kitten/components';
 import { StyleSheet, type ViewStyle } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { CancelSheetAction, PlainSheetAction, useActionSheet } from '@/hooks/actionSheet';
+import { useActionSheet } from '@/hooks/actionSheet';
 import { showConfirm } from '@/helpers/showConfirm';
 import { type CategoryWithUsage, useCategoryDeleteMutation } from '@/hooks/queries';
 
@@ -26,20 +26,19 @@ export function CategoryListItem(props: ICategoryListItemProps): ReactNode {
     },
   });
 
-  const showActionsSheet = useActionSheet(() => ({
+  const showActionsSheet = useActionSheet((ctx) => ({
     title: props.category.name,
 
     actions: [
-      PlainSheetAction
-        .named(t('actionsSheet.rename'))
-
+      ctx
+        .action(t('actionsSheet.rename'))
         .onPress(() => router.push({
           pathname: '/categories/[categoryId]/edit',
           params: { categoryId: props.category.id },
         })),
 
-      PlainSheetAction
-        .named(t('actionsSheet.delete'))
+      ctx
+        .action(t('actionsSheet.delete'))
         .asDestructive()
         .asDisabled(props.category.budgetExists || props.category.recordExists)
 
@@ -54,7 +53,7 @@ export function CategoryListItem(props: ICategoryListItemProps): ReactNode {
           });
         }),
 
-      CancelSheetAction.named(t('actionsSheet.cancel')),
+      ctx.cancel(),
     ],
   }));
 

@@ -61,6 +61,11 @@ export interface Lang {
       importPhoto: {
         title: string;
         description: string;
+
+        options: {
+          photo: string;
+          gallery: string;
+        };
       };
 
       addRecord: {

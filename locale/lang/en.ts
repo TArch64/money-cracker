@@ -59,6 +59,11 @@ export const en: Lang = {
       importPhoto: {
         title: 'Import from Photo',
         description: 'Use your camera to import your receipts and bills',
+
+        options: {
+          photo: 'Take Photo',
+          gallery: 'Choose from Gallery',
+        },
       },
 
       addRecord: {

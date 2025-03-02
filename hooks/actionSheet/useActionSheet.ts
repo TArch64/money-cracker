@@ -1,5 +1,6 @@
 import { useActionSheet as useActionSheet_ } from '@expo/react-native-action-sheet';
-import type { PlainSheetAction } from './PlainSheetAction';
+import { useTranslation } from 'react-i18next';
+import { PlainSheetAction } from './PlainSheetAction';
 import { CancelSheetAction } from './CancelSheetAction';
 
 export type SheetAction = PlainSheetAction | CancelSheetAction;
@@ -13,11 +14,24 @@ export interface IActionSheetOptions {
   actions: SheetAction[];
 }
 
-export function useActionSheet(options: () => IActionSheetOptions): () => void {
+export interface IActionSheetBuilderContext {
+  action: (text: string) => PlainSheetAction;
+  cancel: (text?: string) => CancelSheetAction;
+}
+
+type ActionSheetBuilder = (ctx: IActionSheetBuilderContext) => IActionSheetOptions | SheetAction[];
+
+export function useActionSheet(options: ActionSheetBuilder): () => void {
   const { showActionSheetWithOptions } = useActionSheet_();
+  const { t } = useTranslation();
 
   return () => {
-    const { title, actions } = options();
+    const _options = options({
+      action: (text) => PlainSheetAction.named(text),
+      cancel: (text) => CancelSheetAction.named(text ?? t('actionsSheet.cancel')),
+    });
+
+    const { title, actions } = Array.isArray(_options) ? { actions: _options } : _options;
 
     showActionSheetWithOptions({
       title,

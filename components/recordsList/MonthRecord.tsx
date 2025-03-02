@@ -8,7 +8,7 @@ import { useMoneyFormatter } from '@/hooks/formatters';
 import { showConfirm } from '@/helpers/showConfirm';
 import { useRecordDeleteMutation } from '@/hooks/queries';
 import { getRecordTypeTitle, isExpenseRecord } from '@/enums';
-import { CancelSheetAction, PlainSheetAction, useActionSheet } from '@/hooks/actionSheet';
+import { useActionSheet } from '@/hooks/actionSheet';
 import { textRenderer } from '@/components/uiKitten';
 
 export interface IMonthRecordProps {
@@ -39,26 +39,26 @@ export function MonthRecord(props: IMonthRecordProps): ReactNode {
     },
   });
 
-  const showActionsSheet = useActionSheet(() => ({
+  const showActionsSheet = useActionSheet((ctx) => ({
     title: `${props.record.category.name} ${value}`,
 
     actions: [
-      PlainSheetAction
-        .named(t('actionsSheet.edit'))
+      ctx
+        .action(t('actionsSheet.edit'))
 
         .onPress(() => router.push({
           pathname: '/records/[recordId]/edit',
           params: { recordId: props.record.id },
         })),
 
-      PlainSheetAction
-        .named(t('actionsSheet.delete'))
+      ctx
+        .action(t('actionsSheet.delete'))
         .asDestructive()
         .onPress(async () => {
           if (await isDeleteConfirmed()) deleteMutation.mutate();
         }),
 
-      CancelSheetAction.named(t('actionsSheet.cancel')),
+      ctx.cancel(),
     ],
   }));
 
