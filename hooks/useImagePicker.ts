@@ -11,8 +11,12 @@ import {
   requestMediaLibraryPermissionsAsync,
 } from 'expo-image-picker';
 
+export interface IImagePickerOpenOptions {
+  selectionLimit?: number;
+}
+
 export interface IImagePicker {
-  open: () => Promise<ImagePickerAsset[] | null>;
+  open: (options?: IImagePickerOpenOptions) => Promise<ImagePickerAsset[] | null>;
 }
 
 interface IPermissions {
@@ -36,7 +40,7 @@ function useBasePicker(config: IPickerConfig): IImagePicker {
     return permissions.granted;
   }
 
-  async function open(): Promise<ImagePickerAsset[] | null> {
+  async function open(options: IImagePickerOpenOptions = {}): Promise<ImagePickerAsset[] | null> {
     if (!(await isPermissionGranted())) {
       return null;
     }
@@ -44,6 +48,8 @@ function useBasePicker(config: IPickerConfig): IImagePicker {
     const result = await config.launchPicker({
       mediaTypes: 'images',
       cameraType: CameraType.back,
+      selectionLimit: options.selectionLimit,
+      allowsMultipleSelection: (options.selectionLimit ?? 1) > 1,
     });
 
     return result.canceled ? null : result.assets;

@@ -3,10 +3,9 @@ import { Text } from '@ui-kitten/components';
 import { StyleSheet, type ViewStyle } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'expo-router';
-import type { ImagePickerAsset } from 'expo-image-picker';
 import { useUserSuspenseQuery } from '@/hooks/queries';
 import { useActionSheet } from '@/hooks/actionSheet';
-import { useImagePicker, usePhoneCamera } from '@/hooks/useImagePicker';
+import { type IImagePicker, useImagePicker, usePhoneCamera } from '@/hooks/useImagePicker';
 import { HomeCard } from './HomeCard';
 import { HomeCardTitle } from './HomeCardTitle';
 
@@ -17,7 +16,9 @@ export function HomeImportPhoto(): ReactNode {
   const camera = usePhoneCamera();
   const imagePicker = useImagePicker();
 
-  function openImportScreen(images: ImagePickerAsset[] | null): void {
+  async function openImportScreen(picker: IImagePicker): Promise<void> {
+    const images = await picker.open({ selectionLimit: 10 });
+
     if (!images) {
       return;
     }
@@ -31,11 +32,11 @@ export function HomeImportPhoto(): ReactNode {
   const openImportOptions = useActionSheet((ctx) => [
     ctx
       .action(t('home.sections.importPhoto.options.photo'))
-      .onPress(async () => openImportScreen(await camera.open())),
+      .onPress(() => openImportScreen(camera)),
 
     ctx
       .action(t('home.sections.importPhoto.options.gallery'))
-      .onPress(async () => openImportScreen(await imagePicker.open())),
+      .onPress(() => openImportScreen(imagePicker)),
 
     ctx.cancel(),
   ]);
