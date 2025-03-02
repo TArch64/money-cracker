@@ -20,6 +20,13 @@ import { ValibotProvider } from '@/components/valibot';
 SplashScreen.preventAutoHideAsync();
 configureReanimatedLogger({ strict: false });
 
+const registerModal = (name: string) => (
+  <Stack.Screen
+    name={name}
+    options={{ presentation: 'modal' }}
+  />
+);
+
 function StackRoot(): ReactNode {
   const theme = useTheme();
   const isInitialScreen = useInitialScreen();
@@ -37,10 +44,7 @@ function StackRoot(): ReactNode {
         } satisfies ViewStyle,
       })}
     >
-      <Stack.Screen
-        name="month/switcher"
-        options={{ presentation: 'modal' }}
-      />
+      {registerModal('month/switcher')}
     </Stack>
   );
 }

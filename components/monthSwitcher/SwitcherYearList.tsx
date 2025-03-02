@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { groupBy } from 'lodash-es';
-import { FlashList } from '@shopify/flash-list';
+import { FlatList } from 'react-native';
 import { useMonthsSuspenseQuery } from '@/hooks/queries';
 import { MonthIdx } from '@/stores';
 import { SwitcherYearHeader } from './SwitcherYearHeader';
@@ -48,17 +48,9 @@ export function SwitcherYearList(): ReactNode {
   });
 
   return (
-    <FlashList
+    <FlatList
       removeClippedSubviews
       data={monthsQuery.data}
-      getItemType={(item) => item.type}
-      estimatedItemSize={43.7}
-
-      overrideItemLayout={(layout, item) => {
-        if (item.type === ListItemType.YEAR_HEADER) {
-          layout.size = 39.7;
-        }
-      }}
 
       renderItem={({ item }) => (
         item.type === ListItemType.YEAR_HEADER
