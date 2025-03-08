@@ -49,19 +49,17 @@ function makeSurface(image: SkImage): SkSurface {
   return surface;
 }
 
-function applyPaint(surface: SkSurface, transform: () => SkPaint) {
-  const paint = transform();
+function applyPaint(surface: SkSurface, transform: (paint: SkPaint) => void) {
+  const paint = Skia.Paint();
+  transform(paint);
   const canvas = surface.getCanvas();
   const image = surface.makeImageSnapshot();
   canvas.drawImage(image, 0, 0, paint);
+  paint.dispose();
 }
 
 function applyColorMatrix(surface: SkSurface, matrix: InputColorMatrix): void {
-  applyPaint(surface, () => {
-    const paint = Skia.Paint();
-    paint.setColorFilter(Skia.ColorFilter.MakeMatrix(matrix));
-    return paint;
-  });
+  applyPaint(surface, (paint) => paint.setColorFilter(Skia.ColorFilter.MakeMatrix(matrix)));
 }
 
 function calculateAverageBrightness(image: SkImage) {
@@ -154,15 +152,18 @@ async function optimize(base64: string): Promise<string> {
     0, 0, 0, 1, 0,
   ]);
 
-  applyPaint(surface, () => {
-    const paint = Skia.Paint();
+  applyPaint(surface, (paint) => {
     paint.setImageFilter(Skia.ImageFilter.MakeBlur(0.5, 0.5, TileMode.Clamp, null));
     paint.setBlendMode(BlendMode.Overlay);
-    return paint;
   });
 
+  image.dispose();
   image = surface.makeImageSnapshot();
-  return image.encodeToBase64(ImageFormat.JPEG);
+
+  const result = image.encodeToBase64(ImageFormat.JPEG);
+  image.dispose();
+  surface.dispose();
+  return result;
 }
 
 export function useImportOptimization(): IImportOptimization {
