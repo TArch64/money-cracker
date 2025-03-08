@@ -35,7 +35,7 @@ function downscaleImage(image: SkImage, maxSize: number): [width: number, height
 }
 
 function makeSurface(image: SkImage): SkSurface {
-  const [width, height] = downscaleImage(image, 1000);
+  const [width, height] = downscaleImage(image, 2000);
   const surface = Skia.Surface.Make(width, height)!;
 
   surface.getCanvas().drawImageRect(
