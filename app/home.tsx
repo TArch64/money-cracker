@@ -2,12 +2,7 @@ import { type FC, type ReactNode, Suspense } from 'react';
 import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native';
 import { useTheme } from '@ui-kitten/components';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Animated, {
-  interpolate,
-  useAnimatedScrollHandler,
-  useAnimatedStyle,
-  useSharedValue,
-} from 'react-native-reanimated';
+import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
 import {
   HOME_TITLE_HEIGHT,
   HomeAddRecord,
@@ -41,10 +36,6 @@ export default function Home(): ReactNode {
     stickyProgress.value = Math.min(1, Math.max(-1, progress));
   });
 
-  const listAnimatedStyle = useAnimatedStyle((): ViewStyle => ({
-    gap: 16 + (stickyProgress.value >= 0 ? 0 : interpolate(stickyProgress.value, [0, -1], [0, 4])),
-  }));
-
   return (
     <Animated.ScrollView
       removeClippedSubviews
@@ -66,7 +57,7 @@ export default function Home(): ReactNode {
     >
       <HomeTitle stickyProgress={stickyProgress} />
 
-      <Animated.View style={[styles.list, listAnimatedStyle]}>
+      <Animated.View style={styles.list}>
         {sections.map((Section, idx) => (
           <Suspense key={idx}>
             <Section />
