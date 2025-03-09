@@ -140,6 +140,7 @@ function calculateDynamicContrastMatrix(avgBrightness: number) {
 
 async function optimize(base64: string): Promise<string> {
   let image = fromBase64(base64);
+  base64 = '';
   const surface = makeSurface(image);
 
   const originalAverageBrightness = calculateAverageBrightness(image);

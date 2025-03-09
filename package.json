@@ -31,6 +31,7 @@
     "@ui-kitten/components": "^5.3.1",
     "@ui-kitten/eva-icons": "^5.3.1",
     "@ui-kitten/metro-config": "^5.3.1",
+    "@valibot/to-json-schema": "^1.0.0-rc.0",
     "babel-plugin-inline-import": "^3.0.0",
     "babel-plugin-react-compiler": "^19.0.0-beta-e1e972c-20250221",
     "date-fns": "^4.1.0",

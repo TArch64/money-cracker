@@ -5,7 +5,7 @@ import type { IPropsWithChildrenFn } from '@/types';
 import { FormProvider } from './FormProvider';
 
 export type FormSchema = ObjectSchema<any, any> | ObjectSchemaAsync<any, any>;
-export type FormApi<S extends FormSchema = FormSchema> = ReactFormExtendedApi<InferOutput<S>, any, any, any, any, any, any, any, any>;
+export type FormApi<S extends FormSchema = FormSchema> = ReactFormExtendedApi<InferOutput<S>, any, any, any, any, any, any, any, any, any>;
 export type FormKey<S extends FormSchema> = DeepKeys<InferOutput<S>>;
 export type FormPathGet<S extends FormSchema> = (path: FormKey<S>) => FormKey<S>;
 
