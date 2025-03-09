@@ -3,6 +3,7 @@ import {
   boolean,
   description,
   forward,
+  type InferOutput,
   isoDate,
   minLength,
   minValue,
@@ -56,3 +57,6 @@ export const createParserSchema = (options: ISchemaOptions) => object({
     })),
   )),
 });
+
+export type PhotoParserSchema = ReturnType<typeof createParserSchema>;
+export type PhotoParserResult = InferOutput<PhotoParserSchema>;

@@ -1,8 +1,8 @@
 export * from './useClaudeClient';
-export * from './useClauseJsonMessage';
+export * from './claudeJsonMessage';
 export * from './ClaudeMediaType';
 export * from './ClaudeMessageRole';
 export * from './ClaudeModel';
-export * from './IClaudeContentBlockParam';
-export * from './IClaudeMessageParam';
-export * from './IClaudeMessageCreateParams';
+export type * from './IClaudeContentBlockParam';
+export type * from './IClaudeMessageParam';
+export type * from './IClaudeMessageCreateParams';
