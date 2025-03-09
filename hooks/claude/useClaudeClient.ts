@@ -1,18 +1,16 @@
+import type { Message, MessageCreateParamsNonStreaming } from '@anthropic-ai/sdk/resources/messages';
 import { useUserQuery } from '@/hooks/queries';
-import { ClaudeModel } from './ClaudeModel';
-import type { IClaudeMessageCreateParams } from './IClaudeMessageCreateParams';
-import type { IClaudeMessage } from './IClaudeMessage';
 
 export interface IClaudeClient {
   messages: {
-    create: (message: IClaudeMessageCreateParams) => Promise<IClaudeMessage>;
+    create: (message: MessageCreateParamsNonStreaming) => Promise<Message>;
   };
 }
 
 export function useClaudeClient(): IClaudeClient {
   const userQuery = useUserQuery();
 
-  async function create(params: IClaudeMessageCreateParams): Promise<IClaudeMessage> {
+  async function create(params: MessageCreateParamsNonStreaming): Promise<Message> {
     if (!userQuery.data.anthropicKey) {
       throw new Error('User has no Anthropic key');
     }
@@ -26,12 +24,7 @@ export function useClaudeClient(): IClaudeClient {
         'x-api-key': userQuery.data.anthropicKey!,
       },
 
-      body: JSON.stringify({
-        model: params.model ?? ClaudeModel.V3_7_SONNET,
-        max_tokens: params.maxTokens,
-        system: params.system,
-        messages: params.messages,
-      }),
+      body: JSON.stringify(params),
     });
 
     if (!response.ok) {

@@ -1,4 +1,21 @@
-export interface IParserPromptOptions {
+export const createParserAnalyzerPrompt = () => `
+Look at this image and extract the financial transaction information.
+
+Please provide only:
+1. Transaction date in YYYY-MM-DD format (if visible)
+2. Group all items into general categories and calculate the total for each category
+
+Format your response like this:
+- Date: YYYY-MM-DD (if found)
+- Categories: 
+  * Category1: total amount
+  * Category2: total amount
+  * etc.
+
+Use general categories like "food", "clothing", "transportation", etc. Don't worry about specific formatting requirements - just organize the information clearly.
+`;
+
+export interface IParserFormatterPromptOptions {
   locale: string;
   schema: string;
   categories: string[];
@@ -9,63 +26,62 @@ export interface IParserPrompt {
   user: string;
 }
 
-const withCategoriesSystemPrompt = (options: IParserPromptOptions) => `
-CRITICAL INSTRUCTION: Use ONLY these EXACT category names without translation: ${JSON.stringify(options.categories)}
+const withCategoriesSystemFormatterPrompt = (options: IParserFormatterPromptOptions) => `
+Based on the transaction information you described earlier, organize the data according to these specifications:
 
-Analyze the receipt image for personal budget tracking:
-1. Extract transaction date (format: YYYY-MM-DD) if present
-2. Categorize each item using ONLY the exact categories listed above
-3. Create new categories in ${options.locale} language ONLY if an item doesn't fit any existing category
-
-Return this JSON structure:
-${options.schema}
-
-Context: This analysis is for a personal budget management app where users track their spending by categories.
-
-Rules:
-- Return ONLY parsed data in the JSON format according to provided schema
-- Never translate or modify the provided category names
-- Only include categories that have items in them
-- When creating new categories, check if a similar category already exists in the list above
-- Only add "new": true for newly created categories
-- If no transaction data is found, return only: {"categoryExpenses": []}
-- Omit "transactionDate" if no date information exists
-
-<IMPORTANT>Create BROAD, GENERAL budget categories (examples in English: food, clothes, housing, transport, entertainment, utilities) instead of specific ones (examples in English: dining out, beverages, drinks).</IMPORTANT>
-`;
-
-const withoutCategoriesSystemPrompt = (options: IParserPromptOptions) => `
-Analyze the receipt image for personal budget tracking.
+CATEGORIES: Use ONLY these EXACT category names without translation: ${JSON.stringify(options.categories)}
 
 Instructions:
-1. Extract transaction date (format: YYYY-MM-DD) if present
-2. Identify all products/items and their costs
-3. Create appropriate categories for all items in "${options.locale}" language
-4. All category names should be in "${options.locale}" language
+1. Extract the transaction date in YYYY-MM-DD format (if present in the data)
+2. Assign each item to one of the exact categories listed above
+3. Only if an item clearly doesn't fit any existing category, create a new category in \${locale} language
+4. Calculate total amount spent in each category
 
 Return this JSON structure:
 ${options.schema}
 
-Context: This analysis is for a personal budget management app where users track their spending. You are creating initial categories for a new user.
-
 Rules:
-- Return ONLY parsed data in the JSON format according to provided schema
-- Use simple, singular nouns for category names when possible
-- Avoid overly specific categories (e.g. use "food" instead of "dining out", "beverages", or "drinks")
-- Mark ALL categories with "new": true since all are newly created
+- Never modify the existing category names in any way
+- Only include categories that have items in them
+- Only add "new": true for newly created categories
+- Create new categories only when absolutely necessary
+- New categories should be general (e.g., "food" not "snacks")
 - If no transaction data is found, return only: {"categoryExpenses": []}
 - Omit "transactionDate" if no date information exists
-- Only include categories with non-zero totals
 - Response language should match "${options.locale}"
 
 <IMPORTANT>Create BROAD, GENERAL budget categories (examples in English: food, clothes, housing, transport, entertainment, utilities) instead of specific ones (examples in English: dining out, beverages, drinks).</IMPORTANT>
 `;
 
-const withCategoriesUserPrompt = 'Extract transaction data and categorize products, creating new categories as needed.';
-const withoutCategoriesUserPrompt = 'Extract transaction data and categorize products.';
+const withoutCategoriesSystemFormatterPrompt = (options: IParserFormatterPromptOptions) => `
+Based on the transaction information you described earlier, organize the data according to these specifications:
 
-export function createParserPrompt(options: IParserPromptOptions): IParserPrompt {
+Instructions:
+1. Extract the transaction date in YYYY-MM-DD format (if present in the data)
+2. Create general budget categories in "${options.locale}" language to group the items
+3. Assign each item to the most appropriate category
+4. Calculate total amount spent in each category
+
+Return this JSON structure:
+${options.schema}
+
+Rules:
+- Create broad, general budget categories (examples: food, clothing, housing, transportation, entertainment)
+- Use simple, singular nouns for category names when possible
+- Prefer fewer, more general categories over many specific ones
+- Mark ALL categories with "new": true since all are newly created
+- If no transaction data was found, return only: {"categoryExpenses": []}
+- Omit "transactionDate" if no date information exists
+- Response language should match "${options.locale}"
+
+<IMPORTANT>Create BROAD, GENERAL budget categories (examples in English: food, clothes, housing, transport, entertainment, utilities) instead of specific ones (examples in English: dining out, beverages, drinks).</IMPORTANT>
+`;
+
+const withCategoriesUserFormatterPrompt = 'Extract transaction data and categorize products, creating new categories as needed.';
+const withoutCategoriesUserFormatterPrompt = 'Extract transaction data and categorize products.';
+
+export function createParserFormatterPrompt(options: IParserFormatterPromptOptions): IParserPrompt {
   return options.categories.length
-    ? { system: withCategoriesSystemPrompt(options), user: withCategoriesUserPrompt }
-    : { system: withoutCategoriesSystemPrompt(options), user: withoutCategoriesUserPrompt };
+    ? { system: withCategoriesSystemFormatterPrompt(options), user: withCategoriesUserFormatterPrompt }
+    : { system: withoutCategoriesSystemFormatterPrompt(options), user: withoutCategoriesUserFormatterPrompt };
 }

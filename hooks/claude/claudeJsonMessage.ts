@@ -1,6 +1,6 @@
 import { type InferOutput, type ObjectSchema, parse } from 'valibot';
 import { toJsonSchema } from '@valibot/to-json-schema';
-import type { IClaudeMessage } from './IClaudeMessage';
+import type { Message } from '@anthropic-ai/sdk/resources/messages';
 
 export type ClaudeMessageSchema = ObjectSchema<any, any>;
 
@@ -8,8 +8,8 @@ export function stringifyJsonSchema(schema: ClaudeMessageSchema): string {
   return JSON.stringify(toJsonSchema(schema, { errorMode: 'ignore' }), null, 2);
 }
 
-function parseResponseJson(message: IClaudeMessage): object {
-  const text = message.content[0].text;
+function parseResponseJson(message: Message): object {
+  const text = message.content.find((block) => block.type === 'text')?.text ?? '';
   let jsonStr = text;
 
   if (text.includes('```json')) {
@@ -38,7 +38,7 @@ function parseResponseJson(message: IClaudeMessage): object {
   }
 }
 
-export function parseClaudeJsonMessage<S extends ClaudeMessageSchema>(schema: S, message: IClaudeMessage): InferOutput<S> {
+export function parseClaudeJsonMessage<S extends ClaudeMessageSchema>(schema: S, message: Message): InferOutput<S> {
   return parse(schema, parseResponseJson(message), {
     abortEarly: true,
     abortPipeEarly: true,

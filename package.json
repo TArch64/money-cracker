@@ -17,6 +17,7 @@
     "ios": "expo run:ios"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
     "@babel/core": "^7.26.9",
     "@eva-design/eva": "^2.2.0",
     "@expo/react-native-action-sheet": "^4.1.1",

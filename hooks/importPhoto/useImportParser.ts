@@ -1,17 +1,10 @@
-import {
-  ClaudeMediaType,
-  ClaudeMessageRole,
-  ClaudeModel,
-  type IClaudeMessageCreateParams,
-  parseClaudeJsonMessage,
-  stringifyJsonSchema,
-  useClaudeClient,
-} from '@/hooks/claude';
+import type { MessageCreateParamsNonStreaming } from '@anthropic-ai/sdk/resources/messages';
+import { parseClaudeJsonMessage, stringifyJsonSchema, useClaudeClient } from '@/hooks/claude';
 import { useCategoriesListQuery } from '@/hooks/queries';
 import { RecordType } from '@/enums';
 import { useLocaleCodeQuery } from '@/locale';
 import { withRetries } from '@/helpers/withRetries';
-import { createParserPrompt } from './parserPrompt';
+import { createParserAnalyzerPrompt, createParserFormatterPrompt } from './parserPrompt';
 import { createParserSchema, type PhotoParserResult } from './parserSchema';
 
 export interface IImportParser {
@@ -28,25 +21,16 @@ export function useImportParser(): IImportParser {
     select: (data) => data.map((category) => category.name),
   });
 
-  async function parse(image: string): Promise<PhotoParserResult> {
-    const schema = createParserSchema({
-      categories: categoriesQuery.data,
-    });
-
-    const prompt = createParserPrompt({
-      locale: localeQuery.data!,
-      schema: stringifyJsonSchema(schema),
-      categories: categoriesQuery.data,
-    });
-
-    const messageParams: IClaudeMessageCreateParams = {
-      maxTokens: 1000,
-      model: ClaudeModel.V3_7_SONNET,
-      system: prompt.system,
+  async function analyzeImage(image: string): Promise<string> {
+    const messageParams: MessageCreateParamsNonStreaming = {
+      stream: false,
+      max_tokens: 1000,
+      model: 'claude-3-7-sonnet-latest',
+      system: createParserAnalyzerPrompt(),
 
       messages: [
         {
-          role: ClaudeMessageRole.USER,
+          role: 'user',
 
           content: [
             {
@@ -54,9 +38,55 @@ export function useImportParser(): IImportParser {
 
               source: {
                 type: 'base64',
-                media_type: ClaudeMediaType.IMAGE_JPEG,
+                media_type: 'image/jpeg',
                 data: image,
               },
+            },
+
+            {
+              type: 'text',
+              text: 'Extract transaction data and categorize products.',
+            },
+          ],
+        },
+      ],
+    };
+
+    return withRetries({
+      limit: 3,
+
+      perform: async () => {
+        const message = await claudeClient.messages.create(messageParams);
+        return message.content.find((block) => block.type === 'text')!.text;
+      },
+    });
+  }
+
+  async function format(info: string): Promise<PhotoParserResult> {
+    const schema = createParserSchema({
+      categories: categoriesQuery.data,
+    });
+
+    const prompt = createParserFormatterPrompt({
+      locale: localeQuery.data!,
+      schema: stringifyJsonSchema(schema),
+      categories: categoriesQuery.data,
+    });
+
+    const messageParams: MessageCreateParamsNonStreaming = {
+      stream: false,
+      max_tokens: 1000,
+      model: 'claude-3-7-sonnet-latest',
+      system: prompt.system,
+
+      messages: [
+        {
+          role: 'user',
+
+          content: [
+            {
+              type: 'text',
+              text: info,
             },
 
             {
@@ -73,9 +103,14 @@ export function useImportParser(): IImportParser {
 
       perform: async () => {
         const message = await claudeClient.messages.create(messageParams);
+        console.log(message);
         return parseClaudeJsonMessage(schema, message);
       },
     });
+  }
+
+  async function parse(image: string): Promise<PhotoParserResult> {
+    return format(await analyzeImage(image));
   }
 
   return { parse };
