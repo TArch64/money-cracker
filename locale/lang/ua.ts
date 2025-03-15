@@ -250,6 +250,12 @@ export const ua: Lang = {
     },
   },
 
+  importPhoto: {
+    index: {
+      heading: 'Імпорт з Фото',
+    },
+  },
+
   monthSwitcher: {
     title: 'Активний Місяць',
   },

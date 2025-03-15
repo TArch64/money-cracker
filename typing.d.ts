@@ -17,4 +17,12 @@ declare module '@ui-kitten/components' {
   export function useTheme(): Theme;
 }
 
+declare global {
+  interface NodeModule {
+    hot?: {
+      accept(callback?: () => void): void;
+    };
+  }
+}
+
 export {};

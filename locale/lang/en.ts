@@ -252,6 +252,12 @@ export const en: Lang = {
     },
   },
 
+  importPhoto: {
+    index: {
+      heading: 'Import from Photo',
+    },
+  },
+
   monthSwitcher: {
     title: 'Select Month',
   },

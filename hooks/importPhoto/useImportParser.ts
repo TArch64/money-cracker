@@ -8,7 +8,7 @@ import { createParserAnalyzerPrompt, createParserFormatterPrompt } from './parse
 import { createParserSchema, type PhotoParserResult } from './parserSchema';
 
 export interface IImportParser {
-  parse: (image: string) => Promise<any>;
+  parse: (image: string) => Promise<PhotoParserResult>;
 }
 
 export function useImportParser(): IImportParser {
@@ -103,7 +103,6 @@ export function useImportParser(): IImportParser {
 
       perform: async () => {
         const message = await claudeClient.messages.create(messageParams);
-        console.log(message);
         return parseClaudeJsonMessage(schema, message);
       },
     });

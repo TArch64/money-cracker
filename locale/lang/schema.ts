@@ -225,6 +225,12 @@ export interface Lang {
     };
   };
 
+  importPhoto: {
+    index: {
+      heading: string;
+    };
+  };
+
   monthSwitcher: {
     title: string;
   };
