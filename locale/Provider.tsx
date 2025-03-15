@@ -57,3 +57,10 @@ export function I18NProvider(props: I18NProviderProps) {
     </I18nextProvider>
   );
 }
+
+if (module.hot) {
+  module.hot.accept(() => {
+    i18next.addResourceBundle('en', 'translation', en, false, true);
+    i18next.addResourceBundle('ua', 'translation', ua, false, true);
+  });
+}
