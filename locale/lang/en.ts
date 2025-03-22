@@ -255,6 +255,24 @@ export const en: Lang = {
   importPhoto: {
     index: {
       heading: 'Import from Photo',
+
+      card: {
+        status: {
+          optimizing: {
+            title: 'Optimizing',
+          },
+
+          processing: {
+            title: 'Processing',
+          },
+
+          completed: {},
+
+          failed: {
+            title: 'Error',
+          },
+        },
+      },
     },
   },
 

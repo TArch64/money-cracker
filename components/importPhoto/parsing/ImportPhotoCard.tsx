@@ -1,30 +1,79 @@
 import type { ReactNode } from 'react';
-import { Card } from '@ui-kitten/components';
-import { StyleSheet, View, type ViewStyle } from 'react-native';
-import type { IImportingPhoto } from '@/stores';
+import { Spinner } from '@ui-kitten/components';
+import { useTranslation } from 'react-i18next';
+import { type IImportingPhoto, ImportPhotoStatus } from '@/stores';
+import { IconName } from '@/components/uiKitten';
+import { getEnumValue } from '@/helpers/getEnumValue';
+import { ImportPhotoCardIndicatorIcon } from './ImportPhotoCardIndicatorIcon';
+import { ImportPhotoCardLayout } from './ImportPhotoCardLayout';
+import { ImportPhotoCardTitle } from './ImportPhotoCardTitle';
 
 export interface IImportPhotoCardProps {
   photo: IImportingPhoto;
 }
 
-export function ImportPhotoCard(props: IImportPhotoCardProps): ReactNode {
-  return (
-    <Card style={styles.card}>
-      <View style={styles.cardInner}>
+function PhotoOptimizing(props: IImportPhotoCardProps): ReactNode {
+  const { t } = useTranslation();
 
-      </View>
-    </Card>
+  return (
+    <ImportPhotoCardLayout indicator={<Spinner status="warning" />}>
+      <ImportPhotoCardTitle>
+        {t('importPhoto.index.card.status.optimizing.title')}
+      </ImportPhotoCardTitle>
+    </ImportPhotoCardLayout>
   );
 }
 
-const styles = StyleSheet.create({
-  card: {
-    paddingVertical: 16,
-    paddingHorizontal: 16,
-  } satisfies ViewStyle,
+function PhotoProcessing(props: IImportPhotoCardProps): ReactNode {
+  const { t } = useTranslation();
+  return (
+    <ImportPhotoCardLayout indicator={<Spinner />}>
+      <ImportPhotoCardTitle>
+        {t('importPhoto.index.card.status.processing.title')}
+      </ImportPhotoCardTitle>
+    </ImportPhotoCardLayout>
+  );
+}
 
-  cardInner: {
-    display: 'flex',
-    flexDirection: 'row',
-  } satisfies ViewStyle,
-});
+function PhotoCompleted(props: IImportPhotoCardProps): ReactNode {
+  const { t } = useTranslation();
+
+  return (
+    <ImportPhotoCardLayout
+      indicator={
+        <ImportPhotoCardIndicatorIcon name={IconName.CHECKMARK} status="success" />
+      }
+    >
+      <ImportPhotoCardTitle>
+        Completed
+      </ImportPhotoCardTitle>
+    </ImportPhotoCardLayout>
+  );
+}
+
+function PhotoFailed(props: IImportPhotoCardProps): ReactNode {
+  const { t } = useTranslation();
+
+  return (
+    <ImportPhotoCardLayout
+      indicator={
+        <ImportPhotoCardIndicatorIcon name={IconName.ALERT_CIRCLE} status="danger" />
+      }
+    >
+      <ImportPhotoCardTitle>
+        {t('importPhoto.index.card.status.failed.title')}
+      </ImportPhotoCardTitle>
+    </ImportPhotoCardLayout>
+  );
+}
+
+export function ImportPhotoCard(props: IImportPhotoCardProps): ReactNode {
+  const Content = getEnumValue(props.photo.status, {
+    [ImportPhotoStatus.OPTIMIZING]: () => PhotoOptimizing,
+    [ImportPhotoStatus.PROCESSING]: () => PhotoProcessing,
+    [ImportPhotoStatus.COMPLETED]: () => PhotoCompleted,
+    [ImportPhotoStatus.FAILED]: () => PhotoFailed,
+  });
+
+  return <Content {...props} />;
+}

@@ -33,7 +33,7 @@ export default function ImportPhoto(): ReactNode {
   const initialImages = searchParams.images.split(',');
 
   return (
-    <FullScreenLayout title={t('importPhoto.index.heading')}>
+    <FullScreenLayout control title={t('importPhoto.index.heading')}>
       <ImportPhotoController
         initialImages={initialImages}
         onRead={(uri) => readAsStringAsync(uri, { encoding: 'base64' })}

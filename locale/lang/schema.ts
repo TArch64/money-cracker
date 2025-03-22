@@ -228,6 +228,24 @@ export interface Lang {
   importPhoto: {
     index: {
       heading: string;
+
+      card: {
+        status: {
+          optimizing: {
+            title: string;
+          };
+
+          processing: {
+            title: string;
+          };
+
+          completed: {};
+
+          failed: {
+            title: string;
+          };
+        };
+      };
     };
   };
 

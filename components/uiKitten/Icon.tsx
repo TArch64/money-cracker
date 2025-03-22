@@ -20,12 +20,14 @@ export const enum IconName {
   SETTINGS = 'settings-2-outline',
   FOLDER = 'folder-outline',
   ALERT_TRIANGLE = 'alert-triangle-outline',
+  ALERT_CIRCLE = 'alert-circle-outline',
   HEART = 'heart-outline',
   LOCK = 'lock-outline',
   GITHUB = 'github-outline',
   SHIELD = 'shield-outline',
   BELL = 'bell-outline',
   IMAGE = 'image-outline',
+  CHECKMARK = 'checkmark-outline',
 }
 
 export const Icon = (props: Omit<IconProps<SvgProps>, 'name'> & { name: IconName }): ReactNode => (

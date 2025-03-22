@@ -253,6 +253,24 @@ export const ua: Lang = {
   importPhoto: {
     index: {
       heading: 'Імпорт з Фото',
+
+      card: {
+        status: {
+          optimizing: {
+            title: 'Оптимізація',
+          },
+
+          processing: {
+            title: 'Обробка',
+          },
+
+          completed: {},
+
+          failed: {
+            title: 'Помилка',
+          },
+        },
+      },
     },
   },
 

@@ -10,6 +10,7 @@ import { IconName, iconRenderer } from '@/components/uiKitten';
 export interface IFullScreenLayoutProps extends PropsWithChildren,
   IPropsWithStyle<ViewStyle> {
   title?: string | RenderProp<TextProps>;
+  control?: boolean;
   canGoBack?: boolean;
   headerLeft?: () => ReactElement;
   headerRight?: () => ReactElement;
@@ -38,13 +39,14 @@ export function FullScreenLayout(props: IFullScreenLayoutProps): ReactNode {
       <SafeAreaView
         style={[
           styles.wrapper,
-          { backgroundColor: theme['background-basic-color-1'] },
+          { backgroundColor: props.control ? theme['background-basic-color-2'] : theme['background-basic-color-1'] },
         ]}
       >
         {props.title && (
           <TopNavigation
             title={props.title}
             alignment="center"
+            appearance={props.control ? 'control' : 'default'}
             accessoryLeft={headerLeft}
             accessoryRight={props.headerRight}
           />

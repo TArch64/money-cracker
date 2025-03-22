@@ -348,6 +348,31 @@
           }
         }
       }
+    },
+    "Spinner": {
+      "appearances": {
+        "default": {
+          "variantGroups": {
+            "size": {
+              "tiny": {
+                "borderWidth": 2
+              },
+              "small": {
+                "borderWidth": 2
+              },
+              "medium": {
+                "borderWidth": 2
+              },
+              "large": {
+                "borderWidth": 3
+              },
+              "giant": {
+                "borderWidth": 4
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
