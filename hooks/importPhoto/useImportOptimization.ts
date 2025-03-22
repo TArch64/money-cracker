@@ -8,16 +8,19 @@ import {
   type SkSurface,
   TileMode,
 } from '@shopify/react-native-skia';
+import { createWorkletRuntime, runOnJS, runOnRuntime } from 'react-native-reanimated';
 
 export interface IImportOptimization {
   optimize: (image: string) => Promise<string>;
 }
 
 function fromBase64(data: string): SkImage {
+  'worklet';
   return Skia.Image.MakeImageFromEncoded(Skia.Data.fromBase64(data))!;
 }
 
 function downscaleImage(image: SkImage, maxSize: number): [width: number, height: number] {
+  'worklet';
   let width = image.width();
   let height = image.height();
 
@@ -35,6 +38,7 @@ function downscaleImage(image: SkImage, maxSize: number): [width: number, height
 }
 
 function makeSurface(image: SkImage): SkSurface {
+  'worklet';
   const [width, height] = downscaleImage(image, 2000);
   const surface = Skia.Surface.Make(width, height)!;
 
@@ -50,6 +54,7 @@ function makeSurface(image: SkImage): SkSurface {
 }
 
 function applyPaint(surface: SkSurface, transform: (paint: SkPaint) => void) {
+  'worklet';
   const paint = Skia.Paint();
   transform(paint);
   const canvas = surface.getCanvas();
@@ -59,10 +64,12 @@ function applyPaint(surface: SkSurface, transform: (paint: SkPaint) => void) {
 }
 
 function applyColorMatrix(surface: SkSurface, matrix: InputColorMatrix): void {
+  'worklet';
   applyPaint(surface, (paint) => paint.setColorFilter(Skia.ColorFilter.MakeMatrix(matrix)));
 }
 
 function calculateAverageBrightness(image: SkImage) {
+  'worklet';
   const sampleSize = 10;
   const scaledWidth = Math.max(Math.floor(image.width() / sampleSize), 1);
   const scaledHeight = Math.max(Math.floor(image.height() / sampleSize), 1);
@@ -99,6 +106,7 @@ function calculateAverageBrightness(image: SkImage) {
 }
 
 function calculateDynamicContrastMatrix(avgBrightness: number) {
+  'worklet';
   const normalizedBrightness = avgBrightness / 255;
 
   // Calculate contrast level based on brightness
@@ -138,9 +146,10 @@ function calculateDynamicContrastMatrix(avgBrightness: number) {
   ];
 }
 
-async function optimize(base64: string): Promise<string> {
-  let image = fromBase64(base64);
-  base64 = '';
+function optimize(source: string): string {
+  'worklet';
+  let image = fromBase64(source);
+  source = '';
   const surface = makeSurface(image);
 
   const originalAverageBrightness = calculateAverageBrightness(image);
@@ -161,12 +170,28 @@ async function optimize(base64: string): Promise<string> {
   image.dispose();
   image = surface.makeImageSnapshot();
 
-  const result = image.encodeToBase64(ImageFormat.JPEG);
+  source = image.encodeToBase64(ImageFormat.JPEG);
   image.dispose();
   surface.dispose();
-  return result;
+  return source;
 }
 
+const runtime = createWorkletRuntime('import-photo-optimization');
+
 export function useImportOptimization(): IImportOptimization {
-  return { optimize };
+  function optimize_(source: string): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+      runOnRuntime(runtime, (source: string) => {
+        'worklet';
+        try {
+          const result = optimize(source);
+          runOnJS(resolve)(result);
+        } catch (error) {
+          runOnJS(reject)(error);
+        }
+      })(source);
+    });
+  }
+
+  return { optimize: optimize_ };
 }
