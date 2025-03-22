@@ -7,6 +7,7 @@ import { getEnumValue } from '@/helpers/getEnumValue';
 import { ImportPhotoCardIndicatorIcon } from './ImportPhotoCardIndicatorIcon';
 import { ImportPhotoCardLayout } from './ImportPhotoCardLayout';
 import { ImportPhotoCardTitle } from './ImportPhotoCardTitle';
+import { ImportPhotoCardFilename } from './ImportPhotoCardFilename';
 
 export interface IImportPhotoCardProps {
   photo: IImportingPhoto;
@@ -20,17 +21,22 @@ function PhotoOptimizing(props: IImportPhotoCardProps): ReactNode {
       <ImportPhotoCardTitle>
         {t('importPhoto.index.card.status.optimizing.title')}
       </ImportPhotoCardTitle>
+
+      <ImportPhotoCardFilename uri={props.photo.uri} />
     </ImportPhotoCardLayout>
   );
 }
 
 function PhotoProcessing(props: IImportPhotoCardProps): ReactNode {
   const { t } = useTranslation();
+
   return (
     <ImportPhotoCardLayout indicator={<Spinner />}>
       <ImportPhotoCardTitle>
         {t('importPhoto.index.card.status.processing.title')}
       </ImportPhotoCardTitle>
+
+      <ImportPhotoCardFilename uri={props.photo.uri} />
     </ImportPhotoCardLayout>
   );
 }
@@ -47,6 +53,8 @@ function PhotoCompleted(props: IImportPhotoCardProps): ReactNode {
       <ImportPhotoCardTitle>
         Completed
       </ImportPhotoCardTitle>
+
+      <ImportPhotoCardFilename uri={props.photo.uri} />
     </ImportPhotoCardLayout>
   );
 }
@@ -63,6 +71,8 @@ function PhotoFailed(props: IImportPhotoCardProps): ReactNode {
       <ImportPhotoCardTitle>
         {t('importPhoto.index.card.status.failed.title')}
       </ImportPhotoCardTitle>
+
+      <ImportPhotoCardFilename uri={props.photo.uri} />
     </ImportPhotoCardLayout>
   );
 }

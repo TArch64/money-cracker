@@ -12,5 +12,6 @@ export const ImportPhotoCardTitle = (props: TextProps): ReactNode => (
 const styles = StyleSheet.create({
   title: {
     fontWeight: '500',
+    marginBottom: 4,
   } satisfies TextStyle,
 });

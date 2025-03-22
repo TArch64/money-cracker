@@ -36,7 +36,7 @@ export function ImportPhotoController(props: IImportControllerProps): ReactNode 
   }
 
   useEffect(() => {
-    const photos = props.initialImages.map((uri) => ({
+    const photos = props.initialImages.map((uri): IImportingPhoto => ({
       uri,
       status: ImportPhotoStatus.OPTIMIZING,
     }));

@@ -31,7 +31,8 @@ const styles = StyleSheet.create({
   } satisfies ViewStyle,
 
   main: {
+    flexBasis: 0,
     flexGrow: 1,
-    marginLeft: 12,
+    marginLeft: 16,
   } satisfies ViewStyle,
 });
