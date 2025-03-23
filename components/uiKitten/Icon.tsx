@@ -28,6 +28,7 @@ export const enum IconName {
   BELL = 'bell-outline',
   IMAGE = 'image-outline',
   CHECKMARK = 'checkmark-outline',
+  CLOCK = 'clock-outline',
 }
 
 export const Icon = (props: Omit<IconProps<SvgProps>, 'name'> & { name: IconName }): ReactNode => (

@@ -13,6 +13,24 @@ export interface IImportPhotoCardProps {
   photo: IImportingPhoto;
 }
 
+function PhotoQueued(props: IImportPhotoCardProps): ReactNode {
+  const { t } = useTranslation();
+
+  return (
+    <ImportPhotoCardLayout
+      indicator={
+        <ImportPhotoCardIndicatorIcon name={IconName.CLOCK} status="basic" />
+      }
+    >
+      <ImportPhotoCardTitle>
+        {t('importPhoto.index.card.status.queued.title')}
+      </ImportPhotoCardTitle>
+
+      <ImportPhotoCardFilename uri={props.photo.uri} />
+    </ImportPhotoCardLayout>
+  );
+}
+
 function PhotoOptimizing(props: IImportPhotoCardProps): ReactNode {
   const { t } = useTranslation();
 
@@ -79,6 +97,7 @@ function PhotoFailed(props: IImportPhotoCardProps): ReactNode {
 
 export function ImportPhotoCard(props: IImportPhotoCardProps): ReactNode {
   const Content = getEnumValue(props.photo.status, {
+    [ImportPhotoStatus.QUEUED]: () => PhotoQueued,
     [ImportPhotoStatus.OPTIMIZING]: () => PhotoOptimizing,
     [ImportPhotoStatus.PROCESSING]: () => PhotoProcessing,
     [ImportPhotoStatus.COMPLETED]: () => PhotoCompleted,

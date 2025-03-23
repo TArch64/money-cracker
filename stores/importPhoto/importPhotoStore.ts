@@ -1,13 +1,13 @@
 import { create } from 'zustand';
-import type { IImportingPhoto } from './IImportingPhoto';
+import type { AnyImportingPhoto } from './IImportingPhoto';
 
 interface IStore {
-  photos: IImportingPhoto[];
-  setPhotos: (photos: IImportingPhoto[]) => void;
-  patchPhoto: (index: number, patch: Partial<IImportingPhoto>) => void;
+  photos: AnyImportingPhoto[];
+  setPhotos: (photos: AnyImportingPhoto[]) => void;
+  patchPhoto: (index: number, patch: Partial<AnyImportingPhoto>) => void;
 }
 
-export const useImportPhotoStore = create<IStore>((set, get) => ({
+export const useImportPhotoStore = create<IStore>((set) => ({
   photos: [],
   setPhotos: (photos) => set({ photos }),
 

@@ -231,6 +231,10 @@ export interface Lang {
 
       card: {
         status: {
+          queued: {
+            title: string;
+          };
+
           optimizing: {
             title: string;
           };

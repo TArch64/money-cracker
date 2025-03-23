@@ -256,6 +256,10 @@ export const ua: Lang = {
 
       card: {
         status: {
+          queued: {
+            title: 'В Черзі',
+          },
+
           optimizing: {
             title: 'Оптимізація',
           },

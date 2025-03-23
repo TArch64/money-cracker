@@ -258,6 +258,10 @@ export const en: Lang = {
 
       card: {
         status: {
+          queued: {
+            title: 'Queued',
+          },
+
           optimizing: {
             title: 'Optimizing',
           },

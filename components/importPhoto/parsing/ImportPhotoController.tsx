@@ -17,12 +17,14 @@ export function ImportPhotoController(props: IImportControllerProps): ReactNode 
 
   async function processPhoto(task: IAsyncQueueTask<IImportingPhoto>): Promise<void> {
     try {
+      patchPhoto(task.index, { status: ImportPhotoStatus.OPTIMIZING });
+
       let source: string | null = await props.onRead(task.item.uri);
       source = await props.onOptimize(source);
       patchPhoto(task.index, { status: ImportPhotoStatus.PROCESSING });
 
       await new Promise((resolve, reject) => {
-        const done = task.index % 2 === 0 ? resolve : reject;
+        const done = task.index % 2 === 0 ? resolve : () => reject('test');
         setTimeout(done, 1000);
       });
 
@@ -30,16 +32,26 @@ export function ImportPhotoController(props: IImportControllerProps): ReactNode 
       // source = null;
       // await parsing;
       patchPhoto(task.index, { status: ImportPhotoStatus.COMPLETED });
-    } catch (e) {
-      patchPhoto(task.index, { status: ImportPhotoStatus.FAILED });
-      console.error(e);
+    } catch (error_) {
+      const error = error_ instanceof Error
+        ? error_
+        : typeof error_ === 'string'
+          ? new Error(error_)
+          : new Error(JSON.stringify(error_));
+
+      patchPhoto(task.index, {
+        status: ImportPhotoStatus.FAILED,
+        error,
+      });
+
+      console.error(error);
     }
   }
 
   useEffect(() => {
     const photos = props.initialImages.map((uri): IImportingPhoto => ({
       uri,
-      status: ImportPhotoStatus.OPTIMIZING,
+      status: ImportPhotoStatus.QUEUED,
     }));
 
     setPhotos(photos);
