@@ -14,6 +14,8 @@ export function ImportPhotoCardCompleted(props: IImportPhotoCardProps): ReactNod
 
   return (
     <ImportPhotoCardLayout
+      photo={props.photo}
+
       indicator={
         <ImportPhotoCardIndicatorIcon name={IconName.CHECKMARK} status="success" />
       }

@@ -14,6 +14,8 @@ export function ImportPhotoCardQueued(props: IImportPhotoCardProps): ReactNode {
 
   return (
     <ImportPhotoCardLayout
+      photo={props.photo}
+
       indicator={
         <ImportPhotoCardIndicatorIcon name={IconName.CLOCK} status="basic" />
       }

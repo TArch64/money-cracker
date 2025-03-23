@@ -8,7 +8,10 @@ export function ImportPhotoCardProcessing(props: IImportPhotoCardProps): ReactNo
   const { t } = useTranslation();
 
   return (
-    <ImportPhotoCardLayout indicator={<Spinner />}>
+    <ImportPhotoCardLayout
+      photo={props.photo}
+      indicator={<Spinner />}
+    >
       <ImportPhotoCardTitle>
         {t('importPhoto.index.card.status.processing.title')}
       </ImportPhotoCardTitle>

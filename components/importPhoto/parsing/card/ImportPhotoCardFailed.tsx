@@ -63,11 +63,17 @@ export function ImportPhotoCardFailed(props: IImportPhotoCardProps): ReactNode {
   return (
     <>
       <ImportPhotoCardLayout
+        photo={props.photo}
+
         indicator={
           <ImportPhotoCardIndicatorIcon name={IconName.ALERT_CIRCLE} status="danger" />
         }
 
-        onPress={() => detailsRef.current?.show(photo.error)}
+        actions={(ctx) => [
+          ctx
+            .action(t('importPhoto.index.card.status.failed.actions.showError'))
+            .onPress(() => detailsRef.current?.show(photo.error)),
+        ]}
       >
         <ImportPhotoCardTitle>
           {t('importPhoto.index.card.status.failed.title')}

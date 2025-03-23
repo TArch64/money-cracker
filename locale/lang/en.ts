@@ -278,7 +278,15 @@ export const en: Lang = {
             details: {
               title: 'Error Details',
             },
+
+            actions: {
+              showError: 'Show Error',
+            },
           },
+        },
+
+        actions: {
+          showSource: 'Show Photo',
         },
       },
     },

@@ -19,7 +19,8 @@ export interface IActionSheetBuilderContext {
   cancel: (text?: string) => CancelSheetAction;
 }
 
-type ActionSheetBuilder = (ctx: IActionSheetBuilderContext) => IActionSheetOptions | SheetAction[];
+export type ActionSheetBuilder = (ctx: IActionSheetBuilderContext) => IActionSheetOptions | SheetAction[];
+export type ActionSheetMenuBuilder = (ctx: IActionSheetBuilderContext) => SheetAction[];
 
 export function useActionSheet(options: ActionSheetBuilder): () => void {
   const { showActionSheetWithOptions } = useActionSheet_();

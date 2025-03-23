@@ -251,7 +251,15 @@ export interface Lang {
             details: {
               title: string;
             };
+
+            actions: {
+              showError: string;
+            };
           };
+        };
+
+        actions: {
+          showSource: string;
         };
       };
     };

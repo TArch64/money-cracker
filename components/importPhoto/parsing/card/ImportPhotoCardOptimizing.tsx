@@ -8,7 +8,10 @@ export function ImportPhotoCardOptimizing(props: IImportPhotoCardProps): ReactNo
   const { t } = useTranslation();
 
   return (
-    <ImportPhotoCardLayout indicator={<Spinner status="warning" />}>
+    <ImportPhotoCardLayout
+      photo={props.photo}
+      indicator={<Spinner status="warning" />}
+    >
       <ImportPhotoCardTitle>
         {t('importPhoto.index.card.status.optimizing.title')}
       </ImportPhotoCardTitle>

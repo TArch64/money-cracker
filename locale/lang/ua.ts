@@ -276,7 +276,15 @@ export const ua: Lang = {
             details: {
               title: 'Деталі Помилки',
             },
+
+            actions: {
+              showError: 'Деталі Помилки',
+            },
           },
+        },
+
+        actions: {
+          showSource: 'Показати Фото',
         },
       },
     },
