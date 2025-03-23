@@ -272,6 +272,10 @@ export const ua: Lang = {
 
           failed: {
             title: 'Помилка',
+
+            details: {
+              title: 'Деталі Помилки',
+            },
           },
         },
       },

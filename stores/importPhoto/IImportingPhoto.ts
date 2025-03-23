@@ -11,7 +11,3 @@ export interface IImportingPhotoFailed extends IImportingPhoto {
 }
 
 export type AnyImportingPhoto = IImportingPhoto | IImportingPhotoFailed;
-
-export function isFailedPhotoImport(photo: AnyImportingPhoto): photo is IImportingPhotoFailed {
-  return photo.status === ImportPhotoStatus.FAILED;
-}

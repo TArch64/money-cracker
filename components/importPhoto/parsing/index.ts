@@ -1,2 +1,2 @@
 export * from './ImportPhotoController';
-export * from './ImportPhotoCard';
+export * from './card';

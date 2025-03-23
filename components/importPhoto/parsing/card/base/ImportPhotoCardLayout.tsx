@@ -4,10 +4,15 @@ import { Card } from '@ui-kitten/components';
 
 export interface IImportPhotoCardLayoutProps extends PropsWithChildren {
   indicator: ReactNode;
+  onPress?: () => void;
 }
 
 export const ImportPhotoCardLayout = (props: IImportPhotoCardLayoutProps): ReactNode => (
-  <Card style={styles.card}>
+  <Card
+    style={styles.card}
+    disabled={!props.onPress}
+    onPress={props.onPress}
+  >
     <View style={styles.layout}>
       {props.indicator}
 

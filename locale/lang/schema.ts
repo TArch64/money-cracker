@@ -247,6 +247,10 @@ export interface Lang {
 
           failed: {
             title: string;
+
+            details: {
+              title: string;
+            };
           };
         };
       };

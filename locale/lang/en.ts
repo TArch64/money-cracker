@@ -274,6 +274,10 @@ export const en: Lang = {
 
           failed: {
             title: 'Error',
+
+            details: {
+              title: 'Error Details',
+            },
           },
         },
       },
