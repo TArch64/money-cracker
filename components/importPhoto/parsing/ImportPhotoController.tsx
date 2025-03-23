@@ -1,6 +1,7 @@
 import { type ReactNode, useEffect } from 'react';
 import { type IImportingPhoto, ImportPhotoStatus, useImportPhotoStore } from '@/stores';
 import type { PhotoParserResult } from '@/hooks/importPhoto';
+import { AsyncQueue, type IAsyncQueueTask } from './AsyncQueue';
 
 export interface IImportControllerProps {
   initialImages: string[];
@@ -14,23 +15,23 @@ export function ImportPhotoController(props: IImportControllerProps): ReactNode 
   const setPhotos = useImportPhotoStore((s) => s.setPhotos);
   const patchPhoto = useImportPhotoStore((s) => s.patchPhoto);
 
-  async function processPhoto(photo: IImportingPhoto, index: number): Promise<void> {
+  async function processPhoto(task: IAsyncQueueTask<IImportingPhoto>): Promise<void> {
     try {
-      let source: string | null = await props.onRead(photo.uri);
+      let source: string | null = await props.onRead(task.item.uri);
       source = await props.onOptimize(source);
-      patchPhoto(index, { status: ImportPhotoStatus.PROCESSING });
+      patchPhoto(task.index, { status: ImportPhotoStatus.PROCESSING });
 
       await new Promise((resolve, reject) => {
-        const done = index % 2 === 0 ? resolve : reject;
+        const done = task.index % 2 === 0 ? resolve : reject;
         setTimeout(done, 1000);
       });
 
       // const parsing = props.onParse(source);
       // source = null;
       // await parsing;
-      patchPhoto(index, { status: ImportPhotoStatus.COMPLETED });
+      patchPhoto(task.index, { status: ImportPhotoStatus.COMPLETED });
     } catch (e) {
-      patchPhoto(index, { status: ImportPhotoStatus.FAILED });
+      patchPhoto(task.index, { status: ImportPhotoStatus.FAILED });
       console.error(e);
     }
   }
@@ -44,9 +45,11 @@ export function ImportPhotoController(props: IImportControllerProps): ReactNode 
     setPhotos(photos);
 
     setTimeout(async () => {
-      for (const [index, photo] of photos.entries()) {
-        await processPhoto(photo, index);
-      }
+      await AsyncQueue.process({
+        queue: photos,
+        maxConcurrent: 3,
+        process: processPhoto,
+      });
 
       props.onComplete();
     }, 100);
