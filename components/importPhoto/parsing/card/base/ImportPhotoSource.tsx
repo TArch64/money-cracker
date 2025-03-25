@@ -1,8 +1,7 @@
 import { forwardRef, useImperativeHandle, useState } from 'react';
-import { Modal, StyleSheet, type TextStyle } from 'react-native';
+import { Modal, type StyleProp, StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native';
 import { Image, type ImageStyle } from 'expo-image';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { TopNavigation, TopNavigationAction } from '@ui-kitten/components';
+import { TopNavigation, TopNavigationAction, useTheme } from '@ui-kitten/components';
 import { IconName, iconRenderer, textRenderer } from '@/components/uiKitten';
 import { getUriFilename } from '@/helpers/getUriFilename';
 
@@ -11,6 +10,7 @@ export interface IImportPhotoSourceRef {
 }
 
 export const ImportPhotoSource = forwardRef<IImportPhotoSourceRef>((_, ref) => {
+  const theme = useTheme();
   const [uri, setUri] = useState<string>('');
   const filename = getUriFilename(uri);
 
@@ -25,17 +25,28 @@ export const ImportPhotoSource = forwardRef<IImportPhotoSourceRef>((_, ref) => {
       animationType="slide"
       onRequestClose={() => setUri('')}
     >
-      <SafeAreaView style={styles.wrapper}>
+      <View style={styles.wrapper}>
         <TopNavigation
           alignment="center"
+          appearance="control"
+
+          style={[
+            styles.header,
+            { backgroundColor: theme['color-basic-control-transparent-100'] },
+          ] satisfies StyleProp<ViewStyle>}
+
           title={textRenderer(filename, {
             numberOfLines: 1,
             ellipsizeMode: 'middle',
-            style: styles.title,
+            style: [
+              styles.title,
+              { color: theme['color-control-default'] },
+            ],
           })}
 
           accessoryLeft={() => (
             <TopNavigationAction
+              appearance="control"
               icon={iconRenderer(IconName.ARROW_BACK)}
               onPress={() => setUri('')}
             />
@@ -45,10 +56,10 @@ export const ImportPhotoSource = forwardRef<IImportPhotoSourceRef>((_, ref) => {
         <Image
           source={uri}
           contentFit="contain"
-          contentPosition="top"
+          contentPosition="center"
           style={styles.image}
         />
-      </SafeAreaView>
+      </View>
     </Modal>
   );
 });
@@ -56,15 +67,20 @@ export const ImportPhotoSource = forwardRef<IImportPhotoSourceRef>((_, ref) => {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-  },
+    backgroundColor: '#111',
+  } satisfies ViewStyle,
+
+  header: {
+    position: 'absolute',
+    width: '100%',
+  } satisfies ViewStyle,
 
   title: {
-    maxWidth: '75%',
+    paddingLeft: 48,
+    paddingRight: 12,
   } satisfies TextStyle,
 
   image: {
     flex: 1,
-    marginTop: 8,
-    marginHorizontal: 8,
   } satisfies ImageStyle,
 });

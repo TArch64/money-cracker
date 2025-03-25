@@ -9,10 +9,11 @@ declare module '@ui-kitten/components' {
   type Colors = ElementStatus | `${ElementStatus}-transparent`;
   type ColorKey = `color-${Colors}-${UpTo<11>}00`;
   type TextKey = 'text-basic-color' | 'text-hint-color';
-  type BgKey = `background-basic-color-${UpTo<3>}`;
+  type BgKey = `background-basic-color-${UpTo<3>}` | `color-basic-control-transparent-${UpTo<6>}00`;
   type BorderKey = `border-basic-color-${UpTo<4>}`;
   type BoxShadowKey = `box-shadow-${UpTo<2>}`;
-  export type Theme = Record<ColorKey | BgKey | BoxShadowKey | TextKey | BorderKey, string>;
+  type ColorDefaultKey = 'color-control-default';
+  export type Theme = Record<ColorKey | BgKey | ColorDefaultKey | BoxShadowKey | TextKey | BorderKey, string>;
 
   export function useTheme(): Theme;
 }
