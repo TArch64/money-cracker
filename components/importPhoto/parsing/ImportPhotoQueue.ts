@@ -11,9 +11,9 @@ export interface IAsyncQueueOptions<T> {
   process: QueueProcessFn<T>;
 }
 
-export class AsyncQueue<T> {
+export class ImportPhotoQueue<T> {
   static async process<T>(options: IAsyncQueueOptions<T>): Promise<void> {
-    await new AsyncQueue(
+    await new ImportPhotoQueue(
       options.queue.map((item, index) => ({ item, index })),
       options.maxConcurrent,
       options.process,

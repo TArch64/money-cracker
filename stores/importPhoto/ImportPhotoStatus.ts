@@ -4,4 +4,5 @@ export const enum ImportPhotoStatus {
   PROCESSING = 'processing',
   COMPLETED = 'completed',
   FAILED = 'failed',
+  NO_DATA = 'no_data',
 }

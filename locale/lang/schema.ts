@@ -256,6 +256,10 @@ export interface Lang {
               showError: string;
             };
           };
+
+          noData: {
+            title: string;
+          };
         };
 
         actions: {

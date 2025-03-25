@@ -281,6 +281,10 @@ export const ua: Lang = {
               showError: 'Деталі Помилки',
             },
           },
+
+          noData: {
+            title: 'Немає Даних',
+          },
         },
 
         actions: {

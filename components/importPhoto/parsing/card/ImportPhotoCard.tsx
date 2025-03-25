@@ -7,6 +7,7 @@ import { ImportPhotoCardOptimizing } from './ImportPhotoCardOptimizing';
 import { ImportPhotoCardProcessing } from './ImportPhotoCardProcessing';
 import { ImportPhotoCardCompleted } from './ImportPhotoCardCompleted';
 import { ImportPhotoCardFailed } from './ImportPhotoCardFailed';
+import { ImportPhotoCardNoData } from './ImportPhotoCardNoData';
 
 export function ImportPhotoCard(props: IImportPhotoCardProps): ReactNode {
   const Content = getEnumValue(props.photo.status, {
@@ -15,6 +16,7 @@ export function ImportPhotoCard(props: IImportPhotoCardProps): ReactNode {
     [ImportPhotoStatus.PROCESSING]: () => ImportPhotoCardProcessing,
     [ImportPhotoStatus.COMPLETED]: () => ImportPhotoCardCompleted,
     [ImportPhotoStatus.FAILED]: () => ImportPhotoCardFailed,
+    [ImportPhotoStatus.NO_DATA]: () => ImportPhotoCardNoData,
   });
 
   return <Content {...props} />;

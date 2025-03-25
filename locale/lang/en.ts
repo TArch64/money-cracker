@@ -283,6 +283,10 @@ export const en: Lang = {
               showError: 'Show Error',
             },
           },
+
+          noData: {
+            title: 'No Data',
+          },
         },
 
         actions: {

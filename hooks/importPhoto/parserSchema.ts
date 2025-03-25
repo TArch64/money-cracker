@@ -25,7 +25,7 @@ export const createParserSchema = (options: ISchemaOptions) => object({
     string(),
     isoDate(),
     description('Date of the transaction in ISO format without time'),
-  )),
+  ), new Date().toISOString().split('T')[0]),
   categoryExpenses: array(pipe(
     object({
       category: pipe(
@@ -36,7 +36,7 @@ export const createParserSchema = (options: ISchemaOptions) => object({
       new: optional(pipe(
         boolean(),
         description('Whether the category is new. If true, the category will be created'),
-      )),
+      ), false),
       total: pipe(
         number(),
         minValue(0.01),

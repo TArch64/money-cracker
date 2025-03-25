@@ -1,7 +1,8 @@
 import { type ReactNode, useEffect } from 'react';
 import { type IImportingPhoto, ImportPhotoStatus, useImportPhotoStore } from '@/stores';
 import type { PhotoParserResult } from '@/hooks/importPhoto';
-import { AsyncQueue, type IAsyncQueueTask } from './AsyncQueue';
+import { getUriFilename } from '@/helpers/getUriFilename';
+import { type IAsyncQueueTask, ImportPhotoQueue } from './ImportPhotoQueue';
 
 export interface IImportControllerProps {
   initialImages: string[];
@@ -11,6 +12,14 @@ export interface IImportControllerProps {
   onComplete: () => void;
 }
 
+function normalizeError(input: unknown): Error {
+  return input instanceof Error
+    ? input
+    : typeof input === 'string'
+      ? new Error(input)
+      : new Error(JSON.stringify(input));
+}
+
 export function ImportPhotoController(props: IImportControllerProps): ReactNode {
   const setPhotos = useImportPhotoStore((s) => s.setPhotos);
   const patchPhoto = useImportPhotoStore((s) => s.patchPhoto);
@@ -18,33 +27,33 @@ export function ImportPhotoController(props: IImportControllerProps): ReactNode 
   async function processPhoto(task: IAsyncQueueTask<IImportingPhoto>): Promise<void> {
     try {
       patchPhoto(task.index, { status: ImportPhotoStatus.OPTIMIZING });
-
       let source: string | null = await props.onRead(task.item.uri);
       source = await props.onOptimize(source);
+
       patchPhoto(task.index, { status: ImportPhotoStatus.PROCESSING });
+      const parsing = props.onParse(source);
+      source = null;
 
-      await new Promise((resolve, reject) => {
-        const done = task.index % 2 === 0 ? resolve : () => reject('test');
-        setTimeout(done, 1000);
+      const data = await parsing;
+
+      if (!data.categoryExpenses.length) {
+        patchPhoto(task.index, { status: ImportPhotoStatus.NO_DATA });
+        return;
+      }
+
+      patchPhoto(task.index, {
+        status: ImportPhotoStatus.COMPLETED,
+        data,
       });
-
-      // const parsing = props.onParse(source);
-      // source = null;
-      // await parsing;
-      patchPhoto(task.index, { status: ImportPhotoStatus.COMPLETED });
     } catch (error_) {
-      const error = error_ instanceof Error
-        ? error_
-        : typeof error_ === 'string'
-          ? new Error(error_)
-          : new Error(JSON.stringify(error_));
+      const error = normalizeError(error_);
 
       patchPhoto(task.index, {
         status: ImportPhotoStatus.FAILED,
         error,
       });
 
-      console.error(error);
+      console.error(`Error while parsing photo ${getUriFilename(task.item.uri)}`, error);
     }
   }
 
@@ -57,7 +66,7 @@ export function ImportPhotoController(props: IImportControllerProps): ReactNode 
     setPhotos(photos);
 
     setTimeout(async () => {
-      await AsyncQueue.process({
+      await ImportPhotoQueue.process({
         queue: photos,
         maxConcurrent: 3,
         process: processPhoto,
