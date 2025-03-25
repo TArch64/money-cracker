@@ -265,6 +265,10 @@ export interface Lang {
         actions: {
           showSource: string;
         };
+
+        errors: {
+          validation: string;
+        };
       };
     };
   };

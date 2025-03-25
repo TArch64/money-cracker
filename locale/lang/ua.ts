@@ -290,6 +290,10 @@ export const ua: Lang = {
         actions: {
           showSource: 'Показати Фото',
         },
+
+        errors: {
+          validation: 'Не вийшло отримати корректні дані з AI. Спробуйте ще пізніше',
+        },
       },
     },
   },

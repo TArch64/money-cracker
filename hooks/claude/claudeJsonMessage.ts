@@ -21,9 +21,7 @@ function parseResponseJson(message: Message): object {
   try {
     return JSON.parse(jsonStr);
   } catch (error) {
-    console.error('Error parsing JSON response:', error);
-
-    const jsonPattern = /\{[\s\S]*\}/;
+    const jsonPattern = /\{[\s\S]*}/;
     const match = jsonPattern.exec(text);
 
     if (!match) {

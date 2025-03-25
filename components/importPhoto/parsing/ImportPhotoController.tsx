@@ -1,5 +1,8 @@
 import { type ReactNode, useEffect } from 'react';
-import { type IImportingPhoto, ImportPhotoStatus, useImportPhotoStore } from '@/stores';
+import { ValiError } from 'valibot';
+import type { i18n } from 'i18next';
+import { useTranslation } from 'react-i18next';
+import { type AnyImportingPhoto, type IImportingPhoto, ImportPhotoStatus, useImportPhotoStore } from '@/stores';
 import type { PhotoParserResult } from '@/hooks/importPhoto';
 import { getUriFilename } from '@/helpers/getUriFilename';
 import { type IAsyncQueueTask, ImportPhotoQueue } from './ImportPhotoQueue';
@@ -12,15 +15,21 @@ export interface IImportControllerProps {
   onComplete: () => void;
 }
 
-function normalizeError(input: unknown): Error {
-  return input instanceof Error
-    ? input
-    : typeof input === 'string'
-      ? new Error(input)
-      : new Error(JSON.stringify(input));
+function normalizeError(input: unknown, t: i18n['t']): Error {
+  if (input instanceof ValiError) {
+    return new Error(t('importPhoto.index.card.errors.validation'));
+  }
+  if (input instanceof Error) {
+    return input;
+  }
+  if (typeof input === 'string') {
+    return new Error(input);
+  }
+  return new Error(JSON.stringify(input));
 }
 
 export function ImportPhotoController(props: IImportControllerProps): ReactNode {
+  const { t } = useTranslation();
   const setPhotos = useImportPhotoStore((s) => s.setPhotos);
   const patchPhoto = useImportPhotoStore((s) => s.patchPhoto);
 
@@ -46,7 +55,7 @@ export function ImportPhotoController(props: IImportControllerProps): ReactNode 
         data,
       });
     } catch (error_) {
-      const error = normalizeError(error_);
+      const error = normalizeError(error_, t);
 
       patchPhoto(task.index, {
         status: ImportPhotoStatus.FAILED,
@@ -58,9 +67,9 @@ export function ImportPhotoController(props: IImportControllerProps): ReactNode 
   }
 
   useEffect(() => {
-    const photos = props.initialImages.map((uri): IImportingPhoto => ({
-      uri,
+    const photos = props.initialImages.map((uri): AnyImportingPhoto => ({
       status: ImportPhotoStatus.QUEUED,
+      uri,
     }));
 
     setPhotos(photos);

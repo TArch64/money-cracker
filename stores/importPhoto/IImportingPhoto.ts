@@ -6,6 +6,18 @@ export interface IImportingPhoto {
   status: ImportPhotoStatus;
 }
 
+export interface IImportingPhotoQueued extends IImportingPhoto {
+  status: ImportPhotoStatus.QUEUED;
+}
+
+export interface IImportingPhotoOptimizing extends IImportingPhoto {
+  status: ImportPhotoStatus.OPTIMIZING;
+}
+
+export interface IImportingPhotoProcessing extends IImportingPhoto {
+  status: ImportPhotoStatus.PROCESSING;
+}
+
 export interface IImportingPhotoCompleted extends IImportingPhoto {
   status: ImportPhotoStatus.COMPLETED;
   data: PhotoParserResult;
@@ -16,4 +28,13 @@ export interface IImportingPhotoFailed extends IImportingPhoto {
   error: Error;
 }
 
-export type AnyImportingPhoto = IImportingPhoto | IImportingPhotoCompleted | IImportingPhotoFailed;
+export interface IImportingPhotoNoData extends IImportingPhoto {
+  status: ImportPhotoStatus.NO_DATA;
+}
+
+export type AnyImportingPhoto = IImportingPhotoQueued
+  | IImportingPhotoOptimizing
+  | IImportingPhotoProcessing
+  | IImportingPhotoCompleted
+  | IImportingPhotoFailed
+  | IImportingPhotoNoData;

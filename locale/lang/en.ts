@@ -292,6 +292,10 @@ export const en: Lang = {
         actions: {
           showSource: 'Show Photo',
         },
+
+        errors: {
+          validation: 'Failed to get valid data from AI. Try again later',
+        },
       },
     },
   },

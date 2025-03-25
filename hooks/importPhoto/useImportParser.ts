@@ -76,7 +76,7 @@ export function useImportParser(): IImportParser {
     const messageParams: MessageCreateParamsNonStreaming = {
       stream: false,
       max_tokens: 1000,
-      model: 'claude-3-7-sonnet-latest',
+      model: 'claude-3-5-sonnet-latest',
       system: prompt.system,
 
       messages: [
