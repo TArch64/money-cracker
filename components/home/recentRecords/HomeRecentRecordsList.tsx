@@ -19,7 +19,6 @@ export function HomeRecentRecordsList(props: IHomeRecentRecordsListProps): React
         padding
         linked
         title={t('home.sections.recentRecords.title')}
-        style={styles.title}
       />
 
       <View style={styles.list}>
@@ -35,10 +34,6 @@ export function HomeRecentRecordsList(props: IHomeRecentRecordsListProps): React
 }
 
 const styles = StyleSheet.create({
-  title: {
-    marginBottom: 12,
-  } satisfies ViewStyle,
-
   list: {
     display: 'flex',
     flexDirection: 'column',
